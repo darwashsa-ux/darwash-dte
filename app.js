@@ -89,7 +89,7 @@ function renderDtes(){
 
     const rowsHtml=rows.map(d=>{
       const rc=consClass(d.consignataria)==='dar'?'row-darwash':consClass(d.consignataria)==='bull'?'row-bulltrade':'';
-      return '<tr class="'+rc+'"><td class="nowrap col-consig">'+prettyCons(d.consignataria)+'</td><td class="link dte-open nowrap numcol col-dte" data-dte="'+esc(d.nro_dte)+'">'+esc(d.nro_dte)+'</td><td>'+esc(d.emisor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.emisor_cuit)+'</td><td>'+esc(d.receptor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.receptor_cuit)+'</td><td class="nowrap col-tipo">'+esc(d.tipo)+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(d.estado)+'">'+esc(d.estado)+'</span></td><td class="nowrap numcol col-fecha">'+esc(d.fecha_carga)+'</td><td class="nowrap numcol col-fecha">'+esc(d.fecha_vencimiento)+'</td><td class="nowrap"><button class="ghost-btn ver-btn" data-dte="'+esc(d.nro_dte)+'">Ver detalle</button></td></tr>';
+      return '<tr class="'+rc+'"><td class="nowrap col-consig">'+prettyCons(d.consignataria)+'</td><td class="link dte-open nowrap numcol col-dte" data-dte="'+esc(d.nro_dte)+'">'+esc(d.nro_dte)+'</td><td>'+esc(d.emisor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.emisor_cuit)+'</td><td class="nowrap numcol" style="font-size:11px;color:var(--muted)">'+esc(d.renspa_origen||'—')+'</td><td>'+esc(d.receptor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.receptor_cuit)+'</td><td class="nowrap numcol" style="font-size:11px;color:var(--muted)">'+esc(d.renspa_destino||'—')+'</td><td class="nowrap col-tipo">'+esc(d.tipo)+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(d.estado)+'">'+esc(d.estado)+'</span></td><td class="nowrap numcol col-fecha">'+esc(d.fecha_carga)+'</td><td class="nowrap numcol col-fecha">'+esc(d.fecha_vencimiento)+'</td><td class="nowrap"><button class="ghost-btn ver-btn" data-dte="'+esc(d.nro_dte)+'">Ver detalle</button></td></tr>';
     }).join('');
 
     // Última actualización
@@ -123,19 +123,22 @@ function renderDtes(){
       +'</div>'
       +'<div class="table-wrap"><table><thead><tr>'
       +'<th class="nowrap col-consig">Consignataria</th><th class="nowrap col-dte">Nro. DTE</th>'
-      +'<th>Emisor</th><th class="nowrap col-cuit">CUIT Emisor</th>'
-      +'<th>Receptor</th><th class="nowrap col-cuit">CUIT Receptor</th>'
+      +'<th>Emisor</th><th class="nowrap col-cuit">CUIT Emisor</th><th class="nowrap">RENSPA Origen</th>'
+      +'<th>Receptor</th><th class="nowrap col-cuit">CUIT Receptor</th><th class="nowrap">RENSPA Destino</th>'
       +'<th class="nowrap col-tipo">Tipo</th><th class="nowrap col-estado">Estado</th>'
       +'<th class="nowrap col-fecha">Carga</th><th class="nowrap col-fecha">Vencimiento</th>'
       +'<th class="nowrap"></th>'
       +'</tr></thead><tbody>'+rowsHtml+'</tbody></table></div></div>';
 
-    const wasSearch=document.activeElement&&document.activeElement.id==='q'&&wrap.contains(document.activeElement);
-    const selStart=wasSearch?document.activeElement.selectionStart:0;
-    const selEnd=wasSearch?document.activeElement.selectionEnd:0;
+    const activeId=document.activeElement&&wrap.contains(document.activeElement)?document.activeElement.id:null;
+    const selStart=activeId==='q'&&document.activeElement.selectionStart!==undefined?document.activeElement.selectionStart:0;
+    const selEnd=activeId==='q'&&document.activeElement.selectionEnd!==undefined?document.activeElement.selectionEnd:0;
 
     const qq=wrap.querySelector('#q');
-    if(qq){qq.oninput=e=>{q=e.target.value;draw();}; if(wasSearch){qq.focus();qq.setSelectionRange(selStart,selEnd);}}
+    if(qq){
+      qq.oninput=e=>{q=e.target.value;draw();};
+      if(activeId==='q'){qq.focus();try{qq.setSelectionRange(selStart,selEnd);}catch(e){}}
+    }
     wrap.querySelector('#cons').onchange=e=>{cons=e.target.value;draw();};
     wrap.querySelector('#est').onchange=e=>{est=e.target.value;draw();};
     wrap.querySelector('#d-periodo').onchange=e=>{periodo=e.target.value;draw();};
