@@ -4,389 +4,510 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Registro de Ingreso — Darwash</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
-      --bg: #050a08;
-      --panel: #0a1410;
-      --border: #1a3328;
-      --muted: #5a7a6a;
-      --text: #e0f0e8;
-      --primary: #00d084;
-      --primary-dim: rgba(0,208,132,.15);
-      --amber: #d7a53b;
-      --red: #ff4d5a;
-      --input-bg: #0d1a14;
+      --bg:#050a08;--panel:#0a1410;--border:#1a3328;--muted:#5a7a6a;
+      --text:#e0f0e8;--primary:#00d084;--primary-dim:rgba(0,208,132,.15);
+      --amber:#d7a53b;--red:#ff4d5a;--input-bg:#0d1a14;--blue:#3ea2ff;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html, body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; min-height: 100vh; overscroll-behavior: none; }
-
-    .header { background: linear-gradient(180deg,#061410,#050a08); border-bottom: 1px solid var(--border); padding: 16px 20px 14px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 10; }
-    .brand { width:44px;height:34px;border:1px solid rgba(0,208,132,.4);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,208,132,.06);flex-shrink:0; }
-    .brand-drw { font-size:14px;font-weight:700;color:#00d084;line-height:1;font-family:'Times New Roman',serif; }
-    .brand-sub { font-size:5px;letter-spacing:1.5px;color:#5ce1a0;text-transform:uppercase; }
-    .header-title { font-size:15px;font-weight:700;color:var(--text);letter-spacing:.5px; }
-    .header-sub { font-size:11px;color:var(--muted);margin-top:2px; }
-
-    .remate-bar { background:var(--primary-dim);border-bottom:1px solid rgba(0,208,132,.25);padding:10px 20px;display:flex;align-items:center;gap:8px;font-size:13px; }
-    .remate-bar select { background:transparent;border:none;color:var(--primary);font-size:13px;font-weight:700;flex:1;outline:none;cursor:pointer; }
-    .remate-bar select option { background:#0a1410;color:var(--text); }
-
-    .form { padding:20px 16px 40px;max-width:520px;margin:0 auto; }
-    .section-label { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:24px 0 10px;display:flex;align-items:center;gap:8px; }
-    .section-label::after { content:'';flex:1;height:1px;background:var(--border); }
-
-    .field { margin-bottom:14px; }
-    .field label { display:block;font-size:11px;color:var(--muted);letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase; }
-    .field input, .field textarea, .field select { width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;padding:14px 16px;outline:none;transition:border-color .2s;font-family:inherit;-webkit-appearance:none; }
-    .field input:focus, .field textarea:focus, .field select:focus { border-color:rgba(0,208,132,.5); }
-    .field textarea { resize:none;min-height:90px; }
-    .field select option { background:#0a1410; }
-
-    .cat-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
-    .cat-item { background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px; }
-    .cat-item label { font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:0; }
-    .cat-item input { background:transparent;border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;font-size:22px;font-weight:700;color:var(--text);width:100%;outline:none;font-family:inherit; }
-    .cat-item input:focus { border-bottom-color:var(--primary); }
-    .cat-item input::placeholder { color:#2a4a3a;font-weight:400;font-size:18px; }
-
-    .total-badge { background:var(--primary-dim);border:1px solid rgba(0,208,132,.35);border-radius:14px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-top:14px; }
-    .total-badge .lbl { font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px; }
-    .total-badge .num { font-size:32px;font-weight:800;color:var(--primary); }
-
-    .hora-box { background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer; }
-    .hora-val { font-size:22px;font-weight:700;color:var(--amber);font-variant-numeric:tabular-nums; }
-    .hora-lbl { font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px; }
-    .hora-edit { font-size:11px;color:var(--primary);cursor:pointer;text-decoration:underline; }
-    #hora-input-wrap { display:none;margin-top:8px; }
-    #hora-input-wrap input { width:100%;background:var(--input-bg);border:1px solid rgba(0,208,132,.4);border-radius:12px;color:var(--amber);font-size:24px;font-weight:700;padding:12px 16px;outline:none;text-align:center;font-family:inherit; }
-
-    .btn-save { width:100%;background:var(--primary);color:#031a0d;border:none;border-radius:16px;font-size:17px;font-weight:800;padding:18px;margin-top:28px;cursor:pointer;letter-spacing:.5px;transition:opacity .15s,transform .1s;font-family:inherit;-webkit-appearance:none; }
-    .btn-save:active { opacity:.85;transform:scale(.98); }
-    .btn-save:disabled { opacity:.4;cursor:not-allowed; }
-
-    .success-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:24px; }
-    .success-overlay.show { display:flex; }
-    .success-card { background:#0a1a12;border:1px solid rgba(0,208,132,.5);border-radius:20px;padding:36px 28px;text-align:center;max-width:340px;width:100%; }
-    .success-icon { font-size:56px;margin-bottom:16px; }
-    .success-title { font-size:22px;font-weight:800;color:var(--primary);margin-bottom:8px; }
-    .success-sub { font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6;white-space:pre-line; }
-    .btn-nuevo { width:100%;background:var(--primary-dim);border:1px solid rgba(0,208,132,.4);color:var(--primary);border-radius:12px;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit; }
-
-    .historial { margin-top:8px; }
-    .hist-item { background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px; }
-    .hist-header { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px; }
-    .hist-hora { font-size:18px;font-weight:700;color:var(--amber); }
-    .hist-total { font-size:14px;font-weight:700;color:var(--primary); }
-    .hist-meta { font-size:11px;color:var(--muted);margin-bottom:6px;line-height:1.7; }
-    .hist-cats { display:flex;flex-wrap:wrap;gap:6px; }
-    .hist-cat { background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text); }
-    .hist-obs { font-size:12px;color:var(--muted);margin-top:8px;font-style:italic; }
-    .empty-hist { text-align:center;color:var(--muted);font-size:13px;padding:20px 0; }
-    .loading { text-align:center;color:var(--muted);font-size:13px;padding:16px 0; }
-
-    @media(min-width:480px){ .cat-grid{grid-template-columns:repeat(3,1fr);} }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    html,body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;min-height:100vh;overscroll-behavior:none;}
+    .header{background:linear-gradient(180deg,#061410,#050a08);border-bottom:1px solid var(--border);padding:16px 20px 14px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10;}
+    .brand{width:44px;height:34px;border:1px solid rgba(0,208,132,.4);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,208,132,.06);flex-shrink:0;}
+    .brand-drw{font-size:14px;font-weight:700;color:#00d084;line-height:1;font-family:'Times New Roman',serif;}
+    .brand-sub{font-size:5px;letter-spacing:1.5px;color:#5ce1a0;text-transform:uppercase;}
+    .header-title{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.5px;}
+    .header-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+    .remate-bar{background:var(--primary-dim);border-bottom:1px solid rgba(0,208,132,.25);padding:10px 20px;display:flex;align-items:center;gap:8px;font-size:13px;}
+    .remate-bar select{background:transparent;border:none;color:var(--primary);font-size:13px;font-weight:700;flex:1;outline:none;cursor:pointer;}
+    .remate-bar select option{background:#0a1410;color:var(--text);}
+    .form{padding:20px 16px 40px;max-width:520px;margin:0 auto;}
+    .section-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:24px 0 10px;display:flex;align-items:center;gap:8px;}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+    .field{margin-bottom:14px;}
+    .field label{display:block;font-size:11px;color:var(--muted);letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase;}
+    .field input,.field textarea,.field select{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;padding:14px 16px;outline:none;transition:border-color .2s;font-family:inherit;-webkit-appearance:none;}
+    .field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(0,208,132,.5);}
+    .field textarea{resize:none;min-height:90px;}
+    .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .cat-item{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;}
+    .cat-item label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:0;}
+    .cat-item input{background:transparent;border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;font-size:22px;font-weight:700;color:var(--text);width:100%;outline:none;font-family:inherit;}
+    .cat-item input:focus{border-bottom-color:var(--primary);}
+    .cat-item input::placeholder{color:#2a4a3a;font-weight:400;font-size:18px;}
+    .total-badge{background:var(--primary-dim);border:1px solid rgba(0,208,132,.35);border-radius:14px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
+    .total-badge .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+    .total-badge .num{font-size:32px;font-weight:800;color:var(--primary);}
+    .hora-box{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+    .hora-val{font-size:22px;font-weight:700;color:var(--amber);font-variant-numeric:tabular-nums;}
+    .hora-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+    .hora-edit{font-size:11px;color:var(--primary);cursor:pointer;text-decoration:underline;}
+    #hora-input-wrap{display:none;margin-top:8px;}
+    #hora-input-wrap input{width:100%;background:var(--input-bg);border:1px solid rgba(0,208,132,.4);border-radius:12px;color:var(--amber);font-size:24px;font-weight:700;padding:12px 16px;outline:none;text-align:center;font-family:inherit;}
+    .btn-save{width:100%;background:var(--primary);color:#031a0d;border:none;border-radius:16px;font-size:17px;font-weight:800;padding:18px;margin-top:28px;cursor:pointer;letter-spacing:.5px;transition:opacity .15s,transform .1s;font-family:inherit;-webkit-appearance:none;}
+    .btn-save:active{opacity:.85;transform:scale(.98);}
+    .btn-save:disabled{opacity:.4;cursor:not-allowed;}
+    .success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:24px;}
+    .success-overlay.show{display:flex;}
+    .success-card{background:#0a1a12;border:1px solid rgba(0,208,132,.5);border-radius:20px;padding:32px 24px;text-align:center;max-width:360px;width:100%;}
+    .success-icon{font-size:52px;margin-bottom:12px;}
+    .success-title{font-size:22px;font-weight:800;color:var(--primary);margin-bottom:6px;}
+    .success-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;white-space:pre-line;}
+    .btn-group{display:flex;flex-direction:column;gap:10px;}
+    .btn-pdf{width:100%;background:rgba(255,77,90,.12);border:1px solid rgba(255,77,90,.4);color:#ff6b75;border-radius:12px;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit;}
+    .btn-wsp{width:100%;background:#25d366;border:none;color:#fff;border-radius:12px;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .btn-nuevo{width:100%;background:var(--primary-dim);border:1px solid rgba(0,208,132,.4);color:var(--primary);border-radius:12px;font-size:14px;font-weight:700;padding:12px;cursor:pointer;font-family:inherit;margin-top:4px;}
+    .historial{margin-top:8px;}
+    .hist-item{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;}
+    .hist-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+    .hist-hora{font-size:18px;font-weight:700;color:var(--amber);}
+    .hist-total{font-size:14px;font-weight:700;color:var(--primary);}
+    .hist-meta{font-size:11px;color:var(--muted);margin-bottom:6px;line-height:1.7;}
+    .hist-cats{display:flex;flex-wrap:wrap;gap:6px;}
+    .hist-cat{background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text);}
+    .hist-obs{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic;}
+    .empty-hist{text-align:center;color:var(--muted);font-size:13px;padding:20px 0;}
+    .loading{text-align:center;color:var(--muted);font-size:13px;padding:16px 0;}
+    @media(min-width:480px){.cat-grid{grid-template-columns:repeat(3,1fr);}}
   </style>
 </head>
 <body>
-
 <div class="header">
-  <div class="brand">
-    <div class="brand-drw">DRW</div>
-    <div class="brand-sub">DARWASH</div>
-  </div>
-  <div>
-    <div class="header-title">Registro de Ingreso</div>
-    <div class="header-sub">Descarga de hacienda</div>
-  </div>
+  <div class="brand"><div class="brand-drw">DRW</div><div class="brand-sub">DARWASH</div></div>
+  <div><div class="header-title">Registro de Ingreso</div><div class="header-sub">Descarga de hacienda</div></div>
 </div>
-
 <div class="remate-bar">
   <span style="color:var(--muted);font-size:12px">REMATE</span>
   <select id="sel-remate"><option value="">Cargando...</option></select>
 </div>
-
 <div class="form">
-
   <div class="section-label">Identificación</div>
-  <div class="field">
-    <label>Nro. DTE</label>
-    <input type="text" id="nro-dte" placeholder="031423978-4" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false"/>
-  </div>
-  <div class="field">
-    <label>Productor / Procedencia</label>
-    <input type="text" id="productor" placeholder="Nombre del productor o establecimiento" autocorrect="off"/>
-  </div>
-
+  <div class="field"><label>Nro. DTE</label><input type="text" id="nro-dte" placeholder="031423978-4" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false"/></div>
+  <div class="field"><label>Productor / Procedencia</label><input type="text" id="productor" placeholder="Nombre del productor o establecimiento" autocorrect="off"/></div>
   <div class="section-label">Transporte</div>
-  <div class="field">
-    <label>Transportista</label>
-    <input type="text" id="transportista" placeholder="Nombre del transportista" autocorrect="off"/>
-  </div>
-  <div class="field">
-    <label>Patente</label>
-    <input type="text" id="patente" placeholder="ABC 123" autocomplete="off" autocorrect="off" spellcheck="false" style="text-transform:uppercase"/>
-  </div>
-
+  <div class="field"><label>Transportista</label><input type="text" id="transportista" placeholder="Nombre del transportista" autocorrect="off"/></div>
+  <div class="field"><label>Patente</label><input type="text" id="patente" placeholder="ABC 123" autocomplete="off" autocorrect="off" spellcheck="false" style="text-transform:uppercase"/></div>
   <div class="section-label">Cantidad de hacienda</div>
   <div class="cat-grid" id="cat-grid"></div>
-  <div class="total-badge">
-    <div><div class="lbl">Total cabezas</div></div>
-    <div class="num" id="total-display">0</div>
-  </div>
-
+  <div class="total-badge"><div><div class="lbl">Total cabezas</div></div><div class="num" id="total-display">0</div></div>
   <div class="section-label">Hora de descarga</div>
   <div class="hora-box" onclick="toggleHoraEdit()">
-    <div>
-      <div class="hora-val" id="hora-display">--:--</div>
-      <div class="hora-lbl">Se registra automáticamente al guardar</div>
-    </div>
+    <div><div class="hora-val" id="hora-display">--:--</div><div class="hora-lbl">Se registra automáticamente al guardar</div></div>
     <div class="hora-edit">Editar</div>
   </div>
-  <div id="hora-input-wrap">
-    <input type="time" id="hora-manual" oninput="onHoraManual(this.value)"/>
-  </div>
-
+  <div id="hora-input-wrap"><input type="time" id="hora-manual" oninput="onHoraManual(this.value)"/></div>
   <div class="section-label">Observaciones</div>
-  <div class="field">
-    <textarea id="obs" placeholder="Estado de la hacienda, incidencias, observaciones del chofer..."></textarea>
-  </div>
-
+  <div class="field"><textarea id="obs" placeholder="Estado de la hacienda, incidencias, observaciones del chofer..."></textarea></div>
   <button class="btn-save" id="btn-save" onclick="guardar()">✓ Registrar Ingreso</button>
-
   <div class="section-label" style="margin-top:36px">Registros del remate</div>
   <div class="historial" id="historial"><div class="loading">Cargando...</div></div>
-
 </div>
 
+<!-- SUCCESS -->
 <div class="success-overlay" id="success-overlay">
   <div class="success-card">
     <div class="success-icon">✅</div>
     <div class="success-title">¡Ingreso registrado!</div>
     <div class="success-sub" id="success-sub"></div>
-    <button class="btn-nuevo" onclick="nuevoRegistro()">+ Nuevo registro</button>
+    <div class="btn-group">
+      <button class="btn-pdf" onclick="generarPDF()">📄 Descargar Remito PDF</button>
+      <button class="btn-wsp" onclick="compartirWhatsApp()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Compartir por WhatsApp
+      </button>
+      <button class="btn-nuevo" onclick="nuevoRegistro()">+ Nuevo registro</button>
+    </div>
   </div>
 </div>
 
 <script>
-const SB_URL = 'https://qkrrumlbvspbxjoxvxho.supabase.co';
-const SB_KEY = 'sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
-const GH_USER = 'darwashsa-ux';
-const GH_REPO = 'darwash-dte';
-const CATS = ['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
+const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
+const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+const GH_USER='darwashsa-ux';
+const GH_REPO='darwash-dte';
+const CATS=['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
 
-let remateActual = '';
-let horaManual = null;
+let remateActual='';
+let horaManual=null;
+let ultimoRegistro=null;
+let nroRemito=null;
 
-// ── Supabase helpers ──
-async function sbSelect(tabla, filtros = {}) {
-  let url = `${SB_URL}/rest/v1/${tabla}?order=ts.desc`;
-  for (const [k, v] of Object.entries(filtros)) {
-    url += `&${k}=eq.${encodeURIComponent(v)}`;
-  }
-  const r = await fetch(url, {
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': `Bearer ${SB_KEY}`,
-      'Content-Type': 'application/json'
-    }
+async function sbInsert(tabla,data){
+  const r=await fetch(`${SB_URL}/rest/v1/${tabla}`,{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
+    body:JSON.stringify(data)
   });
+  if(r.ok){const d=await r.json();return Array.isArray(d)?d[0]:d;}
+  return null;
+}
+
+async function sbSelect(tabla,filtros={}){
+  let url=`${SB_URL}/rest/v1/${tabla}?order=ts.desc`;
+  for(const[k,v]of Object.entries(filtros))url+=`&${k}=eq.${encodeURIComponent(v)}`;
+  const r=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}});
   return r.json();
 }
 
-async function sbInsert(tabla, data) {
-  const r = await fetch(`${SB_URL}/rest/v1/${tabla}`, {
-    method: 'POST',
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': `Bearer ${SB_KEY}`,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify(data)
-  });
-  return r.ok;
-}
-
-// ── Init ──
-async function init() {
+function init(){
   renderCatGrid();
   iniciarReloj();
-  await cargarRemates();
-  await renderHistorial();
+  cargarRemates();
 }
 
-function renderCatGrid() {
-  document.getElementById('cat-grid').innerHTML = CATS.map(cat => `
+function renderCatGrid(){
+  document.getElementById('cat-grid').innerHTML=CATS.map(cat=>`
     <div class="cat-item">
       <label>${cat}</label>
-      <input type="number" inputmode="numeric" placeholder="0" min="0"
-             data-cat="${cat}" oninput="calcTotal()"/>
+      <input type="number" inputmode="numeric" placeholder="0" min="0" data-cat="${cat}" oninput="calcTotal()"/>
     </div>`).join('');
 }
 
-function iniciarReloj() {
-  function tick() {
-    if (!horaManual) {
-      const now = new Date();
-      document.getElementById('hora-display').textContent =
+function iniciarReloj(){
+  function tick(){
+    if(!horaManual){
+      const now=new Date();
+      document.getElementById('hora-display').textContent=
         `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
     }
   }
   tick();
-  setInterval(tick, 10000);
+  setInterval(tick,10000);
 }
 
-function toggleHoraEdit() {
-  const wrap = document.getElementById('hora-input-wrap');
-  wrap.style.display = wrap.style.display === 'block' ? 'none' : 'block';
-  if (wrap.style.display === 'block') {
-    const now = new Date();
-    document.getElementById('hora-manual').value =
+function toggleHoraEdit(){
+  const wrap=document.getElementById('hora-input-wrap');
+  wrap.style.display=wrap.style.display==='block'?'none':'block';
+  if(wrap.style.display==='block'){
+    const now=new Date();
+    document.getElementById('hora-manual').value=
       `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   }
 }
 
-function onHoraManual(val) {
-  horaManual = val;
-  document.getElementById('hora-display').textContent = val || '--:--';
+function onHoraManual(val){horaManual=val;document.getElementById('hora-display').textContent=val||'--:--';}
+
+function calcTotal(){
+  let total=0;
+  document.querySelectorAll('#cat-grid input[data-cat]').forEach(i=>{total+=parseInt(i.value||0);});
+  document.getElementById('total-display').textContent=total;
 }
 
-function calcTotal() {
-  let total = 0;
-  document.querySelectorAll('#cat-grid input[data-cat]').forEach(i => {
-    total += parseInt(i.value || 0);
-  });
-  document.getElementById('total-display').textContent = total;
-}
-
-async function cargarRemates() {
-  try {
-    const r = await fetch(`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/remates_maestro.json?t=${Date.now()}`);
-    const data = await r.json();
-    const sel = document.getElementById('sel-remate');
-    sel.innerHTML = '';
-    const remates = data.remates || [];
-    remates.forEach(rem => {
-      const op = document.createElement('option');
-      op.value = rem.codigo;
-      const info = rem.info || {};
-      op.textContent = `${rem.codigo}  (${info.Inicio||''}→${info.Fin||''})`;
+async function cargarRemates(){
+  try{
+    const r=await fetch(`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/remates_maestro.json?t=${Date.now()}`);
+    const data=await r.json();
+    const sel=document.getElementById('sel-remate');
+    sel.innerHTML='';
+    const remates=data.remates||[];
+    remates.forEach(rem=>{
+      const op=document.createElement('option');
+      op.value=rem.codigo;
+      const info=rem.info||{};
+      op.textContent=`${rem.codigo}  (${info.Inicio||''}→${info.Fin||''})`;
       sel.appendChild(op);
     });
-    // Pre-seleccionar desde URL param
-    const urlRemate = new URLSearchParams(window.location.search).get('remate');
-    if (urlRemate && Array.from(sel.options).find(o => o.value === urlRemate)) {
-      sel.value = urlRemate;
-    } else if (remates.length > 0) {
-      sel.value = remates[remates.length - 1].codigo;
-    }
-    remateActual = sel.value;
-    sel.onchange = () => { remateActual = sel.value; renderHistorial(); };
-  } catch(e) {
-    document.getElementById('sel-remate').innerHTML = '<option>Sin conexión</option>';
+    const urlRemate=new URLSearchParams(window.location.search).get('remate');
+    if(urlRemate&&Array.from(sel.options).find(o=>o.value===urlRemate)){sel.value=urlRemate;}
+    else if(remates.length>0){sel.value=remates[remates.length-1].codigo;}
+    remateActual=sel.value;
+    sel.onchange=()=>{remateActual=sel.value;renderHistorial();};
+    renderHistorial();
+  }catch(e){
+    document.getElementById('sel-remate').innerHTML='<option>Sin conexión</option>';
   }
 }
 
-async function guardar() {
-  const dte = document.getElementById('nro-dte').value.trim();
-  const productor = document.getElementById('productor').value.trim();
-  const transportista = document.getElementById('transportista').value.trim();
-  const patente = document.getElementById('patente').value.trim().toUpperCase();
-  const obs = document.getElementById('obs').value.trim();
-
-  const cats = {};
-  let total = 0;
-  document.querySelectorAll('#cat-grid input[data-cat]').forEach(i => {
-    const v = parseInt(i.value || 0);
-    if (v > 0) { cats[i.dataset.cat] = v; total += v; }
+async function guardar(){
+  const dte=document.getElementById('nro-dte').value.trim();
+  const productor=document.getElementById('productor').value.trim();
+  const transportista=document.getElementById('transportista').value.trim();
+  const patente=document.getElementById('patente').value.trim().toUpperCase();
+  const obs=document.getElementById('obs').value.trim();
+  const cats={};
+  let total=0;
+  document.querySelectorAll('#cat-grid input[data-cat]').forEach(i=>{
+    const v=parseInt(i.value||0);
+    if(v>0){cats[i.dataset.cat]=v;total+=v;}
   });
-
-  if (!remateActual) { alert('Seleccioná un remate'); return; }
-  if (total === 0 && !dte) { alert('Completá al menos el DTE o la cantidad de hacienda'); return; }
-
-  const now = new Date();
-  const hora = horaManual ||
-    `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  const fecha = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
-
-  const btn = document.getElementById('btn-save');
-  btn.disabled = true;
-  btn.textContent = 'Guardando...';
-
-  const ok = await sbInsert('ingresos_hacienda', {
-    remate: remateActual,
-    fecha,
-    hora_descarga: hora,
-    nro_dte: dte || null,
-    productor: productor || null,
-    transportista: transportista || null,
-    patente: patente || null,
-    categorias: cats,
-    total_cabezas: total,
-    observaciones: obs || null
+  if(!remateActual){alert('Seleccioná un remate');return;}
+  if(total===0&&!dte){alert('Completá al menos el DTE o la cantidad de hacienda');return;}
+  const now=new Date();
+  const hora=horaManual||`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const fecha=`${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
+  const btn=document.getElementById('btn-save');
+  btn.disabled=true;btn.textContent='Guardando...';
+  const resultado=await sbInsert('ingresos_hacienda',{
+    remate:remateActual,fecha,hora_descarga:hora,
+    nro_dte:dte||null,productor:productor||null,
+    transportista:transportista||null,patente:patente||null,
+    categorias:cats,total_cabezas:total,observaciones:obs||null
   });
-
-  btn.disabled = false;
-  btn.textContent = '✓ Registrar Ingreso';
-
-  if (ok) {
-    const sub = `${fecha} a las ${hora}` +
-      (total > 0 ? `\n${total} cabezas` : '') +
-      (dte ? `\nDTE: ${dte}` : '');
-    document.getElementById('success-sub').textContent = sub;
+  btn.disabled=false;btn.textContent='✓ Registrar Ingreso';
+  if(resultado){
+    ultimoRegistro={...resultado,fecha,hora_descarga:hora,nro_dte:dte,productor,transportista,patente,categorias:cats,total_cabezas:total,observaciones:obs,remate:remateActual};
+    nroRemito=resultado.id||Date.now();
+    const sub=`${fecha} a las ${hora}`+(total>0?`\n${total} cabezas`:'')+  (dte?`\nDTE: ${dte}`:'');
+    document.getElementById('success-sub').textContent=sub;
     document.getElementById('success-overlay').classList.add('show');
     renderHistorial();
-  } else {
-    alert('Error al guardar. Verificá tu conexión a internet.');
+  }else{
+    alert('Error al guardar. Verificá tu conexión.');
   }
 }
 
-function nuevoRegistro() {
+function generarPDF(){
+  if(!ultimoRegistro)return;
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W=210,M=18;
+  let y=0;
+
+  // ── Fondo oscuro header ──
+  doc.setFillColor(5,10,8);
+  doc.rect(0,0,W,42,'F');
+
+  // Franja verde lateral
+  doc.setFillColor(0,208,132);
+  doc.rect(0,0,4,42,'F');
+
+  // Logo DRW
+  doc.setFillColor(0,208,132,0.15);
+  doc.roundedRect(M,8,22,14,3,3,'F');
+  doc.setDrawColor(0,208,132);
+  doc.setLineWidth(0.4);
+  doc.roundedRect(M,8,22,14,3,3,'S');
+  doc.setFont('times','bold');
+  doc.setFontSize(13);
+  doc.setTextColor(0,208,132);
+  doc.text('DRW',M+11,17,{align:'center'});
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(5);
+  doc.setTextColor(92,225,160);
+  doc.text('DARWASH',M+11,20.5,{align:'center'});
+
+  // Título
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(18);
+  doc.setTextColor(224,240,232);
+  doc.text('REMITO DE INGRESO',M+28,17);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(9);
+  doc.setTextColor(90,122,106);
+  doc.text('DARWASH SA — Tablero SIGSA / SENASA',M+28,23);
+
+  // Número de remito
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(10);
+  doc.setTextColor(0,208,132);
+  doc.text(`N° ${String(nroRemito).slice(-6).padStart(6,'0')}`,W-M,17,{align:'right'});
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(8);
+  doc.setTextColor(90,122,106);
+  doc.text(`${ultimoRegistro.fecha}  ${ultimoRegistro.hora_descarga}`,W-M,23,{align:'right'});
+
+  y=50;
+
+  // ── REMATE ──
+  doc.setFillColor(10,20,16);
+  doc.roundedRect(M,y,W-M*2,14,3,3,'F');
+  doc.setDrawColor(26,51,40);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(M,y,W-M*2,14,3,3,'S');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7);
+  doc.setTextColor(90,122,106);
+  doc.text('REMATE',M+5,y+5);
+  doc.setFontSize(11);
+  doc.setTextColor(224,240,232);
+  doc.text(ultimoRegistro.remate||'—',M+5,y+11);
+  y+=22;
+
+  // ── Sección Identificación + Transporte ──
+  function seccion(titulo){
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.setTextColor(0,208,132);
+    doc.text(titulo,M,y);
+    doc.setDrawColor(26,51,40);
+    doc.setLineWidth(0.3);
+    doc.line(M+doc.getTextWidth(titulo)+2,y-0.5,W-M,y-0.5);
+    y+=6;
+  }
+
+  function campo(label,valor,x,w){
+    doc.setFillColor(13,26,20);
+    doc.roundedRect(x,y-4,w,12,2,2,'F');
+    doc.setDrawColor(26,51,40);
+    doc.setLineWidth(0.2);
+    doc.roundedRect(x,y-4,w,12,2,2,'S');
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7);
+    doc.setTextColor(90,122,106);
+    doc.text(label,x+3,y+0.5);
+    doc.setFontSize(10);
+    doc.setTextColor(224,240,232);
+    doc.text(String(valor||'—'),x+3,y+6.5);
+  }
+
+  const colW=(W-M*2-6)/2;
+
+  seccion('IDENTIFICACIÓN');
+  campo('NRO. DTE',ultimoRegistro.nro_dte,M,colW);
+  campo('PRODUCTOR / PROCEDENCIA',ultimoRegistro.productor,M+colW+6,colW);
+  y+=18;
+
+  seccion('TRANSPORTE');
+  campo('TRANSPORTISTA',ultimoRegistro.transportista,M,colW);
+  campo('PATENTE',ultimoRegistro.patente,M+colW+6,colW);
+  y+=18;
+
+  // ── HORA DESCARGA ──
+  doc.setFillColor(30,60,20);
+  doc.roundedRect(M,y-4,W-M*2,14,3,3,'F');
+  doc.setDrawColor(0,208,132);
+  doc.setLineWidth(0.4);
+  doc.roundedRect(M,y-4,W-M*2,14,3,3,'S');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7);
+  doc.setTextColor(0,208,132);
+  doc.text('HORA DE DESCARGA',M+5,y+1);
+  doc.setFontSize(16);
+  doc.setTextColor(215,165,59);
+  doc.text(`${ultimoRegistro.hora_descarga}  —  ${ultimoRegistro.fecha}`,M+5,y+9);
+  y+=22;
+
+  // ── CATEGORÍAS ──
+  seccion('HACIENDA POR CATEGORÍA');
+  const cats=Object.entries(ultimoRegistro.categorias||{}).filter(([,v])=>v>0);
+  if(cats.length>0){
+    const catW=(W-M*2-(cats.length-1)*4)/cats.length;
+    cats.forEach(([cat,cant],i)=>{
+      const cx=M+i*(catW+4);
+      doc.setFillColor(13,26,20);
+      doc.roundedRect(cx,y-4,catW,18,2,2,'F');
+      doc.setDrawColor(0,208,132);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(cx,y-4,catW,18,2,2,'S');
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(7);
+      doc.setTextColor(90,122,106);
+      doc.text(cat.toUpperCase(),cx+catW/2,y+1,{align:'center'});
+      doc.setFontSize(18);
+      doc.setTextColor(224,240,232);
+      doc.text(String(cant),cx+catW/2,y+12,{align:'center'});
+    });
+    y+=26;
+  }
+
+  // ── TOTAL ──
+  doc.setFillColor(0,40,20);
+  doc.roundedRect(M,y-2,W-M*2,18,3,3,'F');
+  doc.setDrawColor(0,208,132);
+  doc.setLineWidth(0.5);
+  doc.roundedRect(M,y-2,W-M*2,18,3,3,'S');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(10);
+  doc.setTextColor(90,122,106);
+  doc.text('TOTAL CABEZAS',M+8,y+7);
+  doc.setFontSize(22);
+  doc.setTextColor(0,208,132);
+  doc.text(String(ultimoRegistro.total_cabezas||0),W-M-8,y+12,{align:'right'});
+  y+=26;
+
+  // ── OBSERVACIONES ──
+  if(ultimoRegistro.observaciones){
+    seccion('OBSERVACIONES');
+    doc.setFillColor(13,26,20);
+    doc.roundedRect(M,y-4,W-M*2,16,2,2,'F');
+    doc.setDrawColor(26,51,40);
+    doc.setLineWidth(0.2);
+    doc.roundedRect(M,y-4,W-M*2,16,2,2,'S');
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(9);
+    doc.setTextColor(200,220,210);
+    const lines=doc.splitTextToSize(ultimoRegistro.observaciones,W-M*2-8);
+    doc.text(lines,M+4,y+3);
+    y+=22;
+  }
+
+  // ── Footer ──
+  doc.setFillColor(5,10,8);
+  doc.rect(0,280,W,17,'F');
+  doc.setFillColor(0,208,132);
+  doc.rect(0,280,4,17,'F');
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7);
+  doc.setTextColor(90,122,106);
+  doc.text('DARWASH SA — Vicuña Mackenna, Córdoba, Argentina',M,288);
+  doc.text(`Generado: ${new Date().toLocaleString('es-AR')}`,W-M,288,{align:'right'});
+  doc.setTextColor(0,208,132);
+  doc.text(`Remito N° ${String(nroRemito).slice(-6).padStart(6,'0')}`,W/2,288,{align:'center'});
+
+  doc.save(`Remito_Ingreso_${String(nroRemito).slice(-6)}.pdf`);
+}
+
+function compartirWhatsApp(){
+  if(!ultimoRegistro)return;
+  const cats=Object.entries(ultimoRegistro.categorias||{})
+    .filter(([,v])=>v>0)
+    .map(([k,v])=>`  • ${k}: ${v}`)
+    .join('\n');
+  const msg=`🐄 *REMITO DE INGRESO — DARWASH SA*\n`
+    +`━━━━━━━━━━━━━━━━━━\n`
+    +`📅 ${ultimoRegistro.fecha}  🕐 ${ultimoRegistro.hora_descarga}\n`
+    +`📋 Remate: ${ultimoRegistro.remate}\n`
+    +(ultimoRegistro.nro_dte?`📄 DTE: ${ultimoRegistro.nro_dte}\n`:'')
+    +(ultimoRegistro.productor?`👤 Productor: ${ultimoRegistro.productor}\n`:'')
+    +(ultimoRegistro.transportista?`🚛 Transporte: ${ultimoRegistro.transportista}${ultimoRegistro.patente?' ('+ultimoRegistro.patente+')':''}\n`:'')
+    +`━━━━━━━━━━━━━━━━━━\n`
+    +`*HACIENDA:*\n${cats||'  Sin detalle'}\n`
+    +`━━━━━━━━━━━━━━━━━━\n`
+    +`*TOTAL: ${ultimoRegistro.total_cabezas} cabezas*\n`
+    +(ultimoRegistro.observaciones?`\n💬 _${ultimoRegistro.observaciones}_`:'');
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+function nuevoRegistro(){
   document.getElementById('success-overlay').classList.remove('show');
-  document.getElementById('nro-dte').value = '';
-  document.getElementById('productor').value = '';
-  document.getElementById('transportista').value = '';
-  document.getElementById('patente').value = '';
-  document.getElementById('obs').value = '';
-  document.querySelectorAll('#cat-grid input').forEach(i => i.value = '');
+  document.getElementById('nro-dte').value='';
+  document.getElementById('productor').value='';
+  document.getElementById('transportista').value='';
+  document.getElementById('patente').value='';
+  document.getElementById('obs').value='';
+  document.querySelectorAll('#cat-grid input').forEach(i=>i.value='');
   calcTotal();
-  horaManual = null;
-  document.getElementById('hora-input-wrap').style.display = 'none';
+  horaManual=null;
+  document.getElementById('hora-input-wrap').style.display='none';
+  ultimoRegistro=null;
 }
 
-async function renderHistorial() {
-  const cont = document.getElementById('historial');
-  if (!remateActual) { cont.innerHTML = '<div class="empty-hist">Seleccioná un remate</div>'; return; }
-  cont.innerHTML = '<div class="loading">Cargando registros...</div>';
-  try {
-    const regs = await sbSelect('ingresos_hacienda', { remate: remateActual });
-    if (!regs || regs.length === 0) {
-      cont.innerHTML = '<div class="empty-hist">Sin registros para este remate</div>';
-      return;
-    }
-    cont.innerHTML = regs.map(r => {
-      const cats = Object.entries(r.categorias || {})
-        .map(([k,v]) => `<span class="hist-cat">${k}: ${v}</span>`).join('');
-      return `
-        <div class="hist-item">
-          <div class="hist-header">
-            <div>
-              <div class="hist-hora">🕐 ${r.hora_descarga} — ${r.fecha}</div>
-              <div class="hist-meta">
-                ${r.nro_dte ? `📄 DTE: ${r.nro_dte}<br>` : ''}
-                ${r.productor ? `👤 ${r.productor}<br>` : ''}
-                ${r.transportista ? `🚛 ${r.transportista}${r.patente ? ' · '+r.patente : ''}` : ''}
-              </div>
-            </div>
-            <div class="hist-total">${r.total_cabezas} cab.</div>
+async function renderHistorial(){
+  const cont=document.getElementById('historial');
+  if(!remateActual){cont.innerHTML='<div class="empty-hist">Seleccioná un remate</div>';return;}
+  cont.innerHTML='<div class="loading">Cargando registros...</div>';
+  try{
+    const regs=await sbSelect('ingresos_hacienda',{remate:remateActual});
+    if(!regs||regs.length===0){cont.innerHTML='<div class="empty-hist">Sin registros para este remate</div>';return;}
+    cont.innerHTML=regs.map(r=>{
+      const cats=Object.entries(r.categorias||{}).map(([k,v])=>`<span class="hist-cat">${k}: ${v}</span>`).join('');
+      return `<div class="hist-item">
+        <div class="hist-header">
+          <div>
+            <div class="hist-hora">🕐 ${r.hora_descarga} — ${r.fecha}</div>
+            <div class="hist-meta">
+              ${r.nro_dte?`📄 DTE: ${r.nro_dte}<br>`:''}
+              ${r.productor?`👤 ${r.productor}<br>`:''}
+              ${r.transportista?`🚛 ${r.transportista}${r.patente?' · '+r.patente:''}`:''}</div>
           </div>
-          ${cats ? `<div class="hist-cats">${cats}</div>` : ''}
-          ${r.observaciones ? `<div class="hist-obs">💬 ${r.observaciones}</div>` : ''}
-        </div>`;
+          <div class="hist-total">${r.total_cabezas} cab.</div>
+        </div>
+        ${cats?`<div class="hist-cats">${cats}</div>`:''}
+        ${r.observaciones?`<div class="hist-obs">💬 ${r.observaciones}</div>`:''}
+      </div>`;
     }).join('');
-  } catch(e) {
-    cont.innerHTML = '<div class="empty-hist">Error cargando registros</div>';
-  }
+  }catch(e){cont.innerHTML='<div class="empty-hist">Error cargando registros</div>';}
 }
 
 init();
