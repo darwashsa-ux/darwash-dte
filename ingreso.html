@@ -69,6 +69,11 @@
     .hist-obs{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic;}
     .empty-hist,.loading{text-align:center;color:var(--muted);font-size:13px;padding:20px 0;}
     @media(min-width:480px){.cat-grid{grid-template-columns:repeat(3,1fr);}}
+    .firma-wrap{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+    .firma-canvas{display:block;width:100%;height:160px;cursor:crosshair;touch-action:none;background:#fff;}
+    .firma-toolbar{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:1px solid var(--border);}
+    .firma-toolbar span{font-size:11px;color:var(--muted);}
+    .btn-limpiar{background:transparent;border:1px solid rgba(255,77,90,.4);color:var(--red);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
   </style>
 </head>
 <body>
@@ -96,6 +101,15 @@
     <div class="hora-edit">Editar</div>
   </div>
   <div id="hora-input-wrap"><input type="time" id="hora-manual" oninput="onHoraManual(this.value)"/></div>
+  <div class="section-label">Firma del Transportista</div>
+  <div class="firma-wrap">
+    <canvas id="firma-canvas" class="firma-canvas"></canvas>
+    <div class="firma-toolbar">
+      <span id="firma-status">Firmá con el dedo</span>
+      <button class="btn-limpiar" onclick="limpiarFirma()">Limpiar</button>
+    </div>
+  </div>
+
   <div class="section-label">Observaciones</div>
   <div class="field"><textarea id="obs" placeholder="Estado de la hacienda, incidencias, observaciones del chofer..."></textarea></div>
   <button class="btn-save" id="btn-save" onclick="guardar()">✓ Registrar Ingreso</button>
@@ -139,7 +153,49 @@ async function sbSelect(tabla,filtros={}){
   return r.json();
 }
 
-function init(){renderCatGrid();iniciarReloj();cargarRemates();}
+function init(){renderCatGrid();iniciarReloj();cargarRemates();initFirma();}
+
+let firmaCanvas,firmaCtx,firmando=false,firmaVacia=true;
+
+function initFirma(){
+  firmaCanvas=document.getElementById('firma-canvas');
+  // Set real pixel dimensions
+  const rect=firmaCanvas.getBoundingClientRect();
+  firmaCanvas.width=firmaCanvas.offsetWidth*window.devicePixelRatio||600;
+  firmaCanvas.height=160*window.devicePixelRatio||160;
+  firmaCtx=firmaCanvas.getContext('2d');
+  firmaCtx.scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
+  firmaCtx.strokeStyle='#0a2a15';
+  firmaCtx.lineWidth=2.5;
+  firmaCtx.lineCap='round';
+  firmaCtx.lineJoin='round';
+
+  function getPos(e){
+    const r=firmaCanvas.getBoundingClientRect();
+    const src=e.touches?e.touches[0]:e;
+    return{x:src.clientX-r.left,y:src.clientY-r.top};
+  }
+
+  firmaCanvas.addEventListener('mousedown',e=>{firmando=true;const p=getPos(e);firmaCtx.beginPath();firmaCtx.moveTo(p.x,p.y);});
+  firmaCanvas.addEventListener('mousemove',e=>{if(!firmando)return;const p=getPos(e);firmaCtx.lineTo(p.x,p.y);firmaCtx.stroke();firmaVacia=false;document.getElementById('firma-status').textContent='Firma registrada ✓';});
+  firmaCanvas.addEventListener('mouseup',()=>firmando=false);
+  firmaCanvas.addEventListener('mouseleave',()=>firmando=false);
+
+  firmaCanvas.addEventListener('touchstart',e=>{e.preventDefault();firmando=true;const p=getPos(e);firmaCtx.beginPath();firmaCtx.moveTo(p.x,p.y);},{passive:false});
+  firmaCanvas.addEventListener('touchmove',e=>{e.preventDefault();if(!firmando)return;const p=getPos(e);firmaCtx.lineTo(p.x,p.y);firmaCtx.stroke();firmaVacia=false;document.getElementById('firma-status').textContent='Firma registrada ✓';},{passive:false});
+  firmaCanvas.addEventListener('touchend',()=>firmando=false);
+}
+
+function limpiarFirma(){
+  firmaCtx.clearRect(0,0,firmaCanvas.width,firmaCanvas.height);
+  firmaVacia=true;
+  document.getElementById('firma-status').textContent='Firmá con el dedo';
+}
+
+function getFirmaDataURL(){
+  if(firmaVacia)return null;
+  return firmaCanvas.toDataURL('image/png');
+}
 
 function renderCatGrid(){
   document.getElementById('cat-grid').innerHTML=CATS.map(cat=>`
@@ -198,7 +254,7 @@ async function guardar(){
   const res=await sbInsert('ingresos_hacienda',{remate:remateActual,fecha,hora_descarga:hora,nro_dte:dte||null,productor:prod||null,transportista:trans||null,patente:pat||null,categorias:cats,total_cabezas:total,observaciones:obs||null});
   btn.disabled=false;btn.textContent='✓ Registrar Ingreso';
   if(res){
-    ultimoRegistro={...res,fecha,hora_descarga:hora,nro_dte:dte,productor:prod,transportista:trans,patente:pat,categorias:cats,total_cabezas:total,observaciones:obs,remate:remateActual};
+    ultimoRegistro={...res,fecha,hora_descarga:hora,nro_dte:dte,productor:prod,transportista:trans,patente:pat,categorias:cats,total_cabezas:total,observaciones:obs,remate:remateActual,firma:getFirmaDataURL()};
     nroRemito=res.id||Date.now();
     document.getElementById('success-sub').textContent=`${fecha} a las ${hora}`+(total>0?`\n${total} cabezas`:'')+(dte?`\nDTE: ${dte}`:'');
     document.getElementById('success-overlay').classList.add('show');
@@ -437,6 +493,33 @@ function generarPDF(){
     y+=26;
   }
 
+  // ══ FIRMA ══
+  if(ultimoRegistro.firma){
+    doc.setFont('helvetica','bold');doc.setFontSize(7);
+    doc.setTextColor(0,140,80);
+    doc.text('▸  FIRMA DEL TRANSPORTISTA',M,y-3);
+    doc.setDrawColor(0,180,100);doc.setLineWidth(0.5);
+    doc.line(M+52,y-3.5,W-M,y-3.5);
+
+    // Caja de firma
+    doc.setFillColor(252,254,252);
+    doc.setDrawColor(180,220,200);doc.setLineWidth(0.3);
+    doc.roundedRect(M,y,W-M*2,36,2,2,'F');
+    doc.roundedRect(M,y,W-M*2,36,2,2,'S');
+
+    // Imagen de firma
+    try{
+      doc.addImage(ultimoRegistro.firma,'PNG',M+4,y+2,W-M*2-8,32);
+    }catch(e){}
+
+    // Línea de firma
+    doc.setDrawColor(150,180,165);doc.setLineWidth(0.4);
+    doc.line(M+10,y+34,W-M-10,y+34);
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(150,180,165);
+    doc.text(ultimoRegistro.transportista||'Transportista',W/2,y+38.5,{align:'center'});
+    y+=46;
+  }
+
   // ══ FOOTER ══
   // Línea dorada
   doc.setFillColor(185,140,40);
@@ -482,6 +565,7 @@ function nuevoRegistro(){
   document.querySelectorAll('#cat-grid input').forEach(i=>i.value='');
   calcTotal();horaManual=null;ultimoRegistro=null;
   document.getElementById('hora-input-wrap').style.display='none';
+  limpiarFirma();
 }
 
 async function renderHistorial(){
