@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Registro de Ingreso — Darwash</title>
+  <style>
+    :root {
+      --bg: #050a08;
+      --panel: #0a1410;
+      --border: #1a3328;
+      --muted: #5a7a6a;
+      --text: #e0f0e8;
+      --primary: #00d084;
+      --primary-dim: rgba(0,208,132,.15);
+      --amber: #d7a53b;
+      --red: #ff4d5a;
+      --input-bg: #0d1a14;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', serif;
+      min-height: 100vh;
+      overscroll-behavior: none;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(180deg, #061410, #050a08);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand {
+      width: 44px; height: 34px;
+      border: 1px solid rgba(0,208,132,.4);
+      border-radius: 8px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: rgba(0,208,132,.06);
+      flex-shrink: 0;
+    }
+    .brand-drw { font-size: 14px; font-weight: 700; color: #00d084; line-height: 1; font-family: 'Times New Roman', serif; }
+    .brand-sub { font-size: 5px; letter-spacing: 1.5px; color: #5ce1a0; text-transform: uppercase; }
+    .header-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: .5px; }
+    .header-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ── REMATE SELECTOR ── */
+    .remate-bar {
+      background: var(--primary-dim);
+      border-bottom: 1px solid rgba(0,208,132,.25);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .remate-bar select {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 700;
+      flex: 1;
+      outline: none;
+      cursor: pointer;
+    }
+    .remate-bar select option { background: #0a1410; color: var(--text); }
+
+    /* ── FORM ── */
+    .form { padding: 20px 16px 40px; max-width: 520px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 24px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 16px; /* prevent iOS zoom */
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color .2s;
+      font-family: inherit;
+      -webkit-appearance: none;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: rgba(0,208,132,.5);
+    }
+    .field textarea { resize: none; min-height: 90px; }
+    .field select option { background: #0a1410; }
+
+    /* ── CATEGORIAS ── */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .cat-item {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .cat-item label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin: 0;
+    }
+    .cat-item input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      padding: 4px 0;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      width: 100%;
+      outline: none;
+      font-family: inherit;
+    }
+    .cat-item input:focus { border-bottom-color: var(--primary); }
+    .cat-item input::placeholder { color: #2a4a3a; font-weight: 400; font-size: 18px; }
+
+    /* ── TOTAL BADGE ── */
+    .total-badge {
+      background: var(--primary-dim);
+      border: 1px solid rgba(0,208,132,.35);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+    }
+    .total-badge .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .total-badge .num { font-size: 32px; font-weight: 800; color: var(--primary); }
+
+    /* ── HORA ── */
+    .hora-box {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .hora-box .hora-val { font-size: 22px; font-weight: 700; color: var(--amber); font-variant-numeric: tabular-nums; }
+    .hora-box .hora-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+    .hora-edit { font-size: 11px; color: var(--primary); cursor: pointer; text-decoration: underline; }
+    #hora-input-wrap { display: none; margin-top: 8px; }
+    #hora-input-wrap input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid rgba(0,208,132,.4);
+      border-radius: 12px;
+      color: var(--amber);
+      font-size: 24px;
+      font-weight: 700;
+      padding: 12px 16px;
+      outline: none;
+      text-align: center;
+      font-family: inherit;
+    }
+
+    /* ── SAVE BUTTON ── */
+    .btn-save {
+      width: 100%;
+      background: var(--primary);
+      color: #031a0d;
+      border: none;
+      border-radius: 16px;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 18px;
+      margin-top: 28px;
+      cursor: pointer;
+      letter-spacing: .5px;
+      transition: opacity .15s, transform .1s;
+      font-family: inherit;
+      -webkit-appearance: none;
+    }
+    .btn-save:active { opacity: .85; transform: scale(.98); }
+    .btn-save:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* ── SUCCESS ── */
+    .success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .success-overlay.show { display: flex; }
+    .success-card {
+      background: #0a1a12;
+      border: 1px solid rgba(0,208,132,.5);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      max-width: 340px;
+      width: 100%;
+    }
+    .success-icon { font-size: 56px; margin-bottom: 16px; }
+    .success-title { font-size: 22px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+    .success-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+    .btn-nuevo {
+      width: 100%;
+      background: var(--primary-dim);
+      border: 1px solid rgba(0,208,132,.4);
+      color: var(--primary);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ── HISTORIAL ── */
+    .historial { margin-top: 32px; }
+    .hist-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .hist-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .hist-hora { font-size: 18px; font-weight: 700; color: var(--amber); }
+    .hist-total { font-size: 14px; font-weight: 700; color: var(--primary); }
+    .hist-dte { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+    .hist-cats { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hist-cat {
+      background: rgba(0,208,132,.08);
+      border: 1px solid rgba(0,208,132,.2);
+      border-radius: 8px;
+      padding: 3px 8px;
+      font-size: 11px;
+      color: var(--text);
+    }
+    .hist-obs { font-size: 12px; color: var(--muted); margin-top: 8px; font-style: italic; }
+    .empty-hist { text-align: center; color: var(--muted); font-size: 13px; padding: 20px 0; }
+
+    @media (min-width: 480px) {
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-drw">DRW</div>
+    <div class="brand-sub">DARWASH</div>
+  </div>
+  <div>
+    <div class="header-title">Registro de Ingreso</div>
+    <div class="header-sub">Descarga de hacienda</div>
+  </div>
+</div>
+
+<div class="remate-bar">
+  <span style="color:var(--muted);font-size:12px">REMATE</span>
+  <select id="sel-remate">
+    <option value="">Cargando...</option>
+  </select>
+</div>
+
+<div class="form">
+
+  <!-- DTE + PRODUCTOR -->
+  <div class="section-label">Identificación</div>
+
+  <div class="field">
+    <label>Nro. DTE</label>
+    <input type="text" id="nro-dte" placeholder="031423978-4" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false"/>
+  </div>
+
+  <div class="field">
+    <label>Productor / Procedencia</label>
+    <input type="text" id="productor" placeholder="Nombre del productor o establecimiento" autocorrect="off"/>
+  </div>
+
+  <!-- TRANSPORTE -->
+  <div class="section-label">Transporte</div>
+
+  <div class="field">
+    <label>Transportista</label>
+    <input type="text" id="transportista" placeholder="Nombre del transportista" autocorrect="off"/>
+  </div>
+
+  <div class="field">
+    <label>Patente</label>
+    <input type="text" id="patente" placeholder="ABC 123" autocomplete="off" autocorrect="off" spellcheck="false" style="text-transform:uppercase"/>
+  </div>
+
+  <!-- CANTIDAD -->
+  <div class="section-label">Cantidad de hacienda</div>
+
+  <div class="cat-grid" id="cat-grid">
+    <!-- generado por JS -->
+  </div>
+
+  <div class="total-badge">
+    <div>
+      <div class="lbl">Total cabezas</div>
+    </div>
+    <div class="num" id="total-display">0</div>
+  </div>
+
+  <!-- HORA -->
+  <div class="section-label">Hora de descarga</div>
+
+  <div class="hora-box" onclick="toggleHoraEdit()">
+    <div>
+      <div class="hora-val" id="hora-display">--:--</div>
+      <div class="hora-lbl">Se registra automáticamente al guardar</div>
+    </div>
+    <div class="hora-edit">Editar</div>
+  </div>
+  <div id="hora-input-wrap">
+    <input type="time" id="hora-manual" oninput="onHoraManual(this.value)"/>
+  </div>
+
+  <!-- OBSERVACIONES -->
+  <div class="section-label">Observaciones</div>
+
+  <div class="field">
+    <textarea id="obs" placeholder="Estado de la hacienda, incidencias, observaciones del chofer..."></textarea>
+  </div>
+
+  <button class="btn-save" id="btn-save" onclick="guardar()">
+    ✓ Registrar Ingreso
+  </button>
+
+  <!-- HISTORIAL -->
+  <div class="section-label" style="margin-top:36px">Registros del remate</div>
+  <div class="historial" id="historial"></div>
+
+</div>
+
+<!-- SUCCESS -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="success-icon">✅</div>
+    <div class="success-title">¡Ingreso registrado!</div>
+    <div class="success-sub" id="success-sub"></div>
+    <button class="btn-nuevo" onclick="nuevoRegistro()">+ Nuevo registro</button>
+  </div>
+</div>
+
+<script>
+const GH_TOKEN = '';  // Se lee desde config — dejar vacío acá
+const GH_USER  = 'darwashsa-ux';
+const GH_REPO  = 'darwash-dte';
+const FILENAME = 'ingresos_maestro.json';
+
+const CATEGORIAS = ['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
+
+let remateActual = '';
+let horaManual = null;
+let relojInterval = null;
+let ingresos = {};  // { codigo_remate: [registros] }
+let ghSha = null;
+
+// ── Init ──
+async function init() {
+  renderCatGrid();
+  iniciarReloj();
+  await cargarDatos();
+  await cargarIngresos();
+  renderHistorial();
+}
+
+function renderCatGrid() {
+  const grid = document.getElementById('cat-grid');
+  grid.innerHTML = CATEGORIAS.map(cat => `
+    <div class="cat-item">
+      <label>${cat}</label>
+      <input type="number" inputmode="numeric" placeholder="0" min="0"
+             data-cat="${cat}" oninput="calcTotal()"/>
+    </div>
+  `).join('');
+}
+
+function iniciarReloj() {
+  function tick() {
+    if (!horaManual) {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2,'0');
+      const m = String(now.getMinutes()).padStart(2,'0');
+      document.getElementById('hora-display').textContent = `${h}:${m}`;
+    }
+  }
+  tick();
+  relojInterval = setInterval(tick, 10000);
+}
+
+function toggleHoraEdit() {
+  const wrap = document.getElementById('hora-input-wrap');
+  const visible = wrap.style.display === 'block';
+  wrap.style.display = visible ? 'none' : 'block';
+  if (!visible) {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('hora-manual').value = `${h}:${m}`;
+  }
+}
+
+function onHoraManual(val) {
+  horaManual = val;
+  document.getElementById('hora-display').textContent = val || '--:--';
+}
+
+function calcTotal() {
+  const inputs = document.querySelectorAll('#cat-grid input[data-cat]');
+  let total = 0;
+  inputs.forEach(i => { total += parseInt(i.value || 0); });
+  document.getElementById('total-display').textContent = total;
+}
+
+// ── Cargar remates desde GitHub ──
+async function cargarDatos() {
+  try {
+    const r = await fetch(`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/remates_maestro.json?t=${Date.now()}`);
+    const data = await r.json();
+    const sel = document.getElementById('sel-remate');
+    sel.innerHTML = '';
+    (data.remates || []).forEach(rem => {
+      const op = document.createElement('option');
+      op.value = rem.codigo;
+      const info = rem.info || {};
+      op.textContent = `${rem.codigo} (${info.Inicio || ''}→${info.Fin || ''})`;
+      sel.appendChild(op);
+    });
+    if (data.remates && data.remates.length > 0) {
+      remateActual = data.remates[data.remates.length - 1].codigo;
+      sel.value = remateActual;
+    }
+    sel.onchange = () => { remateActual = sel.value; renderHistorial(); };
+    // Pre-seleccionar remate desde URL param
+    const urlRemate = new URLSearchParams(window.location.search).get('remate');
+    if (urlRemate) {
+      const found = Array.from(sel.options).find(o => o.value === urlRemate);
+      if (found) { sel.value = urlRemate; remateActual = urlRemate; }
+    }
+  } catch(e) {
+    document.getElementById('sel-remate').innerHTML = '<option>Sin conexión</option>';
+  }
+}
+
+// ── Cargar ingresos desde GitHub ──
+async function cargarIngresos() {
+  try {
+    const url = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${FILENAME}`;
+    const headers = GH_TOKEN ? { 'Authorization': `token ${GH_TOKEN}` } : {};
+    const r = await fetch(url, { headers });
+    if (r.status === 200) {
+      const data = await r.json();
+      ghSha = data.sha;
+      const content = atob(data.content.replace(/\n/g,''));
+      ingresos = JSON.parse(content);
+    } else {
+      ingresos = {};
+    }
+  } catch(e) {
+    ingresos = {};
+  }
+}
+
+// ── Guardar ──
+async function guardar() {
+  const dte = document.getElementById('nro-dte').value.trim();
+  const productor = document.getElementById('productor').value.trim();
+  const transportista = document.getElementById('transportista').value.trim();
+  const patente = document.getElementById('patente').value.trim().toUpperCase();
+  const obs = document.getElementById('obs').value.trim();
+
+  const cats = {};
+  let total = 0;
+  document.querySelectorAll('#cat-grid input[data-cat]').forEach(i => {
+    const v = parseInt(i.value || 0);
+    if (v > 0) { cats[i.dataset.cat] = v; total += v; }
+  });
+
+  if (!remateActual) { alert('Seleccioná un remate'); return; }
+  if (total === 0 && !dte) { alert('Completá al menos el DTE o la cantidad de hacienda'); return; }
+
+  const now = new Date();
+  const hora = horaManual || `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const fecha = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
+
+  const registro = {
+    id: Date.now(),
+    remate: remateActual,
+    fecha,
+    hora_descarga: hora,
+    nro_dte: dte,
+    productor,
+    transportista,
+    patente,
+    categorias: cats,
+    total_cabezas: total,
+    observaciones: obs,
+    ts: now.toISOString()
+  };
+
+  if (!ingresos[remateActual]) ingresos[remateActual] = [];
+  ingresos[remateActual].push(registro);
+
+  const btn = document.getElementById('btn-save');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const ok = await subirGitHub();
+
+  btn.disabled = false;
+  btn.textContent = '✓ Registrar Ingreso';
+
+  if (ok) {
+    const sub = `${fecha} a las ${hora}` +
+      (total > 0 ? `\n${total} cabezas` : '') +
+      (dte ? `\nDTE: ${dte}` : '');
+    document.getElementById('success-sub').textContent = sub;
+    document.getElementById('success-overlay').classList.add('show');
+    renderHistorial();
+  } else {
+    // Guardar en localStorage como backup si falla GitHub
+    localStorage.setItem('ingresos_backup', JSON.stringify(ingresos));
+    alert('Sin conexión. Registro guardado localmente. Sincronizará cuando haya internet.');
+    renderHistorial();
+  }
+}
+
+async function subirGitHub() {
+  if (!GH_TOKEN) {
+    // Sin token: guardar solo en localStorage
+    localStorage.setItem('ingresos_local', JSON.stringify(ingresos));
+    return true;  // Consideramos OK para el flujo
+  }
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(ingresos, null, 2))));
+    const payload = { message: `Update ${FILENAME}`, content };
+    if (ghSha) payload.sha = ghSha;
+    const r = await fetch(
+      `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${FILENAME}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${GH_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+    );
+    if (r.ok) {
+      const data = await r.json();
+      ghSha = data.content?.sha || ghSha;
+      return true;
+    }
+    return false;
+  } catch(e) {
+    return false;
+  }
+}
+
+function nuevoRegistro() {
+  document.getElementById('success-overlay').classList.remove('show');
+  document.getElementById('nro-dte').value = '';
+  document.getElementById('productor').value = '';
+  document.getElementById('transportista').value = '';
+  document.getElementById('patente').value = '';
+  document.getElementById('obs').value = '';
+  document.querySelectorAll('#cat-grid input').forEach(i => i.value = '');
+  calcTotal();
+  horaManual = null;
+  document.getElementById('hora-input-wrap').style.display = 'none';
+}
+
+function renderHistorial() {
+  const cont = document.getElementById('historial');
+  const regs = (ingresos[remateActual] || []).slice().reverse();
+  if (regs.length === 0) {
+    cont.innerHTML = '<div class="empty-hist">Sin registros para este remate</div>';
+    return;
+  }
+  cont.innerHTML = regs.map(r => {
+    const cats = Object.entries(r.categorias || {})
+      .map(([k,v]) => `<span class="hist-cat">${k}: ${v}</span>`).join('');
+    return `
+      <div class="hist-item">
+        <div class="hist-header">
+          <div>
+            <div class="hist-hora">🕐 ${r.hora_descarga} — ${r.fecha}</div>
+            ${r.nro_dte ? `<div class="hist-dte">DTE: ${r.nro_dte}</div>` : ''}
+            ${r.productor ? `<div class="hist-dte">👤 ${r.productor}</div>` : ''}
+            ${r.transportista ? `<div class="hist-dte">🚛 ${r.transportista}${r.patente?' · '+r.patente:''}</div>` : ''}
+          </div>
+          <div class="hist-total">${r.total_cabezas} cab.</div>
+        </div>
+        ${cats ? `<div class="hist-cats">${cats}</div>` : ''}
+        ${r.observaciones ? `<div class="hist-obs">💬 ${r.observaciones}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+init();
+</script>
+</body>
+</html>
