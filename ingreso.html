@@ -9,7 +9,7 @@
     :root {
       --bg:#050a08;--panel:#0a1410;--border:#1a3328;--muted:#5a7a6a;
       --text:#e0f0e8;--primary:#00d084;--primary-dim:rgba(0,208,132,.15);
-      --amber:#d7a53b;--red:#ff4d5a;--input-bg:#0d1a14;--blue:#3ea2ff;
+      --amber:#d7a53b;--red:#ff4d5a;--input-bg:#0d1a14;
     }
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
     html,body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;min-height:100vh;overscroll-behavior:none;}
@@ -27,8 +27,8 @@
     .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
     .field{margin-bottom:14px;}
     .field label{display:block;font-size:11px;color:var(--muted);letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase;}
-    .field input,.field textarea,.field select{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;padding:14px 16px;outline:none;transition:border-color .2s;font-family:inherit;-webkit-appearance:none;}
-    .field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(0,208,132,.5);}
+    .field input,.field textarea{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;padding:14px 16px;outline:none;transition:border-color .2s;font-family:inherit;-webkit-appearance:none;}
+    .field input:focus,.field textarea:focus{border-color:rgba(0,208,132,.5);}
     .field textarea{resize:none;min-height:90px;}
     .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
     .cat-item{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;}
@@ -40,24 +40,24 @@
     .total-badge .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
     .total-badge .num{font-size:32px;font-weight:800;color:var(--primary);}
     .hora-box{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
-    .hora-val{font-size:22px;font-weight:700;color:var(--amber);font-variant-numeric:tabular-nums;}
+    .hora-val{font-size:22px;font-weight:700;color:var(--amber);}
     .hora-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
-    .hora-edit{font-size:11px;color:var(--primary);cursor:pointer;text-decoration:underline;}
+    .hora-edit{font-size:11px;color:var(--primary);text-decoration:underline;}
     #hora-input-wrap{display:none;margin-top:8px;}
     #hora-input-wrap input{width:100%;background:var(--input-bg);border:1px solid rgba(0,208,132,.4);border-radius:12px;color:var(--amber);font-size:24px;font-weight:700;padding:12px 16px;outline:none;text-align:center;font-family:inherit;}
-    .btn-save{width:100%;background:var(--primary);color:#031a0d;border:none;border-radius:16px;font-size:17px;font-weight:800;padding:18px;margin-top:28px;cursor:pointer;letter-spacing:.5px;transition:opacity .15s,transform .1s;font-family:inherit;-webkit-appearance:none;}
+    .btn-save{width:100%;background:var(--primary);color:#031a0d;border:none;border-radius:16px;font-size:17px;font-weight:800;padding:18px;margin-top:28px;cursor:pointer;letter-spacing:.5px;transition:opacity .15s,transform .1s;font-family:inherit;}
     .btn-save:active{opacity:.85;transform:scale(.98);}
     .btn-save:disabled{opacity:.4;cursor:not-allowed;}
-    .success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:24px;}
+    .success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;padding:20px;}
     .success-overlay.show{display:flex;}
-    .success-card{background:#0a1a12;border:1px solid rgba(0,208,132,.5);border-radius:20px;padding:32px 24px;text-align:center;max-width:360px;width:100%;}
-    .success-icon{font-size:52px;margin-bottom:12px;}
+    .success-card{background:#0a1a12;border:1px solid rgba(0,208,132,.4);border-radius:24px;padding:32px 24px;text-align:center;max-width:380px;width:100%;}
+    .success-icon{font-size:52px;margin-bottom:10px;}
     .success-title{font-size:22px;font-weight:800;color:var(--primary);margin-bottom:6px;}
-    .success-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;white-space:pre-line;}
+    .success-sub{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.7;white-space:pre-line;}
     .btn-group{display:flex;flex-direction:column;gap:10px;}
-    .btn-pdf{width:100%;background:rgba(255,77,90,.12);border:1px solid rgba(255,77,90,.4);color:#ff6b75;border-radius:12px;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit;}
-    .btn-wsp{width:100%;background:#25d366;border:none;color:#fff;border-radius:12px;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;}
-    .btn-nuevo{width:100%;background:var(--primary-dim);border:1px solid rgba(0,208,132,.4);color:var(--primary);border-radius:12px;font-size:14px;font-weight:700;padding:12px;cursor:pointer;font-family:inherit;margin-top:4px;}
+    .btn-pdf{width:100%;background:linear-gradient(135deg,#1a3a6a,#0d2044);border:1px solid rgba(100,160,255,.4);color:#a0c8ff;border-radius:14px;font-size:15px;font-weight:700;padding:15px;cursor:pointer;font-family:inherit;}
+    .btn-wsp{width:100%;background:linear-gradient(135deg,#128c3a,#075e24);border:none;color:#fff;border-radius:14px;font-size:15px;font-weight:700;padding:15px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .btn-nuevo{width:100%;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:14px;font-size:14px;font-weight:600;padding:12px;cursor:pointer;font-family:inherit;}
     .historial{margin-top:8px;}
     .hist-item{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;}
     .hist-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
@@ -67,8 +67,7 @@
     .hist-cats{display:flex;flex-wrap:wrap;gap:6px;}
     .hist-cat{background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text);}
     .hist-obs{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic;}
-    .empty-hist{text-align:center;color:var(--muted);font-size:13px;padding:20px 0;}
-    .loading{text-align:center;color:var(--muted);font-size:13px;padding:16px 0;}
+    .empty-hist,.loading{text-align:center;color:var(--muted);font-size:13px;padding:20px 0;}
     @media(min-width:480px){.cat-grid{grid-template-columns:repeat(3,1fr);}}
   </style>
 </head>
@@ -87,7 +86,7 @@
   <div class="field"><label>Productor / Procedencia</label><input type="text" id="productor" placeholder="Nombre del productor o establecimiento" autocorrect="off"/></div>
   <div class="section-label">Transporte</div>
   <div class="field"><label>Transportista</label><input type="text" id="transportista" placeholder="Nombre del transportista" autocorrect="off"/></div>
-  <div class="field"><label>Patente</label><input type="text" id="patente" placeholder="ABC 123" autocomplete="off" autocorrect="off" spellcheck="false" style="text-transform:uppercase"/></div>
+  <div class="field"><label>Patente</label><input type="text" id="patente" placeholder="ABC 123" autocomplete="off" autocorrect="off" style="text-transform:uppercase"/></div>
   <div class="section-label">Cantidad de hacienda</div>
   <div class="cat-grid" id="cat-grid"></div>
   <div class="total-badge"><div><div class="lbl">Total cabezas</div></div><div class="num" id="total-display">0</div></div>
@@ -104,7 +103,6 @@
   <div class="historial" id="historial"><div class="loading">Cargando...</div></div>
 </div>
 
-<!-- SUCCESS -->
 <div class="success-overlay" id="success-overlay">
   <div class="success-card">
     <div class="success-icon">✅</div>
@@ -113,7 +111,7 @@
     <div class="btn-group">
       <button class="btn-pdf" onclick="generarPDF()">📄 Descargar Remito PDF</button>
       <button class="btn-wsp" onclick="compartirWhatsApp()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Compartir por WhatsApp
       </button>
       <button class="btn-nuevo" onclick="nuevoRegistro()">+ Nuevo registro</button>
@@ -127,22 +125,13 @@ const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 const GH_USER='darwashsa-ux';
 const GH_REPO='darwash-dte';
 const CATS=['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
-
-let remateActual='';
-let horaManual=null;
-let ultimoRegistro=null;
-let nroRemito=null;
+let remateActual='',horaManual=null,ultimoRegistro=null,nroRemito=null;
 
 async function sbInsert(tabla,data){
-  const r=await fetch(`${SB_URL}/rest/v1/${tabla}`,{
-    method:'POST',
-    headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
-    body:JSON.stringify(data)
-  });
+  const r=await fetch(`${SB_URL}/rest/v1/${tabla}`,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(data)});
   if(r.ok){const d=await r.json();return Array.isArray(d)?d[0]:d;}
   return null;
 }
-
 async function sbSelect(tabla,filtros={}){
   let url=`${SB_URL}/rest/v1/${tabla}?order=ts.desc`;
   for(const[k,v]of Object.entries(filtros))url+=`&${k}=eq.${encodeURIComponent(v)}`;
@@ -150,49 +139,24 @@ async function sbSelect(tabla,filtros={}){
   return r.json();
 }
 
-function init(){
-  renderCatGrid();
-  iniciarReloj();
-  cargarRemates();
-}
+function init(){renderCatGrid();iniciarReloj();cargarRemates();}
 
 function renderCatGrid(){
   document.getElementById('cat-grid').innerHTML=CATS.map(cat=>`
-    <div class="cat-item">
-      <label>${cat}</label>
-      <input type="number" inputmode="numeric" placeholder="0" min="0" data-cat="${cat}" oninput="calcTotal()"/>
-    </div>`).join('');
+    <div class="cat-item"><label>${cat}</label>
+    <input type="number" inputmode="numeric" placeholder="0" min="0" data-cat="${cat}" oninput="calcTotal()"/></div>`).join('');
 }
-
 function iniciarReloj(){
-  function tick(){
-    if(!horaManual){
-      const now=new Date();
-      document.getElementById('hora-display').textContent=
-        `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-    }
-  }
-  tick();
-  setInterval(tick,10000);
+  function tick(){if(!horaManual){const n=new Date();document.getElementById('hora-display').textContent=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;}}
+  tick();setInterval(tick,10000);
 }
-
 function toggleHoraEdit(){
-  const wrap=document.getElementById('hora-input-wrap');
-  wrap.style.display=wrap.style.display==='block'?'none':'block';
-  if(wrap.style.display==='block'){
-    const now=new Date();
-    document.getElementById('hora-manual').value=
-      `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  }
+  const w=document.getElementById('hora-input-wrap');
+  w.style.display=w.style.display==='block'?'none':'block';
+  if(w.style.display==='block'){const n=new Date();document.getElementById('hora-manual').value=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;}
 }
-
-function onHoraManual(val){horaManual=val;document.getElementById('hora-display').textContent=val||'--:--';}
-
-function calcTotal(){
-  let total=0;
-  document.querySelectorAll('#cat-grid input[data-cat]').forEach(i=>{total+=parseInt(i.value||0);});
-  document.getElementById('total-display').textContent=total;
-}
+function onHoraManual(v){horaManual=v;document.getElementById('hora-display').textContent=v||'--:--';}
+function calcTotal(){let t=0;document.querySelectorAll('#cat-grid input[data-cat]').forEach(i=>t+=parseInt(i.value||0));document.getElementById('total-display').textContent=t;}
 
 async function cargarRemates(){
   try{
@@ -200,37 +164,30 @@ async function cargarRemates(){
     const data=await r.json();
     const sel=document.getElementById('sel-remate');
     sel.innerHTML='';
-    const remates=data.remates||[];
-    remates.forEach(rem=>{
+    (data.remates||[]).forEach(rem=>{
       const op=document.createElement('option');
       op.value=rem.codigo;
       const info=rem.info||{};
       op.textContent=`${rem.codigo}  (${info.Inicio||''}→${info.Fin||''})`;
       sel.appendChild(op);
     });
-    const urlRemate=new URLSearchParams(window.location.search).get('remate');
-    if(urlRemate&&Array.from(sel.options).find(o=>o.value===urlRemate)){sel.value=urlRemate;}
-    else if(remates.length>0){sel.value=remates[remates.length-1].codigo;}
+    const urlR=new URLSearchParams(window.location.search).get('remate');
+    if(urlR&&Array.from(sel.options).find(o=>o.value===urlR))sel.value=urlR;
+    else if(data.remates&&data.remates.length)sel.value=data.remates[data.remates.length-1].codigo;
     remateActual=sel.value;
     sel.onchange=()=>{remateActual=sel.value;renderHistorial();};
     renderHistorial();
-  }catch(e){
-    document.getElementById('sel-remate').innerHTML='<option>Sin conexión</option>';
-  }
+  }catch(e){document.getElementById('sel-remate').innerHTML='<option>Sin conexión</option>';}
 }
 
 async function guardar(){
   const dte=document.getElementById('nro-dte').value.trim();
-  const productor=document.getElementById('productor').value.trim();
-  const transportista=document.getElementById('transportista').value.trim();
-  const patente=document.getElementById('patente').value.trim().toUpperCase();
+  const prod=document.getElementById('productor').value.trim();
+  const trans=document.getElementById('transportista').value.trim();
+  const pat=document.getElementById('patente').value.trim().toUpperCase();
   const obs=document.getElementById('obs').value.trim();
-  const cats={};
-  let total=0;
-  document.querySelectorAll('#cat-grid input[data-cat]').forEach(i=>{
-    const v=parseInt(i.value||0);
-    if(v>0){cats[i.dataset.cat]=v;total+=v;}
-  });
+  const cats={};let total=0;
+  document.querySelectorAll('#cat-grid input[data-cat]').forEach(i=>{const v=parseInt(i.value||0);if(v>0){cats[i.dataset.cat]=v;total+=v;}});
   if(!remateActual){alert('Seleccioná un remate');return;}
   if(total===0&&!dte){alert('Completá al menos el DTE o la cantidad de hacienda');return;}
   const now=new Date();
@@ -238,222 +195,272 @@ async function guardar(){
   const fecha=`${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
   const btn=document.getElementById('btn-save');
   btn.disabled=true;btn.textContent='Guardando...';
-  const resultado=await sbInsert('ingresos_hacienda',{
-    remate:remateActual,fecha,hora_descarga:hora,
-    nro_dte:dte||null,productor:productor||null,
-    transportista:transportista||null,patente:patente||null,
-    categorias:cats,total_cabezas:total,observaciones:obs||null
-  });
+  const res=await sbInsert('ingresos_hacienda',{remate:remateActual,fecha,hora_descarga:hora,nro_dte:dte||null,productor:prod||null,transportista:trans||null,patente:pat||null,categorias:cats,total_cabezas:total,observaciones:obs||null});
   btn.disabled=false;btn.textContent='✓ Registrar Ingreso';
-  if(resultado){
-    ultimoRegistro={...resultado,fecha,hora_descarga:hora,nro_dte:dte,productor,transportista,patente,categorias:cats,total_cabezas:total,observaciones:obs,remate:remateActual};
-    nroRemito=resultado.id||Date.now();
-    const sub=`${fecha} a las ${hora}`+(total>0?`\n${total} cabezas`:'')+  (dte?`\nDTE: ${dte}`:'');
-    document.getElementById('success-sub').textContent=sub;
+  if(res){
+    ultimoRegistro={...res,fecha,hora_descarga:hora,nro_dte:dte,productor:prod,transportista:trans,patente:pat,categorias:cats,total_cabezas:total,observaciones:obs,remate:remateActual};
+    nroRemito=res.id||Date.now();
+    document.getElementById('success-sub').textContent=`${fecha} a las ${hora}`+(total>0?`\n${total} cabezas`:'')+(dte?`\nDTE: ${dte}`:'');
     document.getElementById('success-overlay').classList.add('show');
     renderHistorial();
-  }else{
-    alert('Error al guardar. Verificá tu conexión.');
-  }
+  }else{alert('Error al guardar. Verificá tu conexión.');}
 }
 
 function generarPDF(){
   if(!ultimoRegistro)return;
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-  const W=210,M=18;
-  let y=0;
+  const W=210,H=297,M=15;
 
-  // ── Fondo oscuro header ──
-  doc.setFillColor(5,10,8);
-  doc.rect(0,0,W,42,'F');
+  // ══ FONDO BLANCO LIMPIO ══
+  doc.setFillColor(252,252,250);
+  doc.rect(0,0,W,H,'F');
 
-  // Franja verde lateral
-  doc.setFillColor(0,208,132);
-  doc.rect(0,0,4,42,'F');
+  // ══ FRANJA SUPERIOR VERDE OSCURO ══
+  doc.setFillColor(2,40,25);
+  doc.rect(0,0,W,52,'F');
 
-  // Logo DRW
-  doc.setFillColor(0,208,132,0.15);
-  doc.roundedRect(M,8,22,14,3,3,'F');
-  doc.setDrawColor(0,208,132);
-  doc.setLineWidth(0.4);
-  doc.roundedRect(M,8,22,14,3,3,'S');
+  // Línea decorativa dorada
+  doc.setFillColor(185,140,40);
+  doc.rect(0,50,W,2,'F');
+
+  // ══ LOGO ÁREA ══
+  // Círculo de fondo
+  doc.setFillColor(0,160,100);
+  doc.circle(M+13,22,12,'F');
+  doc.setFillColor(0,200,120);
+  doc.circle(M+13,22,9,'F');
+
+  // Texto DRW en el círculo
   doc.setFont('times','bold');
-  doc.setFontSize(13);
-  doc.setTextColor(0,208,132);
-  doc.text('DRW',M+11,17,{align:'center'});
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(5);
-  doc.setTextColor(92,225,160);
-  doc.text('DARWASH',M+11,20.5,{align:'center'});
+  doc.setFontSize(11);
+  doc.setTextColor(2,40,25);
+  doc.text('DRW',M+13,24.5,{align:'center'});
 
-  // Título
+  // Nombre empresa
   doc.setFont('helvetica','bold');
-  doc.setFontSize(18);
-  doc.setTextColor(224,240,232);
-  doc.text('REMITO DE INGRESO',M+28,17);
+  doc.setFontSize(22);
+  doc.setTextColor(255,255,255);
+  doc.text('DARWASH',M+30,20);
   doc.setFont('helvetica','normal');
   doc.setFontSize(9);
-  doc.setTextColor(90,122,106);
-  doc.text('DARWASH SA — Tablero SIGSA / SENASA',M+28,23);
+  doc.setTextColor(0,200,120);
+  doc.text('SOCIEDAD ANÓNIMA  ·  VICUÑA MACKENNA, CÓRDOBA',M+30,27);
+
+  // Línea separadora blanca
+  doc.setDrawColor(255,255,255,0.2);
+  doc.setLineWidth(0.3);
+  doc.line(M+30,30,W-M,30);
+
+  // Tagline
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(100,200,150);
+  doc.text('Consignación · Invernada · Faena · Remates de Hacienda',M+30,36);
+
+  // ══ TÍTULO DEL DOCUMENTO ══
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(13);
+  doc.setTextColor(255,255,255);
+  doc.text('REMITO DE INGRESO DE HACIENDA',W-M,20,{align:'right'});
 
   // Número de remito
+  doc.setFillColor(0,180,100);
+  doc.roundedRect(W-M-44,24,44,12,2,2,'F');
   doc.setFont('helvetica','bold');
-  doc.setFontSize(10);
-  doc.setTextColor(0,208,132);
-  doc.text(`N° ${String(nroRemito).slice(-6).padStart(6,'0')}`,W-M,17,{align:'right'});
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(8);
-  doc.setTextColor(90,122,106);
-  doc.text(`${ultimoRegistro.fecha}  ${ultimoRegistro.hora_descarga}`,W-M,23,{align:'right'});
-
-  y=50;
-
-  // ── REMATE ──
-  doc.setFillColor(10,20,16);
-  doc.roundedRect(M,y,W-M*2,14,3,3,'F');
-  doc.setDrawColor(26,51,40);
-  doc.setLineWidth(0.3);
-  doc.roundedRect(M,y,W-M*2,14,3,3,'S');
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(7);
-  doc.setTextColor(90,122,106);
-  doc.text('REMATE',M+5,y+5);
   doc.setFontSize(11);
-  doc.setTextColor(224,240,232);
-  doc.text(ultimoRegistro.remate||'—',M+5,y+11);
-  y+=22;
+  doc.setTextColor(255,255,255);
+  doc.text(`N° ${String(nroRemito).slice(-6).padStart(6,'0')}`,W-M-22,32,{align:'center'});
 
-  // ── Sección Identificación + Transporte ──
-  function seccion(titulo){
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(7);
-    doc.setTextColor(0,208,132);
-    doc.text(titulo,M,y);
-    doc.setDrawColor(26,51,40);
-    doc.setLineWidth(0.3);
-    doc.line(M+doc.getTextWidth(titulo)+2,y-0.5,W-M,y-0.5);
-    y+=6;
-  }
+  let y=62;
 
-  function campo(label,valor,x,w){
-    doc.setFillColor(13,26,20);
-    doc.roundedRect(x,y-4,w,12,2,2,'F');
-    doc.setDrawColor(26,51,40);
-    doc.setLineWidth(0.2);
-    doc.roundedRect(x,y-4,w,12,2,2,'S');
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(7);
-    doc.setTextColor(90,122,106);
-    doc.text(label,x+3,y+0.5);
-    doc.setFontSize(10);
-    doc.setTextColor(224,240,232);
-    doc.text(String(valor||'—'),x+3,y+6.5);
-  }
+  // ══ BLOQUE REMATE + FECHA ══
+  // Fondo gris muy suave
+  doc.setFillColor(245,248,246);
+  doc.roundedRect(M,y,W-M*2,22,3,3,'F');
+  doc.setDrawColor(200,220,210);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(M,y,W-M*2,22,3,3,'S');
 
-  const colW=(W-M*2-6)/2;
+  // Borde izquierdo verde
+  doc.setFillColor(0,180,100);
+  doc.roundedRect(M,y,3,22,1.5,1.5,'F');
 
-  seccion('IDENTIFICACIÓN');
-  campo('NRO. DTE',ultimoRegistro.nro_dte,M,colW);
-  campo('PRODUCTOR / PROCEDENCIA',ultimoRegistro.productor,M+colW+6,colW);
-  y+=18;
-
-  seccion('TRANSPORTE');
-  campo('TRANSPORTISTA',ultimoRegistro.transportista,M,colW);
-  campo('PATENTE',ultimoRegistro.patente,M+colW+6,colW);
-  y+=18;
-
-  // ── HORA DESCARGA ──
-  doc.setFillColor(30,60,20);
-  doc.roundedRect(M,y-4,W-M*2,14,3,3,'F');
-  doc.setDrawColor(0,208,132);
-  doc.setLineWidth(0.4);
-  doc.roundedRect(M,y-4,W-M*2,14,3,3,'S');
   doc.setFont('helvetica','bold');
   doc.setFontSize(7);
-  doc.setTextColor(0,208,132);
-  doc.text('HORA DE DESCARGA',M+5,y+1);
-  doc.setFontSize(16);
-  doc.setTextColor(215,165,59);
-  doc.text(`${ultimoRegistro.hora_descarga}  —  ${ultimoRegistro.fecha}`,M+5,y+9);
+  doc.setTextColor(120,150,135);
+  doc.text('EVENTO / REMATE',M+7,y+7);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(12);
+  doc.setTextColor(10,50,30);
+  doc.text(ultimoRegistro.remate||'—',M+7,y+15);
+
+  // Fecha y hora a la derecha
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7);
+  doc.setTextColor(120,150,135);
+  doc.text('FECHA / HORA DE DESCARGA',W-M-3,y+7,{align:'right'});
+  doc.setFontSize(14);
+  doc.setTextColor(160,110,20);
+  doc.text(`${ultimoRegistro.hora_descarga}  ·  ${ultimoRegistro.fecha}`,W-M-3,y+15,{align:'right'});
+
+  y+=30;
+
+  // ══ FUNCIÓN BLOQUE DE DATOS ══
+  function bloque(label,valor,x,w,highlight=false){
+    if(highlight){
+      doc.setFillColor(240,255,248);
+      doc.setDrawColor(0,180,100);
+    }else{
+      doc.setFillColor(248,250,249);
+      doc.setDrawColor(210,225,218);
+    }
+    doc.setLineWidth(0.3);
+    doc.roundedRect(x,y,w,16,2,2,'F');
+    doc.roundedRect(x,y,w,16,2,2,'S');
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(130,160,145);
+    doc.text(label,x+4,y+5.5);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(9.5);
+    doc.setTextColor(15,40,25);
+    const txt=String(valor||'—');
+    const maxW=w-8;
+    doc.text(txt.length>30?txt.substring(0,28)+'…':txt,x+4,y+12);
+  }
+
+  // Identificación
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7);
+  doc.setTextColor(0,140,80);
+  doc.text('▸  IDENTIFICACIÓN',M,y-3);
+  doc.setDrawColor(0,180,100);
+  doc.setLineWidth(0.5);
+  doc.line(M+36,y-3.5,W-M,y-3.5);
+
+  const hw=(W-M*2-6)/2;
+  bloque('NRO. DTE',ultimoRegistro.nro_dte,M,hw,!!ultimoRegistro.nro_dte);
+  bloque('PRODUCTOR / PROCEDENCIA',ultimoRegistro.productor,M+hw+6,hw);
   y+=22;
 
-  // ── CATEGORÍAS ──
-  seccion('HACIENDA POR CATEGORÍA');
+  // Transporte
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7);
+  doc.setTextColor(0,140,80);
+  doc.text('▸  TRANSPORTE',M,y-3);
+  doc.setDrawColor(0,180,100);
+  doc.setLineWidth(0.5);
+  doc.line(M+31,y-3.5,W-M,y-3.5);
+
+  bloque('TRANSPORTISTA',ultimoRegistro.transportista,M,hw);
+  bloque('PATENTE',ultimoRegistro.patente,M+hw+6,hw);
+  y+=22;
+
+  // ══ CATEGORÍAS ══
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7);
+  doc.setTextColor(0,140,80);
+  doc.text('▸  DETALLE DE HACIENDA',M,y-3);
+  doc.setDrawColor(0,180,100);
+  doc.setLineWidth(0.5);
+  doc.line(M+45,y-3.5,W-M,y-3.5);
+
   const cats=Object.entries(ultimoRegistro.categorias||{}).filter(([,v])=>v>0);
   if(cats.length>0){
-    const catW=(W-M*2-(cats.length-1)*4)/cats.length;
+    const cols=Math.min(cats.length,4);
+    const catW=(W-M*2-(cols-1)*4)/cols;
+    let cx=M,row=0;
     cats.forEach(([cat,cant],i)=>{
-      const cx=M+i*(catW+4);
-      doc.setFillColor(13,26,20);
-      doc.roundedRect(cx,y-4,catW,18,2,2,'F');
-      doc.setDrawColor(0,208,132);
+      if(i>0&&i%4===0){y+=28;cx=M;row++;}
+      // Card categoria
+      doc.setFillColor(245,252,248);
+      doc.roundedRect(cx,y,catW,22,2,2,'F');
+      doc.setDrawColor(180,220,200);
       doc.setLineWidth(0.3);
-      doc.roundedRect(cx,y-4,catW,18,2,2,'S');
+      doc.roundedRect(cx,y,catW,22,2,2,'S');
+      // Top strip verde por cantidad
+      doc.setFillColor(0,180,100);
+      doc.roundedRect(cx,y,catW,4,2,2,'F');
+      doc.rect(cx,y+2,catW,2,'F');
+
       doc.setFont('helvetica','bold');
-      doc.setFontSize(7);
-      doc.setTextColor(90,122,106);
-      doc.text(cat.toUpperCase(),cx+catW/2,y+1,{align:'center'});
-      doc.setFontSize(18);
-      doc.setTextColor(224,240,232);
-      doc.text(String(cant),cx+catW/2,y+12,{align:'center'});
+      doc.setFontSize(6.5);
+      doc.setTextColor(255,255,255);
+      doc.text(cat.toUpperCase(),cx+catW/2,y+3,{align:'center'});
+
+      doc.setFontSize(20);
+      doc.setTextColor(10,60,35);
+      doc.text(String(cant),cx+catW/2,y+17,{align:'center'});
+      cx+=catW+4;
     });
-    y+=26;
-  }
-
-  // ── TOTAL ──
-  doc.setFillColor(0,40,20);
-  doc.roundedRect(M,y-2,W-M*2,18,3,3,'F');
-  doc.setDrawColor(0,208,132);
-  doc.setLineWidth(0.5);
-  doc.roundedRect(M,y-2,W-M*2,18,3,3,'S');
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(10);
-  doc.setTextColor(90,122,106);
-  doc.text('TOTAL CABEZAS',M+8,y+7);
-  doc.setFontSize(22);
-  doc.setTextColor(0,208,132);
-  doc.text(String(ultimoRegistro.total_cabezas||0),W-M-8,y+12,{align:'right'});
-  y+=26;
-
-  // ── OBSERVACIONES ──
-  if(ultimoRegistro.observaciones){
-    seccion('OBSERVACIONES');
-    doc.setFillColor(13,26,20);
-    doc.roundedRect(M,y-4,W-M*2,16,2,2,'F');
-    doc.setDrawColor(26,51,40);
-    doc.setLineWidth(0.2);
-    doc.roundedRect(M,y-4,W-M*2,16,2,2,'S');
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(9);
-    doc.setTextColor(200,220,210);
-    const lines=doc.splitTextToSize(ultimoRegistro.observaciones,W-M*2-8);
-    doc.text(lines,M+4,y+3);
+    y+=30;
+  }else{
+    doc.setFillColor(248,250,249);
+    doc.roundedRect(M,y,W-M*2,16,2,2,'F');
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(160,180,170);
+    doc.text('Sin detalle por categoría',W/2,y+10,{align:'center'});
     y+=22;
   }
 
-  // ── Footer ──
-  doc.setFillColor(5,10,8);
-  doc.rect(0,280,W,17,'F');
-  doc.setFillColor(0,208,132);
-  doc.rect(0,280,4,17,'F');
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(7);
-  doc.setTextColor(90,122,106);
-  doc.text('DARWASH SA — Vicuña Mackenna, Córdoba, Argentina',M,288);
-  doc.text(`Generado: ${new Date().toLocaleString('es-AR')}`,W-M,288,{align:'right'});
-  doc.setTextColor(0,208,132);
-  doc.text(`Remito N° ${String(nroRemito).slice(-6).padStart(6,'0')}`,W/2,288,{align:'center'});
+  // ══ TOTAL ══
+  doc.setFillColor(2,40,25);
+  doc.roundedRect(M,y,W-M*2,20,3,3,'F');
+  doc.setFillColor(0,180,100);
+  doc.roundedRect(M,y,3,20,1.5,1.5,'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(100,200,150);
+  doc.text('TOTAL CABEZAS INGRESADAS',M+8,y+8);
+  doc.setFontSize(20);
+  doc.setTextColor(255,255,255);
+  doc.text(String(ultimoRegistro.total_cabezas||0),W-M-5,y+14,{align:'right'});
+  y+=28;
 
-  doc.save(`Remito_Ingreso_${String(nroRemito).slice(-6)}.pdf`);
+  // ══ OBSERVACIONES ══
+  if(ultimoRegistro.observaciones){
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.setTextColor(0,140,80);
+    doc.text('▸  OBSERVACIONES',M,y-3);
+    doc.setDrawColor(0,180,100);doc.setLineWidth(0.5);
+    doc.line(M+36,y-3.5,W-M,y-3.5);
+    doc.setFillColor(255,253,240);
+    doc.setDrawColor(200,180,100);doc.setLineWidth(0.3);
+    doc.roundedRect(M,y,W-M*2,18,2,2,'F');
+    doc.roundedRect(M,y,W-M*2,18,2,2,'S');
+    doc.setFillColor(185,140,40);
+    doc.roundedRect(M,y,3,18,1.5,1.5,'F');
+    doc.setFont('helvetica','italic');doc.setFontSize(9);doc.setTextColor(80,60,10);
+    const lines=doc.splitTextToSize(ultimoRegistro.observaciones,W-M*2-12);
+    doc.text(lines,M+7,y+7);
+    y+=26;
+  }
+
+  // ══ FOOTER ══
+  // Línea dorada
+  doc.setFillColor(185,140,40);
+  doc.rect(0,275,W,1.5,'F');
+
+  doc.setFillColor(2,40,25);
+  doc.rect(0,276.5,W,20.5,'F');
+
+  doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(100,200,150);
+  doc.text('DARWASH SA  ·  Vicuña Mackenna, Córdoba, Argentina',M,285);
+  doc.text(`Generado: ${new Date().toLocaleString('es-AR')}`,W-M,285,{align:'right'});
+
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(0,200,120);
+  doc.text(`Remito N° ${String(nroRemito).slice(-6).padStart(6,'0')}`,W/2,285,{align:'center'});
+
+  doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(60,120,80);
+  doc.text('Documento interno — Darwash SA  ·  SIGSA / SENASA',W/2,291,{align:'center'});
+
+  doc.save(`Remito_Darwash_${String(nroRemito).slice(-6)}.pdf`);
 }
 
 function compartirWhatsApp(){
   if(!ultimoRegistro)return;
-  const cats=Object.entries(ultimoRegistro.categorias||{})
-    .filter(([,v])=>v>0)
-    .map(([k,v])=>`  • ${k}: ${v}`)
-    .join('\n');
+  const cats=Object.entries(ultimoRegistro.categorias||{}).filter(([,v])=>v>0).map(([k,v])=>`  • ${k}: ${v}`).join('\n');
   const msg=`🐄 *REMITO DE INGRESO — DARWASH SA*\n`
     +`━━━━━━━━━━━━━━━━━━\n`
     +`📅 ${ultimoRegistro.fecha}  🕐 ${ultimoRegistro.hora_descarga}\n`
@@ -471,16 +478,10 @@ function compartirWhatsApp(){
 
 function nuevoRegistro(){
   document.getElementById('success-overlay').classList.remove('show');
-  document.getElementById('nro-dte').value='';
-  document.getElementById('productor').value='';
-  document.getElementById('transportista').value='';
-  document.getElementById('patente').value='';
-  document.getElementById('obs').value='';
+  ['nro-dte','productor','transportista','patente','obs'].forEach(id=>document.getElementById(id).value='');
   document.querySelectorAll('#cat-grid input').forEach(i=>i.value='');
-  calcTotal();
-  horaManual=null;
+  calcTotal();horaManual=null;ultimoRegistro=null;
   document.getElementById('hora-input-wrap').style.display='none';
-  ultimoRegistro=null;
 }
 
 async function renderHistorial(){
@@ -494,13 +495,8 @@ async function renderHistorial(){
       const cats=Object.entries(r.categorias||{}).map(([k,v])=>`<span class="hist-cat">${k}: ${v}</span>`).join('');
       return `<div class="hist-item">
         <div class="hist-header">
-          <div>
-            <div class="hist-hora">🕐 ${r.hora_descarga} — ${r.fecha}</div>
-            <div class="hist-meta">
-              ${r.nro_dte?`📄 DTE: ${r.nro_dte}<br>`:''}
-              ${r.productor?`👤 ${r.productor}<br>`:''}
-              ${r.transportista?`🚛 ${r.transportista}${r.patente?' · '+r.patente:''}`:''}</div>
-          </div>
+          <div><div class="hist-hora">🕐 ${r.hora_descarga} — ${r.fecha}</div>
+          <div class="hist-meta">${r.nro_dte?`📄 DTE: ${r.nro_dte}<br>`:''}${r.productor?`👤 ${r.productor}<br>`:''}${r.transportista?`🚛 ${r.transportista}${r.patente?' · '+r.patente:''}`:''}</div></div>
           <div class="hist-total">${r.total_cabezas} cab.</div>
         </div>
         ${cats?`<div class="hist-cats">${cats}</div>`:''}
