@@ -262,6 +262,44 @@ async function guardar(){
   }else{alert('Error al guardar. Verificá tu conexión.');}
 }
 
+async function subirPDFStorage(pdfBlob, filename){
+  try{
+    const url=`${SB_URL}/storage/v1/object/remitos/${filename}`;
+    const r=await fetch(url,{
+      method:'POST',
+      headers:{
+        'apikey':SB_KEY,
+        'Authorization':`Bearer ${SB_KEY}`,
+        'Content-Type':'application/pdf',
+        'x-upsert':'true'
+      },
+      body:pdfBlob
+    });
+    if(r.ok){
+      // Return public URL
+      return `${SB_URL}/storage/v1/object/public/remitos/${filename}`;
+    }
+    return null;
+  }catch(e){
+    console.error('Error subiendo PDF:',e);
+    return null;
+  }
+}
+
+async function guardarURLenSupabase(id, pdfUrl){
+  try{
+    await fetch(`${SB_URL}/rest/v1/ingresos_hacienda?id=eq.${id}`,{
+      method:'PATCH',
+      headers:{
+        'apikey':SB_KEY,
+        'Authorization':`Bearer ${SB_KEY}`,
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({pdf_url:pdfUrl})
+    });
+  }catch(e){console.error('Error guardando URL:',e);}
+}
+
 function generarPDF(){
   if(!ultimoRegistro)return;
   const{jsPDF}=window.jspdf;
@@ -538,7 +576,28 @@ function generarPDF(){
   doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(60,120,80);
   doc.text('Documento interno — Darwash SA  ·  SIGSA / SENASA',W/2,291,{align:'center'});
 
-  doc.save(`Remito_Darwash_${String(nroRemito).slice(-6)}.pdf`);
+  const filename=`Remito_Darwash_${String(nroRemito).slice(-6).padStart(6,'0')}.pdf`;
+
+  // Save locally
+  doc.save(filename);
+
+  // Also upload to Supabase Storage as backup
+  try{
+    const pdfBlob=doc.output('blob');
+    const btn=document.querySelector('.btn-pdf');
+    if(btn){btn.textContent='📤 Subiendo respaldo...';}
+    const pdfUrl=await subirPDFStorage(pdfBlob,filename);
+    if(pdfUrl&&ultimoRegistro&&ultimoRegistro.id){
+      await guardarURLenSupabase(ultimoRegistro.id,pdfUrl);
+      ultimoRegistro.pdf_url=pdfUrl;
+      if(btn){btn.textContent='✅ PDF guardado como respaldo';}
+      setTimeout(()=>{if(btn)btn.textContent='📄 Descargar Remito PDF';},3000);
+    }else{
+      if(btn){btn.textContent='📄 Descargar Remito PDF';}
+    }
+  }catch(e){
+    console.error('Error subiendo PDF:',e);
+  }
 }
 
 function compartirWhatsApp(){
