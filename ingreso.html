@@ -310,11 +310,13 @@ async function guardar(){
       try{
         const fotoUrls=await subirFotos(res.id);
         if(Object.keys(fotoUrls).length>0){
-          await fetch(`${SB_URL}/rest/v1/ingresos_hacienda?id=eq.${res.id}`,{
+          const patchFotos=await fetch(`${SB_URL}/rest/v1/ingresos_hacienda?id=eq.${res.id}`,{
             method:'PATCH',
-            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
             body:JSON.stringify({fotos:fotoUrls})
           });
+          if(!patchFotos.ok){const err=await patchFotos.text();console.error('PATCH fotos error:',patchFotos.status,err);}
+          else{console.log('✓ Fotos guardadas en tabla');}
           ultimoRegistro.fotos=fotoUrls;
         }
       }catch(e){console.error('Error subiendo fotos:',e);}
@@ -358,15 +360,18 @@ async function subirPDFStorage(pdfBlob, filename){
 
 async function guardarURLenSupabase(id, pdfUrl){
   try{
-    await fetch(`${SB_URL}/rest/v1/ingresos_hacienda?id=eq.${id}`,{
+    const r=await fetch(`${SB_URL}/rest/v1/ingresos_hacienda?id=eq.${id}`,{
       method:'PATCH',
       headers:{
         'apikey':SB_KEY,
         'Authorization':`Bearer ${SB_KEY}`,
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Prefer':'return=minimal'
       },
       body:JSON.stringify({pdf_url:pdfUrl})
     });
+    if(!r.ok){const err=await r.text();console.error('PATCH pdf_url error:',r.status,err);}
+    else{console.log('✓ pdf_url guardado en tabla:', pdfUrl.slice(-20));}
   }catch(e){console.error('Error guardando URL:',e);}
 }
 
