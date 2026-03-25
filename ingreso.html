@@ -327,6 +327,8 @@ DTE: ${dte}`:'')+(nFotos>0?`
 ${nFotos} foto${nFotos>1?'s':''} adjunta${nFotos>1?'s':''}` :'');
     document.getElementById('success-overlay').classList.add('show');
     renderHistorial();
+    // Auto-generate and upload PDF silently
+    setTimeout(async()=>{try{await generarPDF(true);}catch(e){console.error('Auto PDF:',e);}},600);
   }else{alert('Error al guardar. Verificá tu conexión.');}
 }
 
@@ -368,7 +370,7 @@ async function guardarURLenSupabase(id, pdfUrl){
   }catch(e){console.error('Error guardando URL:',e);}
 }
 
-async function generarPDF(){
+async function generarPDF(soloSubir=false){
   if(!ultimoRegistro)return;
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
@@ -646,8 +648,8 @@ async function generarPDF(){
 
   const filename=`Remito_Darwash_${String(nroRemito).slice(-6).padStart(6,'0')}.pdf`;
 
-  // Save locally
-  doc.save(filename);
+  // Save locally (skip if auto-upload mode)
+  if(!soloSubir) doc.save(filename);
 
   // Also upload to Supabase Storage as backup
   try{
