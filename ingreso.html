@@ -218,15 +218,24 @@ function borrarFoto(idx){fotosData.splice(idx,1);renderFotoPreviews();}
 
 async function subirFotos(registroId){
   const urls={};
+  console.log('[FOTOS] Subiendo',fotosData.length,'fotos para registro',registroId);
   for(let i=0;i<fotosData.length;i++){
     const{file}=fotosData[i];
     try{
       const ext=file.name.split('.').pop()||'jpg';
       const filename=`${registroId}_foto${i+1}.${ext}`;
-      const r=await fetch(`${SB_URL}/storage/v1/object/remitos/${filename}`,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':file.type||'image/jpeg','x-upsert':'true'},body:file});
+      console.log('[FOTOS] Subiendo:',filename,'tipo:',file.type,'tamaño:',file.size);
+      const r=await fetch(`${SB_URL}/storage/v1/object/remitos/${filename}`,{
+        method:'POST',
+        headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':file.type||'image/jpeg','x-upsert':'true'},
+        body:file
+      });
+      const txt=await r.text();
+      console.log('[FOTOS] Response',r.status,txt.slice(0,100));
       if(r.ok)urls[`foto${i+1}`]=`${SB_URL}/storage/v1/object/public/remitos/${filename}`;
-    }catch(e){console.error('Error foto',i,e);}
+    }catch(e){console.error('[FOTOS] Error foto',i,e);}
   }
+  console.log('[FOTOS] URLs generadas:',urls);
   return urls;
 }
 
