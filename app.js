@@ -184,6 +184,7 @@ async function verIngresos(codigoRemate){
         +'<td style="padding:10px 14px">'+cats+'</td>'
         +'<td style="padding:10px 14px;font-size:11px;color:var(--muted);font-style:italic">'+esc(reg.observaciones||'')+'</td>'
         +(reg.pdf_url?'<td style="padding:10px 14px"><a href="'+reg.pdf_url+'" target="_blank" style="background:rgba(100,160,255,.1);border:1px solid rgba(100,160,255,.3);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:#6aabff;text-decoration:none;white-space:nowrap">📄 PDF</a></td>':'<td style="padding:10px 14px;color:var(--muted);font-size:11px">—</td>')
+        +(reg.fotos&&Object.keys(reg.fotos).length>0?'<td style="padding:8px 14px"><div style="display:flex;gap:4px;flex-wrap:wrap">'+Object.values(reg.fotos).map(url=>'<a href="'+url+'" target="_blank"><img src="'+url+'" style="width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid rgba(0,208,132,.3)"/></a>').join('')+'</div></td>':'<td style="padding:10px 14px;color:var(--muted);font-size:11px">—</td>')
         +'</tr>';
     }).join('');
     modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div>'
@@ -201,7 +202,7 @@ async function verIngresos(codigoRemate){
       +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Transporte</th>'
       +'<th style="padding:10px 14px;text-align:right;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Cab.</th>'
       +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Categorías</th>'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Obs.</th>'+'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">PDF</th>'
+      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Obs.</th>'+'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">PDF</th>'+'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Fotos</th>'
       +'</tr></thead><tbody>'+rows+'</tbody></table></div>';
     document.getElementById('closeModal').onclick=closeDetalle;
   }catch(e){
