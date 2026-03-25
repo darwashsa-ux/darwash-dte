@@ -223,8 +223,8 @@ async function subirFotos(registroId){
     try{
       const ext=file.name.split('.').pop()||'jpg';
       const filename=`${registroId}_foto${i+1}.${ext}`;
-      const r=await fetch(`${SB_URL}/storage/v1/object/remitos/fotos/${filename}`,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':file.type||'image/jpeg','x-upsert':'true'},body:file});
-      if(r.ok)urls[`foto${i+1}`]=`${SB_URL}/storage/v1/object/public/remitos/fotos/${filename}`;
+      const r=await fetch(`${SB_URL}/storage/v1/object/remitos/${filename}`,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':file.type||'image/jpeg','x-upsert':'true'},body:file});
+      if(r.ok)urls[`foto${i+1}`]=`${SB_URL}/storage/v1/object/public/remitos/${filename}`;
     }catch(e){console.error('Error foto',i,e);}
   }
   return urls;
