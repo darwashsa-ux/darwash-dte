@@ -300,7 +300,7 @@ async function guardarURLenSupabase(id, pdfUrl){
   }catch(e){console.error('Error guardando URL:',e);}
 }
 
-function generarPDF(){
+async function generarPDF(){
   if(!ultimoRegistro)return;
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
