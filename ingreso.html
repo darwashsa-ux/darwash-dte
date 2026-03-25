@@ -101,6 +101,11 @@
     <div class="hora-edit">Editar</div>
   </div>
   <div id="hora-input-wrap"><input type="time" id="hora-manual" oninput="onHoraManual(this.value)"/></div>
+  <div class="section-label">Fotos de respaldo</div>
+  <div class="foto-grid" id="foto-grid"></div>
+  <div class="foto-counter" id="foto-counter">0 fotos seleccionadas</div>
+  <input type="file" id="foto-input" accept="image/*" capture="environment" style="display:none" onchange="onFotoSeleccionada(this)"/>
+
   <div class="section-label">Firma del Transportista</div>
   <div class="firma-wrap">
     <canvas id="firma-canvas" class="firma-canvas"></canvas>
@@ -153,7 +158,7 @@ async function sbSelect(tabla,filtros={}){
   return r.json();
 }
 
-function init(){renderCatGrid();iniciarReloj();cargarRemates();initFirma();}
+function init(){renderCatGrid();iniciarReloj();cargarRemates();initFirma();initFotos();}
 
 let firmaCanvas,firmaCtx,firmando=false,firmaVacia=true;
 
@@ -185,6 +190,84 @@ function initFirma(){
   firmaCanvas.addEventListener('touchmove',e=>{e.preventDefault();if(!firmando)return;const p=getPos(e);firmaCtx.lineTo(p.x,p.y);firmaCtx.stroke();firmaVacia=false;document.getElementById('firma-status').textContent='Firma registrada ✓';},{passive:false});
   firmaCanvas.addEventListener('touchend',()=>firmando=false);
 }
+
+const FOTO_SLOTS=[
+  {id:'hacienda',icon:'🐄',label:'Hacienda'},
+  {id:'dte',icon:'📄',label:'DTE / Doc.'},
+  {id:'camion',icon:'🚛',label:'Camión'},
+  {id:'patente',icon:'🔢',label:'Patente'},
+  {id:'extra1',icon:'📸',label:'Extra 1'},
+  {id:'extra2',icon:'📸',label:'Extra 2'},
+];
+let fotosData={};
+let fotoSlotActivo=null;
+
+function initFotos(){
+  const grid=document.getElementById('foto-grid');
+  grid.innerHTML=FOTO_SLOTS.map(s=>`
+    <div class="foto-slot" id="slot-${s.id}" onclick="abrirFoto('${s.id}')">
+      <div class="foto-icon">${s.icon}</div>
+      <div class="foto-label">${s.label}</div>
+      <button class="foto-del" onclick="event.stopPropagation();borrarFoto('${s.id}')">✕</button>
+    </div>`).join('');
+}
+
+function abrirFoto(slotId){
+  fotoSlotActivo=slotId;
+  const input=document.getElementById('foto-input');
+  input.value='';
+  input.click();
+}
+
+function onFotoSeleccionada(input){
+  if(!input.files||!input.files[0]||!fotoSlotActivo)return;
+  const file=input.files[0];
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const dataUrl=e.target.result;
+    fotosData[fotoSlotActivo]={dataUrl,file};
+    const slot=document.getElementById(`slot-${fotoSlotActivo}`);
+    slot.classList.add('has-foto');
+    let img=slot.querySelector('img');
+    if(!img){img=document.createElement('img');slot.insertBefore(img,slot.firstChild);}
+    img.src=dataUrl;
+    actualizarContadorFotos();
+  };
+  reader.readAsDataURL(file);
+}
+
+function borrarFoto(slotId){
+  delete fotosData[slotId];
+  const slot=document.getElementById(`slot-${slotId}`);
+  slot.classList.remove('has-foto');
+  const img=slot.querySelector('img');
+  if(img)img.remove();
+  actualizarContadorFotos();
+}
+
+function actualizarContadorFotos(){
+  const n=Object.keys(fotosData).length;
+  document.getElementById('foto-counter').textContent=n===0?'0 fotos seleccionadas':`${n} foto${n>1?'s':''} seleccionada${n>1?'s':''}`;
+}
+
+async function subirFotos(registroId){
+  const urls={};
+  for(const[slotId,{file}]of Object.entries(fotosData)){
+    try{
+      const ext=file.name.split('.').pop()||'jpg';
+      const filename=`${registroId}_${slotId}.${ext}`;
+      const r=await fetch(`${SB_URL}/storage/v1/object/remitos/fotos/${filename}`,{
+        method:'POST',
+        headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':file.type||'image/jpeg','x-upsert':'true'},
+        body:file
+      });
+      if(r.ok)urls[slotId]=`${SB_URL}/storage/v1/object/public/remitos/fotos/${filename}`;
+    }catch(e){console.error('Error foto',slotId,e);}
+  }
+  return urls;
+}
+
+function limpiarFotos(){fotosData={};initFotos();actualizarContadorFotos();}
 
 function limpiarFirma(){
   firmaCtx.clearRect(0,0,firmaCanvas.width,firmaCanvas.height);
@@ -256,7 +339,29 @@ async function guardar(){
   if(res){
     ultimoRegistro={...res,fecha,hora_descarga:hora,nro_dte:dte,productor:prod,transportista:trans,patente:pat,categorias:cats,total_cabezas:total,observaciones:obs,remate:remateActual,firma:getFirmaDataURL()};
     nroRemito=res.id||Date.now();
-    document.getElementById('success-sub').textContent=`${fecha} a las ${hora}`+(total>0?`\n${total} cabezas`:'')+(dte?`\nDTE: ${dte}`:'');
+
+    // Upload photos in background
+    const nFotos=Object.keys(fotosData).length;
+    if(nFotos>0&&res.id){
+      btn.disabled=true;btn.textContent=`Subiendo ${nFotos} foto${nFotos>1?'s':''}...`;
+      try{
+        const fotoUrls=await subirFotos(res.id);
+        if(Object.keys(fotoUrls).length>0){
+          await fetch(`${SB_URL}/rest/v1/ingresos_hacienda?id=eq.${res.id}`,{
+            method:'PATCH',
+            headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json'},
+            body:JSON.stringify({fotos:fotoUrls})
+          });
+          ultimoRegistro.fotos=fotoUrls;
+        }
+      }catch(e){console.error('Error subiendo fotos:',e);}
+      btn.disabled=false;btn.textContent='✓ Registrar Ingreso';
+    }
+
+    document.getElementById('success-sub').textContent=`${fecha} a las ${hora}`+(total>0?`
+${total} cabezas`:'')+(dte?`
+DTE: ${dte}`:'')+(nFotos>0?`
+${nFotos} foto${nFotos>1?'s':''} adjunta${nFotos>1?'s':''}` :'');
     document.getElementById('success-overlay').classList.add('show');
     renderHistorial();
   }else{alert('Error al guardar. Verificá tu conexión.');}
@@ -625,6 +730,7 @@ function nuevoRegistro(){
   calcTotal();horaManual=null;ultimoRegistro=null;
   document.getElementById('hora-input-wrap').style.display='none';
   limpiarFirma();
+  limpiarFotos();
 }
 
 async function renderHistorial(){
