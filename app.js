@@ -33,6 +33,14 @@ function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=docume
 function renderDtes(){
   const wrap=document.createElement('div');
   let q='',cons='todas',est='todos',periodo='7d',fechaDesde='',fechaHasta='';
+  let sortKey=null,sortDir='asc';
+
+  const COLS=[
+    ['consignataria','Consignataria'],['nro_dte','Nro. DTE'],['emisor_nombre','Emisor'],
+    ['emisor_cuit','CUIT Emisor'],['renspa_origen','RENSPA Origen'],['receptor_nombre','Receptor'],
+    ['receptor_cuit','CUIT Receptor'],['renspa_destino','RENSPA Destino'],['tipo','Tipo'],
+    ['estado','Estado'],['fecha_carga','Carga'],['fecha_vencimiento','Vencimiento'],[null,'']
+  ];
 
   function parseFecha(str){
     if(!str) return null;
@@ -59,6 +67,11 @@ function renderDtes(){
   }
 
   function draw(){
+    // Capturar foco y cursor ANTES de tocar el DOM
+    const activeId=document.activeElement&&wrap.contains(document.activeElement)?document.activeElement.id:null;
+    const selStart=activeId==='q'&&document.activeElement.selectionStart!=null?document.activeElement.selectionStart:0;
+    const selEnd  =activeId==='q'&&document.activeElement.selectionEnd  !=null?document.activeElement.selectionEnd  :0;
+
     const all=DATOS_DTES.dtes||[];
     const {desde,hasta}=getDesdeHasta();
 
@@ -76,6 +89,23 @@ function renderDtes(){
 
     if(q){const s=q.toLowerCase(); rows=rows.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(s)));}
 
+    // Ordenar
+    if(sortKey){
+      rows=[...rows].sort((a,b)=>{
+        const av=a[sortKey]??'';
+        const bv=b[sortKey]??'';
+        const isDate=/^\d{2}\/\d{2}\/\d{4}$/.test(String(av));
+        let cmp;
+        if(isDate){
+          const toYMD=s=>s.split('/').reverse().join('');
+          cmp=toYMD(String(av)).localeCompare(toYMD(String(bv)));
+        } else {
+          cmp=String(av).localeCompare(String(bv),'es',{numeric:true});
+        }
+        return sortDir==='asc'?cmp:-cmp;
+      });
+    }
+
     const consOpts=['todas',...Array.from(new Set(all.map(x=>x.consignataria).filter(Boolean)))];
     const estOpts=['todos',...Array.from(new Set(all.map(x=>x.estado).filter(Boolean)))];
     const total=all.length,vig=all.filter(x=>/vigente/i.test(x.estado||'')).length,venc=all.filter(x=>/vencido/i.test(x.estado||'')).length,anu=all.filter(x=>/anulado/i.test(x.estado||'')).length;
@@ -91,8 +121,13 @@ function renderDtes(){
       return '<tr class="'+rc+'"><td class="nowrap col-consig">'+prettyCons(d.consignataria)+'</td><td class="link dte-open nowrap numcol col-dte" data-dte="'+esc(d.nro_dte)+'">'+esc(d.nro_dte)+'</td><td>'+esc(d.emisor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.emisor_cuit)+'</td><td class="nowrap numcol" style="font-size:11px;color:var(--muted)">'+esc(d.renspa_origen||'—')+'</td><td>'+esc(d.receptor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.receptor_cuit)+'</td><td class="nowrap numcol" style="font-size:11px;color:var(--muted)">'+esc(d.renspa_destino||'—')+'</td><td class="nowrap col-tipo">'+esc(d.tipo)+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(d.estado)+'">'+esc(d.estado)+'</span></td><td class="nowrap numcol col-fecha">'+esc(d.fecha_carga)+'</td><td class="nowrap numcol col-fecha">'+esc(d.fecha_vencimiento)+'</td><td class="nowrap"><button class="ghost-btn ver-btn" data-dte="'+esc(d.nro_dte)+'">Ver detalle</button></td></tr>';
     }).join('');
 
-    // Última actualización
     const ultimaFecha=DATOS_DTES.fecha_extraccion?new Date(DATOS_DTES.fecha_extraccion).toLocaleString('es-AR'):'—';
+
+    const thHtml=COLS.map(([k,l])=>{
+      if(!k) return '<th class="nowrap"></th>';
+      const icon=sortKey===k?(sortDir==='asc'?' ↑':' ↓'):'<span style="opacity:.35"> ↕</span>';
+      return '<th class="sorter nowrap" data-sort="'+k+'" style="cursor:pointer;user-select:none">'+l+icon+'</th>';
+    }).join('');
 
     wrap.innerHTML='<div class="wrap">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">'
@@ -120,18 +155,7 @@ function renderDtes(){
       +'</select>'
       +'<span class="result-count">'+rows.length+' de '+all.length+'</span>'
       +'</div>'
-      +'<div class="table-wrap"><table><thead><tr>'
-      +'<th class="nowrap col-consig">Consignataria</th><th class="nowrap col-dte">Nro. DTE</th>'
-      +'<th>Emisor</th><th class="nowrap col-cuit">CUIT Emisor</th><th class="nowrap">RENSPA Origen</th>'
-      +'<th>Receptor</th><th class="nowrap col-cuit">CUIT Receptor</th><th class="nowrap">RENSPA Destino</th>'
-      +'<th class="nowrap col-tipo">Tipo</th><th class="nowrap col-estado">Estado</th>'
-      +'<th class="nowrap col-fecha">Carga</th><th class="nowrap col-fecha">Vencimiento</th>'
-      +'<th class="nowrap"></th>'
-      +'</tr></thead><tbody>'+rowsHtml+'</tbody></table></div></div>';
-
-    const activeId=document.activeElement&&wrap.contains(document.activeElement)?document.activeElement.id:null;
-    const selStart=activeId==='q'&&document.activeElement.selectionStart!==undefined?document.activeElement.selectionStart:0;
-    const selEnd=activeId==='q'&&document.activeElement.selectionEnd!==undefined?document.activeElement.selectionEnd:0;
+      +'<div class="table-wrap"><table><thead><tr>'+thHtml+'</tr></thead><tbody>'+rowsHtml+'</tbody></table></div></div>';
 
     const qq=wrap.querySelector('#q');
     if(qq){
@@ -146,6 +170,12 @@ function renderDtes(){
     wrap.querySelectorAll('.ver-btn,.dte-open').forEach(el=>el.onclick=function(){
       const d=(DATOS_DTES.dtes||[]).find(x=>String(x.nro_dte)===String(el.dataset.dte));
       openDetalle(d);
+    });
+    wrap.querySelectorAll('.sorter').forEach(th=>th.onclick=function(){
+      const k=this.dataset.sort;
+      if(sortKey===k){sortDir=sortDir==='asc'?'desc':'asc';}
+      else{sortKey=k;sortDir='asc';}
+      draw();
     });
   }
   draw(); return wrap;
