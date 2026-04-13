@@ -3,7 +3,18 @@ let DATOS_REMATES = {};
 const USUARIOS = {"leoqui1991@gmail.com": {"pass": "36604114", "nombre": "Leo", "mustChange": false}, "lorenzolavaselli@gmail.com": {"pass": "123456", "nombre": "Lorenzo", "mustChange": true}, "fernandodavidurcelay@gmail.com": {"pass": "123456", "nombre": "Fernando", "mustChange": true}, "darwashsa@gmail.com": {"pass": "123456", "nombre": "Darwash SA", "mustChange": true}};
 function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return String(h);} function getUsuarios(){const base={};for(const [email,u] of Object.entries(USUARIOS))base[email]={passHash:hashStr(u.pass),nombre:u.nombre,mustChange:u.mustChange};return base;} function getSession(){try{const s=JSON.parse(localStorage.getItem('dw_session')||'null');if(s&&s.exp>Date.now())return s;}catch(e){}return null;} function setSession(email,nombre){localStorage.setItem('dw_session',JSON.stringify({email,nombre,exp:Date.now()+8*3600*1000}));} function clearSession(){localStorage.removeItem('dw_session');}
 function esc(v){return String(v??'—').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
-function badgeClass(s){s=(s||'').toLowerCase(); if(s.includes('vig')) return 'vigente'; if(s.includes('cerr')) return 'cerrado'; if(s.includes('anul')) return 'anulado'; if(s.includes('venc')) return 'vencido'; return '';}
+function normalizarEstado(s){
+  const v=(s||'').toLowerCase();
+  if(v.includes('vigente')||v==='vig') return 'VIGENTE';
+  if(v.includes('cerr')) return 'CERRADO';
+  if(v.includes('anul')) return 'ANULADO';
+  if(v.includes('elim')) return 'ELIMINADO';
+  if(v.includes('caduc')) return 'CADUCADO';
+  if(v.includes('emit')) return 'EMITIDO';
+  if(v.includes('venc')) return 'VENCIDO';
+  return (s||'').toUpperCase()||'—';
+}
+function badgeClass(s){const n=normalizarEstado(s).toLowerCase(); if(n==='vigente') return 'vigente'; if(n==='cerrado') return 'cerrado'; if(n==='anulado') return 'anulado'; if(n==='eliminado') return 'anulado'; if(n==='caducado') return 'vencido'; if(n==='vencido') return 'vencido'; if(n==='emitido') return 'vigente'; return '';}
 function consClass(v){const s=(v||'').toUpperCase(); if(s.includes('DARWASH')) return 'dar'; if(s.includes('BULLTRADE')) return 'bull'; return 'other';}
 function prettyCons(v){return '<span class="cons-chip"><span class="dot '+(consClass(v)==='dar'?'dar':consClass(v)==='bull'?'bull':'')+'"></span>'+esc(v||'-')+'</span>'}
 function abreviarCategoria(cat){const map={novillo:'NOV',novillos:'NOV',novillito:'NTO',novillitos:'NTO',vaquillona:'VQ',vaquillonas:'VQ',vaquilla:'VQ',vaquillas:'VQ',vaca:'VA',vacas:'VA',ternero:'TRO',terneros:'TRO',ternera:'TRA',terneras:'TRA',toro:'TO',toros:'TO',torito:'TTO',toritos:'TTO',mamón:'MAM',mamones:'MAM','sin categoria':'S/C'}; const k=String(cat||'').toLowerCase().trim(); return map[k] || String(cat||'').substring(0,3).toUpperCase();}
@@ -125,7 +136,7 @@ const pastHtml=pastRems.length>0
   +'</div>'
   :'';
 
-const cards=heroHtml+pastHtml; let detail=''; if(rem){ const tipos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean)))].sort(); const estados=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.estado).filter(Boolean)))].sort(); const categorias=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.categoria).filter(Boolean)))].sort(); const motivos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean)))].sort(); let rows=(rem.filas||[]).filter(f=>(tipo==='todos'||f.tipo_movimiento===tipo)&&(estado==='todos'||f.estado===estado)&&(categoria==='todos'||(f.categoria||'')===categoria)&&(motivo==='todos'||(f.motivo||'')===motivo)&&(aptoChina==='todos'||aptoChinaVal(f)===aptoChina)); if(q){const qq=q.toLowerCase(); rows=rows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ rows=[...rows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(rows); const s=sums.stats;
+const cards=heroHtml+pastHtml; let detail=''; if(rem){ const tipos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean)))].sort(); const estados=['todos',...Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean)))].sort(); const categorias=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.categoria).filter(Boolean)))].sort(); const motivos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean)))].sort(); let rows=(rem.filas||[]).filter(f=>(tipo==='todos'||f.tipo_movimiento===tipo)&&(estado==='todos'||normalizarEstado(f.estado)===estado)&&(categoria==='todos'||(f.categoria||'')===categoria)&&(motivo==='todos'||(f.motivo||'')===motivo)&&(aptoChina==='todos'||aptoChinaVal(f)===aptoChina)); if(q){const qq=q.toLowerCase(); rows=rows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ rows=[...rows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(rows); const s=sums.stats;
 
 // Alerta vacas
 const alertVaca=s.vacaFaenaNoApto>0?'<div class="stat-alert"><span>⚠</span><span>'+s.vacaFaenaNoApto+' VACAS FAENA — NO APTO CHINA</span></div>':'';
@@ -231,7 +242,7 @@ function renderDtes(){
 
     let rows=all.filter(d=>{
       if(cons!=='todas'&&(d.consignataria||'')!==cons) return false;
-      if(est!=='todos'&&(d.estado||'')!==est) return false;
+      if(est!=='todos'&&normalizarEstado(d.estado)!==est) return false;
       if(desde||hasta){
         const fc=parseFecha(d.fecha_carga);
         if(!fc) return false;
@@ -261,7 +272,7 @@ function renderDtes(){
     }
 
     const consOpts=['todas',...Array.from(new Set(all.map(x=>x.consignataria).filter(Boolean)))];
-    const estOpts=['todos',...Array.from(new Set(all.map(x=>x.estado).filter(Boolean)))];
+    const estOpts=['todos',...Array.from(new Set(all.map(x=>normalizarEstado(x.estado)).filter(Boolean))).values()].sort();
     const total=all.length,vig=all.filter(x=>/vigente/i.test(x.estado||'')).length,venc=all.filter(x=>/vencido/i.test(x.estado||'')).length,anu=all.filter(x=>/anulado/i.test(x.estado||'')).length;
 
     const periodos=[['hoy','Hoy'],['7d','7 días'],['30d','30 días'],['mes','Este mes'],['todo','Todos'],['custom','Personalizado']];
