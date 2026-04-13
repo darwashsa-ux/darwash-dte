@@ -112,7 +112,7 @@
   <div class="foto-previews" id="foto-previews"></div>
   <button class="btn-add-foto" onclick="document.getElementById('foto-input').click()">📷 Agregar foto</button>
   <div class="foto-counter" id="foto-counter"></div>
-  <input type="file" id="foto-input" accept="image/*" style="display:none" multiple onchange="onFotoSeleccionada(this)"/>
+  <input type="file" id="foto-input" accept="image/*" capture="environment" style="display:none" onchange="onFotoSeleccionada(this)"/>
 
   <div class="section-label">Firma del Transportista</div>
   <div class="firma-wrap">
