@@ -146,3 +146,15 @@ td.col-consig,td.col-dte,td.col-cuit,td.col-tipo,td.col-estado,td.col-fecha{vert
 .stat-red{color:var(--red)}
 .stat-cats{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
 .stat-alert{background:rgba(255,77,90,.13);border:1px solid rgba(255,77,90,.55);border-radius:10px;padding:9px 16px;margin-bottom:10px;display:flex;align-items:center;gap:10px;font-weight:800;color:var(--red);font-size:13px}
+
+/* ── DETALLE DTE: tabla animales ─────────────────────── */
+.det-section-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(21,48,51,.7)}
+.det-table-wrap{overflow-x:auto;margin-top:4px;border-radius:10px;border:1px solid rgba(21,48,51,.8)}
+.det-table{width:100%;border-collapse:collapse;font-size:13px}
+.det-table thead tr{background:rgba(4,38,24,.9)}
+.det-table thead th{padding:10px 14px;text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid rgba(21,48,51,.8)}
+.det-table tbody tr{border-bottom:1px solid rgba(21,48,51,.5)}
+.det-table tbody tr:last-child{border-bottom:none}
+.det-table tbody td{padding:12px 14px;color:var(--muted);font-size:13px}
+.det-table tfoot tr{background:rgba(0,208,132,.05);border-top:1px solid rgba(0,208,132,.2)}
+.det-table tfoot td{padding:10px 14px}

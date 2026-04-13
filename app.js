@@ -33,7 +33,76 @@ async function init() {
 }
 init();
 };}
-function openDetalle(d){ if(!d) return; const items=[['Consignatario',d.consignatario_nombre],['Motivo',d.motivo_detalle],['Categoría',d.categoria_detalle],['Cantidad enviados',d.cantidad_enviados],['TRI',d.nro_tri],['Guía',d.nro_guia],['Certificado faena',d.nro_certificado_faena],['Última aftosa',d.fecha_ultima_aftosa],['Anteúltima aftosa',d.fecha_anteultima_aftosa],['Última brucelosis',d.fecha_ultima_brucelosis],['Emisión detalle',d.fecha_emision_detalle],['Vencimiento detalle',d.fecha_vencimiento_detalle],['Caduca',d.fecha_caduca],['Estado detalle',d.estado_detalle],['Tipo detalle',d.tipo_movimiento_detalle]]; modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Detalle DTE</div><div class="modal-title">'+esc(d.nro_dte)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div class="grid">'+items.map(it=>'<div class="box"><div class="k">'+esc(it[0])+'</div><div class="vv">'+esc(it[1])+'</div></div>').join('')+'</div>'; modalBg.style.display='flex'; document.getElementById('closeModal').onclick=closeDetalle;}
+function openDetalle(d){
+  if(!d) return;
+
+  // ── Sección: info general ──
+  const infoItems=[
+    ['Consignatario',d.consignatario_nombre],
+    ['Tipo',d.tipo_movimiento_detalle],
+    ['Motivo',d.motivo_detalle],
+    ['Estado',d.estado_detalle],
+    ['Guía',d.nro_guia],
+    ['TRI',d.nro_tri],
+    ['Certificado faena',d.nro_certificado_faena],
+    ['Emisión',d.fecha_emision_detalle],
+    ['Vencimiento',d.fecha_vencimiento_detalle],
+    ['Caduca',d.fecha_caduca],
+  ];
+  const infoHtml='<div class="grid">'+infoItems.map(it=>'<div class="box"><div class="k">'+esc(it[0])+'</div><div class="vv">'+esc(it[1]||'—')+'</div></div>').join('')+'</div>';
+
+  // ── Sección: vacunas ──
+  const vacunas=[
+    ['Última Aftosa',d.fecha_ultima_aftosa],
+    ['Anteúltima Aftosa',d.fecha_anteultima_aftosa],
+    ['Última Brucelosis',d.fecha_ultima_brucelosis],
+  ];
+  const vacHtml='<div class="det-section-label">🩺 Datos de vacunación</div>'
+    +'<div class="grid" style="grid-template-columns:repeat(3,1fr)">'+vacunas.map(it=>'<div class="box"><div class="k">'+esc(it[0])+'</div><div class="vv" style="color:var(--amber)">'+esc(it[1]||'—')+'</div></div>').join('')+'</div>';
+
+  // ── Sección: animales movidos (tabla como SENASA) ──
+  const animales=d.animales_detalle||[];
+  let animHtml='<div class="det-section-label">🐄 Animales movidos</div>';
+  if(animales.length>0){
+    const filas=animales.map(a=>'<tr>'
+      +'<td>'+esc(a.especie||'Bovinos')+'</td>'
+      +'<td style="font-weight:700;color:var(--text)">'+esc(a.categoria||'—')+'</td>'
+      +'<td style="text-align:right;font-weight:800;color:var(--primary);font-size:16px">'+esc(a.despachados||0)+'</td>'
+      +'<td style="text-align:right;color:var(--muted)">'+esc(a.recibidos||0)+'</td>'
+      +'</tr>').join('');
+    const totDesp=animales.reduce((s,a)=>s+(a.despachados||0),0);
+    const totRec=animales.reduce((s,a)=>s+(a.recibidos||0),0);
+    animHtml+='<div class="det-table-wrap"><table class="det-table">'
+      +'<thead><tr><th>Especie</th><th>Categoría</th><th style="text-align:right">Despachados</th><th style="text-align:right">Recibidos</th></tr></thead>'
+      +'<tbody>'+filas+'</tbody>'
+      +'<tfoot><tr>'
+        +'<td colspan="2" style="font-weight:700;color:var(--muted);font-size:11px;letter-spacing:1px">TOTAL</td>'
+        +'<td style="text-align:right;font-weight:800;font-size:18px;color:var(--primary)">'+totDesp+'</td>'
+        +'<td style="text-align:right;font-weight:700;color:var(--muted)">'+totRec+'</td>'
+      +'</tr></tfoot>'
+      +'</table></div>';
+  }else if(d.cantidad_enviados){
+    // Fallback para DTEs sin detalle enriquecido aún
+    animHtml+='<div class="box" style="margin-top:4px"><div class="k">Categoría</div><div class="vv">'+esc(d.categoria_detalle||d.categoria||'—')+'</div></div>'
+      +'<div class="box"><div class="k">Cantidad enviados</div><div class="vv" style="color:var(--primary);font-size:18px;font-weight:800">'+esc(d.cantidad_enviados||0)+'</div></div>';
+  }else{
+    animHtml+='<div style="color:var(--muted);font-size:12px;padding:12px 0">Sin detalle cargado — corré el scraper para enriquecer este DTE.</div>';
+  }
+
+  modal.innerHTML=
+    '<div class="modal-head">'
+      +'<div><div class="modal-title-top">Detalle DTE</div><div class="modal-title">'+esc(d.nro_dte)+'</div></div>'
+      +'<button id="closeModal" class="modal-close">Cerrar ✕</button>'
+    +'</div>'
+    +'<div style="padding:20px 28px 28px">'
+      +infoHtml
+      +vacHtml
+      +animHtml
+    +'</div>';
+
+  modalBg.style.display='flex';
+  document.getElementById('closeModal').onclick=closeDetalle;
+}
 function closeDetalle(){modalBg.style.display='none';} modalBg.onclick=function(e){if(e.target===modalBg) closeDetalle();};
 function remateTipoClass(t){const s=String(t||'').toLowerCase(); if(s.includes('entrada')) return 'row-entrada'; if(s.includes('salida')) return 'row-salida'; return '';}
 function calcMovSummary(filas){const ingresos={total:0,categorias:{}};const egresos={total:0,categorias:{}};const stats={faena:0,invernada:0,aptoSi:0,aptoNo:0,vacaFaenaNoApto:0};(filas||[]).forEach(f=>{const cantidad=Number(f.recibido)||Number(f.enviado)||0;const cat=f.categoria||'Sin categoria';const t=String(f.tipo_movimiento||'').toLowerCase();const motivo=String(f.motivo||'').toLowerCase();const apto=String(f.apto_china||'').toLowerCase();if(t.includes('entrada')){ingresos.total+=cantidad;ingresos.categorias[cat]=(ingresos.categorias[cat]||0)+cantidad;}else if(t.includes('salida')){egresos.total+=cantidad;egresos.categorias[cat]=(egresos.categorias[cat]||0)+cantidad;}if(motivo.includes('faena'))stats.faena+=cantidad;else if(motivo.includes('invernada'))stats.invernada+=cantidad;if(/^si$/i.test(apto))stats.aptoSi+=cantidad;else if(/^no$/i.test(apto))stats.aptoNo+=cantidad;if(/vaca/i.test(cat)&&motivo.includes('faena')&&/^no$/i.test(apto))stats.vacaFaenaNoApto+=cantidad;});return{ingresos,egresos,stats};}
