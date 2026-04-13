@@ -130,40 +130,44 @@ const cards=heroHtml+pastHtml; let detail=''; if(rem){ const tipos=['todos',...A
 // Alerta vacas
 const alertVaca=s.vacaFaenaNoApto>0?'<div class="stat-alert"><span>⚠</span><span>'+s.vacaFaenaNoApto+' VACAS FAENA — NO APTO CHINA</span></div>':'';
 
-// Chips de categorías para Ingresos y Egresos
-function catChips(cats,dir){const entries=Object.entries(cats).sort((a,b)=>b[1]-a[1]);return entries.length?entries.map(([cat,cant])=>'<span class="cat-pill '+dir+'" title="'+esc(cat)+'"><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+cant+'</span></span>').join(''):'<span style="font-size:10px;color:#3a5a50">—</span>';}
+// Chips de categorías
+function catChips(cats,dir){const entries=Object.entries(cats).sort((a,b)=>b[1]-a[1]);return entries.length?entries.map(([cat,cant])=>'<span class="cat-pill '+dir+'" title="'+esc(cat)+'"><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+cant+'</span></span>').join(''):'<span style="font-size:10px;color:#2a4a3a">—</span>';}
 
-// Panel compacto unificado: 6 métricas en una fila
-const summary=alertVaca+'<div class="stats-row">'
-  +'<div class="stat-card stat-in">'
-    +'<div class="stat-label">↓ Ingresos</div>'
-    +'<div class="stat-big stat-green">'+sums.ingresos.total+'</div>'
-    +'<div class="stat-cats">'+catChips(sums.ingresos.categorias,'in')+'</div>'
-  +'</div>'
-  +'<div class="stat-card stat-out">'
-    +'<div class="stat-label">↑ Egresos</div>'
-    +'<div class="stat-big" style="color:#d07840">'+sums.egresos.total+'</div>'
-    +'<div class="stat-cats">'+catChips(sums.egresos.categorias,'out')+'</div>'
-  +'</div>'
-  +'<div class="stat-divider"></div>'
-  +'<div class="stat-card">'
-    +'<div class="stat-label">Faena</div>'
-    +'<div class="stat-big stat-red">'+s.faena+'</div>'
-  +'</div>'
-  +'<div class="stat-card">'
-    +'<div class="stat-label">Invernada</div>'
-    +'<div class="stat-big stat-green">'+s.invernada+'</div>'
-  +'</div>'
-  +'<div class="stat-divider"></div>'
-  +'<div class="stat-card">'
-    +'<div class="stat-label">🇨🇳 Apto</div>'
-    +'<div class="stat-big stat-green">'+s.aptoSi+'</div>'
-  +'</div>'
-  +'<div class="stat-card stat-noapto">'
-    +'<div class="stat-label">No Apto</div>'
-    +'<div class="stat-big stat-red">'+s.aptoNo+'</div>'
-  +'</div>'
-+'</div>'; const header='<div class="filters rem-filters"><input class="input" id="r-q" placeholder="Buscar..." value="'+esc(q)+'"><select class="select" id="r-tipo">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── TIPO ──</option><option '+(tipo==="todos"?'selected':'')+' value="todos">Todos</option>'+tipos.filter(v=>v!=='todos').map(v=>'<option '+(v===tipo?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-est">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── ESTADO ──</option><option '+(estado==="todos"?'selected':'')+' value="todos">Todos</option>'+estados.filter(v=>v!=='todos').map(v=>'<option '+(v===estado?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-cat">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── CATEGORÍA ──</option><option '+(categoria==="todos"?'selected':'')+' value="todos">Todas</option>'+categorias.filter(v=>v!=='todos').map(v=>'<option '+(v===categoria?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-motivo">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── MOTIVO ──</option><option '+(motivo==="todos"?'selected':'')+' value="todos">Todos</option>'+motivos.filter(v=>v!=='todos').map(v=>'<option '+(v===motivo?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-apto">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── APTO CHINA ──</option><option '+(aptoChina==="todos"?'selected':'')+' value="todos">Todos</option><option '+(aptoChina==="si"?'selected':'')+' value="si">Apto</option><option '+(aptoChina==="no"?'selected':'')+' value="no">No apto</option><option '+(aptoChina==="sin"?'selected':'')+' value="sin">Sin dato</option>'+'</select><span class="result-count">'+rows.length+' de '+(rem.filas||[]).length+'</span>'+'<button id="r-export" class="ghost-btn" style="margin-left:auto;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700;border-color:rgba(0,208,132,.35);color:var(--green)">⬇ Excel</button></div>'; ; const cols=[['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],['enviado','Env.'],['recibido','Rec.']]; const th=cols.map(([k,l])=>'<th data-sort="'+k+'" class="sorter">'+l+(sortKey===k?(sortDir==='asc'?' ↑':' ↓'):' ↕')+'</th>').join(''); function aptoChinaBadge(f){const v=f.apto_china||f['Apto China']||f.aptoChina; const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto'; const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no'; return {lbl,cls};} const body=rows.map(f=>{const ac=aptoChinaBadge(f); return '<tr class="'+remateTipoClass(f.tipo_movimiento)+'"><td class="nowrap col-tipo">'+esc(f.tipo_movimiento||'-')+'</td><td class="link dte-link nowrap numcol col-dte" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'-')+'</td><td>'+esc(f.emisor_nombre||'-')+'</td><td>'+esc(f.receptor_nombre||'-')+'</td><td class="nowrap">'+esc(f.categoria||'-')+'</td><td class="nowrap numcol col-fecha">'+esc(f.fecha_movimiento||'-')+'</td><td>'+esc(f.motivo||'-')+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(f.estado)+'">'+esc(f.estado||'-')+'</span></td><td class="nowrap col-apto-china"><span class="badge apto-china '+ac.cls+'">'+esc(ac.lbl)+'</span></td><td style="text-align:right" class="nowrap numcol">'+esc(f.enviado||0)+'</td><td style="text-align:right" class="nowrap numcol">'+esc(f.recibido||0)+'</td></tr>';}).join(''); detail='<div class="detail-head"><div class="section-title">'+esc(rem.codigo||'Remate')+'</div><div class="small">'+esc((rem.info||{})['Predio ferial']||'')+'</div></div>'+summary+header+'<div class="table-wrap"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'; } else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
+// Panel: 2 columnas grandes (Ing/Egr) + grilla 2x2 (Faena/Inv/Apto/NoApto)
+const summary=alertVaca
+  +'<div class="stats-panel">'
+    // Col izquierda: Ingresos
+    +'<div class="stat-main stat-main-in">'
+      +'<div class="stat-main-label">↓ INGRESOS</div>'
+      +'<div class="stat-main-num stat-green">'+sums.ingresos.total+'</div>'
+      +'<div class="stat-cats">'+catChips(sums.ingresos.categorias,'in')+'</div>'
+    +'</div>'
+    // Col centro: Egresos
+    +'<div class="stat-main stat-main-out">'
+      +'<div class="stat-main-label">↑ EGRESOS</div>'
+      +'<div class="stat-main-num" style="color:#c87838">'+sums.egresos.total+'</div>'
+      +'<div class="stat-cats">'+catChips(sums.egresos.categorias,'out')+'</div>'
+    +'</div>'
+    // Col derecha: grilla 2x2
+    +'<div class="stat-grid22">'
+      +'<div class="stat-q stat-q-faena">'
+        +'<div class="stat-q-label">Faena</div>'
+        +'<div class="stat-q-num stat-red">'+s.faena+'</div>'
+      +'</div>'
+      +'<div class="stat-q stat-q-inv">'
+        +'<div class="stat-q-label">Invernada</div>'
+        +'<div class="stat-q-num stat-green">'+s.invernada+'</div>'
+      +'</div>'
+      +'<div class="stat-q stat-q-apto">'
+        +'<div class="stat-q-label">🇨🇳 Apto</div>'
+        +'<div class="stat-q-num stat-green">'+s.aptoSi+'</div>'
+      +'</div>'
+      +'<div class="stat-q stat-q-noapto">'
+        +'<div class="stat-q-label">No Apto</div>'
+        +'<div class="stat-q-num stat-red">'+s.aptoNo+'</div>'
+      +'</div>'
+    +'</div>'
+  +'</div>'; const header='<div class="filters rem-filters"><input class="input" id="r-q" placeholder="Buscar..." value="'+esc(q)+'"><select class="select" id="r-tipo">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── TIPO ──</option><option '+(tipo==="todos"?'selected':'')+' value="todos">Todos</option>'+tipos.filter(v=>v!=='todos').map(v=>'<option '+(v===tipo?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-est">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── ESTADO ──</option><option '+(estado==="todos"?'selected':'')+' value="todos">Todos</option>'+estados.filter(v=>v!=='todos').map(v=>'<option '+(v===estado?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-cat">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── CATEGORÍA ──</option><option '+(categoria==="todos"?'selected':'')+' value="todos">Todas</option>'+categorias.filter(v=>v!=='todos').map(v=>'<option '+(v===categoria?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-motivo">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── MOTIVO ──</option><option '+(motivo==="todos"?'selected':'')+' value="todos">Todos</option>'+motivos.filter(v=>v!=='todos').map(v=>'<option '+(v===motivo?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-apto">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── APTO CHINA ──</option><option '+(aptoChina==="todos"?'selected':'')+' value="todos">Todos</option><option '+(aptoChina==="si"?'selected':'')+' value="si">Apto</option><option '+(aptoChina==="no"?'selected':'')+' value="no">No apto</option><option '+(aptoChina==="sin"?'selected':'')+' value="sin">Sin dato</option>'+'</select><span class="result-count">'+rows.length+' de '+(rem.filas||[]).length+'</span>'+'<button id="r-export" class="ghost-btn" style="margin-left:auto;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700;border-color:rgba(0,208,132,.35);color:var(--green)">⬇ Excel</button></div>'; ; const cols=[['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],['enviado','Env.'],['recibido','Rec.']]; const th=cols.map(([k,l])=>'<th data-sort="'+k+'" class="sorter">'+l+(sortKey===k?(sortDir==='asc'?' ↑':' ↓'):' ↕')+'</th>').join(''); function aptoChinaBadge(f){const v=f.apto_china||f['Apto China']||f.aptoChina; const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto'; const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no'; return {lbl,cls};} const body=rows.map(f=>{const ac=aptoChinaBadge(f); return '<tr class="'+remateTipoClass(f.tipo_movimiento)+'"><td class="nowrap col-tipo">'+esc(f.tipo_movimiento||'-')+'</td><td class="link dte-link nowrap numcol col-dte" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'-')+'</td><td>'+esc(f.emisor_nombre||'-')+'</td><td>'+esc(f.receptor_nombre||'-')+'</td><td class="nowrap">'+esc(f.categoria||'-')+'</td><td class="nowrap numcol col-fecha">'+esc(f.fecha_movimiento||'-')+'</td><td>'+esc(f.motivo||'-')+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(f.estado)+'">'+esc(f.estado||'-')+'</span></td><td class="nowrap col-apto-china"><span class="badge apto-china '+ac.cls+'">'+esc(ac.lbl)+'</span></td><td style="text-align:right" class="nowrap numcol">'+esc(f.enviado||0)+'</td><td style="text-align:right" class="nowrap numcol">'+esc(f.recibido||0)+'</td></tr>';}).join(''); detail='<div class="detail-head"><div class="section-title">'+esc(rem.codigo||'Remate')+'</div><div class="small">'+esc((rem.info||{})['Predio ferial']||'')+'</div></div>'+summary+header+'<div class="table-wrap"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'; } else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
     const hero=host.querySelector('.rem-hero');
     if(hero) hero.onclick=function(){const prev=selected;selected=Number(hero.dataset.i);if(prev!==selected){q='';tipo='todos';estado='todos';categoria='todos';motivo='todos';aptoChina='todos';}draw();};
     // Past rows click

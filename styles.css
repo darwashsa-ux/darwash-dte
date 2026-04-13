@@ -120,3 +120,29 @@ td.col-consig,td.col-dte,td.col-cuit,td.col-tipo,td.col-estado,td.col-fecha{vert
 .stat-cats{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
 .stat-divider{width:1px;background:rgba(255,255,255,.08);flex-shrink:0;margin:8px 0}
 .stat-alert{background:rgba(255,77,90,.13);border:1px solid rgba(255,77,90,.55);border-radius:10px;padding:9px 16px;margin-bottom:10px;display:flex;align-items:center;gap:10px;font-weight:800;color:var(--red);font-size:13px}
+
+/* ── STATS PANEL: 2 cols grandes + 2x2 ──────────────── */
+.stats-panel{display:grid;grid-template-columns:1fr 1fr 1.1fr;gap:0;margin-bottom:14px;border-radius:14px;overflow:hidden;border:1px solid rgba(21,48,51,.85)}
+
+/* Columnas Ingresos / Egresos */
+.stat-main{padding:16px 18px;display:flex;flex-direction:column;gap:6px;border-right:1px solid rgba(255,255,255,.05)}
+.stat-main-in{background:linear-gradient(160deg,rgba(0,210,132,.08),rgba(5,13,11,.95))}
+.stat-main-out{background:linear-gradient(160deg,rgba(200,120,56,.08),rgba(5,13,11,.95))}
+.stat-main-label{font-size:9px;letter-spacing:2px;font-weight:700;color:#3a6a5a;text-transform:uppercase}
+.stat-main-num{font-size:42px;font-weight:800;line-height:1;margin:2px 0 4px}
+
+/* Grilla 2×2 derecha */
+.stat-grid22{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;background:rgba(5,13,11,.97)}
+.stat-q{padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.stat-q-faena{border-bottom:1px solid rgba(255,255,255,.05);border-right:1px solid rgba(255,255,255,.05);background:rgba(255,77,90,.05)}
+.stat-q-inv{border-bottom:1px solid rgba(255,255,255,.05);background:rgba(0,210,132,.04)}
+.stat-q-apto{border-right:1px solid rgba(255,255,255,.05);background:rgba(0,210,132,.03)}
+.stat-q-noapto{background:rgba(255,77,90,.04)}
+.stat-q-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#3a6050;font-weight:600}
+.stat-q-num{font-size:30px;font-weight:800;line-height:1}
+
+/* Shared */
+.stat-green{color:var(--green)}
+.stat-red{color:var(--red)}
+.stat-cats{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+.stat-alert{background:rgba(255,77,90,.13);border:1px solid rgba(255,77,90,.55);border-radius:10px;padding:9px 16px;margin-bottom:10px;display:flex;align-items:center;gap:10px;font-weight:800;color:var(--red);font-size:13px}
