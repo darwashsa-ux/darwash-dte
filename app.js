@@ -419,28 +419,44 @@ function renderDtes(){
 const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 
+// ── CATEGORÍAS disponibles (igual que ingreso.html) ──────
+const CATS_INGRESO=['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ','Mamón'];
+
 async function verIngresos(codigoRemate){
   const modalBg=document.getElementById('modalBg');
   const modal=document.getElementById('modal');
-  modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Cargando registros...</div>';
-  modalBg.style.display='flex';
-  document.getElementById('closeModal').onclick=closeDetalle;
-  try{
+  const session=getSession();
+  const esLeo=session&&session.email==='leoqui1991@gmail.com';
+
+  async function cargarYRenderizar(){
+    modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Cargando registros...</div>';
+    modalBg.style.display='flex';
+    document.getElementById('closeModal').onclick=closeDetalle;
+
     const url=SB_URL+'/rest/v1/ingresos_hacienda?remate=eq.'+encodeURIComponent(codigoRemate)+'&order=ts.desc';
     const r=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
     const regs=await r.json();
+
     if(!regs||regs.length===0){
       modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Sin registros aún.<br><br><a href="ingreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:var(--primary)">→ Registrar primer ingreso</a></div>';
       document.getElementById('closeModal').onclick=closeDetalle;
       return;
     }
+
     const totalCabezas=regs.reduce((a,r)=>a+(r.total_cabezas||0),0);
     const catTotals={};
     regs.forEach(r=>{Object.entries(r.categorias||{}).forEach(([k,v])=>{catTotals[k]=(catTotals[k]||0)+v;});});
     const catPills=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span style="background:rgba(0,208,132,.1);border:1px solid rgba(0,208,132,.25);border-radius:6px;padding:2px 8px;font-size:11px">'+esc(k)+': '+v+'</span>').join(' ');
+
     const rows=regs.map(reg=>{
-      const cats=Object.entries(reg.categorias||{}).map(([k,v])=>'<span style="font-size:10px;background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:4px;padding:1px 5px">'+esc(k)+':'+v+'</span>').join(' ');
-      return '<tr style="border-bottom:1px solid rgba(15,27,28,.95)">'
+      const cats=Object.entries(reg.categorias||{}).filter(([,v])=>v>0).map(([k,v])=>'<span style="font-size:10px;background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:4px;padding:1px 5px">'+esc(k)+':'+v+'</span>').join(' ');
+      const accionesCell=esLeo
+        ?'<td style="padding:8px 10px;white-space:nowrap">'
+          +'<button class="ing-edit-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:var(--amber);border-color:rgba(215,165,59,.3);margin-right:4px">✏️ Editar</button>'
+          +'<button class="ing-del-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:var(--red);border-color:rgba(255,77,90,.3)">🗑 Eliminar</button>'
+          +'</td>'
+        :'';
+      return '<tr style="border-bottom:1px solid rgba(15,27,28,.95)" data-id="'+esc(reg.id)+'">'
         +'<td style="padding:10px 14px;font-weight:700;color:var(--amber);white-space:nowrap">'+esc(reg.hora_descarga||'—')+'</td>'
         +'<td style="padding:10px 14px;font-size:11px;white-space:nowrap">'+esc(reg.fecha||'—')+'</td>'
         +'<td style="padding:10px 14px;font-size:11px;color:var(--primary);white-space:nowrap">'+esc(reg.nro_dte||'—')+'</td>'
@@ -451,8 +467,12 @@ async function verIngresos(codigoRemate){
         +'<td style="padding:10px 14px;font-size:11px;color:var(--muted);font-style:italic">'+esc(reg.observaciones||'')+'</td>'
         +(reg.pdf_url?'<td style="padding:10px 14px"><a href="'+reg.pdf_url+'" target="_blank" style="background:rgba(100,160,255,.1);border:1px solid rgba(100,160,255,.3);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:#6aabff;text-decoration:none;white-space:nowrap">📄 PDF</a></td>':'<td style="padding:10px 14px;color:var(--muted);font-size:11px">—</td>')
         +(reg.fotos&&Object.keys(reg.fotos).length>0?'<td style="padding:8px 14px"><div style="display:flex;gap:4px;flex-wrap:wrap">'+Object.values(reg.fotos).map(url=>'<a href="'+url+'" target="_blank"><img src="'+url+'" style="width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid rgba(0,208,132,.3)"/></a>').join('')+'</div></td>':'<td style="padding:10px 14px;color:var(--muted);font-size:11px">—</td>')
+        +accionesCell
         +'</tr>';
     }).join('');
+
+    const thAcciones=esLeo?'<th style="padding:10px 14px;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase"></th>':'';
+
     modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div>'
       +'<div style="padding:16px 24px;border-bottom:1px solid rgba(21,48,51,.95);display:flex;align-items:center;gap:16px;flex-wrap:wrap">'
       +'<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Total ingresado</div><div style="font-size:36px;font-weight:800;color:var(--green)">'+totalCabezas+' <span style="font-size:16px;font-weight:400">cab.</span></div></div>'
@@ -468,9 +488,122 @@ async function verIngresos(codigoRemate){
       +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Transporte</th>'
       +'<th style="padding:10px 14px;text-align:right;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Cab.</th>'
       +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Categorías</th>'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Obs.</th>'+'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">PDF</th>'+'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Fotos</th>'
+      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Obs.</th>'
+      +'<th style="padding:10px 14px;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">PDF</th>'
+      +'<th style="padding:10px 14px;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Fotos</th>'
+      +thAcciones
       +'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+
     document.getElementById('closeModal').onclick=closeDetalle;
+
+    // ── Listeners editar / eliminar ──────────────────────
+    if(esLeo){
+      modal.querySelectorAll('.ing-edit-btn').forEach(btn=>{
+        btn.onclick=()=>mostrarFormEdicion(btn.dataset.id, regs, codigoRemate);
+      });
+      modal.querySelectorAll('.ing-del-btn').forEach(btn=>{
+        btn.onclick=()=>confirmarEliminar(btn.dataset.id, codigoRemate);
+      });
+    }
+  }
+
+  // ── Formulario de edición ─────────────────────────────
+  function mostrarFormEdicion(id, regs, codigoRemate){
+    const reg=regs.find(r=>String(r.id)===String(id));
+    if(!reg) return;
+    const cats=reg.categorias||{};
+    const catInputs=CATS_INGRESO.map(cat=>`
+      <div style="background:rgba(7,17,18,.8);border:1px solid rgba(21,48,51,.8);border-radius:10px;padding:10px 12px">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">${esc(cat)}</div>
+        <input type="number" min="0" id="ecat_${cat.replace(/[^a-z]/gi,'_')}" value="${cats[cat]||0}"
+          style="background:transparent;border:none;border-bottom:1px solid rgba(21,48,51,.9);color:var(--text);font-size:20px;font-weight:800;width:100%;outline:none;padding:2px 0">
+      </div>`).join('');
+
+    modal.innerHTML=
+      '<div class="modal-head"><div><div class="modal-title-top">Editando Remito</div><div class="modal-title" style="font-size:18px">'+esc(reg.nro_dte||'—')+' · '+esc(reg.fecha||'—')+'</div></div>'
+        +'<button id="closeModal" class="modal-close">Cancelar ✕</button></div>'
+      +'<div style="padding:20px 24px 32px;overflow:auto">'
+
+        // Campos simples
+        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">'
+          +'<div class="box"><div class="k">Nro. DTE</div><input id="e_nro_dte" class="input" value="'+esc(reg.nro_dte||'')+'" style="margin-top:6px;width:100%"></div>'
+          +'<div class="box"><div class="k">Hora descarga</div><input id="e_hora" class="input" type="time" value="'+esc(reg.hora_descarga||'')+'" style="margin-top:6px;width:100%"></div>'
+          +'<div class="box"><div class="k">Productor / Procedencia</div><input id="e_productor" class="input" value="'+esc(reg.productor||'')+'" style="margin-top:6px;width:100%"></div>'
+          +'<div class="box"><div class="k">Transportista</div><input id="e_transportista" class="input" value="'+esc(reg.transportista||'')+'" style="margin-top:6px;width:100%"></div>'
+          +'<div class="box"><div class="k">Patente</div><input id="e_patente" class="input" value="'+esc(reg.patente||'')+'" style="margin-top:6px;width:100%;text-transform:uppercase"></div>'
+          +'<div class="box"><div class="k">Observaciones</div><input id="e_obs" class="input" value="'+esc(reg.observaciones||'')+'" style="margin-top:6px;width:100%"></div>'
+        +'</div>'
+
+        // Categorías
+        +'<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Cantidad por categoría</div>'
+        +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px">'+catInputs+'</div>'
+
+        // Botón guardar
+        +'<button id="e_guardar" class="btn" style="width:100%;background:var(--primary);color:#031011;font-weight:800;font-size:15px;padding:14px">✓ Guardar cambios</button>'
+        +'<div id="e_msg" style="margin-top:10px;text-align:center;font-size:12px"></div>'
+      +'</div>';
+
+    document.getElementById('closeModal').onclick=()=>cargarYRenderizar();
+
+    document.getElementById('e_guardar').onclick=async()=>{
+      const btn=document.getElementById('e_guardar');
+      const msg=document.getElementById('e_msg');
+      btn.disabled=true; btn.textContent='Guardando...';
+
+      // Armar categorías
+      const nuevasCats={};
+      let total=0;
+      CATS_INGRESO.forEach(cat=>{
+        const inp=document.getElementById('ecat_'+cat.replace(/[^a-z]/gi,'_'));
+        const v=parseInt(inp?.value||0)||0;
+        if(v>0){nuevasCats[cat]=v; total+=v;}
+      });
+
+      const payload={
+        nro_dte:document.getElementById('e_nro_dte').value.trim(),
+        hora_descarga:document.getElementById('e_hora').value.trim(),
+        productor:document.getElementById('e_productor').value.trim(),
+        transportista:document.getElementById('e_transportista').value.trim(),
+        patente:document.getElementById('e_patente').value.trim().toUpperCase(),
+        observaciones:document.getElementById('e_obs').value.trim(),
+        categorias:nuevasCats,
+        total_cabezas:total,
+      };
+
+      try{
+        const r=await fetch(SB_URL+'/rest/v1/ingresos_hacienda?id=eq.'+encodeURIComponent(id),{
+          method:'PATCH',
+          headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+          body:JSON.stringify(payload)
+        });
+        if(!r.ok) throw new Error('Error '+r.status);
+        msg.style.color='var(--green)';
+        msg.textContent='✅ Remito actualizado correctamente';
+        setTimeout(()=>cargarYRenderizar(),1200);
+      }catch(e){
+        msg.style.color='var(--red)';
+        msg.textContent='❌ Error al guardar: '+e.message;
+        btn.disabled=false; btn.textContent='✓ Guardar cambios';
+      }
+    };
+  }
+
+  // ── Confirmar eliminación ─────────────────────────────
+  function confirmarEliminar(id, codigoRemate){
+    const reg=modal.querySelector('tr[data-id="'+id+'"]');
+    const info=reg?reg.querySelector('td:nth-child(3)')?.textContent:'este registro';
+    if(!confirm('⚠️ ¿Eliminar el remito '+info+'?\n\nEsta acción no se puede deshacer.')) return;
+    fetch(SB_URL+'/rest/v1/ingresos_hacienda?id=eq.'+encodeURIComponent(id),{
+      method:'DELETE',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=minimal'}
+    }).then(r=>{
+      if(!r.ok) throw new Error('Error '+r.status);
+      cargarYRenderizar();
+    }).catch(e=>alert('❌ No se pudo eliminar: '+e.message));
+  }
+
+  try{
+    await cargarYRenderizar();
   }catch(e){
     modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Error</div><div class="modal-title" style="font-size:20px">No se pudo cargar</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:24px;color:var(--red)">'+esc(e.message)+'</div>';
     document.getElementById('closeModal').onclick=closeDetalle;
