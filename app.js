@@ -421,24 +421,34 @@ const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 
 // ── WhatsApp desde modal Ver Ingresos ────────────────────
 function compartirWhatsAppReg(reg){
-  var VACA='\uD83D\uDC04', CAL='\uD83D\uDCC5', REL='\uD83D\uDD50',
-      CLIP='\uD83D\uDCCB', DOC='\uD83D\uDCC4', PER='\uD83D\uDC64',
-      CAM='\uD83D\uDE9B', BUB='\uD83D\uDCAC', BULL='\u2022', SEP='\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501';
-  var cats=Object.entries(reg.categorias||{}).filter(function(e){return e[1]>0;})
-    .map(function(e){return '  '+BULL+' '+e[0]+': '+e[1];}).join('\n');
-  var msg=VACA+' *REMITO DE INGRESO \u2014 DARWASH SA*\n'
-    +SEP+'\n'
-    +CAL+' '+(reg.fecha||'\u2014')+'  '+REL+' '+(reg.hora_descarga||'\u2014')+'\n'
-    +CLIP+' Remate: '+(reg.remate||'\u2014')+'\n'
-    +(reg.nro_dte ? DOC+' DTE: '+reg.nro_dte+'\n' : '')
-    +(reg.productor ? PER+' Productor: '+reg.productor+'\n' : '')
-    +(reg.transportista ? CAM+' Transporte: '+reg.transportista+(reg.patente?' ('+reg.patente+')':'')+'\n' : '')
-    +SEP+'\n'
+  var sep='\u2501'.repeat(18);
+  var bull='\u2022';
+  var cats=Object.entries(reg.categorias||{}).filter(function(kv){return kv[1]>0;})
+    .map(function(kv){return '  '+bull+' '+kv[0]+': '+kv[1];}).join('\n');
+  var msg=''
+    +'\uD83D\uDC04 *REMITO DE INGRESO \u2014 DARWASH SA*\n'
+    +sep+'\n'
+    +'\uD83D\uDCC5 '+(reg.fecha||'\u2014')+'  \uD83D\uDD50 '+(reg.hora_descarga||'\u2014')+'\n'
+    +'\uD83D\uDCCB Remate: '+(reg.remate||'\u2014')+'\n'
+    +(reg.nro_dte?'\uD83D\uDCC4 DTE: '+reg.nro_dte+'\n':'')
+    +(reg.productor?'\uD83D\uDC64 Productor: '+reg.productor+'\n':'')
+    +(reg.transportista?'\uD83D\uDE9B Transporte: '+reg.transportista+(reg.patente?' ('+reg.patente+')':'')+'\n':'')
+    +sep+'\n'
     +'*HACIENDA:*\n'+(cats||'  Sin detalle')+'\n'
-    +SEP+'\n'
+    +sep+'\n'
     +'*TOTAL: '+(reg.total_cabezas||0)+' cabezas*'
-    +(reg.observaciones ? '\n\n'+BUB+' _'+reg.observaciones+'_' : '');
-  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+    +(reg.observaciones?'\n\n\uD83D\uDCAC _'+reg.observaciones+'_':'');
+  // Copiar al portapapeles y abrir WhatsApp
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(msg).then(function(){
+      window.open('https://wa.me/','_blank');
+      setTimeout(function(){alert('\u2705 Mensaje copiado!\nPegalo en el chat de WhatsApp (Ctrl+V)');},800);
+    }).catch(function(){
+      window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+    });
+  }else{
+    window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+  }
 }
 
 // ── CATEGORÍAS disponibles (igual que ingreso.html) ──────
