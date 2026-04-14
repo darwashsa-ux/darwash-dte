@@ -419,6 +419,24 @@ function renderDtes(){
 const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 
+// ── WhatsApp desde modal Ver Ingresos ────────────────────
+function compartirWhatsAppReg(reg){
+  const cats=Object.entries(reg.categorias||{}).filter(([,v])=>v>0).map(([k,v])=>`  • ${k}: ${v}`).join('\n');
+  const msg=`🐄 *REMITO DE INGRESO — DARWASH SA*\n`
+    +`━━━━━━━━━━━━━━━━━━\n`
+    +`📅 ${reg.fecha||'—'}  🕐 ${reg.hora_descarga||'—'}\n`
+    +`📋 Remate: ${reg.remate||'—'}\n`
+    +(reg.nro_dte?`📄 DTE: ${reg.nro_dte}\n`:'')
+    +(reg.productor?`👤 Productor: ${reg.productor}\n`:'')
+    +(reg.transportista?`🚛 Transporte: ${reg.transportista}${reg.patente?' ('+reg.patente+')':''}\n`:'')
+    +`━━━━━━━━━━━━━━━━━━\n`
+    +`*HACIENDA:*\n${cats||'  Sin detalle'}\n`
+    +`━━━━━━━━━━━━━━━━━━\n`
+    +`*TOTAL: ${reg.total_cabezas||0} cabezas*`
+    +(reg.observaciones?`\n\n💬 _${reg.observaciones}_`:'');
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
 // ── CATEGORÍAS disponibles (igual que ingreso.html) ──────
 const CATS_INGRESO=['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ','Mamón'];
 
@@ -450,12 +468,13 @@ async function verIngresos(codigoRemate){
 
     const rows=regs.map(reg=>{
       const cats=Object.entries(reg.categorias||{}).filter(([,v])=>v>0).map(([k,v])=>'<span style="font-size:10px;background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:4px;padding:1px 5px">'+esc(k)+':'+v+'</span>').join(' ');
-      const accionesCell=esLeo
-        ?'<td style="padding:8px 10px;white-space:nowrap">'
-          +'<button class="ing-edit-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:var(--amber);border-color:rgba(215,165,59,.3);margin-right:4px">✏️ Editar</button>'
-          +'<button class="ing-del-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:var(--red);border-color:rgba(255,77,90,.3)">🗑 Eliminar</button>'
-          +'</td>'
-        :'';
+      const accionesCell='<td style="padding:8px 10px;white-space:nowrap;display:flex;gap:4px;align-items:center">'
+        +'<button class="ing-wsp-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:#25d366;border-color:rgba(37,211,102,.3)">💬 WS</button>'
+        +(esLeo
+          ?'<button class="ing-edit-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:var(--amber);border-color:rgba(215,165,59,.3)">✏️</button>'
+           +'<button class="ing-del-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:var(--red);border-color:rgba(255,77,90,.3)">🗑</button>'
+          :'')
+        +'</td>';
       return '<tr style="border-bottom:1px solid rgba(15,27,28,.95)" data-id="'+esc(reg.id)+'">'
         +'<td style="padding:10px 14px;font-weight:700;color:var(--amber);white-space:nowrap">'+esc(reg.hora_descarga||'—')+'</td>'
         +'<td style="padding:10px 14px;font-size:11px;white-space:nowrap">'+esc(reg.fecha||'—')+'</td>'
@@ -471,7 +490,7 @@ async function verIngresos(codigoRemate){
         +'</tr>';
     }).join('');
 
-    const thAcciones=esLeo?'<th style="padding:10px 14px;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase"></th>':'';
+    const thAcciones='<th style="padding:10px 14px;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase"></th>';
 
     modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div>'
       +'<div style="padding:16px 24px;border-bottom:1px solid rgba(21,48,51,.95);display:flex;align-items:center;gap:16px;flex-wrap:wrap">'
@@ -497,6 +516,13 @@ async function verIngresos(codigoRemate){
     document.getElementById('closeModal').onclick=closeDetalle;
 
     // ── Listeners editar / eliminar ──────────────────────
+    // WhatsApp — disponible para todos
+    modal.querySelectorAll('.ing-wsp-btn').forEach(btn=>{
+      btn.onclick=()=>{
+        const reg=regs.find(r=>String(r.id)===String(btn.dataset.id));
+        if(reg) compartirWhatsAppReg(reg);
+      };
+    });
     if(esLeo){
       modal.querySelectorAll('.ing-edit-btn').forEach(btn=>{
         btn.onclick=()=>mostrarFormEdicion(btn.dataset.id, regs, codigoRemate);
