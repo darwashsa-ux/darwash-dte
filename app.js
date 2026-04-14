@@ -421,19 +421,38 @@ const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 
 // ── WhatsApp desde modal Ver Ingresos ────────────────────
 function compartirWhatsAppReg(reg){
-  const cats=Object.entries(reg.categorias||{}).filter(([,v])=>v>0).map(([k,v])=>`  • ${k}: ${v}`).join('\n');
-  const msg=`🐄 *REMITO DE INGRESO — DARWASH SA*\n`
-    +`━━━━━━━━━━━━━━━━━━\n`
-    +`📅 ${reg.fecha||'—'}  🕐 ${reg.hora_descarga||'—'}\n`
-    +`📋 Remate: ${reg.remate||'—'}\n`
-    +(reg.nro_dte?`📄 DTE: ${reg.nro_dte}\n`:'')
-    +(reg.productor?`👤 Productor: ${reg.productor}\n`:'')
-    +(reg.transportista?`🚛 Transporte: ${reg.transportista}${reg.patente?' ('+reg.patente+')':''}\n`:'')
-    +`━━━━━━━━━━━━━━━━━━\n`
-    +`*HACIENDA:*\n${cats||'  Sin detalle'}\n`
-    +`━━━━━━━━━━━━━━━━━━\n`
-    +`*TOTAL: ${reg.total_cabezas||0} cabezas*`
-    +(reg.observaciones?`\n\n💬 _${reg.observaciones}_`:'');
+  const e=String.fromCodePoint;
+  const VACA=e(0x1F404), CAL=e(0x1F4C5), REL=e(0x1F550), CLIP=e(0x1F4CB),
+        DOC=e(0x1F4C4), PER=e(0x1F464), CAM=e(0x1F69B), BUB=e(0x1F4AC);
+  const sep='━'.repeat(18);
+  const cats=Object.entries(reg.categorias||{}).filter(([,v])=>v>0)
+    .map(([k,v])=>'  • '+k+': '+v).join('
+');
+  const msg=VACA+' *REMITO DE INGRESO — DARWASH SA*
+'
+    +sep+'
+'
+    +CAL+' '+( reg.fecha||'—')+'  '+REL+' '+(reg.hora_descarga||'—')+'
+'
+    +CLIP+' Remate: '+(reg.remate||'—')+'
+'
+    +(reg.nro_dte ? DOC+' DTE: '+reg.nro_dte+'
+' : '')
+    +(reg.productor ? PER+' Productor: '+reg.productor+'
+' : '')
+    +(reg.transportista ? CAM+' Transporte: '+reg.transportista+(reg.patente?' ('+reg.patente+')':'')+'
+' : '')
+    +sep+'
+'
+    +'*HACIENDA:*
+'+(cats||'  Sin detalle')+'
+'
+    +sep+'
+'
+    +'*TOTAL: '+(reg.total_cabezas||0)+' cabezas*'
+    +(reg.observaciones ? '
+
+'+BUB+' _'+reg.observaciones+'_' : '');
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
 
