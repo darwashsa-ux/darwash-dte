@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Egreso de Hacienda — Darwash SA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#061a0f;--card:#0b2318;--border:rgba(0,208,132,.18);
+    --green:#00d084;--gold:#b99028;--red:#ff4d5a;--blue:#3ea2ff;
+    --text:#e0ffe8;--muted:#5a8c6a;--input-bg:#0f2e1e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;padding:0 0 40px;}
+  
+  /* HEADER */
+  .header{background:linear-gradient(135deg,#061a0f 0%,#0d2e18 100%);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:14px;}
+  .logo-circle{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#00d084,#007a4d);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#061a0f;flex-shrink:0;letter-spacing:1px;}
+  .header-info{}
+  .header-empresa{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+  .header-titulo{font-size:18px;font-weight:800;color:var(--green);letter-spacing:.5px;}
+  .badge-egreso{background:rgba(255,77,90,.15);border:1px solid rgba(255,77,90,.4);color:var(--red);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-left:auto;}
+
+  /* MAIN */
+  .main{max-width:520px;margin:0 auto;padding:20px 16px;}
+  .section-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 8px;font-weight:700;}
+  .input-field{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:border .2s;}
+  .input-field:focus{border-color:var(--green);}
+  .input-field::placeholder{color:var(--muted);}
+  textarea.input-field{resize:vertical;min-height:70px;}
+
+  /* REMATE SELECTOR */
+  .remate-sel{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border .2s;}
+  .remate-sel:hover{border-color:var(--green);}
+  .remate-sel-icon{font-size:24px;}
+  .remate-sel-info{flex:1;}
+  .remate-sel-label{font-size:11px;color:var(--muted);}
+  .remate-sel-val{font-size:15px;font-weight:700;color:var(--green);}
+  select.input-field{cursor:pointer;}
+
+  /* CATEGORIAS GRID */
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(min-width:400px){.cat-grid{grid-template-columns:repeat(3,1fr);}}
+  .cat-card{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center;}
+  .cat-name{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+  .cat-input{width:100%;background:transparent;border:none;border-bottom:2px solid var(--border);color:var(--text);font-size:22px;font-weight:800;text-align:center;font-family:inherit;outline:none;padding:4px 0;transition:border .2s;}
+  .cat-input:focus{border-color:var(--green);}
+
+  /* TOTAL */
+  .total-card{background:linear-gradient(135deg,rgba(0,208,132,.1),rgba(0,208,132,.05));border:1px solid rgba(0,208,132,.35);border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
+  .total-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .total-num{font-size:36px;font-weight:900;color:var(--green);}
+  .total-sub{font-size:11px;color:var(--muted);}
+
+  /* FIRMA */
+  .firma-wrap{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .firma-canvas{display:block;width:100%;height:150px;cursor:crosshair;touch-action:none;background:#fff;}
+  .firma-toolbar{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:1px solid var(--border);}
+  .firma-toolbar span{font-size:11px;color:var(--muted);}
+  .btn-limpiar{background:transparent;border:1px solid rgba(255,77,90,.4);color:var(--red);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
+
+  /* FOTOS */
+  .foto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px;}
+  .foto-slot{background:var(--input-bg);border:2px dashed var(--border);border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:border .2s;position:relative;overflow:hidden;}
+  .foto-slot:hover{border-color:var(--green);}
+  .foto-slot.filled{border-style:solid;border-color:rgba(0,208,132,.4);}
+  .foto-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+  .foto-slot .slot-icon{font-size:22px;}
+  .foto-slot .slot-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
+  .foto-slot .slot-del{position:absolute;top:4px;right:4px;background:rgba(255,77,90,.85);border:none;color:#fff;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+  .foto-slot.filled .slot-del{display:flex;}
+  .foto-counter{font-size:11px;color:var(--muted);text-align:center;margin-bottom:4px;}
+
+  /* BOTONES ACCION */
+  .action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px;}
+  .btn{border:none;border-radius:12px;padding:15px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+  .btn:active{opacity:.8;}
+  .btn-guardar{background:linear-gradient(135deg,#00d084,#007a4d);color:#061a0f;}
+  .btn-pdf{background:rgba(185,144,40,.15);border:1px solid rgba(185,144,40,.4);color:var(--gold);}
+  .btn-whatsapp{background:rgba(0,208,132,.1);border:1px solid rgba(0,208,132,.3);color:var(--green);grid-column:1/-1;}
+  .btn-nuevo{background:rgba(62,162,255,.1);border:1px solid rgba(62,162,255,.3);color:var(--blue);grid-column:1/-1;}
+
+  /* SUCCESS OVERLAY */
+  .success-overlay{position:fixed;inset:0;background:rgba(6,26,15,.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:100;gap:16px;padding:30px;}
+  .success-overlay.show{display:flex;}
+  .success-icon{font-size:64px;}
+  .success-title{font-size:22px;font-weight:900;color:var(--green);}
+  .success-sub{font-size:14px;color:var(--muted);text-align:center;max-width:300px;}
+  .success-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:300px;margin-top:10px;}
+  .success-actions .btn{padding:14px;}
+
+  /* HISTORIAL */
+  .historial{margin-top:32px;}
+  .hist-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px;}
+  .hist-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+  .hist-tropa{font-weight:700;font-size:14px;color:var(--text);}
+  .hist-total{font-weight:900;color:var(--green);font-size:16px;}
+  .hist-meta{font-size:11px;color:var(--muted);}
+  .hist-cats{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+  .hist-cat-chip{background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:6px;padding:2px 8px;font-size:10px;color:var(--green);}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-circle">DRW</div>
+  <div class="header-info">
+    <div class="header-empresa">Darwash SA</div>
+    <div class="header-titulo">Egreso de Hacienda</div>
+  </div>
+  <div class="badge-egreso">⬆ SALIDA</div>
+</div>
+
+<div class="main" id="main-form">
+
+  <!-- REMATE -->
+  <div class="section-label">Evento / Remate</div>
+  <select id="sel-remate" class="input-field">
+    <option value="">Cargando remates...</option>
+  </select>
+
+  <!-- DATOS -->
+  <div class="section-label">Datos del Egreso</div>
+  <input id="inp-fecha" type="date" class="input-field" style="margin-bottom:10px"/>
+  <input id="inp-tropa" type="text" class="input-field" placeholder="Nombre de la tropa" style="margin-bottom:10px"/>
+  <input id="inp-dte" type="text" class="input-field" placeholder="N° DTE / Guía" style="margin-bottom:10px"/>
+  <input id="inp-destino" type="text" class="input-field" placeholder="Destino (establecimiento / frigorífico)" style="margin-bottom:10px"/>
+  <input id="inp-transportista" type="text" class="input-field" placeholder="Nombre del transportista" style="margin-bottom:10px"/>
+  <input id="inp-patente" type="text" class="input-field" placeholder="Patente camión/acoplado" style="text-transform:uppercase"/>
+
+  <!-- CATEGORIAS -->
+  <div class="section-label">Detalle por Categoría</div>
+  <div class="cat-grid" id="cat-grid"></div>
+  <div class="total-card">
+    <div>
+      <div class="total-label">Total Cabezas</div>
+      <div class="total-sub">Sumatoria categorías</div>
+    </div>
+    <div class="total-num" id="total-num">0</div>
+  </div>
+
+  <!-- FIRMA -->
+  <div class="section-label">Firma del Transportista</div>
+  <div class="firma-wrap">
+    <canvas id="firma-canvas" class="firma-canvas"></canvas>
+    <div class="firma-toolbar">
+      <span id="firma-status">Firmá con el dedo</span>
+      <button class="btn-limpiar" onclick="limpiarFirma()">Limpiar</button>
+    </div>
+  </div>
+
+  <!-- FOTOS -->
+  <div class="section-label">Fotos de respaldo</div>
+  <div class="foto-grid" id="foto-grid"></div>
+  <div class="foto-counter" id="foto-counter">0 fotos seleccionadas</div>
+  <input type="file" id="foto-input" accept="image/*" capture="environment" style="display:none" onchange="onFotoSeleccionada(this)"/>
+
+  <!-- OBS -->
+  <div class="section-label">Observaciones</div>
+  <textarea id="inp-obs" class="input-field" placeholder="Observaciones (opcional)"></textarea>
+
+  <!-- ACCIONES -->
+  <div class="action-row">
+    <button class="btn btn-guardar" onclick="guardar()">💾 Guardar Egreso</button>
+    <button class="btn btn-pdf" id="btn-pdf" onclick="generarPDF()" disabled>📄 Remito PDF</button>
+    <button class="btn btn-whatsapp" id="btn-wa" onclick="compartirWA()" disabled>📲 Compartir por WhatsApp</button>
+    <button class="btn btn-nuevo" onclick="nuevoRegistro()">➕ Nuevo Egreso</button>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="section-label" style="margin-top:28px">Registros de esta sesión</div>
+  <div class="historial" id="historial"></div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-icon">✅</div>
+  <div class="success-title">¡Egreso registrado!</div>
+  <div class="success-sub" id="success-sub"></div>
+  <div class="success-actions">
+    <button class="btn btn-pdf" id="suc-pdf" onclick="generarPDF()">📄 Descargar Remito PDF</button>
+    <button class="btn btn-whatsapp" id="suc-wa" onclick="compartirWA()">📲 Compartir por WhatsApp</button>
+    <button class="btn btn-nuevo" onclick="nuevoRegistro()">➕ Nuevo Egreso</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
+const SUPABASE_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
+const SUPABASE_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+const REMATES_URL='https://raw.githubusercontent.com/darwashsa-ux/darwash-dte/main/remates_maestro.json';
+
+const CATS=[
+  {id:'vaquillona',label:'Vaquillona'},
+  {id:'torito',label:'Torito/MEJ'},
+  {id:'vaca',label:'Vaca'},
+  {id:'novillo',label:'Novillo'},
+  {id:'ternero',label:'Ternero'},
+  {id:'novillito',label:'Novillito'},
+];
+
+const FOTO_SLOTS=[
+  {id:'hacienda',icon:'🐄',label:'Hacienda'},
+  {id:'dte',icon:'📄',label:'DTE / Doc.'},
+  {id:'camion',icon:'🚛',label:'Camión'},
+];
+
+let ultimoRegistro=null;
+let nroRemito=Date.now();
+let sesionRegistros=[];
+let firmaDataURL=null;
+let fotoFiles={};
+let slotActivo=null;
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+async function init(){
+  renderCatGrid();
+  initFirma();
+  initFotos();
+  await cargarRemates();
+  // Fecha hoy
+  const hoy=new Date();
+  document.getElementById('inp-fecha').value=hoy.toISOString().split('T')[0];
+  renderHistorial();
+}
+
+// ══════════════════════════════════════════
+// CATEGORIAS
+// ══════════════════════════════════════════
+function renderCatGrid(){
+  const g=document.getElementById('cat-grid');
+  g.innerHTML=CATS.map(c=>`
+    <div class="cat-card">
+      <div class="cat-name">${c.label}</div>
+      <input class="cat-input" type="number" min="0" id="cat-${c.id}" value="" placeholder="0"
+        oninput="recalcTotal()" inputmode="numeric"/>
+    </div>`).join('');
+}
+
+function recalcTotal(){
+  let t=0;
+  CATS.forEach(c=>{const v=parseInt(document.getElementById('cat-'+c.id).value)||0;t+=v;});
+  document.getElementById('total-num').textContent=t;
+}
+
+function getCats(){
+  const obj={};
+  CATS.forEach(c=>{const v=parseInt(document.getElementById('cat-'+c.id).value)||0;if(v>0)obj[c.id]=v;});
+  return obj;
+}
+
+// ══════════════════════════════════════════
+// REMATES
+// ══════════════════════════════════════════
+async function cargarRemates(){
+  try{
+    const r=await fetch(REMATES_URL+'?t='+Date.now());
+    const data=await r.json();
+    const remates=data.remates||[];
+    const sel=document.getElementById('sel-remate');
+    if(remates.length===0){sel.innerHTML='<option value="">Sin remates disponibles</option>';return;}
+    // Ordenar por fecha desc
+    remates.sort((a,b)=>(b.fechaInicio||'').localeCompare(a.fechaInicio||''));
+    sel.innerHTML='<option value="">Seleccionar remate...</option>'+
+      remates.map(r=>`<option value="${esc(r.codigo)}">${esc(r.titulo||r.codigo)} (${r.fechaInicio||''})</option>`).join('');
+    // Preseleccionar si viene por URL
+    const params=new URLSearchParams(window.location.search);
+    const cod=params.get('remate');
+    if(cod){sel.value=cod;}
+  }catch(e){
+    document.getElementById('sel-remate').innerHTML='<option value="">Error cargando remates</option>';
+  }
+}
+
+// ══════════════════════════════════════════
+// FIRMA
+// ══════════════════════════════════════════
+function initFirma(){
+  const canvas=document.getElementById('firma-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=canvas.offsetWidth*window.devicePixelRatio||700;
+  canvas.height=canvas.offsetHeight*window.devicePixelRatio||300;
+  ctx.scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
+  ctx.strokeStyle='#1a1a2e';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
+  let drawing=false,lx=0,ly=0;
+  function pos(e){const r=canvas.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left),y:(t.clientY-r.top)};}
+  canvas.addEventListener('mousedown',e=>{drawing=true;const p=pos(e);lx=p.x;ly=p.y;});
+  canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;document.getElementById('firma-status').textContent='Firma registrada ✓';firmaDataURL=canvas.toDataURL();});
+  canvas.addEventListener('mouseup',()=>{drawing=false;});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const p=pos(e);lx=p.x;ly=p.y;},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;document.getElementById('firma-status').textContent='Firma registrada ✓';firmaDataURL=canvas.toDataURL();},{passive:false});
+  canvas.addEventListener('touchend',()=>{drawing=false;});
+}
+
+function limpiarFirma(){
+  const canvas=document.getElementById('firma-canvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  firmaDataURL=null;
+  document.getElementById('firma-status').textContent='Firmá con el dedo';
+}
+
+// ══════════════════════════════════════════
+// FOTOS
+// ══════════════════════════════════════════
+function initFotos(){
+  const g=document.getElementById('foto-grid');
+  g.innerHTML=FOTO_SLOTS.map(s=>`
+    <div class="foto-slot" id="slot-${s.id}" onclick="abrirFoto('${s.id}')">
+      <span class="slot-icon">${s.icon}</span>
+      <span class="slot-label">${s.label}</span>
+      <button class="slot-del" onclick="borrarFoto(event,'${s.id}')">✕</button>
+    </div>`).join('');
+  actualizarContadorFotos();
+}
+
+function abrirFoto(slotId){
+  slotActivo=slotId;
+  document.getElementById('foto-input').value='';
+  document.getElementById('foto-input').click();
+}
+
+function onFotoSeleccionada(input){
+  if(!input.files||!input.files[0]||!slotActivo)return;
+  const file=input.files[0];
+  fotoFiles[slotActivo]=file;
+  const url=URL.createObjectURL(file);
+  const slot=document.getElementById('slot-'+slotActivo);
+  slot.classList.add('filled');
+  let img=slot.querySelector('img');
+  if(!img){img=document.createElement('img');slot.prepend(img);}
+  img.src=url;
+  actualizarContadorFotos();
+}
+
+function borrarFoto(e,slotId){
+  e.stopPropagation();
+  delete fotoFiles[slotId];
+  const slot=document.getElementById('slot-'+slotId);
+  slot.classList.remove('filled');
+  const img=slot.querySelector('img');
+  if(img)img.remove();
+  actualizarContadorFotos();
+}
+
+function actualizarContadorFotos(){
+  const n=Object.keys(fotoFiles).length;
+  document.getElementById('foto-counter').textContent=n===0?'0 fotos seleccionadas':`${n} foto${n>1?'s':''} seleccionada${n>1?'s':''}`;
+}
+
+function limpiarFotos(){
+  fotoFiles={};
+  FOTO_SLOTS.forEach(s=>{
+    const slot=document.getElementById('slot-'+s.id);
+    if(!slot)return;
+    slot.classList.remove('filled');
+    const img=slot.querySelector('img');
+    if(img)img.remove();
+  });
+  actualizarContadorFotos();
+}
+
+// ══════════════════════════════════════════
+// GUARDAR
+// ══════════════════════════════════════════
+async function guardar(){
+  const remate=document.getElementById('sel-remate').value;
+  const fecha=document.getElementById('inp-fecha').value;
+  const tropa=document.getElementById('inp-tropa').value.trim();
+  const dte=document.getElementById('inp-dte').value.trim();
+  const destino=document.getElementById('inp-destino').value.trim();
+  const transportista=document.getElementById('inp-transportista').value.trim();
+  const patente=document.getElementById('inp-patente').value.trim().toUpperCase();
+  const obs=document.getElementById('inp-obs').value.trim();
+  const categorias=getCats();
+  const total=Object.values(categorias).reduce((a,b)=>a+b,0);
+
+  if(!remate){alert('Seleccioná un remate.');return;}
+  if(!tropa){alert('Ingresá el nombre de la tropa.');return;}
+  if(total===0){alert('Ingresá al menos una categoría con cantidad.');return;}
+
+  const btn=document.querySelector('.btn-guardar');
+  btn.textContent='Guardando...';btn.disabled=true;
+
+  try{
+    // Guardar en Supabase
+    const body={
+      remate,fecha,tropa,nro_dte:dte,destino,
+      transportista,patente,
+      categorias,total_cabezas:total,
+      observaciones:obs,
+      firma:firmaDataURL?'si':'no'
+    };
+    const res=await fetch(SUPABASE_URL+'/rest/v1/egresos_hacienda',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY,
+        'Prefer':'return=representation'
+      },
+      body:JSON.stringify(body)
+    });
+    const data=await res.json();
+    ultimoRegistro={...body,...(Array.isArray(data)?data[0]:data)};
+    nroRemito=ultimoRegistro.id||Date.now();
+
+    // Subir fotos
+    const nFotos=Object.keys(fotoFiles).length;
+    let fotosUrls={};
+    if(nFotos>0){
+      fotosUrls=await subirFotos(nroRemito);
+      if(ultimoRegistro.id){
+        await fetch(SUPABASE_URL+'/rest/v1/egresos_hacienda?id=eq.'+ultimoRegistro.id,{
+          method:'PATCH',
+          headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
+          body:JSON.stringify({fotos:fotosUrls})
+        });
+      }
+      ultimoRegistro.fotos=fotosUrls;
+    }
+
+    // Subir PDF en background
+    generarPDF(true);
+
+    sesionRegistros.unshift({...ultimoRegistro});
+    renderHistorial();
+
+    document.getElementById('success-sub').textContent=
+      `${total} cabezas · ${dte?'DTE '+dte+' · ':''}${destino||''}${nFotos>0?' · '+nFotos+' foto'+(nFotos>1?'s':''):''}`;
+    document.getElementById('success-overlay').classList.add('show');
+    document.getElementById('btn-pdf').disabled=false;
+    document.getElementById('btn-wa').disabled=false;
+
+  }catch(e){
+    alert('Error al guardar: '+e.message);
+  }finally{
+    btn.textContent='💾 Guardar Egreso';btn.disabled=false;
+  }
+}
+
+// ══════════════════════════════════════════
+// SUBIR FOTOS
+// ══════════════════════════════════════════
+async function subirFotos(remitoId){
+  const urls={};
+  for(const [slotId,file] of Object.entries(fotoFiles)){
+    const ext=file.name.split('.').pop()||'jpg';
+    const path=`egresos/${remitoId}_${slotId}.${ext}`;
+    const res=await fetch(SUPABASE_URL+'/storage/v1/object/remitos/'+path,{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':file.type||'image/jpeg'},
+      body:file
+    });
+    if(res.ok){
+      urls[slotId]=SUPABASE_URL+'/storage/v1/object/public/remitos/'+path;
+    }
+  }
+  return urls;
+}
+
+// ══════════════════════════════════════════
+// PDF
+// ══════════════════════════════════════════
+async function generarPDF(soloSubir=false){
+  if(!ultimoRegistro)return;
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W=210,H=297,M=15;
+  const C={
+    headerDark:[4,26,15],
+    green:[0,168,100],
+    greenLight:[0,208,132],
+    gold:[185,144,40],
+    red:[220,60,70],
+    text:[20,60,35],
+    muted:[80,130,100],
+    bg:[248,255,252],
+    card:[238,252,244],
+  };
+  const Cf=(...c)=>doc.setFillColor(...c);
+  const Ct=(...c)=>doc.setTextColor(...c);
+
+  // Fondo
+  Cf(...C.bg);doc.rect(0,0,W,H,'F');
+
+  // Header
+  Cf(...C.headerDark);doc.rect(0,0,W,38,'F');
+  Cf(...C.gold);doc.rect(0,38,W,1.5,'F');
+
+  // Logo circle
+  Cf(...C.green);doc.circle(M+7,19,8,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8);Ct(4,26,15);
+  doc.text('DRW',M+7,21.5,{align:'center'});
+
+  // Titulo header
+  doc.setFont('helvetica','bold');doc.setFontSize(16);Ct(...C.greenLight);
+  doc.text('EGRESO DE HACIENDA',M+20,17);
+  doc.setFont('helvetica','normal');doc.setFontSize(8);Ct(...C.gold);
+  doc.text('DARWASH SA  ·  Vicuña Mackenna, Córdoba',M+20,24);
+  doc.setFont('helvetica','bold');doc.setFontSize(8);Ct(200,100,100);
+  doc.text('⬆ SALIDA',W-M,14,{align:'right'});
+
+  // Numero remito top right
+  doc.setFont('helvetica','bold');doc.setFontSize(9);Ct(...C.gold);
+  doc.text('Egreso N° '+String(nroRemito).slice(-6).padStart(6,'0'),W-M,24,{align:'right'});
+
+  let y=50;
+
+  // Info card
+  Cf(...C.card);doc.roundedRect(M,y,W-2*M,50,3,3,'F');
+  doc.setDrawColor(...C.green);doc.setLineWidth(.3);doc.roundedRect(M,y,W-2*M,50,3,3,'S');
+
+  const r=ultimoRegistro;
+  const infoRows=[
+    ['Remate',r.remate||''],
+    ['Fecha',r.fecha?r.fecha.split('-').reverse().join('/'):''],
+    ['Tropa',r.tropa||''],
+    ['N° DTE',r.nro_dte||'—'],
+    ['Destino',r.destino||'—'],
+    ['Transportista',(r.transportista||'—')+(r.patente?' · '+r.patente:'')],
+  ];
+  const rowH=7.5,cx=M+4;
+  infoRows.forEach(([k,v],i)=>{
+    const ry=y+5+i*rowH;
+    doc.setFont('helvetica','bold');doc.setFontSize(7.5);Ct(...C.muted);
+    doc.text(k+':',cx,ry);
+    doc.setFont('helvetica','normal');doc.setFontSize(8);Ct(...C.text);
+    doc.text(String(v),cx+30,ry);
+  });
+  y+=56;
+
+  // Categorias title
+  Cf(...C.headerDark);doc.rect(M,y,W-2*M,8,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8);Ct(...C.greenLight);
+  doc.text('DETALLE DE HACIENDA',M+4,y+5.5);
+  y+=10;
+
+  // Categorias grid
+  const cats=r.categorias||{};
+  const catEntries=Object.entries(cats).filter(([,v])=>v>0);
+  const colW=(W-2*M)/3;
+  catEntries.forEach(([k,v],i)=>{
+    const col=i%3,row=Math.floor(i/3);
+    const cx2=M+col*colW,cy=y+row*22;
+    Cf(...C.card);doc.roundedRect(cx2+1,cy,colW-2,20,2,2,'F');
+    const label=CATS.find(c=>c.id===k)?.label||k;
+    doc.setFont('helvetica','bold');doc.setFontSize(7);Ct(...C.muted);
+    doc.text(label.toUpperCase(),cx2+colW/2,cy+7,{align:'center'});
+    doc.setFont('helvetica','bold');doc.setFontSize(16);Ct(...C.green);
+    doc.text(String(v),cx2+colW/2,cy+16,{align:'center'});
+  });
+  const rows=Math.ceil(catEntries.length/3)||1;
+  y+=rows*22+6;
+
+  // Total
+  Cf(...C.green);doc.roundedRect(M,y,W-2*M,16,3,3,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(10);Ct(4,26,15);
+  doc.text('TOTAL CABEZAS',M+6,y+10);
+  doc.setFont('helvetica','bold');doc.setFontSize(14);
+  doc.text(String(r.total_cabezas||0),W-M-6,y+10,{align:'right'});
+  y+=22;
+
+  // Observaciones
+  if(r.observaciones){
+    Cf(255,250,220);doc.roundedRect(M,y,W-2*M,14,2,2,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(7.5);Ct(...C.gold);
+    doc.text('OBS:',M+4,y+5.5);
+    doc.setFont('helvetica','normal');Ct(...C.text);
+    doc.text(r.observaciones,M+14,y+5.5,{maxWidth:W-2*M-18});
+    y+=18;
+  }
+
+  // Firma
+  if(firmaDataURL){
+    y+=4;
+    doc.setFont('helvetica','bold');doc.setFontSize(8);Ct(...C.muted);
+    doc.text('FIRMA DEL TRANSPORTISTA',W/2,y,{align:'center'});
+    y+=4;
+    doc.addImage(firmaDataURL,'PNG',W/2-35,y,70,28);
+    y+=30;
+    Ct(...C.muted);doc.setLineWidth(.3);
+    doc.line(W/2-35,y,W/2+35,y);
+    doc.setFont('helvetica','normal');doc.setFontSize(6.5);
+    doc.text(r.transportista||'Transportista',W/2,y+4,{align:'center'});
+    y+=8;
+  }
+
+  // Footer
+  const fy=H-20;
+  Cf(...C.gold);doc.rect(0,fy-1.5,W,1.5,'F');
+  Cf(...C.headerDark);doc.rect(0,fy,W,H-fy,'F');
+  doc.setFont('helvetica','normal');doc.setFontSize(7);Ct(100,200,150);
+  doc.text('DARWASH SA  ·  Vicuña Mackenna, Córdoba, Argentina',M,fy+8);
+  doc.text('Generado: '+new Date().toLocaleString('es-AR'),W-M,fy+8,{align:'right'});
+  doc.setFont('helvetica','bold');doc.setFontSize(7.5);Ct(...C.gold);
+  doc.text('Egreso N° '+String(nroRemito).slice(-6).padStart(6,'0'),W/2,fy+8,{align:'center'});
+  doc.setFont('helvetica','normal');doc.setFontSize(6);Ct(70,130,95);
+  doc.text('Documento interno — Darwash SA  ·  SIGSA / SENASA',W/2,fy+14,{align:'center'});
+
+  const filename='Egreso_Darwash_'+String(nroRemito).slice(-6).padStart(6,'0')+'.pdf';
+  if(!soloSubir) doc.save(filename);
+
+  // Subir PDF a Supabase Storage
+  try{
+    const pdfBlob=doc.output('blob');
+    const btn=document.getElementById('btn-pdf');
+    if(btn&&!soloSubir){btn.textContent='📤 Subiendo...';}
+    const pdfUrl=await subirPDFStorage(pdfBlob,filename);
+    if(pdfUrl&&ultimoRegistro&&ultimoRegistro.id){
+      await fetch(SUPABASE_URL+'/rest/v1/egresos_hacienda?id=eq.'+ultimoRegistro.id,{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
+        body:JSON.stringify({pdf_url:pdfUrl})
+      });
+      ultimoRegistro.pdf_url=pdfUrl;
+      if(btn&&!soloSubir){btn.textContent='✅ PDF guardado';setTimeout(()=>{btn.textContent='📄 Remito PDF';},3000);}
+    }else{if(btn&&!soloSubir){btn.textContent='📄 Remito PDF';}}
+  }catch(e){console.error('Error subiendo PDF:',e);}
+}
+
+async function subirPDFStorage(blob,filename){
+  const path='egresos/'+filename;
+  const res=await fetch(SUPABASE_URL+'/storage/v1/object/remitos/'+path,{
+    method:'POST',
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/pdf'},
+    body:blob
+  });
+  if(res.ok){return SUPABASE_URL+'/storage/v1/object/public/remitos/'+path;}
+  return null;
+}
+
+// ══════════════════════════════════════════
+// WHATSAPP
+// ══════════════════════════════════════════
+function compartirWA(){
+  if(!ultimoRegistro)return;
+  const r=ultimoRegistro;
+  const fecha=r.fecha?r.fecha.split('-').reverse().join('/'):'';
+  const cats=Object.entries(r.categorias||{}).filter(([,v])=>v>0)
+    .map(([k,v])=>`  • ${CATS.find(c=>c.id===k)?.label||k}: ${v}`).join('\n');
+  const msg=
+    `🐄 *EGRESO DE HACIENDA — DARWASH SA*\n`+
+    `━━━━━━━━━━━━━━━━━━━━━━\n`+
+    `📅 Fecha: ${fecha}\n`+
+    `🏷 Tropa: ${r.tropa||'—'}\n`+
+    `📄 DTE: ${r.nro_dte||'—'}\n`+
+    `📍 Destino: ${r.destino||'—'}\n`+
+    `🚛 Transportista: ${r.transportista||'—'} · ${r.patente||'—'}\n`+
+    `━━━━━━━━━━━━━━━━━━━━━━\n`+
+    `${cats}\n`+
+    `━━━━━━━━━━━━━━━━━━━━━━\n`+
+    `✅ *TOTAL: ${r.total_cabezas||0} cabezas*\n`+
+    (r.observaciones?`📝 ${r.observaciones}\n`:'')+
+    (r.pdf_url?`\n📎 PDF: ${r.pdf_url}\n`:'')+
+    `\n_Registrado en Darwash DTE Dashboard_`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+// ══════════════════════════════════════════
+// HISTORIAL
+// ══════════════════════════════════════════
+function renderHistorial(){
+  const c=document.getElementById('historial');
+  if(!sesionRegistros.length){c.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px">Sin registros en esta sesión</div>';return;}
+  c.innerHTML=sesionRegistros.map(r=>{
+    const cats=Object.entries(r.categorias||{}).filter(([,v])=>v>0)
+      .map(([k,v])=>`<span class="hist-cat-chip">${CATS.find(c=>c.id===k)?.label||k}: ${v}</span>`).join('');
+    return `<div class="hist-item">
+      <div class="hist-top">
+        <div><div class="hist-tropa">${esc(r.tropa||'—')}</div><div class="hist-meta">${r.fecha?r.fecha.split('-').reverse().join('/'):''}${r.destino?' → '+esc(r.destino):''}</div></div>
+        <div class="hist-total">${r.total_cabezas||0} cab.</div>
+      </div>
+      <div class="hist-cats">${cats}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// NUEVO REGISTRO
+// ══════════════════════════════════════════
+function nuevoRegistro(){
+  document.getElementById('success-overlay').classList.remove('show');
+  ultimoRegistro=null;
+  document.getElementById('inp-tropa').value='';
+  document.getElementById('inp-dte').value='';
+  document.getElementById('inp-destino').value='';
+  document.getElementById('inp-transportista').value='';
+  document.getElementById('inp-patente').value='';
+  document.getElementById('inp-obs').value='';
+  document.getElementById('hora-wrap')?document.getElementById('hora-wrap').style.display='none':null;
+  CATS.forEach(c=>{const el=document.getElementById('cat-'+c.id);if(el)el.value='';});
+  recalcTotal();
+  limpiarFirma();
+  limpiarFotos();
+  document.getElementById('btn-pdf').disabled=true;
+  document.getElementById('btn-wa').disabled=true;
+  const hoy=new Date();
+  document.getElementById('inp-fecha').value=hoy.toISOString().split('T')[0];
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════
+// UTIL
+// ══════════════════════════════════════════
+function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+const CATS_REF=CATS; // needed inside PDF scope
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
