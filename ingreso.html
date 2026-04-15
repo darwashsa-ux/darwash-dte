@@ -588,6 +588,41 @@ async function generarPDF(soloSubir=false){
     y+=31;
   }
 
+  // ── FOTOS DE RESPALDO ──────────────────
+  if(fotosData&&fotosData.length>0){
+    seccion('FOTOS DE RESPALDO',42);
+
+    const FOTO_W=54, FOTO_H=54, GAP=5;
+    const COLS=3;
+    const filaAltura=FOTO_H+GAP+8;
+
+    // Si no entra la primera fila, nueva página
+    if(y+filaAltura>H-28){ doc.addPage(); y=18; }
+
+    let fx=M, fRow=0;
+    fotosData.forEach(function(fd,idx){
+      if(idx>0&&idx%COLS===0){
+        y+=FOTO_H+GAP+8; fx=M; fRow++;
+        if(y+FOTO_H>H-28){ doc.addPage(); y=18; }
+      }
+      // Marco de foto
+      Cf(245,248,246); Cd(200,220,210); doc.setLineWidth(0.3);
+      doc.roundedRect(fx,y,FOTO_W,FOTO_H,2,2,'FD');
+      // Imagen
+      try{
+        doc.addImage(fd.dataUrl,'JPEG',fx+1,y+1,FOTO_W-2,FOTO_H-2);
+      }catch(e){
+        try{ doc.addImage(fd.dataUrl,'PNG',fx+1,y+1,FOTO_W-2,FOTO_H-2); }catch(e2){}
+      }
+      // Número de foto
+      Cf(4,38,24); doc.roundedRect(fx+FOTO_W-12,y+FOTO_H-9,12,9,0,2,'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(6); Ct(255,255,255);
+      doc.text(String(idx+1)+'/'+(fotosData.length),fx+FOTO_W-6,y+FOTO_H-3.5,{align:'center'});
+      fx+=FOTO_W+GAP;
+    });
+    y+=FOTO_H+10;
+  }
+
   // ── FOOTER ──────────────────────────────
   const fy=H-20;
   Cf(185,145,45); doc.rect(0,fy-1.5,W,1.5,'F');
