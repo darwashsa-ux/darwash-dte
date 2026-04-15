@@ -171,7 +171,7 @@ function heroCard(r,origIdx){
       +'</div>'
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 2px">'
-      +'<a href="egreso.html?remate='+encodeURIComponent(r.codigo||'')+'\'" target="_blank" onclick="event.stopPropagation()" class="rem-btn" style="padding:7px 10px;font-size:11px;font-weight:700;color:#ff6b7a;background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.3);border-radius:8px;text-align:center;text-decoration:none;display:block">⬆ Registrar egreso</a>'
+      +'<a href="egreso.html?remate='+encodeURIComponent(r.codigo||'')+'" target="_blank" onclick="event.stopPropagation()" class="rem-btn" style="padding:7px 10px;font-size:11px;font-weight:700;color:#ff6b7a;background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.3);border-radius:8px;text-align:center;text-decoration:none;display:block">⬆ Registrar egreso</a>'
       +'<button class="rem-btn ver-egr-btn" data-codigo="'+esc(r.codigo||'')+'" onclick="event.stopPropagation()" style="padding:7px 10px;font-size:11px;font-weight:700;color:#3ea2ff;background:rgba(62,162,255,.08);border:1px solid rgba(62,162,255,.25);border-radius:8px;cursor:pointer;width:100%">👁 Ver egresos</button>'
     +'</div>'
   +'</div>';
