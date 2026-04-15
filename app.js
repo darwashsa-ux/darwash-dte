@@ -170,6 +170,10 @@ function heroCard(r,origIdx){
         +'</div>'
       +'</div>'
     +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 2px">'
+      +'<a href="egreso.html?remate='+encodeURIComponent(r.codigo||'')+'\'" target="_blank" onclick="event.stopPropagation()" class="rem-btn" style="padding:7px 10px;font-size:11px;font-weight:700;color:#ff6b7a;background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.3);border-radius:8px;text-align:center;text-decoration:none;display:block">⬆ Registrar egreso</a>'
+      +'<button class="rem-btn ver-egr-btn" data-codigo="'+esc(r.codigo||'')+'" onclick="event.stopPropagation()" style="padding:7px 10px;font-size:11px;font-weight:700;color:#3ea2ff;background:rgba(62,162,255,.08);border:1px solid rgba(62,162,255,.25);border-radius:8px;cursor:pointer;width:100%">👁 Ver egresos</button>'
+    +'</div>'
   +'</div>';
 }
 
@@ -262,7 +266,8 @@ const summary=alertVaca
       inp.onchange=function(e){e.stopPropagation();const cod=inp.dataset.codigo;const nombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');nombres[cod]=inp.value.trim();localStorage.setItem('rem_nombres',JSON.stringify(nombres));};
       inp.onkeydown=function(e){if(e.key==='Enter'){inp.blur();}};
     }); host.querySelectorAll('.dte-link').forEach(el=>el.onclick=function(){const d=(DATOS_DTES.dtes||[]).find(x=>String(x.nro_dte)===String(el.dataset.doc)); openDetalle(d);});
-    host.querySelectorAll('.ver-ing-btn').forEach(el=>el.onclick=function(){verIngresos(el.dataset.codigo);}); const rq=host.querySelector('#r-q'); if(rq){rq.oninput=e=>{q=e.target.value; draw();}; if(wasSearch){rq.focus(); rq.setSelectionRange(selStart,selEnd);}} const rt=host.querySelector('#r-tipo'); if(rt) rt.onchange=e=>{tipo=e.target.value; draw();}; const re=host.querySelector('#r-est'); if(re) re.onchange=e=>{estado=e.target.value; draw();}; const rc=host.querySelector('#r-cat'); if(rc) rc.onchange=e=>{categoria=e.target.value; draw();}; const rmo=host.querySelector('#r-motivo'); if(rmo) rmo.onchange=e=>{motivo=e.target.value; draw();}; const ra=host.querySelector('#r-apto'); if(ra) ra.onchange=e=>{aptoChina=e.target.value; draw();}; host.querySelectorAll('.sorter').forEach(th=>th.onclick=function(){const k=this.dataset.sort; if(sortKey===k){sortDir=sortDir==='asc'?'desc':'asc';} else {sortKey=k; sortDir='asc';} draw();}); const rexp=host.querySelector('#r-export'); if(rexp) rexp.onclick=()=>exportRemates(rows); }
+    host.querySelectorAll('.ver-ing-btn').forEach(el=>el.onclick=function(){verIngresos(el.dataset.codigo);});
+    host.querySelectorAll('.ver-egr-btn').forEach(el=>el.onclick=function(){verEgresos(el.dataset.codigo);}); const rq=host.querySelector('#r-q'); if(rq){rq.oninput=e=>{q=e.target.value; draw();}; if(wasSearch){rq.focus(); rq.setSelectionRange(selStart,selEnd);}} const rt=host.querySelector('#r-tipo'); if(rt) rt.onchange=e=>{tipo=e.target.value; draw();}; const re=host.querySelector('#r-est'); if(re) re.onchange=e=>{estado=e.target.value; draw();}; const rc=host.querySelector('#r-cat'); if(rc) rc.onchange=e=>{categoria=e.target.value; draw();}; const rmo=host.querySelector('#r-motivo'); if(rmo) rmo.onchange=e=>{motivo=e.target.value; draw();}; const ra=host.querySelector('#r-apto'); if(ra) ra.onchange=e=>{aptoChina=e.target.value; draw();}; host.querySelectorAll('.sorter').forEach(th=>th.onclick=function(){const k=this.dataset.sort; if(sortKey===k){sortDir=sortDir==='asc'?'desc':'asc';} else {sortKey=k; sortDir='asc';} draw();}); const rexp=host.querySelector('#r-export'); if(rexp) rexp.onclick=()=>exportRemates(rows); }
  draw(); return host; }
 function renderDtes(){
   const wrap=document.createElement('div');
@@ -684,6 +689,69 @@ function exportRemates(rows) {
     ['enviado','Enviado'],['recibido','Recibido']
   ], 'Remates_Darwash');
 }
+
+// ── Ver Egresos modal ─────────────────────────────────────
+async function verEgresos(codigoRemate){
+  const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
+  const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+  const modalBg=document.getElementById('modalBg');
+  const modal=document.getElementById('modal');
+  modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">⬆ Registros de Egreso</div><div class="modal-title" style="font-size:20px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Cargando egresos...</div>';
+  modalBg.style.display='flex';
+  document.getElementById('closeModal').onclick=closeDetalle;
+  try{
+    const res=await fetch(SB_URL+'/rest/v1/egresos_hacienda?remate=eq.'+encodeURIComponent(codigoRemate)+'&order=ts.desc',{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+    });
+    const rows=await res.json();
+    if(!Array.isArray(rows)||!rows.length){
+      modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">⬆ Registros de Egreso</div><div class="modal-title" style="font-size:20px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Sin egresos registrados.<br><br><a href="egreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:#ff6b7a">→ Registrar primer egreso</a></div>';
+      document.getElementById('closeModal').onclick=closeDetalle;
+      return;
+    }
+    const CATS_MAP={vaquillona:'Vaquillona',torito:'Torito/MEJ',vaca:'Vaca',novillo:'Novillo',ternero:'Ternero',novillito:'Novillito'};
+    const totalCab=rows.reduce((a,r)=>a+(r.total_cabezas||0),0);
+    const filas=rows.map(r=>{
+      const cats=Object.entries(r.categorias||{}).filter(([,v])=>v>0)
+        .map(([k,v])=>'<span style="background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.25);border-radius:5px;padding:2px 7px;font-size:10px;color:#ff6b7a;margin-right:3px">'+(CATS_MAP[k]||k)+': '+v+'</span>').join('');
+      const pdfLink=r.pdf_url?'<a href="'+esc(r.pdf_url)+'" target="_blank" style="color:var(--amber);font-size:11px">📄 PDF</a>':'—';
+      const ts=r.ts?new Date(r.ts).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+      return '<tr>'
+        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px">'+esc(ts)+'</td>'
+        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px;font-weight:700">'+esc(r.tropa||'—')+'</td>'
+        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px">'+esc(r.nro_dte||'—')+'</td>'
+        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px">'+esc(r.destino||'—')+'</td>'
+        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px">'+esc(r.transportista||'—')+'</td>'
+        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-weight:900;color:#ff6b7a;text-align:right;font-size:14px">'+(r.total_cabezas||0)+'</td>'
+        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08)">'+cats+'</td>'
+        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08)">'+pdfLink+'</td>'
+        +'</tr>';
+    }).join('');
+    modal.innerHTML=
+      '<div class="modal-head"><div><div class="modal-title-top">⬆ Registros de Egreso</div><div class="modal-title" style="font-size:20px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div>'
+      +'<div style="padding:16px 20px;overflow-x:auto">'
+      +'<div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">'
+      +'<span style="font-size:12px;color:var(--muted)">'+rows.length+' egreso'+(rows.length>1?'s':'')+' registrado'+(rows.length>1?'s':'')+'</span>'
+      +'<span style="font-size:20px;font-weight:900;color:#ff6b7a">'+totalCab+' cab. egresadas</span></div>'
+      +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+      +'<thead><tr style="background:rgba(255,77,90,.06)">'
+      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">FECHA</th>'
+      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">TROPA</th>'
+      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">DTE</th>'
+      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">DESTINO</th>'
+      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">TRANSPORTISTA</th>'
+      +'<th style="padding:8px 10px;text-align:right;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">CAB.</th>'
+      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">CATEGORÍAS</th>'
+      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">PDF</th>'
+      +'</tr></thead>'
+      +'<tbody>'+filas+'</tbody></table></div></div>';
+    document.getElementById('closeModal').onclick=closeDetalle;
+  }catch(e){
+    modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Error</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:24px;color:var(--red)">'+esc(e.message)+'</div>';
+    document.getElementById('closeModal').onclick=closeDetalle;
+  }
+}
+
 function renderApp(){const s=getSession(); if(!s) return renderLogin(); app.innerHTML='<div class="header"><div class="brand-wrap"><div class="brand-badge"><div class="brand-drw">DRW</div><div class="brand-sub">DARWASH</div></div><div class="title">Tablero DTEs SIGSA / SENASA</div></div><div class="user-pill">'+esc(s.nombre)+' <button id="logoutBtn" class="logout-btn">Salir</button></div></div><div class="tabs"><button class="tab active" data-tab="rem">Remates</button><button class="tab" data-tab="dte">DTEs</button></div><div id="content"></div>'; const content=document.getElementById('content'); const remView=renderRemates(); const dteView=renderDtes(); content.appendChild(remView); content.appendChild(dteView); dteView.style.display='none'; document.querySelectorAll('.tab').forEach(btn=>btn.onclick=function(){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); const isRem=btn.dataset.tab==='rem'; remView.style.display=isRem?'block':'none'; dteView.style.display=isRem?'none':'block';}); document.getElementById('logoutBtn').onclick=function(){clearSession(); renderLogin();};}
 
 async function init() {
