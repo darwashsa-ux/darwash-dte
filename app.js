@@ -657,21 +657,36 @@ async function verIngresos(codigoRemate){
 
 function exportToExcel(rows, cols, filename) {
   if (!rows || rows.length === 0) { alert('No hay datos para exportar.'); return; }
-  const data = rows.map(r => {
-    const obj = {};
-    cols.forEach(([k, l]) => { obj[l] = r[k] != null ? r[k] : ''; });
-    return obj;
-  });
-  const ws = XLSX.utils.json_to_sheet(data, { header: cols.map(([,l]) => l) });
-  const colWidths = cols.map(([k, l]) => {
-    const max = Math.max(l.length, ...rows.map(r => String(r[k] ?? '').length));
-    return { wch: Math.min(Math.max(max + 2, 10), 40) };
-  });
-  ws['!cols'] = colWidths;
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Datos');
-  const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-  XLSX.writeFile(wb, filename + '_' + date + '.xlsx');
+  try {
+    const data = rows.map(r => {
+      const obj = {};
+      cols.forEach(([k, l]) => { obj[l] = r[k] != null ? r[k] : ''; });
+      return obj;
+    });
+    const ws = XLSX.utils.json_to_sheet(data, { header: cols.map(([,l]) => l) });
+    const colWidths = cols.map(([k, l]) => {
+      const max = Math.max(l.length, ...rows.map(r => String(r[k] ?? '').length));
+      return { wch: Math.min(Math.max(max + 2, 10), 40) };
+    });
+    ws['!cols'] = colWidths;
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Datos');
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const fname = filename + '_' + date + '.xlsx';
+    // Descarga via Blob — más compatible con navegadores modernos
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fname;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  } catch(e) {
+    alert('Error al exportar: ' + e.message);
+    console.error('Export error:', e);
+  }
 }
 function exportDtes(rows) {
   exportToExcel(rows, [
