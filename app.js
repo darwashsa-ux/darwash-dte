@@ -209,7 +209,7 @@ const pastHtml=pastRems.length>0
   +'</div>'
   :'';
 
-const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tipos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean)))].sort(); const estados=['todos',...Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean)))].sort(); const categorias=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.categoria).filter(Boolean)))].sort(); const motivos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean)))].sort(); exportRows=(rem.filas||[]).filter(f=>(!tipos.length||tipos.includes(f.tipo_movimiento))&&(!estados.length||estados.includes(normalizarEstado(f.estado)))&&(!categorias_f.length||categorias_f.includes(f.categoria||''))&&(!motivos.length||motivos.includes(f.motivo||''))&&(!aptoChinas.length||aptoChinas.includes(aptoChinaVal(f)))); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
+const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tiposAll=Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean))).sort(); const estadosAll=Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean))).sort(); const categoriasAll=Array.from(new Set((rem.filas||[]).map(f=>f.categoria).filter(Boolean))).sort(); const motivosAll=Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean))).sort(); exportRows=(rem.filas||[]).filter(f=>(!tipos.length||tipos.includes(f.tipo_movimiento))&&(!estados.length||estados.includes(normalizarEstado(f.estado)))&&(!categorias_f.length||categorias_f.includes(f.categoria||''))&&(!motivos.length||motivos.includes(f.motivo||''))&&(!aptoChinas.length||aptoChinas.includes(aptoChinaVal(f)))); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
 
 // Alerta vacas
 const alertVaca=s.vacaFaenaNoApto>0?'<div class="stat-alert"><span>⚠</span><span>'+s.vacaFaenaNoApto+' VACAS FAENA — NO APTO CHINA</span></div>':'';
@@ -264,10 +264,10 @@ function msDropdown(id,label,opts,sel){
     +'<label class="ms-item ms-all"><input type="checkbox" value="__all__" '+(allSel?'checked':'')+'>Todos</label>'
     +items+'</div></div>';
 }
-const tiposOpts=tipos.filter(v=>v!=='todos').map(v=>({v,l:v}));
-const estadosOpts=estados.filter(v=>v!=='todos').map(v=>({v,l:v}));
-const categoriasOpts=categorias.filter(v=>v!=='todos').map(v=>({v,l:v}));
-const motivosOpts=motivos.filter(v=>v!=='todos').map(v=>({v,l:v}));
+const tiposOpts=tiposAll.map(v=>({v,l:v}));
+const estadosOpts=estadosAll.map(v=>({v,l:v}));
+const categoriasOpts=categoriasAll.map(v=>({v,l:v}));
+const motivosOpts=motivosAll.map(v=>({v,l:v}));
 const aptoOpts=[{v:'si',l:'Apto'},{v:'no',l:'No apto'},{v:'sin',l:'Sin dato'}];
 const header='<div class="filters rem-filters">'
   +'<input class="input" id="r-q" placeholder="Buscar..." value="'+esc(q)+'">'
