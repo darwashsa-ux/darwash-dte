@@ -107,7 +107,7 @@ function closeDetalle(){modalBg.style.display='none';} modalBg.onclick=function(
 function remateTipoClass(t){const s=String(t||'').toLowerCase(); if(s.includes('entrada')) return 'row-entrada'; if(s.includes('salida')) return 'row-salida'; return '';}
 function calcMovSummary(filas){const ingresos={total:0,categorias:{}};const egresos={total:0,categorias:{}};const stats={faena:0,invernada:0,aptoSi:0,aptoNo:0,vacaFaenaNoApto:0};(filas||[]).forEach(f=>{const cantidad=Number(f.recibido)||Number(f.enviado)||0;const cat=f.categoria||'Sin categoria';const t=String(f.tipo_movimiento||'').toLowerCase();const motivo=String(f.motivo||'').toLowerCase();const apto=String(f.apto_china||'').toLowerCase();if(t.includes('entrada')){ingresos.total+=cantidad;ingresos.categorias[cat]=(ingresos.categorias[cat]||0)+cantidad;}else if(t.includes('salida')){egresos.total+=cantidad;egresos.categorias[cat]=(egresos.categorias[cat]||0)+cantidad;}if(motivo.includes('faena'))stats.faena+=cantidad;else if(motivo.includes('invernada'))stats.invernada+=cantidad;if(/^si$/i.test(apto))stats.aptoSi+=cantidad;else if(/^no$/i.test(apto))stats.aptoNo+=cantidad;if(/vaca/i.test(cat)&&motivo.includes('faena')&&/^no$/i.test(apto))stats.vacaFaenaNoApto+=cantidad;});return{ingresos,egresos,stats};}
 function renderSummaryBox(title,total,categorias,inOut){const entries=Object.entries(categorias).sort((a,b)=>b[1]-a[1]); return '<div class="summary-box"><div class="summary-head '+inOut+'"><div><div class="small" style="text-transform:uppercase;letter-spacing:1px">'+title+'</div><div class="summary-big">'+total.toLocaleString()+'</div></div></div><div class="summary-cats">'+(entries.length?entries.map(([cat,cant])=>'<div class="cat-pill '+inOut+'" title="'+esc(cat)+'"><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+esc(cant)+'</span></div>').join(''):'<div class="small">Sin movimientos</div>')+'</div></div>';}
-function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=0,q='',tipo='todos',estado='todos',categoria='todos',motivo='todos',aptoChina='todos',sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
+function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=0,q='',tipos=[],estados=[],categorias_f=[],motivos=[],aptoChinas=[],sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
 // Nombres por evento guardados en localStorage
 const remNombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');
 
@@ -209,7 +209,7 @@ const pastHtml=pastRems.length>0
   +'</div>'
   :'';
 
-const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tipos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean)))].sort(); const estados=['todos',...Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean)))].sort(); const categorias=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.categoria).filter(Boolean)))].sort(); const motivos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean)))].sort(); exportRows=(rem.filas||[]).filter(f=>(tipo==='todos'||f.tipo_movimiento===tipo)&&(estado==='todos'||normalizarEstado(f.estado)===estado)&&(categoria==='todos'||(f.categoria||'')===categoria)&&(motivo==='todos'||(f.motivo||'')===motivo)&&(aptoChina==='todos'||aptoChinaVal(f)===aptoChina)); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
+const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tipos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean)))].sort(); const estados=['todos',...Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean)))].sort(); const categorias=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.categoria).filter(Boolean)))].sort(); const motivos=['todos',...Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean)))].sort(); exportRows=(rem.filas||[]).filter(f=>(!tipos.length||tipos.includes(f.tipo_movimiento))&&(!estados.length||estados.includes(normalizarEstado(f.estado)))&&(!categorias_f.length||categorias_f.includes(f.categoria||''))&&(!motivos.length||motivos.includes(f.motivo||''))&&(!aptoChinas.length||aptoChinas.includes(aptoChinaVal(f)))); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
 
 // Alerta vacas
 const alertVaca=s.vacaFaenaNoApto>0?'<div class="stat-alert"><span>⚠</span><span>'+s.vacaFaenaNoApto+' VACAS FAENA — NO APTO CHINA</span></div>':'';
@@ -251,11 +251,38 @@ const summary=alertVaca
         +'<div class="stat-q-num stat-red">'+s.aptoNo+'</div>'
       +'</div>'
     +'</div>'
-  +'</div>'; const header='<div class="filters rem-filters"><input class="input" id="r-q" placeholder="Buscar..." value="'+esc(q)+'"><select class="select" id="r-tipo">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── TIPO ──</option><option '+(tipo==="todos"?'selected':'')+' value="todos">Todos</option>'+tipos.filter(v=>v!=='todos').map(v=>'<option '+(v===tipo?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-est">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── ESTADO ──</option><option '+(estado==="todos"?'selected':'')+' value="todos">Todos</option>'+estados.filter(v=>v!=='todos').map(v=>'<option '+(v===estado?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-cat">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── CATEGORÍA ──</option><option '+(categoria==="todos"?'selected':'')+' value="todos">Todas</option>'+categorias.filter(v=>v!=='todos').map(v=>'<option '+(v===categoria?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-motivo">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── MOTIVO ──</option><option '+(motivo==="todos"?'selected':'')+' value="todos">Todos</option>'+motivos.filter(v=>v!=='todos').map(v=>'<option '+(v===motivo?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select><select class="select" id="r-apto">'+'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── APTO CHINA ──</option><option '+(aptoChina==="todos"?'selected':'')+' value="todos">Todos</option><option '+(aptoChina==="si"?'selected':'')+' value="si">Apto</option><option '+(aptoChina==="no"?'selected':'')+' value="no">No apto</option><option '+(aptoChina==="sin"?'selected':'')+' value="sin">Sin dato</option>'+'</select><span class="result-count">'+exportRows.length+' de '+(rem.filas||[]).length+'</span>'+'<button id="r-export" class="ghost-btn" style="margin-left:auto;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700;border-color:rgba(0,208,132,.35);color:var(--green)">⬇ Excel</button></div>'; ; const cols=[['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],['enviado','Env.'],['recibido','Rec.']]; const th=cols.map(([k,l])=>'<th data-sort="'+k+'" class="sorter">'+l+(sortKey===k?(sortDir==='asc'?' ↑':' ↓'):' ↕')+'</th>').join(''); function aptoChinaBadge(f){const v=f.apto_china||f['Apto China']||f.aptoChina; const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto'; const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no'; return {lbl,cls};} const body=exportRows.map(f=>{const ac=aptoChinaBadge(f); return '<tr class="'+remateTipoClass(f.tipo_movimiento)+'"><td class="nowrap col-tipo">'+esc(f.tipo_movimiento||'-')+'</td><td class="link dte-link nowrap numcol col-dte" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'-')+'</td><td>'+esc(f.emisor_nombre||'-')+'</td><td>'+esc(f.receptor_nombre||'-')+'</td><td class="nowrap">'+esc(f.categoria||'-')+'</td><td class="nowrap numcol col-fecha">'+esc(f.fecha_movimiento||'-')+'</td><td>'+esc(f.motivo||'-')+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(f.estado)+'">'+esc(f.estado||'-')+'</span></td><td class="nowrap col-apto-china"><span class="badge apto-china '+ac.cls+'">'+esc(ac.lbl)+'</span></td><td style="text-align:right" class="nowrap numcol">'+esc(f.enviado||0)+'</td><td style="text-align:right" class="nowrap numcol">'+esc(f.recibido||0)+'</td></tr>';}).join(''); detail='<div class="detail-head"><div class="section-title">'+esc(rem.codigo||'Remate')+'</div><div class="small">'+esc((rem.info||{})['Predio ferial']||'')+'</div></div>'+summary+header+'<div class="table-wrap"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'; } else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
+  +'</div>'; 
+function msDropdown(id,label,opts,sel){
+  const allSel=!sel.length;
+  const lbl=allSel?label:(sel.length===1?opts.find(o=>o.v===sel[0])?.l||sel[0]:sel.length+' sel.');
+  const items=opts.map(o=>{
+    const chk=sel.includes(o.v)?'checked':'';
+    return '<label class="ms-item"><input type="checkbox" value="'+esc(o.v)+'" '+chk+'><span>'+esc(o.l)+'</span></label>';
+  }).join('');
+  return '<div class="ms-wrap" id="'+id+'"><button class="ms-btn select '+(allSel?'':'ms-active')+'" type="button">'+esc(lbl)+' <span class="ms-arrow">▾</span></button>'
+    +'<div class="ms-panel" style="display:none">'
+    +'<label class="ms-item ms-all"><input type="checkbox" value="__all__" '+(allSel?'checked':'')+'>Todos</label>'
+    +items+'</div></div>';
+}
+const tiposOpts=tipos.filter(v=>v!=='todos').map(v=>({v,l:v}));
+const estadosOpts=estados.filter(v=>v!=='todos').map(v=>({v,l:v}));
+const categoriasOpts=categorias.filter(v=>v!=='todos').map(v=>({v,l:v}));
+const motivosOpts=motivos.filter(v=>v!=='todos').map(v=>({v,l:v}));
+const aptoOpts=[{v:'si',l:'Apto'},{v:'no',l:'No apto'},{v:'sin',l:'Sin dato'}];
+const header='<div class="filters rem-filters">'
+  +'<input class="input" id="r-q" placeholder="Buscar..." value="'+esc(q)+'">'
+  +msDropdown('r-tipo','Tipo',tiposOpts,tipos)
+  +msDropdown('r-est','Estado',estadosOpts,estados)
+  +msDropdown('r-cat','Categoría',categoriasOpts,categorias_f)
+  +msDropdown('r-motivo','Motivo',motivosOpts,motivos)
+  +msDropdown('r-apto','Apto China',aptoOpts,aptoChinas)
+  +'<span class="result-count">'+exportRows.length+' de '+(rem.filas||[]).length+'</span>'
+  +'<button id="r-export" class="ghost-btn" style="margin-left:auto;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700;border-color:rgba(0,208,132,.35);color:var(--green)">⬇ Excel</button>'
+  +'</div>'; ; const cols=[['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],['enviado','Env.'],['recibido','Rec.']]; const th=cols.map(([k,l])=>'<th data-sort="'+k+'" class="sorter">'+l+(sortKey===k?(sortDir==='asc'?' ↑':' ↓'):' ↕')+'</th>').join(''); function aptoChinaBadge(f){const v=f.apto_china||f['Apto China']||f.aptoChina; const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto'; const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no'; return {lbl,cls};} const body=exportRows.map(f=>{const ac=aptoChinaBadge(f); return '<tr class="'+remateTipoClass(f.tipo_movimiento)+'"><td class="nowrap col-tipo">'+esc(f.tipo_movimiento||'-')+'</td><td class="link dte-link nowrap numcol col-dte" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'-')+'</td><td>'+esc(f.emisor_nombre||'-')+'</td><td>'+esc(f.receptor_nombre||'-')+'</td><td class="nowrap">'+esc(f.categoria||'-')+'</td><td class="nowrap numcol col-fecha">'+esc(f.fecha_movimiento||'-')+'</td><td>'+esc(f.motivo||'-')+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(f.estado)+'">'+esc(f.estado||'-')+'</span></td><td class="nowrap col-apto-china"><span class="badge apto-china '+ac.cls+'">'+esc(ac.lbl)+'</span></td><td style="text-align:right" class="nowrap numcol">'+esc(f.enviado||0)+'</td><td style="text-align:right" class="nowrap numcol">'+esc(f.recibido||0)+'</td></tr>';}).join(''); detail='<div class="detail-head"><div class="section-title">'+esc(rem.codigo||'Remate')+'</div><div class="small">'+esc((rem.info||{})['Predio ferial']||'')+'</div></div>'+summary+header+'<div class="table-wrap"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'; } else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
     const hero=host.querySelector('.rem-hero');
-    if(hero) hero.onclick=function(){const prev=selected;selected=Number(hero.dataset.i);if(prev!==selected){q='';tipo='todos';estado='todos';categoria='todos';motivo='todos';aptoChina='todos';}draw();};
+    if(hero) hero.onclick=function(){const prev=selected;selected=Number(hero.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();};
     // Past rows click
-    host.querySelectorAll('.rem-past-row').forEach(el=>el.onclick=function(){const prev=selected;selected=Number(el.dataset.i);if(prev!==selected){q='';tipo='todos';estado='todos';categoria='todos';motivo='todos';aptoChina='todos';}draw();});
+    host.querySelectorAll('.rem-past-row').forEach(el=>el.onclick=function(){const prev=selected;selected=Number(el.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();});
     // Toggle anteriores
     const tog=host.querySelector('#rem-past-toggle');
     if(tog){tog.onclick=function(e){e.stopPropagation();const list=host.querySelector('#rem-past-list');const arrow=host.querySelector('#rem-past-arrow');const lbl=host.querySelector('#rem-past-label');if(list){const open=list.style.display==='none';list.style.display=open?'block':'none';if(arrow)arrow.textContent=open?'▾':'▸';if(lbl)lbl.textContent=open?'Ocultar anteriores':'Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+'s anterior'+(pastRems.length>1?'es':'');}};} 
@@ -267,7 +294,39 @@ const summary=alertVaca
       inp.onkeydown=function(e){if(e.key==='Enter'){inp.blur();}};
     }); host.querySelectorAll('.dte-link').forEach(el=>el.onclick=function(){const d=(DATOS_DTES.dtes||[]).find(x=>String(x.nro_dte)===String(el.dataset.doc)); openDetalle(d);});
     host.querySelectorAll('.ver-ing-btn').forEach(el=>el.onclick=function(){verIngresos(el.dataset.codigo);});
-    host.querySelectorAll('.ver-egr-btn').forEach(el=>el.onclick=function(){verEgresos(el.dataset.codigo);}); const rq=host.querySelector('#r-q'); if(rq){rq.oninput=e=>{q=e.target.value; draw();}; if(wasSearch){rq.focus(); rq.setSelectionRange(selStart,selEnd);}} const rt=host.querySelector('#r-tipo'); if(rt) rt.onchange=e=>{tipo=e.target.value; draw();}; const re=host.querySelector('#r-est'); if(re) re.onchange=e=>{estado=e.target.value; draw();}; const rc=host.querySelector('#r-cat'); if(rc) rc.onchange=e=>{categoria=e.target.value; draw();}; const rmo=host.querySelector('#r-motivo'); if(rmo) rmo.onchange=e=>{motivo=e.target.value; draw();}; const ra=host.querySelector('#r-apto'); if(ra) ra.onchange=e=>{aptoChina=e.target.value; draw();}; host.querySelectorAll('.sorter').forEach(th=>th.onclick=function(){const k=this.dataset.sort; if(sortKey===k){sortDir=sortDir==='asc'?'desc':'asc';} else {sortKey=k; sortDir='asc';} draw();}); const rexp=host.querySelector('#r-export'); if(rexp) rexp.onclick=()=>exportRemates(exportRows); }
+    host.querySelectorAll('.ver-egr-btn').forEach(el=>el.onclick=function(){verEgresos(el.dataset.codigo);}); const rq=host.querySelector('#r-q'); if(rq){rq.oninput=e=>{q=e.target.value; draw();}; if(wasSearch){rq.focus(); rq.setSelectionRange(selStart,selEnd);}} 
+function bindMs(id,arr){
+  const wrap=host.querySelector('#'+id); if(!wrap) return;
+  const btn=wrap.querySelector('.ms-btn');
+  const panel=wrap.querySelector('.ms-panel');
+  btn.onclick=function(e){
+    e.stopPropagation();
+    // Cerrar otros
+    host.querySelectorAll('.ms-panel').forEach(p=>{if(p!==panel)p.style.display='none';});
+    panel.style.display=panel.style.display==='none'?'block':'none';
+  };
+  panel.querySelectorAll('input[type=checkbox]').forEach(chk=>{
+    chk.onchange=function(){
+      if(this.value==='__all__'){arr.length=0;}
+      else{
+        const i=arr.indexOf(this.value);
+        if(this.checked){if(i<0)arr.push(this.value);}
+        else{if(i>=0)arr.splice(i,1);}
+      }
+      draw();
+    };
+  });
+}
+bindMs('r-tipo',tipos);
+bindMs('r-est',estados);
+bindMs('r-cat',categorias_f);
+bindMs('r-motivo',motivos);
+bindMs('r-apto',aptoChinas);
+// Cerrar dropdowns al click fuera
+document.addEventListener('click',function msClose(e){
+  if(!host.contains(e.target)){host.querySelectorAll('.ms-panel').forEach(p=>p.style.display='none');}
+},true);
+ host.querySelectorAll('.sorter').forEach(th=>th.onclick=function(){const k=this.dataset.sort; if(sortKey===k){sortDir=sortDir==='asc'?'desc':'asc';} else {sortKey=k; sortDir='asc';} draw();}); const rexp=host.querySelector('#r-export'); if(rexp) rexp.onclick=()=>exportRemates(exportRows); }
  draw(); return host; }
 function renderDtes(){
   const wrap=document.createElement('div');

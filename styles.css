@@ -158,3 +158,14 @@ td.col-consig,td.col-dte,td.col-cuit,td.col-tipo,td.col-estado,td.col-fecha{vert
 .det-table tbody td{padding:12px 14px;color:var(--muted);font-size:13px}
 .det-table tfoot tr{background:rgba(0,208,132,.05);border-top:1px solid rgba(0,208,132,.2)}
 .det-table tfoot td{padding:10px 14px}
+
+/* ── MULTI-SELECT DROPDOWN ──────────────────────────── */
+.ms-wrap{position:relative;display:inline-block;}
+.ms-btn{cursor:pointer;min-width:100px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:6px;white-space:nowrap;}
+.ms-btn.ms-active{border-color:rgba(0,208,132,.6);color:var(--green);}
+.ms-arrow{font-size:9px;opacity:.6;flex-shrink:0;}
+.ms-panel{position:absolute;top:calc(100% + 4px);left:0;z-index:999;background:#0d2821;border:1px solid rgba(0,208,132,.25);border-radius:10px;padding:6px 4px;min-width:160px;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+.ms-item{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--muted);white-space:nowrap;transition:background .12s;}
+.ms-item:hover{background:rgba(0,208,132,.08);}
+.ms-item input[type=checkbox]{accent-color:var(--green);width:13px;height:13px;cursor:pointer;flex-shrink:0;}
+.ms-all{border-bottom:1px solid rgba(0,208,132,.12);margin-bottom:4px;padding-bottom:8px;color:var(--fg);font-weight:600;}
