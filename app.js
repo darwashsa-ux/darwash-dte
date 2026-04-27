@@ -1,5 +1,6 @@
 let DATOS_DTES = {};
 let DATOS_REMATES = {};
+let DATOS_ALIASES = {};
 const USUARIOS = {"leoqui1991@gmail.com": {"pass": "36604114", "nombre": "Leo", "mustChange": false}, "lorenzolavaselli@gmail.com": {"pass": "123456", "nombre": "Lorenzo", "mustChange": true}, "fernandodavidurcelay@gmail.com": {"pass": "123456", "nombre": "Fernando", "mustChange": true}, "darwashsa@gmail.com": {"pass": "123456", "nombre": "Darwash SA", "mustChange": true}};
 function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return String(h);} function getUsuarios(){const base={};for(const [email,u] of Object.entries(USUARIOS))base[email]={passHash:hashStr(u.pass),nombre:u.nombre,mustChange:u.mustChange};return base;} function getSession(){try{const s=JSON.parse(localStorage.getItem('dw_session')||'null');if(s&&s.exp>Date.now())return s;}catch(e){}return null;} function setSession(email,nombre){localStorage.setItem('dw_session',JSON.stringify({email,nombre,exp:Date.now()+8*3600*1000}));} function clearSession(){localStorage.removeItem('dw_session');}
 function esc(v){return String(v??'—').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
@@ -22,12 +23,19 @@ const app=document.getElementById('app'); const modalBg=document.getElementById(
 function renderLogin(err=''){app.innerHTML='<div class="login"><div class="login-card"><div class="login-brand"><div class="brand-badge"><div class="brand-drw">DRW</div><div class="brand-sub">DARWASH</div></div><div><div class="title" style="font-size:13px">Livestock dashboard</div><div class="small" style="margin-top:4px">Ingresá con tu usuario autorizado</div></div></div><div class="small" style="margin-bottom:6px">Email</div><input class="input" id="lemail" style="width:100%;margin-bottom:14px"><div class="small" style="margin-bottom:6px">Contraseña</div><input class="input" id="lpass" type="password" style="width:100%;margin-bottom:14px">'+(err?'<div class="login-error">⚠ '+esc(err)+'</div>':'')+'<button id="loginBtn" class="btn" style="width:100%;background:var(--primary);color:#031011;font-weight:800;border-color:rgba(0,210,211,.4)">Ingresar →</button></div></div>'; document.getElementById('loginBtn').onclick=function(){const email=(document.getElementById('lemail').value||'').trim().toLowerCase();const pass=document.getElementById('lpass').value||'';const u=getUsuarios()[email]; if(!u) return renderLogin('Email no registrado.'); if(u.passHash!==hashStr(pass)) return renderLogin('Contraseña incorrecta.'); setSession(email,u.nombre); 
 async function init() {
   try {
-    const [r1, r2] = await Promise.all([
+    const [r1, r2, r3] = await Promise.all([
       fetch('dtes_maestro.json'),
-      fetch('remates_maestro.json')
+      fetch('remates_maestro.json'),
+      fetch('remates_alias.json').catch(()=>null)
     ]);
     DATOS_DTES = await r1.json();
     DATOS_REMATES = await r2.json();
+    if(r3 && r3.ok){
+      try{
+        const a=await r3.json();
+        if(a && typeof a==='object' && !Array.isArray(a)) DATOS_ALIASES=a;
+      }catch(_){ /* alias inválido — fallback {} silencioso */ }
+    }
   } catch(e) { console.error('Error cargando datos:', e); }
   renderApp();
 }
@@ -104,18 +112,74 @@ function openDetalle(d){
   document.getElementById('closeModal').onclick=closeDetalle;
 }
 function closeDetalle(){modalBg.style.display='none';} modalBg.onclick=function(e){if(e.target===modalBg) closeDetalle();};
+document.addEventListener('keydown',function(e){if(e.key==='Escape' && modalBg.style.display==='flex')closeDetalle();});
+function mostrarLinkRemate(codigo,tipo){
+  const url='https://darwashsa-ux.github.io/darwash-dte/'+tipo+'.html?remate='+encodeURIComponent(codigo);
+  const tipoLbl=tipo==='egreso'?'Egreso':'Ingreso';
+  const tipoLow=tipo==='egreso'?'egreso':'ingreso';
+  const aliases=DATOS_ALIASES||{};
+  const alias=aliases[codigo]||'';
+  const tituloRef=alias||codigo;
+  const mensaje='Hola, este es el link para registrar el '+tipoLow+' del remate '+tituloRef+':\n\n'+url;
+  const tituloHtml=alias
+    ? '<div class="modal-title">'+esc(alias)+'</div><div style="font-family:monospace;font-size:11px;color:var(--muted);margin-top:4px">'+esc(codigo)+'</div>'
+    : '<div class="modal-title" style="font-family:monospace;font-size:20px">'+esc(codigo)+'</div>';
+  modal.innerHTML='<div class="modal-head">'
+    +'<div><div class="modal-title-top">Link de '+esc(tipoLbl)+'</div>'+tituloHtml+'</div>'
+    +'<button class="modal-close" id="link-close">Cerrar</button>'
+    +'</div>'
+    +'<div style="padding:22px 24px 26px">'
+      +'<div class="small" style="margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;font-size:10px">Link único para este remate</div>'
+      +'<div id="link-box" style="background:#0a1410;border:1px solid rgba(0,210,132,.3);border-radius:10px;padding:14px 16px;font-family:monospace;font-size:12px;color:var(--primary);word-break:break-all;user-select:all;margin-bottom:18px;line-height:1.5">'+esc(url)+'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'
+        +'<button id="btn-copy" style="padding:14px 12px;font-size:14px;font-weight:700;color:var(--primary);border:1px solid rgba(0,210,132,.4);background:rgba(0,210,132,.1);border-radius:12px;cursor:pointer;font-family:inherit">📋 Copiar link</button>'
+        +'<button id="btn-wsp" style="padding:14px 12px;font-size:14px;font-weight:700;color:#fff;border:none;background:linear-gradient(135deg,#128c3a,#075e24);border-radius:12px;cursor:pointer;font-family:inherit">💬 WhatsApp</button>'
+      +'</div>'
+    +'</div>';
+  modalBg.style.display='flex';
+  document.getElementById('link-close').onclick=closeDetalle;
+  const btnCopy=document.getElementById('btn-copy');
+  btnCopy.onclick=async function(){
+    const orig=btnCopy.innerHTML;
+    try{
+      await navigator.clipboard.writeText(url);
+      btnCopy.innerHTML='✓ Copiado';
+      btnCopy.style.background='rgba(0,210,132,.25)';
+      setTimeout(()=>{btnCopy.innerHTML=orig;btnCopy.style.background='rgba(0,210,132,.1)';},2000);
+    }catch(e){
+      // Fallback: seleccionar el texto del link para copia manual
+      const box=document.getElementById('link-box');
+      const range=document.createRange(); range.selectNodeContents(box);
+      const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      btnCopy.innerHTML='Seleccionado — Ctrl+C';
+      setTimeout(()=>{btnCopy.innerHTML=orig;},3000);
+    }
+  };
+  document.getElementById('btn-wsp').onclick=function(){
+    window.open('https://wa.me/?text='+encodeURIComponent(mensaje),'_blank');
+  };
+}
 function remateTipoClass(t){const s=String(t||'').toLowerCase(); if(s.includes('entrada')) return 'row-entrada'; if(s.includes('salida')) return 'row-salida'; return '';}
 function calcMovSummary(filas){const ingresos={total:0,categorias:{}};const egresos={total:0,categorias:{}};const stats={faena:0,invernada:0,aptoSi:0,aptoNo:0,vacaFaenaNoApto:0};(filas||[]).forEach(f=>{const cantidad=Number(f.recibido)||Number(f.enviado)||0;const cat=f.categoria||'Sin categoria';const t=String(f.tipo_movimiento||'').toLowerCase();const motivo=String(f.motivo||'').toLowerCase();const apto=String(f.apto_china||'').toLowerCase();if(t.includes('entrada')){ingresos.total+=cantidad;ingresos.categorias[cat]=(ingresos.categorias[cat]||0)+cantidad;}else if(t.includes('salida')){egresos.total+=cantidad;egresos.categorias[cat]=(egresos.categorias[cat]||0)+cantidad;}if(motivo.includes('faena'))stats.faena+=cantidad;else if(motivo.includes('invernada'))stats.invernada+=cantidad;if(/^si$/i.test(apto))stats.aptoSi+=cantidad;else if(/^no$/i.test(apto))stats.aptoNo+=cantidad;if(/vaca/i.test(cat)&&motivo.includes('faena')&&/^no$/i.test(apto))stats.vacaFaenaNoApto+=cantidad;});return{ingresos,egresos,stats};}
 function renderSummaryBox(title,total,categorias,inOut){const entries=Object.entries(categorias).sort((a,b)=>b[1]-a[1]); return '<div class="summary-box"><div class="summary-head '+inOut+'"><div><div class="small" style="text-transform:uppercase;letter-spacing:1px">'+title+'</div><div class="summary-big">'+total.toLocaleString()+'</div></div></div><div class="summary-cats">'+(entries.length?entries.map(([cat,cant])=>'<div class="cat-pill '+inOut+'" title="'+esc(cat)+'"><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+esc(cant)+'</span></div>').join(''):'<div class="small">Sin movimientos</div>')+'</div></div>';}
-function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=0,q='',tipos=[],estados=[],categorias_f=[],motivos=[],aptoChinas=[],sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
+function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=null,q='',tipos=[],estados=[],categorias_f=[],motivos=[],aptoChinas=[],sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
 // Nombres por evento guardados en localStorage
 const remNombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');
 
-// Detectar remate "activo" = el de fecha de inicio más reciente
+// Detectar remates "activos" = todos los PENDIENTE; el resto a anteriores
 function parseDate(s){if(!s||s==='-')return 0; const p=s.split('/'); return p.length===3?new Date(+p[2],+p[1]-1,+p[0]).getTime():0;}
-const sortedByDate=[...rems].map((r,origIdx)=>({r,origIdx,t:parseDate((r.info||{})['Inicio']||'')})).sort((a,b)=>b.t-a.t);
-const activeOrigIdx=sortedByDate.length>0?sortedByDate[0].origIdx:0;
-const pastRems=sortedByDate.slice(1);
+const aliases=DATOS_ALIASES||{};
+const activeRems=[]; const pastRems=[];
+rems.forEach((r,origIdx)=>{
+  const t=parseDate((r.info||{})['Inicio']||'');
+  const estado=String((r.info||{}).Estado||'').toUpperCase();
+  const entry={r,origIdx,t};
+  if(estado==='PENDIENTE') activeRems.push(entry); else pastRems.push(entry);
+});
+activeRems.sort((a,b)=>b.t-a.t);
+pastRems.sort((a,b)=>b.t-a.t);
+// Inicializar selected al primer PENDIENTE (sentinela null en primera pasada)
+if(selected===null) selected=activeRems[0]?.origIdx ?? 0;
 
 // ── HERO CARD (remate activo) ─────────────────────────────
 function heroCard(r,origIdx){
@@ -123,7 +187,7 @@ function heroCard(r,origIdx){
   const accentColor=isBull?'var(--amber)':'var(--primary)';
   const accentGlow=isBull?'rgba(215,165,59,.18)':'rgba(0,210,132,.12)';
   const dtes=new Set((r.filas||[]).map(f=>f.documento)).size;
-  const nombre=remNombres[r.codigo||'']||'';
+  const nombre=remNombres[r.codigo||'']||aliases[r.codigo||'']||'';
   const inicio=esc((r.info||{})['Inicio']||'-');
   const fin=esc((r.info||{})['Fin']||'-');
   const predio=esc((r.info||{})['Predio ferial']||(r.info||{}).consignataria||'');
@@ -146,7 +210,7 @@ function heroCard(r,origIdx){
         +(isBull?'<span style="font-size:10px;color:var(--amber);letter-spacing:1px">BULLTRADE</span>':'')
       +'</div>'
       +'<div style="display:flex;gap:8px">'
-        +'<a href="'+rLink+'" target="_blank" onclick="event.stopPropagation()" class="rem-btn rem-btn-reg" style="padding:7px 14px;font-size:11px">📋 Registrar ingreso</a>'
+        +'<button class="rem-btn rem-btn-reg link-rem-btn" data-codigo="'+esc(r.codigo||'')+'" data-tipo="ingreso" onclick="event.stopPropagation()" style="padding:7px 14px;font-size:11px;cursor:pointer;font-family:inherit">📋 Registrar ingreso</button>'
         +'<button class="rem-btn rem-btn-ver ver-ing-btn" data-codigo="'+esc(r.codigo||'')+'" onclick="event.stopPropagation()" style="padding:7px 14px;font-size:11px">👁 Ver ingresos</button>'
       +'</div>'
     +'</div>'
@@ -171,7 +235,7 @@ function heroCard(r,origIdx){
       +'</div>'
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 2px">'
-      +'<a href="egreso.html?remate='+encodeURIComponent(r.codigo||'')+'" target="_blank" onclick="event.stopPropagation()" class="rem-btn" style="padding:7px 10px;font-size:11px;font-weight:700;color:#ff6b7a;background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.3);border-radius:8px;text-align:center;text-decoration:none;display:block">⬆ Registrar egreso</a>'
+      +'<button class="rem-btn link-rem-btn" data-codigo="'+esc(r.codigo||'')+'" data-tipo="egreso" onclick="event.stopPropagation()" style="padding:7px 10px;font-size:11px;font-weight:700;color:#ff6b7a;background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.3);border-radius:8px;text-align:center;cursor:pointer;width:100%;font-family:inherit">⬆ Registrar egreso</button>'
       +'<button class="rem-btn ver-egr-btn" data-codigo="'+esc(r.codigo||'')+'" onclick="event.stopPropagation()" style="padding:7px 10px;font-size:11px;font-weight:700;color:#3ea2ff;background:rgba(62,162,255,.08);border:1px solid rgba(62,162,255,.25);border-radius:8px;cursor:pointer;width:100%">👁 Ver egresos</button>'
     +'</div>'
   +'</div>';
@@ -180,26 +244,38 @@ function heroCard(r,origIdx){
 // ── PAST CARD (mini row) ──────────────────────────────────
 function pastCard(r,origIdx){
   const isBull=((r.info||{}).consignataria||'').toUpperCase().includes('BULLTRADE');
-  const nombre=remNombres[r.codigo||'']||'';
+  const titulo=remNombres[r.codigo||'']||aliases[r.codigo||'']||'';
   const dtes=new Set((r.filas||[]).map(f=>f.documento)).size;
   const inicio=esc((r.info||{})['Inicio']||'-');
   const fin=esc((r.info||{})['Fin']||'-');
   const isActive=origIdx===selected;
+  const cod=esc(r.codigo||'');
+  const egrLink='egreso.html?remate='+encodeURIComponent(r.codigo||'');
   return '<div class="rem-past-row'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
     +'<div class="rem-card-accent" style="height:32px;width:3px"></div>'
     +'<div style="min-width:0;flex:1">'
-      +(nombre?'<div style="font-size:12px;font-weight:700;color:#b0c8c0;margin-bottom:1px">'+esc(nombre)+'</div>':'')
+      +(titulo?'<div style="font-size:12px;font-weight:700;color:#b0c8c0;margin-bottom:1px">'+esc(titulo)+'</div>':'')
       +'<div style="font-size:11px;color:#4a7060;font-family:monospace">'+esc(r.codigo||'—')+'</div>'
       +'<div style="font-size:10px;color:#3a5a50;margin-top:1px">'+inicio+' → '+fin+'</div>'
     +'</div>'
-    +'<div style="display:flex;gap:14px;align-items:center;padding-right:4px">'
-      +'<div style="text-align:center"><div style="font-size:16px;font-weight:800;color:#3a8a64">'+esc(r.total_animales||0)+'</div><div style="font-size:8px;color:#3a5a50;letter-spacing:.8px">ANIM</div></div>'
-      +'<div style="text-align:center"><div style="font-size:16px;font-weight:800;color:#6a6030">'+dtes+'</div><div style="font-size:8px;color:#3a5a50;letter-spacing:.8px">DTES</div></div>'
+    +'<div style="display:flex;gap:8px;align-items:center;padding-right:4px;flex-wrap:wrap;justify-content:flex-end">'
+      +'<div style="text-align:center;min-width:34px"><div style="font-size:14px;font-weight:800;color:#3a8a64">'+esc(r.total_animales||0)+'</div><div style="font-size:8px;color:#3a5a50;letter-spacing:.8px">ANIM</div></div>'
+      +'<div style="text-align:center;min-width:34px"><div style="font-size:14px;font-weight:800;color:#6a6030">'+dtes+'</div><div style="font-size:8px;color:#3a5a50;letter-spacing:.8px">DTES</div></div>'
+      +'<button class="link-rem-btn" data-codigo="'+cod+'" data-tipo="egreso" onclick="event.stopPropagation()" style="padding:5px 9px;font-size:10px;font-weight:700;color:#ff6b7a;background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.3);border-radius:7px;cursor:pointer;white-space:nowrap;font-family:inherit">⬆ Egreso</button>'
+      +'<div class="ver-menu-wrap" style="position:relative" onclick="event.stopPropagation()">'
+        +'<button class="ver-menu-btn" data-codigo="'+cod+'" style="padding:5px 9px;font-size:10px;font-weight:700;color:#3ea2ff;background:rgba(62,162,255,.08);border:1px solid rgba(62,162,255,.3);border-radius:7px;cursor:pointer;white-space:nowrap;font-family:inherit">Ver ▾</button>'
+        +'<div class="ver-menu-panel" style="position:absolute;right:0;top:calc(100% + 4px);background:#0a1410;border:1px solid rgba(62,162,255,.3);border-radius:8px;padding:4px;display:none;flex-direction:column;gap:2px;z-index:50;min-width:140px;box-shadow:0 6px 20px rgba(0,0,0,.4)">'
+          +'<button class="ver-ing-btn" data-codigo="'+cod+'" style="border:none;background:transparent;color:#a0c8ff;font-size:11px;padding:7px 10px;cursor:pointer;border-radius:5px;text-align:left;font-family:inherit;white-space:nowrap">👁 Ver ingresos</button>'
+          +'<button class="ver-egr-btn" data-codigo="'+cod+'" style="border:none;background:transparent;color:#a0c8ff;font-size:11px;padding:7px 10px;cursor:pointer;border-radius:5px;text-align:left;font-family:inherit;white-space:nowrap">👁 Ver egresos</button>'
+        +'</div>'
+      +'</div>'
     +'</div>'
   +'</div>';
 }
 
-const heroHtml=heroCard(rems[activeOrigIdx]||rems[0],activeOrigIdx);
+const heroHtml=activeRems.length>0
+  ? activeRems.map(({r,origIdx})=>heroCard(r,origIdx)).join('')
+  : '<div class="rem-no-active" style="padding:24px 18px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.08);border-radius:14px;text-align:center;color:var(--muted);font-size:13px">No hay remates activos.</div>';
 const pastHtml=pastRems.length>0
   ?'<div class="rem-past-section">'
     +'<button class="rem-past-toggle" id="rem-past-toggle"><span id="rem-past-arrow">▸</span> <span id="rem-past-label">Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+'s anterior'+(pastRems.length>1?'es':'')+'</span></button>'
@@ -280,15 +356,33 @@ const header='<div class="filters rem-filters">'
   +'<button id="r-export" class="ghost-btn" style="margin-left:auto;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700;border-color:rgba(0,208,132,.35);color:var(--green)">⬇ Excel</button>'
   +'<button id="r-clear" class="ghost-btn" style="margin-left:8px;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700">Limpiar filtros</button>'
   +'</div>'; ; const cols=[['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],['enviado','Env.'],['recibido','Rec.']]; const th=cols.map(([k,l])=>'<th data-sort="'+k+'" class="sorter">'+l+(sortKey===k?(sortDir==='asc'?' ↑':' ↓'):' ↕')+'</th>').join(''); function aptoChinaBadge(f){const v=f.apto_china||f['Apto China']||f.aptoChina; const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto'; const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no'; return {lbl,cls};} const body=exportRows.map(f=>{const ac=aptoChinaBadge(f); return '<tr class="'+remateTipoClass(f.tipo_movimiento)+'"><td class="nowrap col-tipo">'+esc(f.tipo_movimiento||'-')+'</td><td class="link dte-link nowrap numcol col-dte" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'-')+'</td><td>'+esc(f.emisor_nombre||'-')+'</td><td>'+esc(f.receptor_nombre||'-')+'</td><td class="nowrap">'+esc(f.categoria||'-')+'</td><td class="nowrap numcol col-fecha">'+esc(f.fecha_movimiento||'-')+'</td><td>'+esc(f.motivo||'-')+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(f.estado)+'">'+esc(f.estado||'-')+'</span></td><td class="nowrap col-apto-china"><span class="badge apto-china '+ac.cls+'">'+esc(ac.lbl)+'</span></td><td style="text-align:right" class="nowrap numcol">'+esc(f.enviado||0)+'</td><td style="text-align:right" class="nowrap numcol">'+esc(f.recibido||0)+'</td></tr>';}).join(''); detail='<div class="detail-head"><div class="section-title">'+esc(rem.codigo||'Remate')+'</div><div class="small">'+esc((rem.info||{})['Predio ferial']||'')+'</div></div>'+summary+header+'<div class="table-wrap"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'; } else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
-    const hero=host.querySelector('.rem-hero');
-    if(hero) hero.onclick=function(){const prev=selected;selected=Number(hero.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();};
+    host.querySelectorAll('.rem-hero').forEach(hero=>{
+      hero.onclick=function(){const prev=selected;selected=Number(hero.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();};
+    });
+    // Toggle del menú "Ver…" en past rows
+    host.querySelectorAll('.ver-menu-btn').forEach(btn=>{
+      btn.onclick=function(e){
+        e.stopPropagation();
+        const panel=btn.nextElementSibling;
+        const wasOpen=panel && panel.style.display==='flex';
+        host.querySelectorAll('.ver-menu-panel').forEach(p=>p.style.display='none');
+        if(panel && !wasOpen) panel.style.display='flex';
+      };
+    });
+    // Botones "Registrar ingreso/egreso" → modal con link único
+    host.querySelectorAll('.link-rem-btn').forEach(btn=>{
+      btn.onclick=function(e){
+        e.stopPropagation();
+        mostrarLinkRemate(btn.dataset.codigo,btn.dataset.tipo);
+      };
+    });
     // Past rows click
     host.querySelectorAll('.rem-past-row').forEach(el=>el.onclick=function(){const prev=selected;selected=Number(el.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();});
     // Toggle anteriores
     const tog=host.querySelector('#rem-past-toggle');
     if(tog){tog.onclick=function(e){e.stopPropagation();const list=host.querySelector('#rem-past-list');const arrow=host.querySelector('#rem-past-arrow');const lbl=host.querySelector('#rem-past-label');if(list){const open=list.style.display==='none';list.style.display=open?'block':'none';if(arrow)arrow.textContent=open?'▾':'▸';if(lbl)lbl.textContent=open?'Ocultar anteriores':'Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+'s anterior'+(pastRems.length>1?'es':'');}};} 
     // Si el selected es un remate anterior, abrir el panel
-    if(selected!==activeOrigIdx){const list=host.querySelector('#rem-past-list');const arrow=host.querySelector('#rem-past-arrow');const lbl=host.querySelector('#rem-past-label');if(list){list.style.display='block';if(arrow)arrow.textContent='▾';if(lbl)lbl.textContent='Ocultar anteriores';}}
+    if(pastRems.some(p=>p.origIdx===selected)){const list=host.querySelector('#rem-past-list');const arrow=host.querySelector('#rem-past-arrow');const lbl=host.querySelector('#rem-past-label');if(list){list.style.display='block';if(arrow)arrow.textContent='▾';if(lbl)lbl.textContent='Ocultar anteriores';}}
     // Name inputs
     host.querySelectorAll('.rem-name-input').forEach(inp=>{
       inp.onchange=function(e){e.stopPropagation();const cod=inp.dataset.codigo;const nombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');nombres[cod]=inp.value.trim();localStorage.setItem('rem_nombres',JSON.stringify(nombres));};
@@ -831,12 +925,19 @@ function renderApp(){const s=getSession(); if(!s) return renderLogin(); app.inne
 
 async function init() {
   try {
-    const [r1, r2] = await Promise.all([
+    const [r1, r2, r3] = await Promise.all([
       fetch('dtes_maestro.json'),
-      fetch('remates_maestro.json')
+      fetch('remates_maestro.json'),
+      fetch('remates_alias.json').catch(()=>null)
     ]);
     DATOS_DTES = await r1.json();
     DATOS_REMATES = await r2.json();
+    if(r3 && r3.ok){
+      try{
+        const a=await r3.json();
+        if(a && typeof a==='object' && !Array.isArray(a)) DATOS_ALIASES=a;
+      }catch(_){ /* alias inválido — fallback {} silencioso */ }
+    }
   } catch(e) { console.error('Error cargando datos:', e); }
   renderApp();
 }

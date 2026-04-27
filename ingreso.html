@@ -19,9 +19,7 @@
     .brand-sub{font-size:5px;letter-spacing:1.5px;color:#5ce1a0;text-transform:uppercase;}
     .header-title{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.5px;}
     .header-sub{font-size:11px;color:var(--muted);margin-top:2px;}
-    .remate-bar{background:var(--primary-dim);border-bottom:1px solid rgba(0,208,132,.25);padding:10px 20px;display:flex;align-items:center;gap:8px;font-size:13px;}
-    .remate-bar select{background:transparent;border:none;color:var(--primary);font-size:13px;font-weight:700;flex:1;outline:none;cursor:pointer;}
-    .remate-bar select option{background:#0a1410;color:var(--text);}
+    .remate-bar{background:var(--primary-dim);border-bottom:1px solid rgba(0,208,132,.25);font-size:13px;}
     .form{padding:20px 16px 40px;max-width:520px;margin:0 auto;}
     .section-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:24px 0 10px;display:flex;align-items:center;gap:8px;}
     .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
@@ -81,6 +79,15 @@
     .btn-add-foto{width:100%;background:var(--input-bg);border:1px dashed var(--border);border-radius:12px;color:var(--primary);font-size:15px;font-weight:700;padding:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;}
     .btn-add-foto:active{border-color:var(--primary);}
     .foto-counter{font-size:11px;color:var(--muted);margin-top:8px;text-align:center;}
+    /* Header fijo del remate (desde URL ?remate=) */
+    .remate-loading{padding:14px 20px;font-size:13px;color:var(--muted);text-align:center;}
+    .remate-empty{padding:16px 22px;font-size:13px;color:var(--red);text-align:center;background:rgba(255,77,90,.06);border-bottom:1px solid rgba(255,77,90,.25);font-weight:600;line-height:1.5;}
+    .remate-single{padding:12px 18px;background:var(--primary-dim);border-bottom:1px solid rgba(0,208,132,.35);}
+    .remate-single-tag{font-size:9px;letter-spacing:1.5px;color:var(--primary);font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+    .remate-single-alias{font-size:14px;font-weight:700;color:var(--text);}
+    .remate-single-code{font-size:14px;font-weight:700;color:var(--text);font-family:Consolas,Monaco,monospace;}
+    .remate-single-sub{font-size:11px;color:var(--muted);font-family:Consolas,Monaco,monospace;margin-top:2px;}
+    .remate-single-meta{font-size:11px;color:var(--muted);margin-top:2px;}
   </style>
 </head>
 <body>
@@ -88,9 +95,8 @@
   <div class="brand"><div class="brand-drw">DRW</div><div class="brand-sub">DARWASH</div></div>
   <div><div class="header-title">Registro de Ingreso</div><div class="header-sub">Descarga de hacienda</div></div>
 </div>
-<div class="remate-bar">
-  <span style="color:var(--muted);font-size:12px">REMATE</span>
-  <select id="sel-remate"><option value="">Cargando...</option></select>
+<div class="remate-bar" id="remate-bar">
+  <div class="remate-loading">Cargando remates…</div>
 </div>
 <div class="form">
   <div class="section-label">Identificación</div>
@@ -153,6 +159,7 @@ const GH_USER='darwashsa-ux';
 const GH_REPO='darwash-dte';
 const CATS=['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
 let remateActual='',horaManual=null,ultimoRegistro=null,nroRemito=null;
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
 async function sbInsert(tabla,data){
   const r=await fetch(`${SB_URL}/rest/v1/${tabla}`,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(data)});
@@ -166,7 +173,7 @@ async function sbSelect(tabla,filtros={}){
   return r.json();
 }
 
-function init(){renderCatGrid();iniciarReloj();cargarRemates();initFirma();initFotos();}
+function init(){renderCatGrid();iniciarReloj();cargarRemate();initFirma();initFotos();}
 
 let firmaCanvas,firmaCtx,firmando=false,firmaVacia=true;
 
@@ -276,26 +283,78 @@ function toggleHoraEdit(){
 function onHoraManual(v){horaManual=v;document.getElementById('hora-display').textContent=v||'--:--';}
 function calcTotal(){let t=0;document.querySelectorAll('#cat-grid input[data-cat]').forEach(i=>t+=parseInt(i.value||0));document.getElementById('total-display').textContent=t;}
 
-async function cargarRemates(){
+async function cargarRemate(){
+  const cont=document.getElementById('remate-bar');
+  const btnSave=document.getElementById('btn-save');
+  const showError=(msg)=>{
+    cont.innerHTML='<div class="remate-empty">'+msg+'</div>';
+    btnSave.disabled=true;
+    remateActual='';
+  };
+
+  // 1. Leer ?remate=CODIGO de la URL
+  const codigo=new URLSearchParams(location.search).get('remate');
+  if(!codigo){
+    showError('⚠ Link inválido. Pedí un link nuevo a Darwash.');
+    return;
+  }
+
+  // 2. Fetch del maestro y los aliases en paralelo (alias es opcional)
+  const baseUrl=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main`;
+  const t=Date.now();
+  let data, aliases={};
   try{
-    const r=await fetch(`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/remates_maestro.json?t=${Date.now()}`);
-    const data=await r.json();
-    const sel=document.getElementById('sel-remate');
-    sel.innerHTML='';
-    (data.remates||[]).forEach(rem=>{
-      const op=document.createElement('option');
-      op.value=rem.codigo;
-      const info=rem.info||{};
-      op.textContent=`${rem.codigo}  (${info.Inicio||''}→${info.Fin||''})`;
-      sel.appendChild(op);
-    });
-    const urlR=new URLSearchParams(window.location.search).get('remate');
-    if(urlR&&Array.from(sel.options).find(o=>o.value===urlR))sel.value=urlR;
-    else if(data.remates&&data.remates.length)sel.value=data.remates[data.remates.length-1].codigo;
-    remateActual=sel.value;
-    sel.onchange=()=>{remateActual=sel.value;renderHistorial();};
-    renderHistorial();
-  }catch(e){document.getElementById('sel-remate').innerHTML='<option>Sin conexión</option>';}
+    const [rMaestro,rAlias]=await Promise.all([
+      fetch(`${baseUrl}/remates_maestro.json?t=${t}`),
+      fetch(`${baseUrl}/remates_alias.json?t=${t}`).catch(()=>null),
+    ]);
+    if(!rMaestro.ok) throw new Error('HTTP '+rMaestro.status);
+    data=await rMaestro.json();
+    if(rAlias && rAlias.ok){
+      try{
+        const a=await rAlias.json();
+        if(a && typeof a==='object' && !Array.isArray(a)) aliases=a;
+      }catch(_){ /* alias inválido — fallback {} silencioso */ }
+    }
+  }catch(e){
+    showError('Sin conexión — no se pudo verificar el remate. Reintentá en un rato.');
+    return;
+  }
+
+  // 3. Buscar el remate por código en el maestro
+  const remate=(data.remates||[]).find(r=>r && r.codigo===codigo);
+  if(!remate){
+    showError('⚠ Remate no encontrado. Pedí un link nuevo.');
+    return;
+  }
+
+  // 4. Validar estado — INGRESO solo permite PENDIENTE
+  const estado=String((remate.info||{}).Estado||'').toUpperCase();
+  if(estado==='CERRADA'){
+    showError('⚠ Este remate ya cerró. Pedí un link nuevo a Darwash.');
+    return;
+  }
+  if(estado!=='PENDIENTE'){
+    showError('⚠ Estado del remate no válido para ingreso. Pedí un link nuevo.');
+    return;
+  }
+
+  // 5. Render header fijo (no clickeable, sin posibilidad de cambiar)
+  const info=remate.info||{};
+  const alias=aliases[codigo];
+  const titulo=alias
+    ? '<div class="remate-single-alias">'+esc(alias)+'</div><div class="remate-single-sub">'+esc(codigo)+'</div>'
+    : '<div class="remate-single-code">'+esc(codigo)+'</div>';
+  cont.innerHTML=
+    '<div class="remate-single">'+
+      '<div class="remate-single-tag">Remate activo</div>'+
+      titulo+
+      '<div class="remate-single-meta">'+esc(info.Inicio||'')+' → '+esc(info.Fin||'')+' · '+esc(info['Predio ferial']||'')+'</div>'+
+    '</div>';
+
+  remateActual=codigo;
+  btnSave.disabled=false;
+  renderHistorial();
 }
 
 async function guardar(){

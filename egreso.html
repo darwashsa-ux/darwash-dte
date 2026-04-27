@@ -99,6 +99,21 @@
   .hist-meta{font-size:11px;color:var(--muted);}
   .hist-cats{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
   .hist-cat-chip{background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:6px;padding:2px 8px;font-size:10px;color:var(--green);}
+
+  /* Header fijo del remate (desde URL ?remate=) */
+  .remate-bar{margin:0 0 14px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--card);}
+  .remate-loading{padding:14px 18px;font-size:13px;color:var(--muted);text-align:center;background:var(--input-bg);}
+  .remate-empty{padding:16px 20px;font-size:13px;color:var(--red);text-align:center;background:rgba(214,48,48,.08);border:1px solid rgba(214,48,48,.3);border-radius:12px;font-weight:600;line-height:1.5;}
+  .remate-single{padding:14px 18px;background:rgba(0,168,107,.06);}
+  .remate-single.is-closed{background:rgba(185,123,0,.07);}
+  .remate-single-tag{font-size:9px;letter-spacing:1.5px;color:var(--green);font-weight:700;text-transform:uppercase;margin-bottom:4px;}
+  .remate-single.is-closed .remate-single-tag{color:var(--gold);}
+  .remate-single-alias{font-size:15px;font-weight:800;color:var(--text);}
+  .remate-single-code{font-size:14px;font-weight:700;color:var(--text);font-family:Consolas,Monaco,monospace;}
+  .remate-single-sub{font-size:11px;color:var(--muted);font-family:Consolas,Monaco,monospace;margin-top:2px;}
+  .remate-single-meta{font-size:11px;color:var(--muted);margin-top:3px;}
+  .remate-single-warn{margin-top:8px;padding:6px 10px;background:rgba(185,123,0,.15);border:1px solid rgba(185,123,0,.4);border-radius:8px;font-size:11px;color:var(--gold);font-weight:600;text-align:center;}
+  .btn-guardar:disabled{opacity:.45;cursor:not-allowed;background:linear-gradient(135deg,#a0c8b4,#7ba48f);}
 </style>
 </head>
 <body>
@@ -115,11 +130,11 @@
 
 <div class="main" id="main-form">
 
-  <!-- REMATE -->
-  <div class="section-label">Evento / Remate</div>
-  <select id="sel-remate" class="input-field">
-    <option value="">Cargando remates...</option>
-  </select>
+  <!-- REMATE — header fijo desde URL -->
+  <div class="remate-bar" id="remate-bar">
+    <div class="remate-loading">Cargando remate…</div>
+  </div>
+  <input type="hidden" id="sel-remate" value=""/>
 
   <!-- DATOS -->
   <div class="section-label">Datos del Egreso</div>
@@ -192,7 +207,6 @@
 // ══════════════════════════════════════════
 const SUPABASE_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SUPABASE_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
-const REMATES_URL='https://raw.githubusercontent.com/darwashsa-ux/darwash-dte/main/remates_maestro.json';
 
 const CATS=[
   {id:'vaquillona',label:'Vaquillona'},
@@ -223,7 +237,7 @@ async function init(){
   renderCatGrid();
   initFirma();
   initFotos();
-  await cargarRemates();
+  await cargarRemate();
   // Fecha hoy
   const hoy=new Date();
   document.getElementById('inp-fecha').value=hoy.toISOString().split('T')[0];
@@ -258,24 +272,76 @@ function getCats(){
 // ══════════════════════════════════════════
 // REMATES
 // ══════════════════════════════════════════
-async function cargarRemates(){
-  try{
-    const r=await fetch(REMATES_URL+'?t='+Date.now());
-    const data=await r.json();
-    const remates=data.remates||[];
-    const sel=document.getElementById('sel-remate');
-    if(remates.length===0){sel.innerHTML='<option value="">Sin remates disponibles</option>';return;}
-    // Ordenar por fecha desc
-    remates.sort((a,b)=>(b.fechaInicio||'').localeCompare(a.fechaInicio||''));
-    sel.innerHTML='<option value="">Seleccionar remate...</option>'+
-      remates.map(r=>`<option value="${esc(r.codigo)}">${esc(r.titulo||r.codigo)} (${r.fechaInicio||''})</option>`).join('');
-    // Preseleccionar si viene por URL
-    const params=new URLSearchParams(window.location.search);
-    const cod=params.get('remate');
-    if(cod){sel.value=cod;}
-  }catch(e){
-    document.getElementById('sel-remate').innerHTML='<option value="">Error cargando remates</option>';
+async function cargarRemate(){
+  const cont=document.getElementById('remate-bar');
+  const sel=document.getElementById('sel-remate');
+  const btnSave=document.querySelector('.btn-guardar');
+  const showError=(msg)=>{
+    cont.innerHTML='<div class="remate-empty">'+msg+'</div>';
+    sel.value='';
+    btnSave.disabled=true;
+  };
+
+  // 1. Leer ?remate=CODIGO de la URL
+  const codigo=new URLSearchParams(location.search).get('remate');
+  if(!codigo){
+    showError('⚠ Link inválido. Pedí un link nuevo a Darwash.');
+    return;
   }
+
+  // 2. Fetch del maestro y los aliases en paralelo (alias es opcional)
+  const baseUrl='https://raw.githubusercontent.com/darwashsa-ux/darwash-dte/main';
+  const t=Date.now();
+  let data, aliases={};
+  try{
+    const [rMaestro,rAlias]=await Promise.all([
+      fetch(`${baseUrl}/remates_maestro.json?t=${t}`),
+      fetch(`${baseUrl}/remates_alias.json?t=${t}`).catch(()=>null),
+    ]);
+    if(!rMaestro.ok) throw new Error('HTTP '+rMaestro.status);
+    data=await rMaestro.json();
+    if(rAlias && rAlias.ok){
+      try{
+        const a=await rAlias.json();
+        if(a && typeof a==='object' && !Array.isArray(a)) aliases=a;
+      }catch(_){ /* alias inválido — fallback {} silencioso */ }
+    }
+  }catch(e){
+    showError('Sin conexión — no se pudo verificar el remate. Reintentá en un rato.');
+    return;
+  }
+
+  // 3. Buscar el remate por código en el maestro
+  const remate=(data.remates||[]).find(r=>r && r.codigo===codigo);
+  if(!remate){
+    showError('⚠ Remate no encontrado. Pedí un link nuevo.');
+    return;
+  }
+
+  // 4. EGRESO acepta PENDIENTE y CERRADA. Solo bloquea si no existe.
+  const estado=String((remate.info||{}).Estado||'').toUpperCase();
+  const isClosed=estado==='CERRADA';
+
+  // 5. Render header fijo (con sub-tag de warning si está CERRADA, NO bloquea)
+  const info=remate.info||{};
+  const alias=aliases[codigo];
+  const titulo=alias
+    ? '<div class="remate-single-alias">'+esc(alias)+'</div><div class="remate-single-sub">'+esc(codigo)+'</div>'
+    : '<div class="remate-single-code">'+esc(codigo)+'</div>';
+  const warn=isClosed
+    ? '<div class="remate-single-warn">⚠ Cerrado — egreso fuera de tiempo permitido</div>'
+    : '';
+  const tag=isClosed?'Remate cerrado':'Remate activo';
+  cont.innerHTML=
+    '<div class="remate-single'+(isClosed?' is-closed':'')+'">'+
+      '<div class="remate-single-tag">'+tag+'</div>'+
+      titulo+
+      '<div class="remate-single-meta">'+esc(info.Inicio||'')+' → '+esc(info.Fin||'')+' · '+esc(info['Predio ferial']||'')+'</div>'+
+      warn+
+    '</div>';
+
+  sel.value=codigo;
+  btnSave.disabled=false;
 }
 
 // ══════════════════════════════════════════
