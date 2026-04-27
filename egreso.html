@@ -3,201 +3,239 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-<title>Egreso de Hacienda — Darwash SA</title>
+<title>Darwash · Egresos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
+  /* Tokens — Darwash Operaciones (light) */
   :root{
-    --bg:#f0f7f4;--card:#ffffff;--border:rgba(30,100,70,.18);
-    --green:#00a86b;--gold:#b97b00;--red:#d63030;--blue:#1a7abf;
-    --text:#0d2b1e;--muted:#4a7060;--input-bg:#e8f5f0;
+    --bg:#FCF7F7;--surface:#FFFFFF;--surface-2:#F5F4EE;
+    --border:#E5E5E0;--border-strong:#D4D2C8;
+    --text:#1A1A1A;--text-2:#4A4A48;--muted:#8A8880;
+    --cyan:#00B5B6;--cyan-soft:#E6F8F8;
+    --green:#00A86B;--green-soft:#E6F7EF;
+    --amber:#B8881F;--amber-soft:#FBF3DC;
+    --red:#D63B47;--red-soft:#FCE8EA;
+    --blue:#2E7AC7;--blue-soft:#E8F0FA;
+    --serif:'Lora',Georgia,serif;
+    --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
+    --mono:'JetBrains Mono',Consolas,Monaco,monospace;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;padding:0 0 40px;}
-  
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;min-height:100vh;overscroll-behavior:none;}
+
   /* HEADER */
-  .header{background:linear-gradient(135deg,#0d2e18 0%,#1a5c38 100%);border-bottom:1px solid rgba(0,150,80,.3);padding:16px 20px;display:flex;align-items:center;gap:14px;}
-  .logo-circle{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#00d084,#007a4d);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#061a0f;flex-shrink:0;letter-spacing:1px;}
-  .header-info{}
-  .header-empresa{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
-  .header-titulo{font-size:18px;font-weight:800;color:var(--green);letter-spacing:.5px;}
-  .badge-egreso{background:rgba(255,77,90,.15);border:1px solid rgba(255,77,90,.4);color:var(--red);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-left:auto;}
+  .lf-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
+  .lf-logo{width:36px;height:36px;border-radius:8px;background:var(--cyan);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-weight:700;font-size:13px;letter-spacing:.5px;flex-shrink:0;}
+  .lf-wordmark-wrap{display:flex;align-items:baseline;gap:6px;flex:1;min-width:0;}
+  .lf-wordmark{font-family:var(--serif);font-weight:700;font-size:14px;letter-spacing:1.2px;color:var(--text);}
+  .lf-wordmark-sub{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+  .lf-badge{font-family:var(--mono);font-weight:600;font-size:10px;letter-spacing:1.5px;padding:4px 10px;border-radius:4px;border:1px solid;text-transform:uppercase;flex-shrink:0;}
+  .lf-badge.salida{color:var(--red);border-color:var(--red);background:var(--red-soft);}
 
   /* MAIN */
-  .main{max-width:520px;margin:0 auto;padding:20px 16px;}
-  .section-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 8px;font-weight:700;}
-  .input-field{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:border .2s;}
-  .input-field:focus{border-color:var(--green);}
-  .input-field::placeholder{color:var(--muted);}
-  textarea.input-field{resize:vertical;min-height:70px;}
+  .lf-main{padding:16px 16px 100px;max-width:520px;margin:0 auto;}
 
-  /* REMATE SELECTOR */
-  .remate-sel{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border .2s;}
-  .remate-sel:hover{border-color:var(--green);}
-  .remate-sel-icon{font-size:24px;}
-  .remate-sel-info{flex:1;}
-  .remate-sel-label{font-size:11px;color:var(--muted);}
-  .remate-sel-val{font-size:15px;font-weight:700;color:var(--green);}
-  select.input-field{cursor:pointer;}
+  /* SECTION LABEL con línea */
+  .lf-section-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin:24px 0 10px;display:flex;align-items:center;gap:8px;}
+  .lf-section-label::after{content:"";flex:1;height:1px;background:var(--border);}
+  .lf-section-label:first-of-type{margin-top:8px;}
 
-  /* CATEGORIAS GRID */
-  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  @media(min-width:400px){.cat-grid{grid-template-columns:repeat(3,1fr);}}
-  .cat-card{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center;}
-  .cat-name{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
-  .cat-input{width:100%;background:transparent;border:none;border-bottom:2px solid var(--border);color:var(--text);font-size:22px;font-weight:800;text-align:center;font-family:inherit;outline:none;padding:4px 0;transition:border .2s;}
-  .cat-input:focus{border-color:var(--green);}
+  /* REMATE — Card con header fijo */
+  .remate-bar{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:6px;overflow:hidden;}
+  .remate-loading{padding:14px 18px;font-family:var(--sans);font-size:13px;color:var(--muted);text-align:center;}
+  .remate-empty{padding:16px 20px;font-family:var(--sans);font-size:13px;color:var(--red);text-align:center;background:var(--red-soft);border:1px solid var(--red);border-radius:6px;font-weight:500;line-height:1.5;}
+  .remate-single{padding:14px 16px;}
+  .remate-single-tag{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
+  .remate-single-alias{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--text);line-height:1.3;}
+  .remate-single-code{font-family:var(--mono);font-weight:500;font-size:14px;letter-spacing:0.5px;color:var(--text);}
+  .remate-single-sub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:0.5px;color:var(--muted);margin-top:3px;}
+  .remate-single-meta{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:6px;}
 
-  /* TOTAL */
-  .total-card{background:linear-gradient(135deg,rgba(0,168,107,.12),rgba(0,168,107,.06));border:1px solid rgba(0,168,107,.4);border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
-  .total-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-  .total-num{font-size:36px;font-weight:900;color:var(--green);}
-  .total-sub{font-size:11px;color:var(--muted);}
+  /* INPUT FIELD */
+  .lf-field{margin-bottom:10px;}
+  .lf-field-label{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;display:block;}
+  .lf-input,.lf-textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 12px;color:var(--text);font-family:var(--sans);font-size:15px;outline:none;transition:border-color 150ms,background 150ms;-webkit-appearance:none;}
+  .lf-input:focus,.lf-textarea:focus{border-color:var(--cyan);background:#FCFCFA;}
+  .lf-input::placeholder,.lf-textarea::placeholder{color:var(--border-strong);}
+  .lf-textarea{resize:none;min-height:80px;}
+  .lf-input.uppercase{text-transform:uppercase;}
 
-  /* FIRMA */
-  .firma-wrap{background:var(--input-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-  .firma-canvas{display:block;width:100%;height:150px;cursor:crosshair;touch-action:none;background:#f8fffe;border-bottom:1px solid var(--border);}
-  .firma-toolbar{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:1px solid var(--border);}
-  .firma-toolbar span{font-size:11px;color:var(--muted);}
-  .btn-limpiar{background:transparent;border:1px solid rgba(255,77,90,.4);color:var(--red);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
+  /* ROW de 2 columnas */
+  .lf-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+  .lf-row-2 .lf-field{margin-bottom:0;}
+
+  /* CATEGORIAS GRID 4x2 */
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 4px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;transition:border-color 150ms,background 150ms;}
+  .cat-card.active{border-color:var(--red);background:var(--red-soft);}
+  .cat-code{font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:1.5px;color:var(--text-2);text-transform:uppercase;}
+  .cat-card.active .cat-code{color:var(--red);}
+  .cat-name{font-family:var(--sans);font-size:8px;color:var(--muted);}
+  .cat-input{width:100%;background:transparent;border:none;border-radius:0;padding:2px 0 0;font-family:var(--mono);font-weight:600;font-size:20px;text-align:center;color:var(--text-2);outline:none;font-variant-numeric:tabular-nums;-webkit-appearance:none;-moz-appearance:textfield;appearance:textfield;}
+  .cat-input::-webkit-outer-spin-button,.cat-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  .cat-input::placeholder{color:var(--border-strong);}
+  .cat-card.active .cat-input{color:var(--red);font-weight:700;}
+
+  /* TOTAL CARD */
+  .total-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:6px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
+  .total-info{display:flex;flex-direction:column;}
+  .total-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+  .total-sub{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:2px;}
+  .total-num{font-family:var(--mono);font-weight:700;font-size:34px;color:var(--red);font-variant-numeric:tabular-nums;line-height:1;}
 
   /* FOTOS */
   .foto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px;}
-  .foto-slot{background:var(--input-bg);border:2px dashed var(--border);border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:border .2s;position:relative;overflow:hidden;}
-  .foto-slot:hover{border-color:var(--green);}
-  .foto-slot.filled{border-style:solid;border-color:rgba(0,208,132,.4);}
+  .foto-slot{position:relative;aspect-ratio:1;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:border-color 150ms;overflow:hidden;}
+  .foto-slot:hover{border-color:var(--cyan);}
+  .foto-slot.filled{border-style:solid;border-color:var(--cyan);}
   .foto-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-  .foto-slot .slot-icon{font-size:22px;}
-  .foto-slot .slot-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
-  .foto-slot .slot-del{position:absolute;top:4px;right:4px;background:rgba(255,77,90,.85);border:none;color:#fff;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+  .foto-slot .slot-icon{font-size:18px;}
+  .foto-slot .slot-label{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-top:4px;}
+  .foto-slot .slot-del{position:absolute;top:4px;right:4px;background:var(--red);border:none;color:#fff;border-radius:50%;width:22px;height:22px;font-size:11px;font-weight:700;cursor:pointer;display:none;align-items:center;justify-content:center;}
   .foto-slot.filled .slot-del{display:flex;}
-  .foto-counter{font-size:11px;color:var(--muted);text-align:center;margin-bottom:4px;}
+  .foto-counter{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:0.5px;color:var(--muted);text-align:center;margin-top:4px;}
 
-  /* BOTONES ACCION */
-  .action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px;}
-  .btn{border:none;border-radius:12px;padding:15px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s;}
-  .btn:active{opacity:.8;}
-  .btn-guardar{background:linear-gradient(135deg,#00d084,#007a4d);color:#061a0f;}
-  .btn-pdf{background:rgba(185,144,40,.15);border:1px solid rgba(185,144,40,.4);color:var(--gold);}
-  .btn-whatsapp{background:rgba(0,208,132,.1);border:1px solid rgba(0,208,132,.3);color:var(--green);grid-column:1/-1;}
-  .btn-nuevo{background:rgba(62,162,255,.1);border:1px solid rgba(62,162,255,.3);color:var(--blue);grid-column:1/-1;}
+  /* BOTONES */
+  .lf-btn{width:100%;border:1px solid transparent;border-radius:6px;padding:14px 16px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 150ms;}
+  .lf-btn:active{opacity:0.85;}
+  .lf-btn:disabled{opacity:0.5;cursor:not-allowed;}
+  .btn-save{background:var(--cyan);color:#fff;border-color:var(--cyan);margin-top:24px;}
+  .btn-pdf{background:transparent;border-color:var(--amber);color:var(--amber);}
+  .btn-wsp{background:transparent;border-color:var(--green);color:var(--green);}
+  .btn-nuevo{background:transparent;border-color:var(--blue);color:var(--blue);}
+  .lf-actions-secondary{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
 
   /* SUCCESS OVERLAY */
-  .success-overlay{position:fixed;inset:0;background:rgba(240,247,244,.97);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:100;gap:16px;padding:30px;}
+  .success-overlay{display:none;position:fixed;inset:0;background:rgba(250,250,247,0.96);z-index:100;align-items:center;justify-content:center;padding:32px 24px;}
   .success-overlay.show{display:flex;}
-  .success-icon{font-size:64px;}
-  .success-title{font-size:22px;font-weight:900;color:var(--green);}
-  .success-sub{font-size:14px;color:var(--muted);text-align:center;max-width:300px;}
-  .success-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:300px;margin-top:10px;}
-  .success-actions .btn{padding:14px;}
+  .success-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:6px;padding:32px 24px;text-align:center;max-width:380px;width:100%;}
+  .success-icon{width:56px;height:56px;border-radius:50%;background:var(--green-soft);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:28px;margin:0 auto 14px;}
+  .success-title{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--text);margin-bottom:6px;}
+  .success-sub{font-family:var(--sans);font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.5;white-space:pre-line;}
+  .btn-group{display:flex;flex-direction:column;gap:8px;}
 
   /* HISTORIAL */
-  .historial{margin-top:32px;}
-  .hist-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px;}
+  .historial{margin-top:8px;display:flex;flex-direction:column;gap:8px;}
+  .hist-item{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 14px;}
   .hist-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
-  .hist-tropa{font-weight:700;font-size:14px;color:var(--text);}
-  .hist-total{font-weight:900;color:var(--green);font-size:16px;}
-  .hist-meta{font-size:11px;color:var(--muted);}
+  .hist-tropa{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--text);}
+  .hist-total{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--green);font-variant-numeric:tabular-nums;}
+  .hist-meta{font-family:var(--sans);font-size:11px;color:var(--muted);line-height:1.5;}
   .hist-cats{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
-  .hist-cat-chip{background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:6px;padding:2px 8px;font-size:10px;color:var(--green);}
-
-  /* Header fijo del remate (desde URL ?remate=) */
-  .remate-bar{margin:0 0 14px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--card);}
-  .remate-loading{padding:14px 18px;font-size:13px;color:var(--muted);text-align:center;background:var(--input-bg);}
-  .remate-empty{padding:16px 20px;font-size:13px;color:var(--red);text-align:center;background:rgba(214,48,48,.08);border:1px solid rgba(214,48,48,.3);border-radius:12px;font-weight:600;line-height:1.5;}
-  .remate-single{padding:14px 18px;background:rgba(0,168,107,.06);}
-  .remate-single.is-closed{background:rgba(185,123,0,.07);}
-  .remate-single-tag{font-size:9px;letter-spacing:1.5px;color:var(--green);font-weight:700;text-transform:uppercase;margin-bottom:4px;}
-  .remate-single.is-closed .remate-single-tag{color:var(--gold);}
-  .remate-single-alias{font-size:15px;font-weight:800;color:var(--text);}
-  .remate-single-code{font-size:14px;font-weight:700;color:var(--text);font-family:Consolas,Monaco,monospace;}
-  .remate-single-sub{font-size:11px;color:var(--muted);font-family:Consolas,Monaco,monospace;margin-top:2px;}
-  .remate-single-meta{font-size:11px;color:var(--muted);margin-top:3px;}
-  .remate-single-warn{margin-top:8px;padding:6px 10px;background:rgba(185,123,0,.15);border:1px solid rgba(185,123,0,.4);border-radius:8px;font-size:11px;color:var(--gold);font-weight:600;text-align:center;}
-  .btn-guardar:disabled{opacity:.45;cursor:not-allowed;background:linear-gradient(135deg,#a0c8b4,#7ba48f);}
+  .hist-cat-chip{background:var(--cyan-soft);border:1px solid var(--cyan);border-radius:4px;padding:2px 8px;font-family:var(--mono);font-weight:500;font-size:10px;color:var(--cyan);letter-spacing:0.5px;}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<div class="header">
-  <div class="logo-circle">DRW</div>
-  <div class="header-info">
-    <div class="header-empresa">Darwash SA</div>
-    <div class="header-titulo">Egreso de Hacienda</div>
+<div class="lf-header">
+  <div class="lf-logo">DRW</div>
+  <div class="lf-wordmark-wrap">
+    <span class="lf-wordmark">DARWASH</span>
+    <span class="lf-wordmark-sub">EGRESOS</span>
   </div>
-  <div class="badge-egreso">⬆ SALIDA</div>
+  <span class="lf-badge salida">Salida</span>
 </div>
 
-<div class="main" id="main-form">
+<!-- MAIN -->
+<div class="lf-main" id="main-form">
 
-  <!-- REMATE — header fijo desde URL -->
+  <!-- REMATE — header fijo desde URL (lo carga cargarRemate) -->
   <div class="remate-bar" id="remate-bar">
     <div class="remate-loading">Cargando remate…</div>
   </div>
   <input type="hidden" id="sel-remate" value=""/>
 
-  <!-- DATOS -->
-  <div class="section-label">Datos del Egreso</div>
-  <input id="inp-fecha" type="date" class="input-field" style="margin-bottom:10px"/>
-  <input id="inp-tropa" type="text" class="input-field" placeholder="Nombre de la tropa" style="margin-bottom:10px"/>
-  <input id="inp-dte" type="text" class="input-field" placeholder="N° DTE / Guía" style="margin-bottom:10px"/>
-  <input id="inp-destino" type="text" class="input-field" placeholder="Destino (establecimiento / frigorífico)" style="margin-bottom:10px"/>
-  <input id="inp-transportista" type="text" class="input-field" placeholder="Nombre del transportista" style="margin-bottom:10px"/>
-  <input id="inp-patente" type="text" class="input-field" placeholder="Patente camión/acoplado" style="text-transform:uppercase"/>
+  <!-- DATOS DEL EGRESO -->
+  <div class="lf-section-label">Datos del egreso</div>
 
-  <!-- CATEGORIAS -->
-  <div class="section-label">Detalle por Categoría</div>
+  <div class="lf-row-2">
+    <div class="lf-field">
+      <label class="lf-field-label">Fecha</label>
+      <input class="lf-input" id="inp-fecha" type="date"/>
+    </div>
+    <div class="lf-field">
+      <label class="lf-field-label">N° tropa</label>
+      <input class="lf-input" id="inp-tropa" type="text" placeholder="Tropa" autocorrect="off"/>
+    </div>
+  </div>
+
+  <div class="lf-field">
+    <label class="lf-field-label">N° DTE / Guía</label>
+    <input class="lf-input" id="inp-dte" type="text" placeholder="031889" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocorrect="off" spellcheck="false"/>
+  </div>
+
+  <div class="lf-field">
+    <label class="lf-field-label">Destino</label>
+    <input class="lf-input" id="inp-destino" type="text" placeholder="Establecimiento o frigorífico de destino" autocorrect="off"/>
+  </div>
+
+  <!-- TRANSPORTE -->
+  <div class="lf-section-label">Transporte</div>
+
+  <div class="lf-field">
+    <label class="lf-field-label">Transportista</label>
+    <input class="lf-input" id="inp-transportista" type="text" placeholder="Nombre del transportista" autocorrect="off"/>
+  </div>
+
+  <div class="lf-field">
+    <label class="lf-field-label">Patente camión</label>
+    <input class="lf-input uppercase" id="inp-patente" type="text" placeholder="AE874LP" autocomplete="off" autocorrect="off"/>
+  </div>
+
+  <!-- DETALLE POR CATEGORÍA -->
+  <div class="lf-section-label">Detalle por categoría</div>
   <div class="cat-grid" id="cat-grid"></div>
+
+  <!-- TOTAL -->
   <div class="total-card">
-    <div>
-      <div class="total-label">Total Cabezas</div>
-      <div class="total-sub">Sumatoria categorías</div>
+    <div class="total-info">
+      <div class="total-label">Total cabezas</div>
+      <div class="total-sub">Sumatoria de categorías</div>
     </div>
     <div class="total-num" id="total-num">0</div>
   </div>
 
-  <!-- FIRMA -->
-  <div class="section-label">Firma del Transportista</div>
-  <div class="firma-wrap">
-    <canvas id="firma-canvas" class="firma-canvas"></canvas>
-    <div class="firma-toolbar">
-      <span id="firma-status">Firmá con el dedo</span>
-      <button class="btn-limpiar" onclick="limpiarFirma()">Limpiar</button>
-    </div>
-  </div>
-
   <!-- FOTOS -->
-  <div class="section-label">Fotos de respaldo</div>
+  <div class="lf-section-label">Fotos de respaldo</div>
   <div class="foto-grid" id="foto-grid"></div>
   <div class="foto-counter" id="foto-counter">0 fotos seleccionadas</div>
   <input type="file" id="foto-input" accept="image/*" capture="environment" style="display:none" onchange="onFotoSeleccionada(this)"/>
 
-  <!-- OBS -->
-  <div class="section-label">Observaciones</div>
-  <textarea id="inp-obs" class="input-field" placeholder="Observaciones (opcional)"></textarea>
+  <!-- OBSERVACIONES -->
+  <div class="lf-section-label">Observaciones</div>
+  <div class="lf-field">
+    <textarea class="lf-textarea" id="inp-obs" placeholder="Observaciones (opcional)…"></textarea>
+  </div>
 
   <!-- ACCIONES -->
-  <div class="action-row">
-    <button class="btn btn-guardar" onclick="guardar()">💾 Guardar Egreso</button>
-    <button class="btn btn-pdf" id="btn-pdf" onclick="generarPDF()" disabled>📄 Remito PDF</button>
-    <button class="btn btn-whatsapp" id="btn-wa" onclick="compartirWA()" disabled>📲 Compartir por WhatsApp</button>
-    <button class="btn btn-nuevo" onclick="nuevoRegistro()">➕ Nuevo Egreso</button>
+  <button class="lf-btn btn-save btn-guardar" onclick="guardar()">Guardar egreso</button>
+
+  <div class="lf-actions-secondary">
+    <button class="lf-btn btn-pdf" id="btn-pdf" onclick="generarPDF()" disabled>Remito PDF</button>
+    <button class="lf-btn btn-wsp" id="btn-wa" onclick="compartirWA()" disabled>Compartir por WhatsApp</button>
+    <button class="lf-btn btn-nuevo" onclick="nuevoRegistro()">+ Nuevo egreso</button>
   </div>
 
   <!-- HISTORIAL -->
-  <div class="section-label" style="margin-top:28px">Registros de esta sesión</div>
+  <div class="lf-section-label">Registros de esta sesión</div>
   <div class="historial" id="historial"></div>
 </div>
 
 <!-- SUCCESS OVERLAY -->
 <div class="success-overlay" id="success-overlay">
-  <div class="success-icon">✅</div>
-  <div class="success-title">¡Egreso registrado!</div>
-  <div class="success-sub" id="success-sub"></div>
-  <div class="success-actions">
-    <button class="btn btn-pdf" id="suc-pdf" onclick="generarPDF()">📄 Descargar Remito PDF</button>
-    <button class="btn btn-whatsapp" id="suc-wa" onclick="compartirWA()">📲 Compartir por WhatsApp</button>
-    <button class="btn btn-nuevo" onclick="nuevoRegistro()">➕ Nuevo Egreso</button>
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <div class="success-title">¡Egreso registrado!</div>
+    <div class="success-sub" id="success-sub"></div>
+    <div class="btn-group">
+      <button class="lf-btn btn-pdf" id="suc-pdf" onclick="generarPDF()">Remito PDF</button>
+      <button class="lf-btn btn-wsp" id="suc-wa" onclick="compartirWA()">Compartir por WhatsApp</button>
+      <button class="lf-btn btn-nuevo" onclick="nuevoRegistro()">+ Nuevo egreso</button>
+    </div>
   </div>
 </div>
 
@@ -209,12 +247,14 @@ const SUPABASE_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SUPABASE_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 
 const CATS=[
-  {id:'vaquillona',label:'Vaquillona'},
-  {id:'torito',label:'Torito/MEJ'},
-  {id:'vaca',label:'Vaca'},
-  {id:'novillo',label:'Novillo'},
-  {id:'ternero',label:'Ternero'},
-  {id:'novillito',label:'Novillito'},
+  {id:'novillo',label:'Novillo',code:'NOV'},
+  {id:'novillito',label:'Novillito',code:'NTO'},
+  {id:'vaquillona',label:'Vaquillona',code:'VQ'},
+  {id:'vaca',label:'Vaca',code:'VA'},
+  {id:'ternero',label:'Ternero',code:'TER'},
+  {id:'ternera',label:'Ternera',code:'TRA'},
+  {id:'toro',label:'Toro',code:'TORO'},
+  {id:'torito',label:'Torito/MEJ',code:'MEJ'},
 ];
 
 const FOTO_SLOTS=[
@@ -235,7 +275,6 @@ let slotActivo=null;
 // ══════════════════════════════════════════
 async function init(){
   renderCatGrid();
-  initFirma();
   initFotos();
   await cargarRemate();
   // Fecha hoy
@@ -251,9 +290,9 @@ function renderCatGrid(){
   const g=document.getElementById('cat-grid');
   g.innerHTML=CATS.map(c=>`
     <div class="cat-card">
+      <div class="cat-code">${c.code||c.id.toUpperCase().slice(0,3)}</div>
       <div class="cat-name">${c.label}</div>
-      <input class="cat-input" type="number" min="0" id="cat-${c.id}" value="" placeholder="0"
-        oninput="recalcTotal()" inputmode="numeric"/>
+      <input class="cat-input" type="number" inputmode="numeric" pattern="[0-9]*" min="0" id="cat-${c.id}" value="" placeholder="0" oninput="this.closest('.cat-card').classList.toggle('active',Number(this.value)>0);recalcTotal()"/>
     </div>`).join('');
 }
 
@@ -318,26 +357,21 @@ async function cargarRemate(){
     return;
   }
 
-  // 4. EGRESO acepta PENDIENTE y CERRADA. Solo bloquea si no existe.
-  const estado=String((remate.info||{}).Estado||'').toUpperCase();
-  const isClosed=estado==='CERRADA';
+  // 4. EGRESO acepta PENDIENTE y CERRADA. El estado del remate es asunto
+  //    administrativo de Darwash con SENASA, no se le muestra al transportista
+  //    — el header se ve idéntico en ambos casos.
 
-  // 5. Render header fijo (con sub-tag de warning si está CERRADA, NO bloquea)
+  // 5. Render header fijo (sin distinción de estado)
   const info=remate.info||{};
   const alias=aliases[codigo];
   const titulo=alias
     ? '<div class="remate-single-alias">'+esc(alias)+'</div><div class="remate-single-sub">'+esc(codigo)+'</div>'
     : '<div class="remate-single-code">'+esc(codigo)+'</div>';
-  const warn=isClosed
-    ? '<div class="remate-single-warn">⚠ Cerrado — egreso fuera de tiempo permitido</div>'
-    : '';
-  const tag=isClosed?'Remate cerrado':'Remate activo';
   cont.innerHTML=
-    '<div class="remate-single'+(isClosed?' is-closed':'')+'">'+
-      '<div class="remate-single-tag">'+tag+'</div>'+
+    '<div class="remate-single">'+
+      '<div class="remate-single-tag">Remate activo</div>'+
       titulo+
       '<div class="remate-single-meta">'+esc(info.Inicio||'')+' → '+esc(info.Fin||'')+' · '+esc(info['Predio ferial']||'')+'</div>'+
-      warn+
     '</div>';
 
   sel.value=codigo;
@@ -366,6 +400,7 @@ function initFirma(){
 
 function limpiarFirma(){
   const canvas=document.getElementById('firma-canvas');
+  if(!canvas){firmaDataURL=null;return;} // sin sección de firma en egreso — no-op
   const ctx=canvas.getContext('2d');
   ctx.clearRect(0,0,canvas.width,canvas.height);
   firmaDataURL=null;
