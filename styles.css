@@ -1,4 +1,40 @@
 :root {
+  /* ============================================================
+     Tokens — Darwash Operaciones (light) — agregados en commit 1
+     Por ahora coexisten con las dark de abajo. Las dark se
+     eliminan en commit 11 (cleanup final).
+     ============================================================ */
+  --bg-light:        #FAFAF7;
+  --surface:         #FFFFFF;
+  --surface-2:       #F5F4EE;
+  --border-light:    #E5E5E0;
+  --border-strong:   #D4D2C8;
+  --text-light:      #1A1A1A;
+  --text-2:          #4A4A48;
+  --muted-light:     #8A8880;
+  --cyan-light:      #00B5B6;
+  --cyan-soft:       #E6F8F8;
+  --green-light:     #00A86B;
+  --green-soft:      #E6F7EF;
+  --amber-light:     #B8881F;
+  --amber-soft:      #FBF3DC;
+  --red-light:       #D63B47;
+  --red-soft:        #FCE8EA;
+  --blue-light:      #2E7AC7;
+  --blue-soft:       #E8F0FA;
+  --serif:           'Lora', Georgia, serif;
+  --sans-light:      'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono:            'JetBrains Mono', Consolas, Monaco, monospace;
+  --sidebar-width:   240px;
+  --header-height:   64px;
+  --radius-sm:       4px;
+  --radius:          6px;
+  --radius-lg:       12px;
+  --shadow-sm:       0 2px 8px rgba(0,0,0,0.04);
+
+  /* ============================================================
+     Tokens dark (legacy) — siguen en uso hasta los commits 3-11
+     ============================================================ */
   --bg:#050808;
   --panel:#071112;
   --panel-2:#0b1516;
