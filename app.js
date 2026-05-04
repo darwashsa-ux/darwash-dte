@@ -52,18 +52,43 @@ function canonizarCategoria(raw){
   if(CATEGORIA_RAW_TO_CANONICA[key]) return CATEGORIA_RAW_TO_CANONICA[key];
   return CATEGORIA_ALIASES_LC[key.toLowerCase()] || null;
 }
-// Suma ingresos del remate agrupando por categoría canónica. Devuelve {TERNERO,TERNERA,...,TORO} con 0 default.
-// Categorías no canonizables (Mamón legacy) NO se cuentan acá — la assertion drift lo flagueará.
+// Suma ingresos del remate agrupando por categoría canónica.
+// Devuelve {TERNERO:{enviadas,recibidas}, ...} con default 0/0.
+// Categorías no canonizables (Mamón legacy) NO se cuentan acá.
 function normalizarCategoriasRemate(remate){
-  const acc=Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,0]));
+  const acc=Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,{enviadas:0,recibidas:0}]));
   if(!remate||!Array.isArray(remate.filas)) return acc;
   for(const f of remate.filas){
     if(!String(f.tipo_movimiento||'').toLowerCase().includes('entrada')) continue;
     const canon=canonizarCategoria(f.categoria);
     if(!canon) continue;
-    acc[canon]+=Number(f.recibido||f.enviado||0);
+    const env=Number(f.enviado ||0);
+    const rec=Number(f.recibido||0);
+    acc[canon].enviadas +=env;
+    // Asunción: recibido=0 significa "sin conteo manual cargado todavía", no "0 cabezas
+    // llegaron". Usamos enviado como fallback. El badge de drift solo se dispara cuando
+    // recibido está realmente poblado (>0) Y difiere de enviado. Si en el futuro el
+    // extractor backend empieza a poblar recibido siempre con el conteo real, eliminar
+    // este fallback y todos los cards van a empezar a mostrar drift verdadero.
+    acc[canon].recibidas+=rec>0?rec:env;
   }
   return acc;
+}
+// Suma totales sobre todas las categorías canónicas
+function totalRemate(catsNorm){
+  const t={enviadas:0,recibidas:0};
+  for(const c of CATEGORIAS_CANONICAS){
+    t.enviadas +=catsNorm[c].enviadas;
+    t.recibidas+=catsNorm[c].recibidas;
+  }
+  return t;
+}
+// Determina nivel de drift: null | 'warn' (|diff|≤5) | 'alert' (|diff|>5). diff = recibidas - enviadas.
+function driftLevel(diff){
+  const d=Math.abs(diff);
+  if(d===0) return null;
+  if(d<=5)  return 'warn';
+  return 'alert';
 }
 // Mantenida por compatibilidad. Ahora delega al mapping canónico; Mamón → fallback "MAM".
 function abreviarCategoria(cat){
@@ -246,24 +271,33 @@ function mostrarLinkRemate(codigo,tipo){
 }
 function remateTipoClass(t){const s=String(t||'').toLowerCase(); if(s.includes('entrada')) return 'row-entrada'; if(s.includes('salida')) return 'row-salida'; return '';}
 function calcMovSummary(filas){
-  // categorias arranca con las 7 canónicas en 0 — el cat-mini-grid muestra siempre las 7 fijas.
+  // ingresos/egresos.total y .categorias[CANON] devuelven {enviadas, recibidas} para exponer drift.
   // Filas con categoría no canonizable (Mamón legacy) suman a `total` pero no al breakdown.
-  const ingresos={total:0,categorias:Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,0]))};
-  const egresos={total:0,categorias:Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,0]))};
+  const mkAcc=()=>({total:{enviadas:0,recibidas:0},categorias:Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,{enviadas:0,recibidas:0}]))});
+  const ingresos=mkAcc();
+  const egresos=mkAcc();
   const stats={faena:0,invernada:0,aptoSi:0,aptoNo:0,vacaFaenaNoApto:0};
   (filas||[]).forEach(f=>{
-    const cantidad=Number(f.recibido)||Number(f.enviado)||0;
+    const env=Number(f.enviado )||0;
+    const rec=Number(f.recibido)||0;
+    // Misma asunción que normalizarCategoriasRemate: recibido=0 = "sin conteo cargado",
+    // fallback a enviado para que detail panel y hero card muestren los mismos números.
+    // Drift real solo cuando rec > 0 Y rec !== env. Ver comment ahí para context completo.
+    const recAdj=rec>0?rec:env;
+    // Para SENASA stats (faena/invernada/apto) usamos el comportamiento histórico recibido||enviado
+    // que privilegia el conteo real cuando llegó a corral.
+    const cantidad=rec||env||0;
     const cat=f.categoria||'Sin categoria';
     const canon=canonizarCategoria(cat);
     const t=String(f.tipo_movimiento||'').toLowerCase();
     const motivo=String(f.motivo||'').toLowerCase();
     const apto=String(f.apto_china||'').toLowerCase();
     if(t.includes('entrada')){
-      ingresos.total+=cantidad;
-      if(canon) ingresos.categorias[canon]+=cantidad;
+      ingresos.total.enviadas +=env; ingresos.total.recibidas+=recAdj;
+      if(canon){ ingresos.categorias[canon].enviadas+=env; ingresos.categorias[canon].recibidas+=recAdj; }
     }else if(t.includes('salida')){
-      egresos.total+=cantidad;
-      if(canon) egresos.categorias[canon]+=cantidad;
+      egresos.total.enviadas +=env; egresos.total.recibidas+=recAdj;
+      if(canon){ egresos.categorias[canon].enviadas+=env; egresos.categorias[canon].recibidas+=recAdj; }
     }
     if(motivo.includes('faena'))stats.faena+=cantidad;
     else if(motivo.includes('invernada'))stats.invernada+=cantidad;
@@ -273,7 +307,22 @@ function calcMovSummary(filas){
   });
   return{ingresos,egresos,stats};
 }
-function renderSummaryBox(title,total,categorias,inOut){const entries=Object.entries(categorias).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]); return '<div class="summary-box"><div class="summary-head '+inOut+'"><div><div class="small" style="text-transform:uppercase;letter-spacing:1px">'+title+'</div><div class="summary-big">'+total.toLocaleString()+'</div></div></div><div class="summary-cats">'+(entries.length?entries.map(([cat,cant])=>'<div class="cat-pill '+inOut+'" title="'+esc(cat)+'"><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+esc(cant)+'</span></div>').join(''):'<div class="small">Sin movimientos</div>')+'</div></div>';}
+// `total` y `categorias[k]` son objetos {enviadas, recibidas}. El número grande muestra `enviadas`;
+// el badge .drift-badge aparece cuando difieren. (Función actualmente no se invoca — se mantiene en sync con el shape nuevo.)
+function renderSummaryBox(title,total,categorias,inOut){
+  const entries=Object.entries(categorias).filter(([,v])=>v.enviadas>0||v.recibidas>0).sort((a,b)=>b[1].enviadas-a[1].enviadas);
+  const totDiff=total.recibidas-total.enviadas;
+  const totLevel=driftLevel(totDiff);
+  const totBadge=totLevel?' <span class="drift-badge '+totLevel+'">⚠ '+(totDiff>0?'+':'')+totDiff+'</span>':'';
+  const totTitle=totLevel?'title="Enviadas: '+total.enviadas+' · Recibidas: '+total.recibidas+'"':'';
+  const pills=entries.map(([cat,v])=>{
+    const d=v.recibidas-v.enviadas, lv=driftLevel(d);
+    const suffix=lv?' <span class="drift-suffix '+lv+'">'+(d>0?'+':'')+d+'</span>':'';
+    const ttl=lv?' title="Enviadas: '+v.enviadas+' · Recibidas: '+v.recibidas+'"':'';
+    return '<div class="cat-pill '+inOut+'"'+ttl+'><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+esc(v.enviadas)+'</span>'+suffix+'</div>';
+  }).join('');
+  return '<div class="summary-box"><div class="summary-head '+inOut+'" '+totTitle+'><div><div class="small" style="text-transform:uppercase;letter-spacing:1px">'+title+'</div><div class="summary-big">'+total.enviadas.toLocaleString()+totBadge+'</div></div></div><div class="summary-cats">'+(entries.length?pills:'<div class="small">Sin movimientos</div>')+'</div></div>';
+}
 function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=null,q='',tipos=[],estados=[],categorias_f=[],motivos=[],aptoChinas=[],sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
 // Nombres por evento guardados en localStorage
 const remNombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');
@@ -304,16 +353,28 @@ function heroCard(r,origIdx){
   const isActive=origIdx===selected;
   const cod=esc(r.codigo||'');
 
-  // Tags de categorías canónicas con valor > 0 (sin slice, sin umbral) — ordenados desc por cantidad.
+  // Tags de categorías canónicas con enviadas > 0 (sin slice, sin umbral) — ordenados desc por enviadas.
+  // El número grande del tag = enviadas. Sufijo (±N) cuando recibidas !== enviadas.
   const catsCanon=normalizarCategoriasRemate(r);
-  const tagsHtml=Object.entries(catsCanon).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1])
-    .map(([k,v])=>'<span class="tag"><span>'+esc(k)+'</span> <span class="num">'+v+'</span></span>').join('');
+  const tot=totalRemate(catsCanon);
+  const totDiff=tot.recibidas-tot.enviadas;
+  const totLevel=driftLevel(totDiff);
+  const tagsHtml=Object.entries(catsCanon).filter(([,v])=>v.enviadas>0||v.recibidas>0)
+    .sort((a,b)=>b[1].enviadas-a[1].enviadas)
+    .map(([k,v])=>{
+      const d=v.recibidas-v.enviadas, lv=driftLevel(d);
+      const suffix=lv?' <span class="drift-suffix '+lv+'">'+(d>0?'+':'')+d+'</span>':'';
+      const ttl=lv?' title="Enviadas: '+v.enviadas+' · Recibidas: '+v.recibidas+'"':'';
+      return '<span class="tag"'+ttl+'><span>'+esc(k)+'</span> <span class="num">'+v.enviadas+'</span>'+suffix+'</span>';
+    }).join('');
 
-  // Drift assertion: el campo agregado total_animales del JSON debería igualar Σ canónicas.
-  // Un mismatch indica datos del extractor desactualizados o categoría desconocida (Mamón legacy).
-  const sumCanon=Object.values(catsCanon).reduce((a,b)=>a+b,0);
-  if(Number(r.total_animales||0)!==sumCanon){
-    console.warn('[drift] Remate '+(r.codigo||'?')+': total_animales='+r.total_animales+' vs Σ canónicas='+sumCanon);
+  // Drift assertion en consola: lista categorías afectadas para drilldown rápido.
+  if(totLevel){
+    const catsDrift=CATEGORIAS_CANONICAS
+      .filter(c=>catsCanon[c].recibidas!==catsCanon[c].enviadas)
+      .map(c=>c+' '+(catsCanon[c].recibidas-catsCanon[c].enviadas))
+      .join(', ');
+    console.warn('[drift] Remate '+(r.codigo||'?')+': enviadas='+tot.enviadas+' recibidas='+tot.recibidas+' diff='+totDiff+' (categorías afectadas: '+catsDrift+')');
   }
 
   // Placeholder serif italic cuando no hay nombre — handled by ::placeholder en CSS
@@ -329,8 +390,11 @@ function heroCard(r,origIdx){
       +(tagsHtml?'<div class="remate-tags">'+tagsHtml+'</div>':'')
     +'</div>'
     +'<div class="remate-stats">'
-      +'<div class="stat-pill">'
-        +'<span class="num">'+esc(r.total_animales||0)+'</span>'
+      +'<div class="stat-pill"'+(totLevel?' title="Enviadas: '+tot.enviadas+' · Recibidas: '+tot.recibidas+'"':'')+'>'
+        +'<span class="stat-pill-row">'
+          +'<span class="num">'+tot.enviadas+'</span>'
+          +(totLevel?'<span class="drift-badge '+totLevel+'">⚠ '+(totDiff>0?'+':'')+totDiff+'</span>':'')
+        +'</span>'
         +'<span class="lbl">Animales</span>'
       +'</div>'
       +'<div class="stat-pill amber">'
@@ -356,6 +420,8 @@ function pastCard(r,origIdx){
   const fin=esc((r.info||{})['Fin']||'-');
   const isActive=origIdx===selected;
   const cod=esc(r.codigo||'');
+  const tot=totalRemate(normalizarCategoriasRemate(r));
+  const totDiff=tot.recibidas-tot.enviadas, totLevel=driftLevel(totDiff);
 
   // Variante compacta: sin tags, sin acciones, stat pills mas chicas (CSS las shrinkea)
   return '<div class="remate-card compact rem-past-row'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
@@ -367,8 +433,11 @@ function pastCard(r,origIdx){
       +'</div>'
     +'</div>'
     +'<div class="remate-stats">'
-      +'<div class="stat-pill">'
-        +'<span class="num">'+esc(r.total_animales||0)+'</span>'
+      +'<div class="stat-pill"'+(totLevel?' title="Enviadas: '+tot.enviadas+' · Recibidas: '+tot.recibidas+'"':'')+'>'
+        +'<span class="stat-pill-row">'
+          +'<span class="num">'+tot.enviadas+'</span>'
+          +(totLevel?'<span class="drift-badge '+totLevel+'">⚠ '+(totDiff>0?'+':'')+totDiff+'</span>':'')
+        +'</span>'
         +'<span class="lbl">Animales</span>'
       +'</div>'
       +'<div class="stat-pill amber">'
@@ -399,13 +468,19 @@ const pastHtml=pastRems.length>0
 const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tiposAll=Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean))).sort(); const estadosAll=Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean))).sort(); const categoriasAll=Array.from(new Set((rem.filas||[]).map(f=>canonizarCategoria(f.categoria)).filter(Boolean))).sort(); const motivosAll=Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean))).sort(); exportRows=(rem.filas||[]).filter(f=>(!tipos.length||tipos.includes(f.tipo_movimiento))&&(!estados.length||estados.includes(normalizarEstado(f.estado)))&&(!categorias_f.length||categorias_f.includes(canonizarCategoria(f.categoria)||''))&&(!motivos.length||motivos.includes(f.motivo||''))&&(!aptoChinas.length||aptoChinas.includes(aptoChinaVal(f)))); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
 
 // Cat mini-grid — siempre las 7 canónicas (con 0 cuando no hay datos).
-// `cats` ya viene canonizado desde calcMovSummary — keys son TERNERO, TERNERA, etc.
+// `cats[CANON]` es {enviadas, recibidas}. La celda muestra `enviadas` como número grande;
+// si la categoría tiene drift (recibidas !== enviadas) se agrega .has-drift + sufijo (±N) y tooltip.
 function catMiniGridHtml(cats){
   const c=cats||{};
   return CATEGORIAS_CANONICAS.map(canon=>{
-    const v=Number(c[canon]||0);
-    const cls=v>0?'has':'empty';
-    return '<div class="cat-mini '+cls+'"><span class="code">'+CATEGORIA_CANONICA_ABBR[canon]+'</span><span class="num">'+v+'</span></div>';
+    const v=c[canon]||{enviadas:0,recibidas:0};
+    const env=Number(v.enviadas||0), rec=Number(v.recibidas||0);
+    const has=env>0||rec>0;
+    const diff=rec-env, lv=driftLevel(diff);
+    const cls='cat-mini '+(has?'has':'empty')+(lv?' has-drift '+lv:'');
+    const suffix=lv?'<span class="drift-suffix '+lv+'">'+(diff>0?'+':'')+diff+'</span>':'';
+    const ttl=lv?' title="Enviadas: '+env+' · Recibidas: '+rec+'"':'';
+    return '<div class="'+cls+'"'+ttl+'><span class="code">'+CATEGORIA_CANONICA_ABBR[canon]+'</span><span class="num">'+env+'</span>'+suffix+'</div>';
   }).join('');
 }
 
@@ -416,6 +491,10 @@ const warnRow=s.vacaFaenaNoApto>0
 
 const ingTot=sums.ingresos.total;
 const egrTot=sums.egresos.total;
+const ingDiff=ingTot.recibidas-ingTot.enviadas, ingLevel=driftLevel(ingDiff);
+const egrDiff=egrTot.recibidas-egrTot.enviadas, egrLevel=driftLevel(egrDiff);
+const driftBadge=(level,diff)=>level?'<span class="drift-badge '+level+'">⚠ '+(diff>0?'+':'')+diff+'</span>':'';
+const driftTitle=(level,t)=>level?' title="Enviadas: '+t.enviadas+' · Recibidas: '+t.recibidas+'"':'';
 
 const summary=warnRow
   +'<div class="stats-grid" style="margin-top:14px">'
@@ -424,7 +503,7 @@ const summary=warnRow
       +'<div class="metric-head">'
         +'<span class="metric-label"><span class="arrow">↓</span> Ingresos</span>'
       +'</div>'
-      +'<div class="metric-num'+(ingTot===0?' zero':'')+'">'+ingTot+'</div>'
+      +'<div class="metric-num'+(ingTot.enviadas===0?' zero':'')+'"'+driftTitle(ingLevel,ingTot)+'>'+ingTot.enviadas+driftBadge(ingLevel,ingDiff)+'</div>'
       +'<div class="cat-mini-grid">'+catMiniGridHtml(sums.ingresos.categorias)+'</div>'
     +'</div>'
     // Egresos (rojo) — número + sub solo cuando es 0
@@ -432,8 +511,8 @@ const summary=warnRow
       +'<div class="metric-head">'
         +'<span class="metric-label"><span class="arrow">↑</span> Egresos</span>'
       +'</div>'
-      +'<div class="metric-num'+(egrTot===0?' zero':'')+'">'+egrTot+'</div>'
-      +(egrTot===0
+      +'<div class="metric-num'+(egrTot.enviadas===0?' zero':'')+'"'+driftTitle(egrLevel,egrTot)+'>'+egrTot.enviadas+driftBadge(egrLevel,egrDiff)+'</div>'
+      +(egrTot.enviadas===0
         ? '<div class="metric-sub">Sin egresos registrados en este remate</div>'
         : '')
     +'</div>'

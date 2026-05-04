@@ -499,3 +499,52 @@ input.remate-name:focus {
   border-left: 3px solid var(--cyan);
 }
 
+/* ============================================================
+   DRIFT INDICATORS — diff entre enviado (DTE) y recibido (corral)
+   warn  = |diff| ≤ 5  (ámbar)
+   alert = |diff| > 5  (rojo)
+   ============================================================ */
+.drift-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 1px 6px;
+  border-radius: var(--r-sm);
+  margin-left: 6px;
+  vertical-align: middle;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.drift-badge.warn  { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); }
+.drift-badge.alert { background: var(--red-soft);   color: var(--red);   border: 1px solid var(--red); }
+
+/* Wrapper inline-flex que pone .num y .drift-badge en una sola línea horizontal
+   dentro del .stat-pill (que es flex column). Se usa SIEMPRE — exista badge o no —
+   para que no haya saltos de layout entre cards limpios y cards con drift. */
+.stat-pill-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+/* En .metric-num (Ingresos/Egresos del detail) el badge va inline con el número grande */
+.metric-num .drift-badge { font-size: 12px; padding: 2px 8px; }
+
+/* Sufijo inline para tags y cat-mini — sin background, solo color */
+.drift-suffix {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-left: 3px;
+}
+.drift-suffix.warn  { color: var(--amber); }
+.drift-suffix.alert { color: var(--red); }
+
+/* Cat-mini con drift: borde de color de nivel + sufijo abajo del num */
+.cat-mini.has-drift.warn  { border-color: var(--amber); }
+.cat-mini.has-drift.alert { border-color: var(--red); }
+.cat-mini .drift-suffix   { font-size: 8.5px; margin-left: 0; line-height: 1; }
