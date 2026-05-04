@@ -39,7 +39,7 @@
   /* ---------- TYPOGRAPHY ---------- */
   --serif: 'Lora', Georgia, serif;                              /* títulos editoriales */
   --sans:  'Inter', -apple-system, 'Segoe UI', sans-serif;     /* UI body */
-  --mono:  'JetBrains Mono', Consolas, monospace;              /* números, códigos, labels */
+  --mono:  'IBM Plex Mono', Consolas, Monaco, monospace;       /* números, códigos, labels */
 
   /* ---------- RADII (Design) ---------- */
   --r-sm: 4px;

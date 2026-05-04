@@ -482,3 +482,20 @@ input.remate-name:focus {
 .remate-card.compact .remate-actions {
   display: none;
 }
+
+/* ============================================================
+   FIX C — Card del remate activo (degradé sutil)
+   La regla legacy .rem-hero {background: linear-gradient(...,dark)}
+   en styles.css linea 990 (especificidad 10) y .rem-hero.active
+   en linea 1017 (especificidad 20) pintan el card de gradient
+   verde-grisaceo oscuro. Lo reemplazamos por blanco -> cyan-soft
+   en diagonal, muy sutil. Especificidad 20 sobre tablero.css que
+   carga DESPUES de styles.css — gana sin necesidad de !important.
+   En commit 10 (cleanup) eliminamos las reglas legacy y este
+   override puede simplificarse o moverse al .remate-card base.
+   ============================================================ */
+.remate-card.rem-hero {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 60%, var(--cyan-soft) 100%);
+  border-left: 3px solid var(--cyan);
+}
+

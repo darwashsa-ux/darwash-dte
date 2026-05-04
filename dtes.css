@@ -388,3 +388,179 @@
   text-decoration: underline;
 }
 
+/* ============================================================
+   FIX legibilidad — hotfix post-commit 6
+   La tabla DTEs es la mas usada del dashboard (Leo la mira horas).
+   La default del handoff quedo muy densa y los aumentos siguientes
+   son ajustes para uso prolongado: mas tipografia, mas padding,
+   sin zebra striping (chocaba con la regla legacy de styles.css
+   que pintaba las filas pares con rgba(8,17,18,.4) gris oscuro).
+   ============================================================ */
+
+/* Override del zebra legacy (styles.css linea 335) */
+.dte-table tbody tr:nth-child(even),
+.dte-table tbody tr:nth-child(odd) {
+  background: transparent;
+}
+
+/* Hover suave — gana sobre el legacy tbody tr:hover */
+.dte-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+/* Aumentar tipografia base de la tabla (12px -> 14px) */
+.dte-table {
+  font-size: 14px;
+}
+
+/* Padding mas generoso (10/8 -> 14/12) — mas aire vertical entre filas */
+.dte-table thead th,
+.dte-table tbody td {
+  padding: 14px 12px;
+}
+
+/* Headers (labels mono uppercase) un toque mas grandes (9 -> 11) */
+.dte-table thead th {
+  font-size: 11px;
+}
+
+/* N DTE — el dato mas importante de la tabla, mas grande y bold */
+.dte-table .col-num {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Fechas y CUITs — mono tabular legible (12 -> 13) */
+.dte-table .col-fecha,
+.dte-table .col-cuit {
+  font-size: 13px;
+}
+
+/* Tipo (mono uppercase) — un toque mas grande para legibilidad */
+.dte-table .col-tipo {
+  font-size: 11px;
+}
+
+/* RENSPA debajo de Origen/Destino — visible pero muted (9.5 -> 11) */
+.dte-table .col-origen .sub,
+.dte-table .col-destino .sub {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   FIX A — Tipografias correctas (sistema Darwash):
+   Mono para codigos/numeros, Inter para nombres y empresas.
+   Los nombres como 'MICHEO HECTOR ESTEBAN' estaban heredando algo
+   con sabor mono — forzamos Inter explicito en las celdas de
+   nombres, y garantizamos mono explicito en las sub-RENSPA.
+   ============================================================ */
+
+/* Nombres en Inter (Consignataria / Origen / Destino) */
+.dte-table .col-consig,
+.dte-table .col-origen,
+.dte-table .col-destino {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Sub-lineas (RENSPA) en mono — son codigos */
+.dte-table .col-origen .sub,
+.dte-table .col-destino .sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ============================================================
+   FIX B — Headers de columna mas suaves
+   Compitian visualmente con los datos. Bajamos peso, achicamos
+   un toque, abrimos tracking, y los pintamos en --muted (en vez
+   de text-2). Resultado: se sienten como labels, no headers.
+   ============================================================ */
+
+.dte-table thead th {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ============================================================
+   FIX D — Estado pills estilo chip sin borde
+   La regla del handoff Design ponia border 1px del color del
+   estado, lo que competia con el contenido. Override: chip con
+   solo fondo soft + texto color + dot circular del color.
+   ============================================================ */
+
+.dte-table .estado-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: none !important;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+/* Variantes — fondo soft + texto color */
+.dte-table .estado-pill.vigente,
+.dte-table .estado-pill.emitido {
+  background: var(--green-soft);
+  color: var(--green);
+}
+.dte-table .estado-pill.vencido,
+.dte-table .estado-pill.caducado {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+.dte-table .estado-pill.anulado,
+.dte-table .estado-pill.eliminado {
+  background: var(--red-soft);
+  color: var(--red);
+}
+.dte-table .estado-pill.cerrado {
+  background: var(--cyan-soft);
+  color: var(--cyan);
+}
+
+/* Dot circular del color del estado (currentColor toma el text color) */
+.dte-table .estado-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: currentColor;
+}
+
+/* ============================================================
+   FIX E (parte 1) — Cons-chip explicito en Inter 600
+   El .cons-chip legacy tiene font-weight:700 que se percibe
+   "denso/mono-ish". Bajamos a 600 y forzamos Inter explicito.
+   ============================================================ */
+
+.dte-table .cons-chip {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: 0;
+  text-transform: none;
+}

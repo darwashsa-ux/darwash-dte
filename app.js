@@ -16,6 +16,7 @@ function normalizarEstado(s){
   return (s||'').toUpperCase()||'—';
 }
 function badgeClass(s){const n=normalizarEstado(s).toLowerCase(); if(n==='vigente') return 'vigente'; if(n==='cerrado') return 'cerrado'; if(n==='anulado') return 'anulado'; if(n==='eliminado') return 'anulado'; if(n==='caducado') return 'vencido'; if(n==='vencido') return 'vencido'; if(n==='emitido') return 'vigente'; return '';}
+function cleanEstado(estado){return (estado||'').replace(/\s*\([^)]*\)\s*/g,'').trim();}
 function consClass(v){const s=(v||'').toUpperCase(); if(s.includes('DARWASH')) return 'dar'; if(s.includes('BULLTRADE')) return 'bull'; return 'other';}
 function prettyCons(v){return '<span class="cons-chip"><span class="dot '+(consClass(v)==='dar'?'dar':consClass(v)==='bull'?'bull':'')+'"></span>'+esc(v||'-')+'</span>'}
 function abreviarCategoria(cat){const map={novillo:'NOV',novillos:'NOV',novillito:'NTO',novillitos:'NTO',vaquillona:'VQ',vaquillonas:'VQ',vaquilla:'VQ',vaquillas:'VQ',vaca:'VA',vacas:'VA',ternero:'TRO',terneros:'TRO',ternera:'TRA',terneras:'TRA',toro:'TO',toros:'TO',torito:'TTO',toritos:'TTO',mamón:'MAM',mamones:'MAM','sin categoria':'S/C'}; const k=String(cat||'').toLowerCase().trim(); return map[k] || String(cat||'').substring(0,3).toUpperCase();}
@@ -543,7 +544,7 @@ function renderDtes(){
         +'<td class="col-cuit">'+esc(d.emisor_cuit||'—')+'</td>'
         +'<td class="col-destino" title="'+esc(d.receptor_nombre||'')+'">'+esc(d.receptor_nombre||'—')+destinoSub+'</td>'
         +'<td class="col-cuit">'+esc(d.receptor_cuit||'—')+'</td>'
-        +'<td><span class="estado-pill '+estadoCanon+'">'+esc(d.estado||'—')+'</span></td>'
+        +'<td><span class="estado-pill '+estadoCanon+'">'+esc(cleanEstado(d.estado)||'—')+'</span></td>'
         +'<td class="col-fecha">'+esc(d.fecha_carga||'—')+'</td>'
         +'<td class="col-fecha">'+esc(d.fecha_vencimiento||'—')+'</td>'
         +'<td class="actions"><button class="row-action icon-only ver-btn" data-dte="'+esc(d.nro_dte)+'" title="Ver detalle">⋯</button></td>'
