@@ -267,8 +267,8 @@ const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 const GH_USER='darwashsa-ux';
 const GH_REPO='darwash-dte';
-const CATS=['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
-const CAT_CODES={'Novillo':'NOV','Novillito':'NTO','Vaquillona':'VQ','Vaca':'VA','Ternero':'TER','Ternera':'TRA','Toro':'TORO','Torito/MEJ':'MEJ'};
+const CATS=['Novillo','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
+const CAT_CODES={'Novillo':'NOV','Vaquillona':'VQ','Vaca':'VA','Ternero':'TER','Ternera':'TRA','Toro':'TORO','Torito/MEJ':'MEJ'};
 let remateActual='',horaManual=null,ultimoRegistro=null,nroRemito=null;
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
@@ -673,8 +673,8 @@ async function generarPDF(soloSubir=false){
 
   // Detalle hacienda — grilla 4×2 fija
   seccion('DETALLE DE HACIENDA');
-  const cats4x2=[['Novillo','NOV'],['Novillito','NTO'],['Vaquillona','VQ'],['Vaca','VA'],
-                 ['Ternero','TER'],['Ternera','TRA'],['Toro','TORO'],['Torito/MEJ','MEJ']];
+  const cats4x2=[['Novillo','NOV'],['Vaquillona','VQ'],['Vaca','VA'],['Ternero','TER'],
+                 ['Ternera','TRA'],['Toro','TORO'],['Torito/MEJ','MEJ']];
   const cellW=(W-M-MR-3)/4, cellH=18;
   cats4x2.forEach(([key,code],i)=>{
     const col=i%4, row=Math.floor(i/4);

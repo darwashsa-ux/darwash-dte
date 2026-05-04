@@ -248,7 +248,6 @@ const SUPABASE_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 
 const CATS=[
   {id:'novillo',label:'Novillo',code:'NOV'},
-  {id:'novillito',label:'Novillito',code:'NTO'},
   {id:'vaquillona',label:'Vaquillona',code:'VQ'},
   {id:'vaca',label:'Vaca',code:'VA'},
   {id:'ternero',label:'Ternero',code:'TER'},
@@ -680,8 +679,8 @@ async function generarPDF(soloSubir=false){
 
   // Detalle hacienda — grilla 4×2 fija
   seccion('DETALLE DE HACIENDA');
-  const cats4x2=[['novillo','NOV'],['novillito','NTO'],['vaquillona','VQ'],['vaca','VA'],
-                 ['ternero','TER'],['ternera','TRA'],['toro','TORO'],['torito','MEJ']];
+  const cats4x2=[['novillo','NOV'],['vaquillona','VQ'],['vaca','VA'],['ternero','TER'],
+                 ['ternera','TRA'],['toro','TORO'],['torito','MEJ']];
   const cellW=(W-M-MR-3)/4, cellH=18;
   cats4x2.forEach(([key,code],i)=>{
     const col=i%4, row=Math.floor(i/4);
