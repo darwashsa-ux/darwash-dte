@@ -1,0 +1,6 @@
+# Local config y tests
+.claude/
+tests/
+_test_*.pdf
+_logo_b64.txt
+_*.txt
