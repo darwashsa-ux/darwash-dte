@@ -377,17 +377,81 @@ const estadosOpts=estadosAll.map(v=>({v,l:v}));
 const categoriasOpts=categoriasAll.map(v=>({v,l:v}));
 const motivosOpts=motivosAll.map(v=>({v,l:v}));
 const aptoOpts=[{v:'si',l:'Apto'},{v:'no',l:'No apto'},{v:'sin',l:'Sin dato'}];
-const header='<div class="filters rem-filters">'
-  +'<input class="input" id="r-q" placeholder="Buscar..." value="'+esc(q)+'">'
-  +msDropdown('r-tipo','Tipo',tiposOpts,tipos)
-  +msDropdown('r-est','Estado',estadosOpts,estados)
-  +msDropdown('r-cat','Categoría',categoriasOpts,categorias_f)
-  +msDropdown('r-motivo','Motivo',motivosOpts,motivos)
-  +msDropdown('r-apto','Apto China',aptoOpts,aptoChinas)
-  +'<span class="result-count">'+exportRows.length+' de '+(rem.filas||[]).length+'</span>'
-  +'<button id="r-export" class="ghost-btn" style="margin-left:auto;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700;border-color:rgba(0,208,132,.35);color:var(--green)">⬇ Excel</button>'
-  +'<button id="r-clear" class="ghost-btn" style="margin-left:8px;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700">Limpiar filtros</button>'
-  +'</div>'; ; const cols=[['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],['enviado','Env.'],['recibido','Rec.']]; const th=cols.map(([k,l])=>'<th data-sort="'+k+'" class="sorter">'+l+(sortKey===k?(sortDir==='asc'?' ↑':' ↓'):' ↕')+'</th>').join(''); function aptoChinaBadge(f){const v=f.apto_china||f['Apto China']||f.aptoChina; const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto'; const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no'; return {lbl,cls};} const body=exportRows.map(f=>{const ac=aptoChinaBadge(f); return '<tr class="'+remateTipoClass(f.tipo_movimiento)+'"><td class="nowrap col-tipo">'+esc(f.tipo_movimiento||'-')+'</td><td class="link dte-link nowrap numcol col-dte" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'-')+'</td><td>'+esc(f.emisor_nombre||'-')+'</td><td>'+esc(f.receptor_nombre||'-')+'</td><td class="nowrap">'+esc(f.categoria||'-')+'</td><td class="nowrap numcol col-fecha">'+esc(f.fecha_movimiento||'-')+'</td><td>'+esc(f.motivo||'-')+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(f.estado)+'">'+esc(f.estado||'-')+'</span></td><td class="nowrap col-apto-china"><span class="badge apto-china '+ac.cls+'">'+esc(ac.lbl)+'</span></td><td style="text-align:right" class="nowrap numcol">'+esc(f.enviado||0)+'</td><td style="text-align:right" class="nowrap numcol">'+esc(f.recibido||0)+'</td></tr>';}).join(''); detail='<div class="section-caption"><span>'+esc(rem.codigo||'Remate')+'</span><span class="right">'+esc((rem.info||{})['Predio ferial']||'')+'</span></div>'+summary+header+'<div class="table-wrap"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'; } else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
+const header=''
+  +'<div class="filters-bar rem-filters-bar">'
+    +'<div class="filter-field search">'
+      +'<span class="lbl">Buscar</span>'
+      +'<input class="input" id="r-q" placeholder="Doc, emisor, receptor…" value="'+esc(q)+'"/>'
+    +'</div>'
+    +'<div class="filter-field"><span class="lbl">Tipo</span>'+msDropdown('r-tipo','Todos',tiposOpts,tipos)+'</div>'
+    +'<div class="filter-field"><span class="lbl">Estado</span>'+msDropdown('r-est','Todos',estadosOpts,estados)+'</div>'
+    +'<div class="filter-field"><span class="lbl">Categoría</span>'+msDropdown('r-cat','Todas',categoriasOpts,categorias_f)+'</div>'
+    +'<div class="filter-field"><span class="lbl">Motivo</span>'+msDropdown('r-motivo','Todos',motivosOpts,motivos)+'</div>'
+    +'<div class="filter-field"><span class="lbl">Apto China</span>'+msDropdown('r-apto','Todos',aptoOpts,aptoChinas)+'</div>'
+    +'<div class="filter-actions">'
+      +'<button class="btn btn-ghost btn-sm" id="r-clear">Limpiar</button>'
+      +'<button class="btn btn-ghost cyan btn-sm" id="r-export">⬇ Excel</button>'
+    +'</div>'
+  +'</div>';
+
+const cols=[
+  {key:'tipo_movimiento', label:'Tipo',        thClass:'col-tipo'},
+  {key:'documento',       label:'Documento',   thClass:'col-num numeric'},
+  {key:'emisor_nombre',   label:'Emisor',      thClass:'col-origen'},
+  {key:'receptor_nombre', label:'Receptor',    thClass:'col-destino'},
+  {key:'categoria',       label:'Categoría',   thClass:''},
+  {key:'fecha_movimiento',label:'Fecha Mov.',  thClass:'col-fecha'},
+  {key:'motivo',          label:'Motivo',      thClass:''},
+  {key:'estado',          label:'Estado',      thClass:''},
+  {key:'apto_china',      label:'Apto China',  thClass:''},
+  {key:'enviado',         label:'Env.',        thClass:'col-cant numeric'},
+  {key:'recibido',        label:'Rec.',        thClass:'col-cant numeric'}
+];
+const th=cols.map(c=>{
+  const icon=sortKey===c.key?(sortDir==='asc'?' ↑':' ↓'):'<span style="opacity:.35"> ↕</span>';
+  return '<th class="sorter '+c.thClass+'" data-sort="'+c.key+'" style="cursor:pointer;user-select:none">'+esc(c.label)+icon+'</th>';
+}).join('');
+
+function aptoChinaBadge(f){
+  const v=f.apto_china||f['Apto China']||f.aptoChina;
+  const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto';
+  const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no';
+  return {lbl,cls};
+}
+
+const body=exportRows.map(f=>{
+  const ac=aptoChinaBadge(f);
+  const tipoLow=String(f.tipo_movimiento||'').toLowerCase();
+  const tipoTag=tipoLow.includes('entrada')?'entrada':tipoLow.includes('salida')?'salida':'';
+  const estadoCanon=normalizarEstado(f.estado).toLowerCase();
+  return '<tr'+(tipoTag?' data-tipo="'+tipoTag+'"':'')+'>'
+    +'<td class="col-tipo">'+esc(f.tipo_movimiento||'—')+'</td>'
+    +'<td class="col-num numeric dte-link" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'—')+'</td>'
+    +'<td class="col-origen" title="'+esc(f.emisor_nombre||'')+'">'+esc(f.emisor_nombre||'—')+'</td>'
+    +'<td class="col-destino" title="'+esc(f.receptor_nombre||'')+'">'+esc(f.receptor_nombre||'—')+'</td>'
+    +'<td>'+esc(f.categoria||'—')+'</td>'
+    +'<td class="col-fecha">'+esc(f.fecha_movimiento||'—')+'</td>'
+    +'<td>'+esc(f.motivo||'—')+'</td>'
+    +'<td><span class="estado-pill '+estadoCanon+'">'+esc(cleanEstado(f.estado)||'—')+'</span></td>'
+    +'<td><span class="apto-china-pill '+ac.cls+'">'+esc(ac.lbl)+'</span></td>'
+    +'<td class="col-cant numeric">'+esc(f.enviado||0)+'</td>'
+    +'<td class="col-cant numeric">'+esc(f.recibido||0)+'</td>'
+  +'</tr>';
+}).join('');
+
+detail='<div class="section-caption"><span>'+esc(rem.codigo||'Remate')+'</span><span class="right">'+esc((rem.info||{})['Predio ferial']||'')+'</span></div>'
+  +summary
+  +header
+  +'<div class="table-wrap">'
+    +'<div class="table-head-bar">'
+      +'<span class="table-title">Movimientos del remate</span>'
+      +'<span class="table-count">'+exportRows.length+' de '+(rem.filas||[]).length+'</span>'
+    +'</div>'
+    +'<div style="overflow-x:auto">'
+      +'<table class="dte-table"><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table>'
+    +'</div>'
+  +'</div>';
+} else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
     host.querySelectorAll('.rem-hero').forEach(hero=>{
       hero.onclick=function(){const prev=selected;selected=Number(hero.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();};
     });

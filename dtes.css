@@ -564,3 +564,144 @@
   letter-spacing: 0;
   text-transform: none;
 }
+
+/* ============================================================
+   COMMIT 7 — Detalle del remate
+   La tabla del detalle reusa .dte-table. Overrides especificos:
+   - Dot indicator entrada/salida en primer td
+   - .apto-china-pill (chip estilo similar a estado-pill)
+   - .ms-* light (override del legacy dark)
+   - .filters-bar.rem-filters-bar layout para 6 filter-fields + actions
+   ============================================================ */
+
+/* Dot indicator entrada/salida — primer td de filas con data-tipo */
+.dte-table tbody tr[data-tipo] td:first-child {
+  position: relative;
+  padding-left: 22px;
+}
+.dte-table tbody tr[data-tipo] td:first-child::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dte-table tbody tr[data-tipo="entrada"] td:first-child::before {
+  background: var(--green);
+}
+.dte-table tbody tr[data-tipo="salida"] td:first-child::before {
+  background: var(--red);
+}
+
+/* Apto China pills — chip estilo similar a estado-pill */
+.dte-table .apto-china-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+.dte-table .apto-china-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: currentColor;
+}
+.dte-table .apto-china-pill.apto-si {
+  background: var(--green-soft);
+  color: var(--green);
+}
+.dte-table .apto-china-pill.apto-no {
+  background: var(--red-soft);
+  color: var(--red);
+}
+.dte-table .apto-china-pill.apto-sin {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+/* Filter bar del detalle del remate — 6 filter-fields + actions
+   Override del .filters-bar default que tenia 5 cols. */
+.filters-bar.rem-filters-bar {
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr auto;
+}
+@media (max-width: 1100px) {
+  .filters-bar.rem-filters-bar {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: auto;
+  }
+  .filters-bar.rem-filters-bar .filter-field.search {
+    grid-column: 1 / -1;
+  }
+  .filters-bar.rem-filters-bar .filter-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
+/* Multi-select widget — override del legacy dark */
+.filter-field .ms-wrap {
+  display: block;
+  width: 100%;
+}
+.filter-field .ms-btn.select {
+  width: 100%;
+  justify-content: space-between;
+  font-family: var(--sans);
+  font-size: 13px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 8px 12px;
+  color: var(--text);
+  text-align: left;
+}
+.filter-field .ms-btn.select:hover {
+  border-color: var(--cyan);
+}
+.filter-field .ms-btn.ms-active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+.filter-field .ms-arrow {
+  color: var(--muted);
+}
+
+/* Panel del dropdown — light, no dark */
+.ms-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 6px 4px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.ms-item {
+  color: var(--text-2);
+  font-family: var(--sans);
+  font-size: 13px;
+}
+.ms-item:hover {
+  background: var(--cyan-soft);
+}
+.ms-item input[type=checkbox] {
+  accent-color: var(--cyan);
+}
+.ms-all {
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+}
+
