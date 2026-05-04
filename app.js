@@ -514,8 +514,6 @@ function renderDtes(){
       return '<tr class="'+rc+'"><td class="nowrap col-consig">'+prettyCons(d.consignataria)+'</td><td class="link dte-open nowrap numcol col-dte" data-dte="'+esc(d.nro_dte)+'">'+esc(d.nro_dte)+'</td><td>'+esc(d.emisor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.emisor_cuit)+'</td><td class="nowrap numcol" style="font-size:11px;color:var(--muted)">'+esc(d.renspa_origen||'—')+'</td><td>'+esc(d.receptor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.receptor_cuit)+'</td><td class="nowrap numcol" style="font-size:11px;color:var(--muted)">'+esc(d.renspa_destino||'—')+'</td><td class="nowrap col-tipo">'+esc(d.tipo)+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(d.estado)+'">'+esc(d.estado)+'</span></td><td class="nowrap numcol col-fecha">'+esc(d.fecha_carga)+'</td><td class="nowrap numcol col-fecha">'+esc(d.fecha_vencimiento)+'</td><td class="nowrap"><button class="ghost-btn ver-btn" data-dte="'+esc(d.nro_dte)+'">Ver detalle</button></td></tr>';
     }).join('');
 
-    const ultimaFecha=DATOS_DTES.fecha_extraccion?new Date(DATOS_DTES.fecha_extraccion).toLocaleString('es-AR'):'—';
-
     const thHtml=COLS.map(([k,l])=>{
       if(!k) return '<th class="nowrap"></th>';
       const icon=sortKey===k?(sortDir==='asc'?' ↑':' ↓'):'<span style="opacity:.35"> ↕</span>';
@@ -523,14 +521,11 @@ function renderDtes(){
     }).join('');
 
     wrap.innerHTML='<div class="wrap">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">'
-      +'<div class="cards" style="margin:0;flex:1">'
+      +'<div class="cards">'
       +'<div class="card total"><div class="k">Total DTEs</div><div class="v">'+total+'</div></div>'
       +'<div class="card vig"><div class="k">Vigentes</div><div class="v">'+vig+'</div></div>'
       +'<div class="card ven"><div class="k">Vencidos</div><div class="v">'+venc+'</div></div>'
       +'<div class="card anu"><div class="k">Anulados</div><div class="v">'+anu+'</div></div>'
-      +'</div>'
-      +'<div style="font-size:11px;color:var(--muted);text-align:right;padding-left:16px;white-space:nowrap">🕐 Última actualización<br><span style="color:var(--text)">'+ultimaFecha+'</span></div>'
       +'</div>'
       +'<div class="filters">'
       +'<input class="input" id="q" placeholder="Buscar por emisor, receptor, DTE, RENSPA..." value="'+esc(q)+'">'
@@ -921,7 +916,90 @@ async function verEgresos(codigoRemate){
   }
 }
 
-function renderApp(){const s=getSession(); if(!s) return renderLogin(); app.innerHTML='<div class="header"><div class="brand-wrap"><div class="brand-badge"><div class="brand-drw">DRW</div><div class="brand-sub">DARWASH</div></div><div class="title">Tablero DTEs SIGSA / SENASA</div></div><div class="user-pill">'+esc(s.nombre)+' <button id="logoutBtn" class="logout-btn">Salir</button></div></div><div class="tabs"><button class="tab active" data-tab="rem">Remates</button><button class="tab" data-tab="dte">DTEs</button></div><div id="content"></div>'; const content=document.getElementById('content'); const remView=renderRemates(); const dteView=renderDtes(); content.appendChild(remView); content.appendChild(dteView); dteView.style.display='none'; document.querySelectorAll('.tab').forEach(btn=>btn.onclick=function(){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); const isRem=btn.dataset.tab==='rem'; remView.style.display=isRem?'block':'none'; dteView.style.display=isRem?'none':'block';}); document.getElementById('logoutBtn').onclick=function(){clearSession(); renderLogin();};}
+function renderApp(){
+  const s=getSession();
+  if(!s) return renderLogin();
+
+  const ultimaFecha=DATOS_DTES.fecha_extraccion
+    ? new Date(DATOS_DTES.fecha_extraccion).toLocaleString('es-AR')
+    : '—';
+
+  app.innerHTML=''
+    +'<div class="app-shell">'
+    +  '<aside class="sidebar" id="sidebar">'
+    +    '<div class="sidebar-brand">'
+    +      '<div class="brand-logo-mark">DRW</div>'
+    +      '<div class="brand-wordmark">DARWASH</div>'
+    +      '<div class="brand-sub">OPERACIONES</div>'
+    +    '</div>'
+    +    '<nav class="sidebar-nav">'
+    +      '<div class="nav-section-label">Operaciones</div>'
+    +      '<button class="nav-item active" data-view="rem">'
+    +        '<span class="nav-icon">📊</span>'
+    +        '<span class="nav-label">Remates</span>'
+    +      '</button>'
+    +      '<button class="nav-item" data-view="dte">'
+    +        '<span class="nav-icon">📄</span>'
+    +        '<span class="nav-label">DTEs</span>'
+    +      '</button>'
+    +    '</nav>'
+    +    '<div class="sidebar-footer">'
+    +      '<div class="sidebar-version">v1.0</div>'
+    +    '</div>'
+    +  '</aside>'
+    +  '<div class="sidebar-overlay" id="sidebar-overlay"></div>'
+    +  '<div class="main-area">'
+    +    '<header class="topbar">'
+    +      '<button class="hamburger" id="hamburger" aria-label="Menu">☰</button>'
+    +      '<div class="topbar-title">'
+    +        '<div class="topbar-pre">TABLERO</div>'
+    +        '<div class="topbar-main">SIGSA / SENASA</div>'
+    +      '</div>'
+    +      '<div class="topbar-right">'
+    +        '<div class="last-update" id="last-update-pill">'
+    +          '<span class="last-update-label">🕐 Actualizado</span>'
+    +          '<span class="last-update-value">'+esc(ultimaFecha)+'</span>'
+    +        '</div>'
+    +        '<div class="user-pill">'
+    +          '<span class="user-name" id="user-name">'+esc(s.nombre)+'</span>'
+    +          '<button id="logoutBtn" class="logout-btn">Salir</button>'
+    +        '</div>'
+    +      '</div>'
+    +    '</header>'
+    +    '<main class="content-area" id="content"></main>'
+    +  '</div>'
+    +'</div>';
+
+  const content=document.getElementById('content');
+  const remView=renderRemates();
+  const dteView=renderDtes();
+  content.appendChild(remView);
+  content.appendChild(dteView);
+  dteView.style.display='none';
+
+  // Sidebar nav (reemplaza .tab → .nav-item, dataset.tab → dataset.view)
+  document.querySelectorAll('.nav-item').forEach(btn=>btn.onclick=function(){
+    document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    const isRem=btn.dataset.view==='rem';
+    remView.style.display=isRem?'block':'none';
+    dteView.style.display=isRem?'none':'block';
+    document.body.classList.remove('sidebar-open');
+  });
+
+  // Hamburguesa: drawer mobile
+  document.getElementById('hamburger').onclick=function(){
+    document.body.classList.toggle('sidebar-open');
+  };
+  document.getElementById('sidebar-overlay').onclick=function(){
+    document.body.classList.remove('sidebar-open');
+  };
+
+  document.getElementById('logoutBtn').onclick=function(){
+    clearSession();
+    renderLogin();
+  };
+}
 
 async function init() {
   try {

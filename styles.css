@@ -1565,3 +1565,322 @@ td.col-fecha {
   color:var(--fg);
   font-weight:600;
 }
+
+/* ============================================================
+   Shell del dashboard — sidebar + topbar + main-area
+   Agregado en commit 2 (Fase B). Estilo PRELIMINAR — los
+   componentes interiores siguen con tema dark legacy hasta
+   los commits 3-11.
+   ============================================================ */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 20;
+}
+
+.sidebar-brand {
+  padding: 20px 18px 18px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.brand-logo-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  background: var(--cyan-light);
+  color: #fff;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.brand-wordmark {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+  color: var(--text-light);
+}
+.brand-sub {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--muted-light);
+  text-transform: uppercase;
+}
+
+.sidebar-nav {
+  padding: 16px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav-section-label {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--muted-light);
+  text-transform: uppercase;
+  padding: 0 18px 8px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: transparent;
+  border: none;
+  border-left: 3px solid transparent;
+  color: var(--text-2);
+  font-family: var(--sans-light);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 120ms, border-color 120ms, color 120ms;
+}
+.nav-item:hover {
+  background: var(--surface-2);
+}
+.nav-item.active {
+  background: var(--cyan-soft);
+  border-left-color: var(--cyan-light);
+  color: var(--cyan-light);
+  font-weight: 600;
+}
+.nav-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.sidebar-footer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border-light);
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted-light);
+  letter-spacing: 0.5px;
+}
+
+/* === MAIN AREA === */
+.main-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-light);
+}
+
+.topbar {
+  height: var(--header-height);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.hamburger {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-2);
+  align-items: center;
+  justify-content: center;
+}
+.hamburger:hover {
+  background: var(--surface-2);
+}
+.topbar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.topbar-pre {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted-light);
+  text-transform: uppercase;
+}
+.topbar-main {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+}
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.last-update {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  padding: 6px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+}
+.last-update-label {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--muted-light);
+  text-transform: uppercase;
+}
+.last-update-value {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--text-light);
+  font-variant-numeric: tabular-nums;
+}
+
+/* User pill (override del .user-pill dark legacy — más específico via .topbar) */
+.topbar .user-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  font-family: var(--sans-light);
+  font-size: 13px;
+  color: var(--text-2);
+}
+.topbar .user-pill .user-name {
+  font-weight: 500;
+}
+.topbar .logout-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border-light);
+  color: var(--text-2);
+  padding: 5px 11px;
+  border-radius: var(--radius-sm);
+  font-family: var(--sans-light);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.topbar .logout-btn:hover {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--text-light);
+}
+
+.content-area {
+  flex: 1;
+  padding: 24px;
+  overflow-x: auto;
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
+/* === RESPONSIVE — drawer < 900px === */
+@media (max-width: 899px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 200ms ease;
+    box-shadow: 2px 0 24px rgba(0,0,0,0.2);
+  }
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms;
+    z-index: 15;
+  }
+  body.sidebar-open .sidebar-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .topbar {
+    padding: 0 16px;
+  }
+  .last-update {
+    padding: 4px 8px;
+  }
+  .last-update-label {
+    display: none;
+  }
+  .last-update-value {
+    font-size: 10px;
+  }
+  .content-area {
+    padding: 16px;
+  }
+}
+
+/* === Mobile chico === */
+@media (max-width: 480px) {
+  .topbar-main {
+    font-size: 14px;
+  }
+  .last-update {
+    display: none;
+  }
+  .topbar .user-pill {
+    padding: 4px 6px 4px 10px;
+    font-size: 12px;
+  }
+  .content-area {
+    padding: 12px;
+  }
+}
