@@ -438,11 +438,19 @@ function renderDtes(){
   let q='',cons='todas',est='todos',periodo='7d',fechaDesde='',fechaHasta='';
   let sortKey=null,sortDir='asc';
 
+  // Columnas: 11 finales (RENSPAs van como sub de Origen/Destino)
   const COLS=[
-    ['consignataria','Consignataria'],['nro_dte','Nro. DTE'],['emisor_nombre','Emisor'],
-    ['emisor_cuit','CUIT Emisor'],['renspa_origen','RENSPA Origen'],['receptor_nombre','Receptor'],
-    ['receptor_cuit','CUIT Receptor'],['renspa_destino','RENSPA Destino'],['tipo','Tipo'],
-    ['estado','Estado'],['fecha_carga','Carga'],['fecha_vencimiento','Vencimiento'],[null,'']
+    {key:'consignataria',     label:'Consignataria',  thClass:''},
+    {key:'nro_dte',           label:'N° DTE',         thClass:'col-num numeric'},
+    {key:'tipo',              label:'Tipo',           thClass:'col-tipo'},
+    {key:'emisor_nombre',     label:'Origen',         thClass:'col-origen'},
+    {key:'emisor_cuit',       label:'CUIT Emisor',    thClass:'col-cuit'},
+    {key:'receptor_nombre',   label:'Destino',        thClass:'col-destino'},
+    {key:'receptor_cuit',     label:'CUIT Receptor',  thClass:'col-cuit'},
+    {key:'estado',            label:'Estado',         thClass:''},
+    {key:'fecha_carga',       label:'Carga',          thClass:'col-fecha'},
+    {key:'fecha_vencimiento', label:'Vencimiento',    thClass:'col-fecha'},
+    {key:null,                label:'',               thClass:'actions'}
   ];
 
   function parseFecha(str){
@@ -516,45 +524,92 @@ function renderDtes(){
     const periodos=[['hoy','Hoy'],['7d','7 días'],['30d','30 días'],['mes','Este mes'],['todo','Todos'],['custom','Personalizado']];
     const periodoSelect='<select class="select" id="d-periodo">'+periodos.map(([v,l])=>'<option '+(periodo===v?'selected':'')+' value="'+v+'">'+l+'</option>').join('')+'</select>';
     const customInputs=periodo==='custom'
-      ?'<input type="date" class="input" id="d-desde" style="max-width:150px" value="'+fechaDesde+'" title="Desde"><input type="date" class="input" id="d-hasta" style="max-width:150px" value="'+fechaHasta+'" title="Hasta">'
-      :'';
+      ? '<div style="display:flex;gap:6px;margin-top:4px">'
+        +'<input type="date" class="input" id="d-desde" value="'+fechaDesde+'" title="Desde"/>'
+        +'<input type="date" class="input" id="d-hasta" value="'+fechaHasta+'" title="Hasta"/>'
+        +'</div>'
+      : '';
 
+    // Filas: 11 columnas (Consignataria / N° DTE / Tipo / Origen / CUIT Em / Destino / CUIT Rec / Estado / Carga / Venc / Acciones)
     const rowsHtml=rows.map(d=>{
-      const rc=consClass(d.consignataria)==='dar'?'row-darwash':consClass(d.consignataria)==='bull'?'row-bulltrade':'';
-      return '<tr class="'+rc+'"><td class="nowrap col-consig">'+prettyCons(d.consignataria)+'</td><td class="link dte-open nowrap numcol col-dte" data-dte="'+esc(d.nro_dte)+'">'+esc(d.nro_dte)+'</td><td>'+esc(d.emisor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.emisor_cuit)+'</td><td class="nowrap numcol" style="font-size:11px;color:var(--muted)">'+esc(d.renspa_origen||'—')+'</td><td>'+esc(d.receptor_nombre)+'</td><td class="nowrap numcol col-cuit">'+esc(d.receptor_cuit)+'</td><td class="nowrap numcol" style="font-size:11px;color:var(--muted)">'+esc(d.renspa_destino||'—')+'</td><td class="nowrap col-tipo">'+esc(d.tipo)+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(d.estado)+'">'+esc(d.estado)+'</span></td><td class="nowrap numcol col-fecha">'+esc(d.fecha_carga)+'</td><td class="nowrap numcol col-fecha">'+esc(d.fecha_vencimiento)+'</td><td class="nowrap"><button class="ghost-btn ver-btn" data-dte="'+esc(d.nro_dte)+'">Ver detalle</button></td></tr>';
+      const estadoCanon=normalizarEstado(d.estado).toLowerCase();
+      const origenSub=d.renspa_origen?'<span class="sub">'+esc(d.renspa_origen)+'</span>':'';
+      const destinoSub=d.renspa_destino?'<span class="sub">'+esc(d.renspa_destino)+'</span>':'';
+      return '<tr>'
+        +'<td>'+prettyCons(d.consignataria)+'</td>'
+        +'<td class="col-num numeric dte-open" data-dte="'+esc(d.nro_dte)+'">'+esc(d.nro_dte)+'</td>'
+        +'<td class="col-tipo">'+esc(d.tipo||'—')+'</td>'
+        +'<td class="col-origen" title="'+esc(d.emisor_nombre||'')+'">'+esc(d.emisor_nombre||'—')+origenSub+'</td>'
+        +'<td class="col-cuit">'+esc(d.emisor_cuit||'—')+'</td>'
+        +'<td class="col-destino" title="'+esc(d.receptor_nombre||'')+'">'+esc(d.receptor_nombre||'—')+destinoSub+'</td>'
+        +'<td class="col-cuit">'+esc(d.receptor_cuit||'—')+'</td>'
+        +'<td><span class="estado-pill '+estadoCanon+'">'+esc(d.estado||'—')+'</span></td>'
+        +'<td class="col-fecha">'+esc(d.fecha_carga||'—')+'</td>'
+        +'<td class="col-fecha">'+esc(d.fecha_vencimiento||'—')+'</td>'
+        +'<td class="actions"><button class="row-action icon-only ver-btn" data-dte="'+esc(d.nro_dte)+'" title="Ver detalle">⋯</button></td>'
+      +'</tr>';
     }).join('');
 
-    const thHtml=COLS.map(([k,l])=>{
-      if(!k) return '<th class="nowrap"></th>';
-      const icon=sortKey===k?(sortDir==='asc'?' ↑':' ↓'):'<span style="opacity:.35"> ↕</span>';
-      return '<th class="sorter nowrap" data-sort="'+k+'" style="cursor:pointer;user-select:none">'+l+icon+'</th>';
+    const thHtml=COLS.map(c=>{
+      if(!c.key) return '<th class="'+c.thClass+'"></th>';
+      const icon=sortKey===c.key?(sortDir==='asc'?' ↑':' ↓'):'<span style="opacity:.35"> ↕</span>';
+      return '<th class="sorter '+c.thClass+'" data-sort="'+c.key+'" style="cursor:pointer;user-select:none">'+esc(c.label)+icon+'</th>';
     }).join('');
+
+    // KPI cards (4) — sub vacío per Q6
+    const kpiHtml=''
+      +'<div class="kpi-grid">'
+        +'<div class="kpi-card total"><span class="kpi-label">Total DTEs</span><span class="kpi-num">'+total+'</span></div>'
+        +'<div class="kpi-card vigentes"><span class="kpi-label">Vigentes</span><span class="kpi-num">'+vig+'</span></div>'
+        +'<div class="kpi-card vencidos"><span class="kpi-label">Vencidos</span><span class="kpi-num">'+venc+'</span></div>'
+        +'<div class="kpi-card anulados"><span class="kpi-label">Anulados</span><span class="kpi-num">'+anu+'</span></div>'
+      +'</div>';
+
+    // Filter bar — 4 filter-fields + filter-actions (Limpiar + Excel)
+    const filtersHtml=''
+      +'<div class="filters-bar">'
+        +'<div class="filter-field search">'
+          +'<span class="lbl">Buscar</span>'
+          +'<input class="input" id="q" placeholder="N° DTE, RENSPA, productor, consignataria…" value="'+esc(q)+'"/>'
+        +'</div>'
+        +'<div class="filter-field">'
+          +'<span class="lbl">Período</span>'
+          +periodoSelect
+          +customInputs
+        +'</div>'
+        +'<div class="filter-field">'
+          +'<span class="lbl">Consignataria</span>'
+          +'<select class="select" id="cons">'
+            +'<option '+(cons==='todas'?'selected':'')+' value="todas">Todas</option>'
+            +consOpts.filter(v=>v!=='todas').map(v=>'<option '+(v===cons?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')
+          +'</select>'
+        +'</div>'
+        +'<div class="filter-field">'
+          +'<span class="lbl">Estado</span>'
+          +'<select class="select" id="est">'
+            +'<option '+(est==='todos'?'selected':'')+' value="todos">Todos</option>'
+            +estOpts.filter(v=>v!=='todos').map(v=>'<option '+(v===est?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')
+          +'</select>'
+        +'</div>'
+        +'<div class="filter-actions">'
+          +'<button class="btn btn-ghost btn-sm" id="d-clear">Limpiar</button>'
+          +'<button class="btn btn-ghost cyan btn-sm" id="d-export">⬇ Excel</button>'
+        +'</div>'
+      +'</div>';
 
     wrap.innerHTML='<div class="wrap">'
-      +'<div class="cards">'
-      +'<div class="card total"><div class="k">Total DTEs</div><div class="v">'+total+'</div></div>'
-      +'<div class="card vig"><div class="k">Vigentes</div><div class="v">'+vig+'</div></div>'
-      +'<div class="card ven"><div class="k">Vencidos</div><div class="v">'+venc+'</div></div>'
-      +'<div class="card anu"><div class="k">Anulados</div><div class="v">'+anu+'</div></div>'
+      +kpiHtml
+      +filtersHtml
+      +'<div class="table-wrap">'
+        +'<div class="table-head-bar">'
+          +'<span class="table-title">Documentos de tránsito</span>'
+          +'<span class="table-count">'+rows.length+' de '+all.length+'</span>'
+        +'</div>'
+        +'<div style="overflow-x:auto">'
+          +'<table class="dte-table"><thead><tr>'+thHtml+'</tr></thead><tbody>'+rowsHtml+'</tbody></table>'
+        +'</div>'
       +'</div>'
-      +'<div class="filters">'
-      +'<input class="input" id="q" placeholder="Buscar por emisor, receptor, DTE, RENSPA..." value="'+esc(q)+'">'
-      +periodoSelect
-      +customInputs
-      +'<select class="select" id="cons">'
-      +'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── CONSIGNATARIA ──</option>'
-      +'<option '+(cons==='todas'?'selected':'')+' value="todas">Todas</option>'
-      +consOpts.filter(v=>v!=='todas').map(v=>'<option '+(v===cons?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')
-      +'</select>'
-      +'<select class="select" id="est">'
-      +'<option disabled style="color:#4a6669;font-size:10px;letter-spacing:1px">── ESTADO ──</option>'
-      +'<option '+(est==='todos'?'selected':'')+' value="todos">Todos</option>'
-      +estOpts.filter(v=>v!=='todos').map(v=>'<option '+(v===est?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')
-      +'</select>'
-      +'<span class="result-count">'+rows.length+' de '+all.length+'</span>'
-      +'<button id="d-export" class="ghost-btn" style="margin-left:auto;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700;border-color:rgba(0,208,132,.35);color:var(--green)">⬇ Excel</button>'
-      +'</div>'
-      +'<div class="table-wrap"><table><thead><tr>'+thHtml+'</tr></thead><tbody>'+rowsHtml+'</tbody></table></div></div>';
+    +'</div>';
 
     const qq=wrap.querySelector('#q');
     if(qq){
@@ -577,6 +632,12 @@ function renderDtes(){
       draw();
     });
     const dexp=wrap.querySelector('#d-export'); if(dexp) dexp.onclick=()=>exportDtes(rows);
+    const dclr=wrap.querySelector('#d-clear');
+    if(dclr) dclr.onclick=()=>{
+      q='';cons='todas';est='todos';periodo='7d';fechaDesde='';fechaHasta='';
+      sortKey=null;sortDir='asc';
+      draw();
+    };
   }
   draw(); return wrap;
 }
