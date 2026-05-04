@@ -573,142 +573,190 @@ async function generarPDF(soloSubir=false){
   if(!ultimoRegistro)return;
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-  const W=210,H=297,M=15;
-  const C={
-    headerDark:[4,26,15],
-    green:[0,168,100],
-    greenLight:[0,208,132],
-    gold:[185,144,40],
-    red:[220,60,70],
-    text:[20,60,35],
-    muted:[80,130,100],
-    bg:[248,255,252],
-    card:[238,252,244],
-  };
-  const Cf=(...c)=>doc.setFillColor(...c);
-  const Ct=(...c)=>doc.setTextColor(...c);
+  const W=210,H=297,M=24,MR=18;
 
-  // Fondo
-  Cf(...C.bg);doc.rect(0,0,W,H,'F');
+  // Cargar logo desde URL (no base64)
+  let logoImg=null;
+  try{
+    logoImg=new Image();
+    logoImg.src='drw-icon.png';
+    await new Promise((resolve,reject)=>{
+      logoImg.onload=resolve;
+      logoImg.onerror=()=>reject(new Error('logo'));
+      setTimeout(()=>reject(new Error('timeout')),5000);
+    });
+  }catch(e){ console.warn('Logo no cargado:',e); logoImg=null; }
 
-  // Header
-  Cf(...C.headerDark);doc.rect(0,0,W,38,'F');
-  Cf(...C.gold);doc.rect(0,38,W,1.5,'F');
-
-  // Logo circle
-  Cf(...C.green);doc.circle(M+7,19,8,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(8);Ct(4,26,15);
-  doc.text('DRW',M+7,21.5,{align:'center'});
-
-  // Titulo header
-  doc.setFont('helvetica','bold');doc.setFontSize(16);Ct(...C.greenLight);
-  doc.text('EGRESO DE HACIENDA',M+20,17);
-  doc.setFont('helvetica','normal');doc.setFontSize(8);Ct(...C.gold);
-  doc.text('DARWASH SA  ·  Vicuña Mackenna, Córdoba',M+20,24);
-  doc.setFont('helvetica','bold');doc.setFontSize(8);Ct(200,100,100);
-  doc.text('⬆ SALIDA',W-M,14,{align:'right'});
-
-  // Numero remito top right
-  doc.setFont('helvetica','bold');doc.setFontSize(9);Ct(...C.gold);
-  doc.text('Egreso N° '+String(nroRemito).slice(-6).padStart(6,'0'),W-M,24,{align:'right'});
-
-  let y=50;
-
-  // Info card
-  Cf(...C.card);doc.roundedRect(M,y,W-2*M,50,3,3,'F');
-  doc.setDrawColor(...C.green);doc.setLineWidth(.3);doc.roundedRect(M,y,W-2*M,50,3,3,'S');
+  // Paleta hex
+  const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const Cf=h=>doc.setFillColor(...hex(h));
+  const Cd=h=>doc.setDrawColor(...hex(h));
+  const Ct=h=>doc.setTextColor(...hex(h));
+  const C={cyan:'#00B5B6',cyanSoft:'#E6F8F8',green:'#00A86B',greenSoft:'#E0F5EB',
+           amber:'#B8881F',amberSoft:'#F7EFD9',red:'#D63B47',redSoft:'#FBE4E6',
+           text:'#1A1A1A',muted:'#8A8780',border:'#E5E2D9',bg:'#FAFAF7',white:'#FFFFFF'};
+  const ACCENT=C.red, ACCENT_SOFT=C.redSoft;
 
   const r=ultimoRegistro;
-  const infoRows=[
-    ['Remate',r.remate||''],
-    ['Fecha',r.fecha?r.fecha.split('-').reverse().join('/'):''],
-    ['Tropa',r.tropa||''],
-    ['N° DTE',r.nro_dte||'—'],
-    ['Destino',r.destino||'—'],
-    ['Transportista',(r.transportista||'—')+(r.patente?' · '+r.patente:'')],
-  ];
-  const rowH=7.5,cx=M+4;
-  infoRows.forEach(([k,v],i)=>{
-    const ry=y+5+i*rowH;
-    doc.setFont('helvetica','bold');doc.setFontSize(7.5);Ct(...C.muted);
-    doc.text(k+':',cx,ry);
-    doc.setFont('helvetica','normal');doc.setFontSize(8);Ct(...C.text);
-    doc.text(String(v),cx+30,ry);
-  });
-  y+=56;
 
-  // Categorias title
-  Cf(...C.headerDark);doc.rect(M,y,W-2*M,8,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(8);Ct(...C.greenLight);
-  doc.text('DETALLE DE HACIENDA',M+4,y+5.5);
-  y+=10;
+  // Fondo
+  Cf(C.bg); doc.rect(0,0,W,H,'F');
 
-  // Categorias grid
-  const cats=r.categorias||{};
-  const catEntries=Object.entries(cats).filter(([,v])=>v>0);
-  const colW=(W-2*M)/3;
-  catEntries.forEach(([k,v],i)=>{
-    const col=i%3,row=Math.floor(i/3);
-    const cx2=M+col*colW,cy=y+row*22;
-    Cf(...C.card);doc.roundedRect(cx2+1,cy,colW-2,20,2,2,'F');
-    const label=CATS.find(c=>c.id===k)?.label||k;
-    doc.setFont('helvetica','bold');doc.setFontSize(7);Ct(...C.muted);
-    doc.text(label.toUpperCase(),cx2+colW/2,cy+7,{align:'center'});
-    doc.setFont('helvetica','bold');doc.setFontSize(16);Ct(...C.green);
-    doc.text(String(v),cx2+colW/2,cy+16,{align:'center'});
+  // Banda lateral izquierda 8×120mm rojo
+  Cf(ACCENT); doc.rect(0,16,8,120,'F');
+
+  // Header — logo
+  if(logoImg){ try{ doc.addImage(logoImg,'PNG',M,16,30,10); }catch(e){} }
+
+  // Wordmark
+  doc.setFont('helvetica','bold'); doc.setFontSize(11); Ct(C.text);
+  doc.text('DARWASH',M+34,22);
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
+  doc.text('SOCIEDAD ANÓNIMA · Vicuña Mackenna, Córdoba',M+34,26);
+
+  // Título
+  doc.setFont('times','bold'); doc.setFontSize(20); Ct(C.text);
+  doc.text('Remito de Egreso',M,42);
+
+  // Badge tipo
+  Cf(ACCENT_SOFT); Cd(ACCENT); doc.setLineWidth(0.4);
+  doc.roundedRect(W-MR-26,18,26,7,1.5,1.5,'FD');
+  doc.setFont('helvetica','bold'); doc.setFontSize(7); Ct(ACCENT);
+  doc.text('EGRESO',W-MR-13,22.8,{align:'center'});
+
+  // Badge N°
+  Cf(C.cyanSoft); Cd(C.cyan); doc.setLineWidth(0.4);
+  doc.roundedRect(W-MR-40,28,40,7,1.5,1.5,'FD');
+  doc.setFont('courier','bold'); doc.setFontSize(8.5); Ct(C.cyan);
+  doc.text('N° '+String(nroRemito).slice(-6).padStart(6,'0'),W-MR-20,32.8,{align:'center'});
+
+  let y=54;
+
+  // Strip de remate
+  Cf(C.cyanSoft); doc.rect(M,y,W-M-MR,14,'F');
+  Cf(C.cyan); doc.rect(M,y,3,14,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
+  doc.text('REMATE / EVENTO',M+8,y+4.5);
+  doc.setFont('times','bold'); doc.setFontSize(11); Ct(C.text);
+  doc.text(r.remate||'—',M+8,y+11);
+  doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
+  doc.text('FECHA',W-MR-3,y+4.5,{align:'right'});
+  doc.setFont('courier','bold'); doc.setFontSize(10); Ct(C.text);
+  doc.text(r.fecha?r.fecha.split('-').reverse().join('/'):'—',W-MR-3,y+11,{align:'right'});
+  y+=20;
+
+  function seccion(label){
+    doc.setFont('helvetica','bold'); doc.setFontSize(6.5); Ct(C.cyan);
+    const t='— '+label;
+    doc.text(t,M,y);
+    Cd(C.border); doc.setLineWidth(0.2);
+    const lblW=doc.getTextWidth(t);
+    doc.line(M+lblW+3,y-1,W-MR,y-1);
+    y+=4;
+  }
+  function campo(label,valor,x,w){
+    doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
+    doc.text(label,x,y+3);
+    doc.setFont('times','bold'); doc.setFontSize(10); Ct(C.text);
+    const txt=String(valor||'—');
+    const truncated=txt.length>34?txt.substring(0,32)+'…':txt;
+    doc.text(truncated,x,y+9);
+    Cd(C.border); doc.setLineWidth(0.15);
+    doc.line(x,y+11,x+w,y+11);
+  }
+
+  // Identificación
+  seccion('IDENTIFICACIÓN');
+  const colW=(W-M-MR-6)/2;
+  campo('NRO. DTE',r.nro_dte,M,colW);
+  campo('TROPA',r.tropa,M+colW+6,colW);
+  y+=14;
+
+  // Destino + Transporte
+  seccion('TRANSPORTE / DESTINO');
+  campo('DESTINO',r.destino,M,colW);
+  campo('TRANSPORTISTA',(r.transportista||'—')+(r.patente?' · '+r.patente:''),M+colW+6,colW);
+  y+=14;
+
+  // Detalle hacienda — grilla 4×2 fija
+  seccion('DETALLE DE HACIENDA');
+  const cats4x2=[['novillo','NOV'],['novillito','NTO'],['vaquillona','VQ'],['vaca','VA'],
+                 ['ternero','TER'],['ternera','TRA'],['toro','TORO'],['torito','MEJ']];
+  const cellW=(W-M-MR-3)/4, cellH=18;
+  cats4x2.forEach(([key,code],i)=>{
+    const col=i%4, row=Math.floor(i/4);
+    const cx=M+col*(cellW+1), cy=y+row*(cellH+1);
+    const valor=(r.categorias||{})[key]||0;
+    const tieneValor=valor>0;
+    Cf(C.white); Cd(C.border); doc.setLineWidth(0.2);
+    doc.rect(cx,cy,cellW,cellH,'FD');
+    doc.setFont('helvetica','bold'); doc.setFontSize(6.5);
+    Ct(tieneValor?C.cyan:C.muted);
+    doc.text(code,cx+cellW/2,cy+5,{align:'center'});
+    doc.setFont('courier','bold'); doc.setFontSize(15);
+    if(tieneValor){
+      Ct(C.cyan);
+      doc.text(String(valor),cx+cellW/2,cy+14.5,{align:'center'});
+    }else{
+      Ct(C.muted);
+      doc.text('—',cx+cellW/2,cy+14.5,{align:'center'});
+    }
   });
-  const rows=Math.ceil(catEntries.length/3)||1;
-  y+=rows*22+6;
+  y+=cellH*2+1+6;
 
   // Total
-  Cf(...C.green);doc.roundedRect(M,y,W-2*M,16,3,3,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(10);Ct(4,26,15);
-  doc.text('TOTAL CABEZAS',M+6,y+10);
-  doc.setFont('helvetica','bold');doc.setFontSize(14);
-  doc.text(String(r.total_cabezas||0),W-M-6,y+10,{align:'right'});
-  y+=22;
+  Cf(C.white); Cd(ACCENT); doc.setLineWidth(0.5);
+  doc.rect(M,y,W-M-MR,22,'FD');
+  Cf(ACCENT); doc.rect(M,y,3,22,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
+  doc.text('TOTAL CABEZAS EGRESADAS',M+8,y+7);
+  doc.setFont('helvetica','italic'); doc.setFontSize(5.8); Ct(C.muted);
+  doc.text('Animales salidos en este movimiento',M+8,y+12);
+  doc.setFont('courier','bold'); doc.setFontSize(28); Ct(ACCENT);
+  doc.text(String(r.total_cabezas||0),W-MR-4,y+17,{align:'right'});
+  y+=28;
 
   // Observaciones
   if(r.observaciones){
-    Cf(255,250,220);doc.roundedRect(M,y,W-2*M,14,2,2,'F');
-    doc.setFont('helvetica','bold');doc.setFontSize(7.5);Ct(...C.gold);
-    doc.text('OBS:',M+4,y+5.5);
-    doc.setFont('helvetica','normal');Ct(...C.text);
-    doc.text(r.observaciones,M+14,y+5.5,{maxWidth:W-2*M-18});
-    y+=18;
+    if(y>H-50){ doc.addPage(); y=20; }
+    seccion('OBSERVACIONES');
+    Cf(C.amberSoft); Cd(C.amber); doc.setLineWidth(0.2);
+    doc.rect(M,y,W-M-MR,14,'FD');
+    Cf(C.amber); doc.rect(M,y,3,14,'F');
+    doc.setFont('times','italic'); doc.setFontSize(9); Ct(C.text);
+    const ls=doc.splitTextToSize(r.observaciones,W-M-MR-12);
+    doc.text(ls.slice(0,2),M+8,y+6);
+    y+=20;
   }
 
   // Firma
   if(firmaDataURL){
-    y+=4;
-    doc.setFont('helvetica','bold');doc.setFontSize(8);Ct(...C.muted);
-    doc.text('FIRMA DEL TRANSPORTISTA',W/2,y,{align:'center'});
-    y+=4;
-    doc.addImage(firmaDataURL,'PNG',W/2-35,y,70,28);
-    y+=30;
-    Ct(...C.muted);doc.setLineWidth(.3);
-    doc.line(W/2-35,y,W/2+35,y);
-    doc.setFont('helvetica','normal');doc.setFontSize(6.5);
-    doc.text(r.transportista||'Transportista',W/2,y+4,{align:'center'});
-    y+=8;
+    if(y>H-45){ doc.addPage(); y=20; }
+    seccion('FIRMA DEL TRANSPORTISTA');
+    Cf(C.white); Cd(C.border); doc.setLineWidth(0.2);
+    doc.rect(M,y,W-M-MR,22,'FD');
+    try{ doc.addImage(firmaDataURL,'PNG',M+10,y+1,W-M-MR-20,20); }catch(e){}
+    Cd(C.muted); doc.setLineWidth(0.3);
+    doc.line(M+10,y+19,W-MR-10,y+19);
+    doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
+    doc.text(r.transportista||'Transportista',(M+W-MR)/2,y+23,{align:'center'});
+    y+=28;
   }
 
   // Footer
-  const fy=H-20;
-  Cf(...C.gold);doc.rect(0,fy-1.5,W,1.5,'F');
-  Cf(...C.headerDark);doc.rect(0,fy,W,H-fy,'F');
-  doc.setFont('helvetica','normal');doc.setFontSize(7);Ct(100,200,150);
-  doc.text('DARWASH SA  ·  Vicuña Mackenna, Córdoba, Argentina',M,fy+8);
-  doc.text('Generado: '+new Date().toLocaleString('es-AR'),W-M,fy+8,{align:'right'});
-  doc.setFont('helvetica','bold');doc.setFontSize(7.5);Ct(...C.gold);
-  doc.text('Egreso N° '+String(nroRemito).slice(-6).padStart(6,'0'),W/2,fy+8,{align:'center'});
-  doc.setFont('helvetica','normal');doc.setFontSize(6);Ct(70,130,95);
-  doc.text('Documento interno — Darwash SA  ·  SIGSA / SENASA',W/2,fy+14,{align:'center'});
+  const fy=H-14;
+  Cf(C.cyan); doc.rect(M,fy-3,W-M-MR,0.5,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
+  doc.text('DARWASH SA · Vicuña Mackenna, Córdoba',M,fy+1);
+  doc.text('Generado: '+new Date().toLocaleString('es-AR'),W-MR,fy+1,{align:'right'});
+  doc.setFont('courier','bold'); doc.setFontSize(7); Ct(C.cyan);
+  doc.text('Egreso N° '+String(nroRemito).slice(-6).padStart(6,'0'),(M+W-MR)/2,fy+1,{align:'center'});
+  doc.setFont('helvetica','italic'); doc.setFontSize(5.5); Ct(C.muted);
+  doc.text('Documento interno · Darwash SA · SIGSA / SENASA',(M+W-MR)/2,fy+5,{align:'center'});
 
   const filename='Egreso_Darwash_'+String(nroRemito).slice(-6).padStart(6,'0')+'.pdf';
   if(!soloSubir) doc.save(filename);
 
-  // Subir PDF a Supabase Storage
   try{
     const pdfBlob=doc.output('blob');
     const btn=document.getElementById('btn-pdf');
