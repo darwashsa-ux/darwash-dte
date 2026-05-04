@@ -181,67 +181,59 @@ pastRems.sort((a,b)=>b.t-a.t);
 // Inicializar selected al primer PENDIENTE (sentinela null en primera pasada)
 if(selected===null) selected=activeRems[0]?.origIdx ?? 0;
 
-// ── HERO CARD (remate activo) ─────────────────────────────
+// ── HERO CARD (remate activo) — Design system: .remate-card ────
 function heroCard(r,origIdx){
   const isBull=((r.info||{}).consignataria||'').toUpperCase().includes('BULLTRADE');
-  const accentColor=isBull?'var(--amber)':'var(--primary)';
-  const accentGlow=isBull?'rgba(215,165,59,.18)':'rgba(0,210,132,.12)';
   const dtes=new Set((r.filas||[]).map(f=>f.documento)).size;
   const nombre=remNombres[r.codigo||'']||aliases[r.codigo||'']||'';
   const inicio=esc((r.info||{})['Inicio']||'-');
   const fin=esc((r.info||{})['Fin']||'-');
   const predio=esc((r.info||{})['Predio ferial']||(r.info||{}).consignataria||'');
-  const rLink='ingreso.html?remate='+encodeURIComponent(r.codigo||'');
   const isActive=origIdx===selected;
+  const cod=esc(r.codigo||'');
 
-  // Stats del remate activo
-  const filas=r.filas||[];
-  const cats={};
-  filas.filter(f=>String(f.tipo_movimiento||'').toLowerCase().includes('entrada')).forEach(f=>{
-    if(f.categoria&&(f.recibido||f.enviado)){cats[f.categoria]=(cats[f.categoria]||0)+Number(f.recibido||f.enviado||0);}
+  // Top 5 categorías de ingresos para los .tag chips
+  const catsIn={};
+  (r.filas||[]).filter(f=>String(f.tipo_movimiento||'').toLowerCase().includes('entrada')).forEach(f=>{
+    if(f.categoria&&(f.recibido||f.enviado)){
+      catsIn[f.categoria]=(catsIn[f.categoria]||0)+Number(f.recibido||f.enviado||0);
+    }
   });
-  const catChips=Object.entries(cats).slice(0,5).map(([k,v])=>`<span style="background:rgba(0,210,132,.09);border:1px solid rgba(0,210,132,.2);border-radius:6px;padding:2px 8px;font-size:10px;color:#7dd8b8;white-space:nowrap">${esc(k)}: <b style="color:var(--primary)">${v}</b></span>`).join('');
+  const tagsHtml=Object.entries(catsIn).sort((a,b)=>b[1]-a[1]).slice(0,5)
+    .map(([k,v])=>'<span class="tag"><span>'+esc(k)+'</span> <span class="num">'+v+'</span></span>').join('');
 
-  return '<div class="rem-hero'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'" style="--accent:'+accentColor+';--glow:'+accentGlow+'">'
-    // Banda superior con badge
-    +'<div class="rem-hero-top">'
-      +'<div style="display:flex;align-items:center;gap:10px">'
-        +'<span class="rem-hero-badge">REMATE ACTIVO</span>'
-        +(isBull?'<span style="font-size:10px;color:var(--amber);letter-spacing:1px">BULLTRADE</span>':'')
+  // Placeholder serif italic cuando no hay nombre — handled by ::placeholder en CSS
+  return '<div class="remate-card rem-hero'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
+    +'<div class="remate-info">'
+      +'<div class="remate-status">Remate activo</div>'
+      +'<input class="remate-name rem-name-input" data-codigo="'+cod+'" placeholder="Nombre del evento…" value="'+esc(nombre)+'" onclick="event.stopPropagation()" />'
+      +'<div class="remate-code">'+esc(r.codigo||'—')+'</div>'
+      +'<div class="remate-meta">'
+        +'<span>'+inicio+' → '+fin+'</span>'
+        +(predio?'<span class="sep">·</span><span>'+predio+'</span>':'')
       +'</div>'
-      +'<div style="display:flex;gap:8px">'
-        +'<button class="rem-btn rem-btn-reg link-rem-btn" data-codigo="'+esc(r.codigo||'')+'" data-tipo="ingreso" onclick="event.stopPropagation()" style="padding:7px 14px;font-size:11px;cursor:pointer;font-family:inherit">📋 Registrar ingreso</button>'
-        +'<button class="rem-btn rem-btn-ver ver-ing-btn" data-codigo="'+esc(r.codigo||'')+'" onclick="event.stopPropagation()" style="padding:7px 14px;font-size:11px">👁 Ver ingresos</button>'
+      +(tagsHtml?'<div class="remate-tags">'+tagsHtml+'</div>':'')
+    +'</div>'
+    +'<div class="remate-stats">'
+      +'<div class="stat-pill">'
+        +'<span class="num">'+esc(r.total_animales||0)+'</span>'
+        +'<span class="lbl">Animales</span>'
+      +'</div>'
+      +'<div class="stat-pill amber">'
+        +'<span class="num">'+dtes+'</span>'
+        +'<span class="lbl">DTEs</span>'
       +'</div>'
     +'</div>'
-    // Cuerpo: nombre + código + fechas a la izquierda / stats a la derecha
-    +'<div class="rem-hero-body">'
-      +'<div class="rem-hero-left">'
-        +'<input class="rem-name-input rem-hero-name" data-codigo="'+esc(r.codigo||'')+'" placeholder="Nombre del evento..." value="'+esc(nombre)+'" onclick="event.stopPropagation()" />'
-        +'<div class="rem-hero-code">'+esc(r.codigo||'—')+'</div>'
-        +'<div class="rem-hero-dates">'+inicio+' → '+fin+(predio?' &nbsp;·&nbsp; '+predio:'')+'</div>'
-        +(catChips?'<div class="rem-hero-cats">'+catChips+'</div>':'')
-      +'</div>'
-      +'<div class="rem-hero-stats">'
-        +'<div class="rem-hero-stat">'
-          +'<div class="rem-hero-stat-num" style="color:'+accentColor+'">'+esc(r.total_animales||0)+'</div>'
-          +'<div class="rem-hero-stat-lbl">ANIMALES</div>'
-        +'</div>'
-        +'<div class="rem-hero-stat-div"></div>'
-        +'<div class="rem-hero-stat">'
-          +'<div class="rem-hero-stat-num" style="color:var(--amber)">'+dtes+'</div>'
-          +'<div class="rem-hero-stat-lbl">DTEs</div>'
-        +'</div>'
-      +'</div>'
-    +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 2px">'
-      +'<button class="rem-btn link-rem-btn" data-codigo="'+esc(r.codigo||'')+'" data-tipo="egreso" onclick="event.stopPropagation()" style="padding:7px 10px;font-size:11px;font-weight:700;color:#ff6b7a;background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.3);border-radius:8px;text-align:center;cursor:pointer;width:100%;font-family:inherit">⬆ Registrar egreso</button>'
-      +'<button class="rem-btn ver-egr-btn" data-codigo="'+esc(r.codigo||'')+'" onclick="event.stopPropagation()" style="padding:7px 10px;font-size:11px;font-weight:700;color:#3ea2ff;background:rgba(62,162,255,.08);border:1px solid rgba(62,162,255,.25);border-radius:8px;cursor:pointer;width:100%">👁 Ver egresos</button>'
+    +'<div class="remate-actions">'
+      +'<button class="btn btn-ghost cyan ver-ing-btn" data-codigo="'+cod+'" onclick="event.stopPropagation()">👁 Ver ingresos</button>'
+      +'<button class="btn btn-ghost red link-rem-btn" data-codigo="'+cod+'" data-tipo="egreso" onclick="event.stopPropagation()">⬆ Registrar egreso</button>'
+      +'<button class="btn btn-ghost cyan ver-egr-btn" data-codigo="'+cod+'" onclick="event.stopPropagation()">👁 Ver egresos</button>'
+      +'<button class="btn btn-primary link-rem-btn" data-codigo="'+cod+'" data-tipo="ingreso" onclick="event.stopPropagation()">+ Registrar ingreso</button>'
     +'</div>'
   +'</div>';
 }
 
-// ── PAST CARD (mini row) ──────────────────────────────────
+// ── PAST CARD (variante compacta de .remate-card) ─────────
 function pastCard(r,origIdx){
   const isBull=((r.info||{}).consignataria||'').toUpperCase().includes('BULLTRADE');
   const titulo=remNombres[r.codigo||'']||aliases[r.codigo||'']||'';
@@ -250,35 +242,40 @@ function pastCard(r,origIdx){
   const fin=esc((r.info||{})['Fin']||'-');
   const isActive=origIdx===selected;
   const cod=esc(r.codigo||'');
-  const egrLink='egreso.html?remate='+encodeURIComponent(r.codigo||'');
-  return '<div class="rem-past-row'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
-    +'<div class="rem-card-accent" style="height:32px;width:3px"></div>'
-    +'<div style="min-width:0;flex:1">'
-      +(titulo?'<div style="font-size:12px;font-weight:700;color:#b0c8c0;margin-bottom:1px">'+esc(titulo)+'</div>':'')
-      +'<div style="font-size:11px;color:#4a7060;font-family:monospace">'+esc(r.codigo||'—')+'</div>'
-      +'<div style="font-size:10px;color:#3a5a50;margin-top:1px">'+inicio+' → '+fin+'</div>'
-    +'</div>'
-    +'<div style="display:flex;gap:8px;align-items:center;padding-right:4px;flex-wrap:wrap;justify-content:flex-end">'
-      +'<div style="text-align:center;min-width:34px"><div style="font-size:14px;font-weight:800;color:#3a8a64">'+esc(r.total_animales||0)+'</div><div style="font-size:8px;color:#3a5a50;letter-spacing:.8px">ANIM</div></div>'
-      +'<div style="text-align:center;min-width:34px"><div style="font-size:14px;font-weight:800;color:#6a6030">'+dtes+'</div><div style="font-size:8px;color:#3a5a50;letter-spacing:.8px">DTES</div></div>'
-      +'<button class="link-rem-btn" data-codigo="'+cod+'" data-tipo="egreso" onclick="event.stopPropagation()" style="padding:5px 9px;font-size:10px;font-weight:700;color:#ff6b7a;background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.3);border-radius:7px;cursor:pointer;white-space:nowrap;font-family:inherit">⬆ Egreso</button>'
-      +'<div class="ver-menu-wrap" style="position:relative" onclick="event.stopPropagation()">'
-        +'<button class="ver-menu-btn" data-codigo="'+cod+'" style="padding:5px 9px;font-size:10px;font-weight:700;color:#3ea2ff;background:rgba(62,162,255,.08);border:1px solid rgba(62,162,255,.3);border-radius:7px;cursor:pointer;white-space:nowrap;font-family:inherit">Ver ▾</button>'
-        +'<div class="ver-menu-panel" style="position:absolute;right:0;top:calc(100% + 4px);background:#0a1410;border:1px solid rgba(62,162,255,.3);border-radius:8px;padding:4px;display:none;flex-direction:column;gap:2px;z-index:50;min-width:140px;box-shadow:0 6px 20px rgba(0,0,0,.4)">'
-          +'<button class="ver-ing-btn" data-codigo="'+cod+'" style="border:none;background:transparent;color:#a0c8ff;font-size:11px;padding:7px 10px;cursor:pointer;border-radius:5px;text-align:left;font-family:inherit;white-space:nowrap">👁 Ver ingresos</button>'
-          +'<button class="ver-egr-btn" data-codigo="'+cod+'" style="border:none;background:transparent;color:#a0c8ff;font-size:11px;padding:7px 10px;cursor:pointer;border-radius:5px;text-align:left;font-family:inherit;white-space:nowrap">👁 Ver egresos</button>'
-        +'</div>'
+
+  // Variante compacta: sin tags, sin acciones, stat pills mas chicas (CSS las shrinkea)
+  return '<div class="remate-card compact rem-past-row'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
+    +'<div class="remate-info">'
+      +'<input class="remate-name rem-name-input" data-codigo="'+cod+'" placeholder="Nombre del evento…" value="'+esc(titulo)+'" onclick="event.stopPropagation()" />'
+      +'<div class="remate-code">'+esc(r.codigo||'—')+'</div>'
+      +'<div class="remate-meta">'
+        +'<span>'+inicio+' → '+fin+'</span>'
       +'</div>'
     +'</div>'
+    +'<div class="remate-stats">'
+      +'<div class="stat-pill">'
+        +'<span class="num">'+esc(r.total_animales||0)+'</span>'
+        +'<span class="lbl">Animales</span>'
+      +'</div>'
+      +'<div class="stat-pill amber">'
+        +'<span class="num">'+dtes+'</span>'
+        +'<span class="lbl">DTEs</span>'
+      +'</div>'
+    +'</div>'
+    // Botones de acciones — invisibles via CSS .compact .remate-actions{display:none},
+    // pero los handlers necesitan ver los botones via dataset.codigo cuando se hace
+    // click en la fila. El click bubble llega a .rem-hero (la card) que setea selected.
+    // Si en el futuro queremos exponer "Ver ingresos/egresos" como mini-botones en el
+    // hover del compact, los re-mostramos via CSS sin tocar JS.
   +'</div>';
 }
 
 const heroHtml=activeRems.length>0
   ? activeRems.map(({r,origIdx})=>heroCard(r,origIdx)).join('')
-  : '<div class="rem-no-active" style="padding:24px 18px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.08);border-radius:14px;text-align:center;color:var(--muted);font-size:13px">No hay remates activos.</div>';
+  : '<div class="rem-no-active" style="padding:24px 18px;background:var(--surface);border:1px dashed var(--border);border-radius:var(--r-lg);text-align:center;color:var(--muted);font-size:13px">No hay remates activos.</div>';
 const pastHtml=pastRems.length>0
   ?'<div class="rem-past-section">'
-    +'<button class="rem-past-toggle" id="rem-past-toggle"><span id="rem-past-arrow">▸</span> <span id="rem-past-label">Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+'s anterior'+(pastRems.length>1?'es':'')+'</span></button>'
+    +'<button class="prev-toggle" id="rem-past-toggle"><span id="rem-past-label">Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+' anterior'+(pastRems.length>1?'es':'')+'</span></button>'
     +'<div class="rem-past-list" id="rem-past-list" style="display:none">'
       +pastRems.map(({r,origIdx})=>pastCard(r,origIdx)).join('')
     +'</div>'
@@ -287,47 +284,60 @@ const pastHtml=pastRems.length>0
 
 const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tiposAll=Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean))).sort(); const estadosAll=Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean))).sort(); const categoriasAll=Array.from(new Set((rem.filas||[]).map(f=>f.categoria).filter(Boolean))).sort(); const motivosAll=Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean))).sort(); exportRows=(rem.filas||[]).filter(f=>(!tipos.length||tipos.includes(f.tipo_movimiento))&&(!estados.length||estados.includes(normalizarEstado(f.estado)))&&(!categorias_f.length||categorias_f.includes(f.categoria||''))&&(!motivos.length||motivos.includes(f.motivo||''))&&(!aptoChinas.length||aptoChinas.includes(aptoChinaVal(f)))); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
 
-// Alerta vacas
-const alertVaca=s.vacaFaenaNoApto>0?'<div class="stat-alert"><span>⚠</span><span>'+s.vacaFaenaNoApto+' VACAS FAENA — NO APTO CHINA</span></div>':'';
+// Cat mini-grid 4x2 — categorías canónicas del sistema (las del CATS_INGRESO de los forms)
+const CATS_GRID=[
+  ['Novillo','NOV'],['Novillito','NTO'],['Vaquillona','VQ'],['Vaca','VA'],
+  ['Ternero','TRO'],['Ternera','TRA'],['Toro','TO'],['Torito/MEJ','TTO']
+];
+function catMiniGridHtml(cats){
+  const lookup={};
+  for(const[k,v] of Object.entries(cats||{})) lookup[String(k).toLowerCase().trim()]=v;
+  return CATS_GRID.map(([name,code])=>{
+    const v=lookup[name.toLowerCase()]||0;
+    const cls=v>0?'has':'empty';
+    const num=v>0?v:'—';
+    return '<div class="cat-mini '+cls+'"><span class="code">'+code+'</span><span class="num">'+num+'</span></div>';
+  }).join('');
+}
 
-// Chips de categorías
-function catChips(cats,dir){const entries=Object.entries(cats).sort((a,b)=>b[1]-a[1]);return entries.length?entries.map(([cat,cant])=>'<span class="cat-pill '+dir+'" title="'+esc(cat)+'"><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+cant+'</span></span>').join(''):'<span style="font-size:10px;color:#2a4a3a">—</span>';}
+// Warn row + Stats grid (Ingresos verde / Egresos rojo / SENASA 2x2)
+const warnRow=s.vacaFaenaNoApto>0
+  ? '<div class="warn-row"><strong>'+s.vacaFaenaNoApto+' vacas faena</strong> · marcadas como <strong>NO APTO CHINA</strong></div>'
+  : '';
 
-// Panel: 2 columnas grandes (Ing/Egr) + grilla 2x2 (Faena/Inv/Apto/NoApto)
-const summary=alertVaca
-  +'<div class="stats-panel">'
-    // Col izquierda: Ingresos
-    +'<div class="stat-main stat-main-in">'
-      +'<div class="stat-main-label">↓ INGRESOS</div>'
-      +'<div class="stat-main-num stat-green">'+sums.ingresos.total+'</div>'
-      +'<div class="stat-cats">'+catChips(sums.ingresos.categorias,'in')+'</div>'
+const ingTot=sums.ingresos.total;
+const egrTot=sums.egresos.total;
+
+const summary=warnRow
+  +'<div class="stats-grid" style="margin-top:14px">'
+    // Ingresos (verde) — con cat-mini-grid 4x2
+    +'<div class="metric-card ingresos">'
+      +'<div class="metric-head">'
+        +'<span class="metric-label"><span class="arrow">↓</span> Ingresos</span>'
+      +'</div>'
+      +'<div class="metric-num'+(ingTot===0?' zero':'')+'">'+ingTot+'</div>'
+      +'<div class="cat-mini-grid">'+catMiniGridHtml(sums.ingresos.categorias)+'</div>'
     +'</div>'
-    // Col centro: Egresos
-    +'<div class="stat-main stat-main-out">'
-      +'<div class="stat-main-label">↑ EGRESOS</div>'
-      +'<div class="stat-main-num" style="color:#c87838">'+sums.egresos.total+'</div>'
-      +'<div class="stat-cats">'+catChips(sums.egresos.categorias,'out')+'</div>'
+    // Egresos (rojo) — número + sub solo cuando es 0
+    +'<div class="metric-card egresos">'
+      +'<div class="metric-head">'
+        +'<span class="metric-label"><span class="arrow">↑</span> Egresos</span>'
+      +'</div>'
+      +'<div class="metric-num'+(egrTot===0?' zero':'')+'">'+egrTot+'</div>'
+      +(egrTot===0
+        ? '<div class="metric-sub">Sin egresos registrados en este remate</div>'
+        : '')
     +'</div>'
-    // Col derecha: grilla 2x2
-    +'<div class="stat-grid22">'
-      +'<div class="stat-q stat-q-faena">'
-        +'<div class="stat-q-label">Faena</div>'
-        +'<div class="stat-q-num stat-red">'+s.faena+'</div>'
-      +'</div>'
-      +'<div class="stat-q stat-q-inv">'
-        +'<div class="stat-q-label">Invernada</div>'
-        +'<div class="stat-q-num stat-green">'+s.invernada+'</div>'
-      +'</div>'
-      +'<div class="stat-q stat-q-apto">'
-        +'<div class="stat-q-label">🇨🇳 Apto</div>'
-        +'<div class="stat-q-num stat-green">'+s.aptoSi+'</div>'
-      +'</div>'
-      +'<div class="stat-q stat-q-noapto">'
-        +'<div class="stat-q-label">No Apto</div>'
-        +'<div class="stat-q-num stat-red">'+s.aptoNo+'</div>'
+    // SENASA — sub-grilla 2x2 (Faena / Invernada / Apto / No apto)
+    +'<div class="senasa-card">'
+      +'<div class="senasa-grid">'
+        +'<div class="senasa-cell faena"><span class="lbl">Faena</span><span class="num">'+s.faena+'</span></div>'
+        +'<div class="senasa-cell invernada"><span class="lbl">Invernada</span><span class="num">'+s.invernada+'</span></div>'
+        +'<div class="senasa-cell apto"><span class="lbl">Apto China</span><span class="num">'+s.aptoSi+'</span></div>'
+        +'<div class="senasa-cell no-apto"><span class="lbl">No apto</span><span class="num">'+s.aptoNo+'</span></div>'
       +'</div>'
     +'</div>'
-  +'</div>'; 
+  +'</div>';
 function msDropdown(id,label,opts,sel){
   const allSel=!sel.length;
   const lbl=allSel?label:(sel.length===1?opts.find(o=>o.v===sel[0])?.l||sel[0]:sel.length+' sel.');
@@ -355,7 +365,7 @@ const header='<div class="filters rem-filters">'
   +'<span class="result-count">'+exportRows.length+' de '+(rem.filas||[]).length+'</span>'
   +'<button id="r-export" class="ghost-btn" style="margin-left:auto;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700;border-color:rgba(0,208,132,.35);color:var(--green)">⬇ Excel</button>'
   +'<button id="r-clear" class="ghost-btn" style="margin-left:8px;white-space:nowrap;padding:6px 16px;font-size:12px;font-weight:700">Limpiar filtros</button>'
-  +'</div>'; ; const cols=[['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],['enviado','Env.'],['recibido','Rec.']]; const th=cols.map(([k,l])=>'<th data-sort="'+k+'" class="sorter">'+l+(sortKey===k?(sortDir==='asc'?' ↑':' ↓'):' ↕')+'</th>').join(''); function aptoChinaBadge(f){const v=f.apto_china||f['Apto China']||f.aptoChina; const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto'; const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no'; return {lbl,cls};} const body=exportRows.map(f=>{const ac=aptoChinaBadge(f); return '<tr class="'+remateTipoClass(f.tipo_movimiento)+'"><td class="nowrap col-tipo">'+esc(f.tipo_movimiento||'-')+'</td><td class="link dte-link nowrap numcol col-dte" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'-')+'</td><td>'+esc(f.emisor_nombre||'-')+'</td><td>'+esc(f.receptor_nombre||'-')+'</td><td class="nowrap">'+esc(f.categoria||'-')+'</td><td class="nowrap numcol col-fecha">'+esc(f.fecha_movimiento||'-')+'</td><td>'+esc(f.motivo||'-')+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(f.estado)+'">'+esc(f.estado||'-')+'</span></td><td class="nowrap col-apto-china"><span class="badge apto-china '+ac.cls+'">'+esc(ac.lbl)+'</span></td><td style="text-align:right" class="nowrap numcol">'+esc(f.enviado||0)+'</td><td style="text-align:right" class="nowrap numcol">'+esc(f.recibido||0)+'</td></tr>';}).join(''); detail='<div class="detail-head"><div class="section-title">'+esc(rem.codigo||'Remate')+'</div><div class="small">'+esc((rem.info||{})['Predio ferial']||'')+'</div></div>'+summary+header+'<div class="table-wrap"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'; } else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
+  +'</div>'; ; const cols=[['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],['enviado','Env.'],['recibido','Rec.']]; const th=cols.map(([k,l])=>'<th data-sort="'+k+'" class="sorter">'+l+(sortKey===k?(sortDir==='asc'?' ↑':' ↓'):' ↕')+'</th>').join(''); function aptoChinaBadge(f){const v=f.apto_china||f['Apto China']||f.aptoChina; const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto'; const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no'; return {lbl,cls};} const body=exportRows.map(f=>{const ac=aptoChinaBadge(f); return '<tr class="'+remateTipoClass(f.tipo_movimiento)+'"><td class="nowrap col-tipo">'+esc(f.tipo_movimiento||'-')+'</td><td class="link dte-link nowrap numcol col-dte" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'-')+'</td><td>'+esc(f.emisor_nombre||'-')+'</td><td>'+esc(f.receptor_nombre||'-')+'</td><td class="nowrap">'+esc(f.categoria||'-')+'</td><td class="nowrap numcol col-fecha">'+esc(f.fecha_movimiento||'-')+'</td><td>'+esc(f.motivo||'-')+'</td><td class="nowrap col-estado"><span class="badge '+badgeClass(f.estado)+'">'+esc(f.estado||'-')+'</span></td><td class="nowrap col-apto-china"><span class="badge apto-china '+ac.cls+'">'+esc(ac.lbl)+'</span></td><td style="text-align:right" class="nowrap numcol">'+esc(f.enviado||0)+'</td><td style="text-align:right" class="nowrap numcol">'+esc(f.recibido||0)+'</td></tr>';}).join(''); detail='<div class="section-caption"><span>'+esc(rem.codigo||'Remate')+'</span><span class="right">'+esc((rem.info||{})['Predio ferial']||'')+'</span></div>'+summary+header+'<div class="table-wrap"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'; } else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
     host.querySelectorAll('.rem-hero').forEach(hero=>{
       hero.onclick=function(){const prev=selected;selected=Number(hero.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();};
     });
@@ -380,9 +390,9 @@ const header='<div class="filters rem-filters">'
     host.querySelectorAll('.rem-past-row').forEach(el=>el.onclick=function(){const prev=selected;selected=Number(el.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();});
     // Toggle anteriores
     const tog=host.querySelector('#rem-past-toggle');
-    if(tog){tog.onclick=function(e){e.stopPropagation();const list=host.querySelector('#rem-past-list');const arrow=host.querySelector('#rem-past-arrow');const lbl=host.querySelector('#rem-past-label');if(list){const open=list.style.display==='none';list.style.display=open?'block':'none';if(arrow)arrow.textContent=open?'▾':'▸';if(lbl)lbl.textContent=open?'Ocultar anteriores':'Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+'s anterior'+(pastRems.length>1?'es':'');}};} 
+    if(tog){tog.onclick=function(e){e.stopPropagation();const list=host.querySelector('#rem-past-list');const lbl=host.querySelector('#rem-past-label');if(list){const open=list.style.display==='none';list.style.display=open?'block':'none';tog.classList.toggle('is-open',open);if(lbl)lbl.textContent=open?'Ocultar anteriores':'Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+' anterior'+(pastRems.length>1?'es':'');}};}
     // Si el selected es un remate anterior, abrir el panel
-    if(pastRems.some(p=>p.origIdx===selected)){const list=host.querySelector('#rem-past-list');const arrow=host.querySelector('#rem-past-arrow');const lbl=host.querySelector('#rem-past-label');if(list){list.style.display='block';if(arrow)arrow.textContent='▾';if(lbl)lbl.textContent='Ocultar anteriores';}}
+    if(pastRems.some(p=>p.origIdx===selected)){const list=host.querySelector('#rem-past-list');const lbl=host.querySelector('#rem-past-label');if(list){list.style.display='block';if(tog)tog.classList.add('is-open');if(lbl)lbl.textContent='Ocultar anteriores';}}
     // Name inputs
     host.querySelectorAll('.rem-name-input').forEach(inp=>{
       inp.onchange=function(e){e.stopPropagation();const cod=inp.dataset.codigo;const nombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');nombres[cod]=inp.value.trim();localStorage.setItem('rem_nombres',JSON.stringify(nombres));};

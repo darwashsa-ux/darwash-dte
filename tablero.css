@@ -1,0 +1,484 @@
+/* ============================================================
+   TABLERO REMATES — componentes específicos de esta vista.
+   Importa después de tokens.css.
+   ============================================================ */
+
+/* ===== PAGE HEAD ===== */
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+.page-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.8px;
+}
+
+/* ============================================================
+   REMATE CARD — la card principal del remate activo
+   ============================================================ */
+.remate-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.remate-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.remate-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 4px;
+}
+.remate-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-soft);
+}
+
+.remate-name {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+}
+.remate-name.placeholder {
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.remate-code {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-2);
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.remate-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.remate-meta .sep {
+  margin: 0 6px;
+  color: var(--border-strong);
+}
+
+/* Stat pills al costado del nombre del remate */
+.remate-stats {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.stat-pill {
+  background: var(--cyan-soft);
+  border: 1px solid var(--cyan);
+  border-radius: var(--r-md);
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 88px;
+}
+.stat-pill.amber { background: var(--amber-soft); border-color: var(--amber); }
+.stat-pill .num {
+  font-family: var(--mono);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--cyan);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-pill.amber .num { color: var(--amber); }
+.stat-pill .lbl {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-2);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Botones de acción al pie del card */
+.remate-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+/* Tags de razas dentro del remate card */
+.remate-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.tag {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.tag .num { color: var(--cyan); font-weight: 700; font-size: 10.5px; }
+.tag.amber .num { color: var(--amber); }
+.tag.red   .num { color: var(--red); }
+
+/* ===== TOGGLE "Ver remates anteriores" ===== */
+.prev-toggle {
+  margin: 18px 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-2);
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: lowercase;
+}
+.prev-toggle::before {
+  content: "›";
+  font-size: 14px;
+  color: var(--cyan);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   STATS GRID — Ingresos / Egresos / SENASA
+   ============================================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1.4fr 2fr;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.metric-card.ingresos { border-left: 3px solid var(--green); }
+.metric-card.egresos  { border-left: 3px solid var(--red); }
+
+.metric-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.metric-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.metric-label .arrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 0.7;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ingresos .metric-label .arrow { background: var(--green-soft); color: var(--green); }
+.egresos  .metric-label .arrow { background: var(--red-soft);   color: var(--red); }
+
+.metric-num {
+  font-family: var(--mono);
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.ingresos .metric-num { color: var(--green); }
+.egresos  .metric-num { color: var(--red); }
+.metric-num.zero      { color: var(--border-strong); }
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Mini-grilla de categorías SENASA dentro del card de Ingresos */
+.cat-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin-top: 4px;
+}
+.cat-mini {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 5px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 0;
+}
+.cat-mini.has   { background: var(--cyan-soft); border-color: var(--cyan); }
+.cat-mini .code {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-2);
+  text-transform: uppercase;
+}
+.cat-mini.has .code { color: var(--cyan); }
+.cat-mini .num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.cat-mini.has   .num { color: var(--cyan); }
+.cat-mini.empty .num { color: var(--border-strong); }
+
+/* SENASA card — sub-grilla 2x2 (Faena / Invernada / Apto / No apto) */
+.senasa-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.senasa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.senasa-cell {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.senasa-cell .lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.senasa-cell .num {
+  font-family: var(--mono);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+.senasa-cell.apto    { border-left: 3px solid var(--green); }
+.senasa-cell.apto    .num { color: var(--green); }
+.senasa-cell.no-apto { border-left: 3px solid var(--red); }
+.senasa-cell.no-apto .num { color: var(--red); }
+
+/* ============================================================
+   WARNING ROW — alerta inline de validación
+   ============================================================ */
+.warn-row {
+  margin-top: 14px;
+  background: var(--red-soft);
+  border: 1px solid var(--red);
+  border-left: 3px solid var(--red);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--red);
+  font-weight: 500;
+}
+.warn-row::before {
+  content: "!";
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* ============================================================
+   EXTENSIONES — agregadas en commit 5 (integración al dashboard real)
+   No están en el handoff de Design original. Reusan tokens y patrones.
+   ============================================================ */
+
+/* Variante compacta de .remate-card para remates anteriores.
+   Sin acciones, sin tags, sin sub-grids; border-left gris en vez de cyan;
+   stat pills mas chicas. Ocupa menos espacio vertical en la lista. */
+.remate-card.compact {
+  border-left: 3px solid var(--border-strong);
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  margin-bottom: 6px;
+}
+.remate-card.compact:hover {
+  background: var(--surface-2);
+}
+.remate-card.compact.active {
+  border-left-color: var(--cyan);
+  background: var(--cyan-soft);
+}
+.remate-card.compact .remate-info {
+  gap: 2px;
+}
+.remate-card.compact .remate-status {
+  display: none;
+}
+.remate-card.compact .remate-name {
+  font-size: 14px;
+  line-height: 1.2;
+}
+.remate-card.compact .remate-code {
+  font-size: 10px;
+}
+.remate-card.compact .remate-meta {
+  font-size: 11px;
+  margin-top: 2px;
+}
+.remate-card.compact .stat-pill {
+  padding: 6px 10px;
+  min-width: 56px;
+}
+.remate-card.compact .stat-pill .num {
+  font-size: 16px;
+}
+.remate-card.compact .stat-pill .lbl {
+  font-size: 7.5px;
+}
+
+/* Arrow del prev-toggle rota cuando está abierto */
+.prev-toggle.is-open::before {
+  transform: translateY(-1px) rotate(90deg);
+}
+
+/* .remate-name como input editable: por default se ve como texto serif plano,
+   sin border ni background. Al focus, muestra borde cyan suave para indicar edición. */
+input.remate-name {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  width: 100%;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+  outline: none;
+  transition: background 0.12s, border-color 0.12s;
+  -webkit-appearance: none;
+}
+input.remate-name::placeholder {
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+}
+input.remate-name:hover {
+  background: var(--surface-2);
+}
+input.remate-name:focus {
+  background: var(--surface);
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-soft);
+}
+.remate-card.compact input.remate-name {
+  font-size: 14px;
+}
+
+/* Override .remate-actions a flex justify-end para que se adapte a cualquier
+   cantidad de botones (sin la columna 1fr filler del grid Design). El dashboard
+   real tiene 4 botones (Registrar ingreso / Ver ingresos / Registrar egreso /
+   Ver egresos), no 3 como en el mockup. */
+.remate-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.remate-card.compact .remate-actions {
+  display: none;
+}
