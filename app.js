@@ -21,7 +21,70 @@ function badgeClass(s){const n=normalizarEstado(s).toLowerCase(); if(n==='vigent
 function cleanEstado(estado){return (estado||'').replace(/\s*\([^)]*\)\s*/g,'').trim();}
 function consClass(v){const s=(v||'').toUpperCase(); if(s.includes('DARWASH')) return 'dar'; if(s.includes('BULLTRADE')) return 'bull'; return 'other';}
 function prettyCons(v){return '<span class="cons-chip"><span class="dot '+(consClass(v)==='dar'?'dar':consClass(v)==='bull'?'bull':'')+'"></span>'+esc(v||'-')+'</span>'}
-function abreviarCategoria(cat){const map={novillo:'NOV',novillos:'NOV',novillito:'NTO',novillitos:'NTO',vaquillona:'VQ',vaquillonas:'VQ',vaquilla:'VQ',vaquillas:'VQ',vaca:'VA',vacas:'VA',ternero:'TRO',terneros:'TRO',ternera:'TRA',terneras:'TRA',toro:'TO',toros:'TO',torito:'TTO',toritos:'TTO',mamón:'MAM',mamones:'MAM','sin categoria':'S/C'}; const k=String(cat||'').toLowerCase().trim(); return map[k] || String(cat||'').substring(0,3).toUpperCase();}
+// === Taxonomía canónica de categorías — única fuente de verdad ===
+// 7 categorías unificadas. NOVILLO absorbe Novillo+Novillito; MEJ absorbe Torito/MEJ.
+// "Mamón" legacy NO se canoniza: se preserva literal en su call site para no perder el dato.
+const CATEGORIAS_CANONICAS=['TERNERO','TERNERA','NOVILLO','VAQUILLONA','VACA','MEJ','TORO'];
+const CATEGORIA_CANONICA_ABBR={TERNERO:'TRO',TERNERA:'TRA',NOVILLO:'NOV',VAQUILLONA:'VQ',VACA:'VA',MEJ:'MEJ',TORO:'TO'};
+const CATEGORIA_RAW_TO_CANONICA={
+  // capitalización del maestro JSON (remates_maestro.json)
+  'Ternero':'TERNERO','Ternera':'TERNERA',
+  'Novillo':'NOVILLO','Novillito':'NOVILLO',
+  'Vaquillona':'VAQUILLONA','Vaca':'VACA',
+  'Torito/MEJ':'MEJ','Toro':'TORO'
+};
+// Aliases case-insensitive (lowercase de Supabase egresos_hacienda + plurales/variantes)
+const CATEGORIA_ALIASES_LC={
+  'ternero':'TERNERO','terneros':'TERNERO',
+  'ternera':'TERNERA','terneras':'TERNERA',
+  'novillo':'NOVILLO','novillos':'NOVILLO',
+  'novillito':'NOVILLO','novillitos':'NOVILLO',
+  'vaquillona':'VAQUILLONA','vaquillonas':'VAQUILLONA',
+  'vaquilla':'VAQUILLONA','vaquillas':'VAQUILLONA',
+  'vaca':'VACA','vacas':'VACA',
+  'torito/mej':'MEJ','torito':'MEJ','toritos':'MEJ','mej':'MEJ',
+  'toro':'TORO','toros':'TORO'
+};
+// Devuelve canónica o null (callers deciden qué hacer con null — típicamente "Mamón" legacy)
+function canonizarCategoria(raw){
+  if(raw==null||raw==='') return null;
+  const key=String(raw).trim();
+  if(CATEGORIA_RAW_TO_CANONICA[key]) return CATEGORIA_RAW_TO_CANONICA[key];
+  return CATEGORIA_ALIASES_LC[key.toLowerCase()] || null;
+}
+// Suma ingresos del remate agrupando por categoría canónica. Devuelve {TERNERO,TERNERA,...,TORO} con 0 default.
+// Categorías no canonizables (Mamón legacy) NO se cuentan acá — la assertion drift lo flagueará.
+function normalizarCategoriasRemate(remate){
+  const acc=Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,0]));
+  if(!remate||!Array.isArray(remate.filas)) return acc;
+  for(const f of remate.filas){
+    if(!String(f.tipo_movimiento||'').toLowerCase().includes('entrada')) continue;
+    const canon=canonizarCategoria(f.categoria);
+    if(!canon) continue;
+    acc[canon]+=Number(f.recibido||f.enviado||0);
+  }
+  return acc;
+}
+// Mantenida por compatibilidad. Ahora delega al mapping canónico; Mamón → fallback "MAM".
+function abreviarCategoria(cat){
+  const canon=canonizarCategoria(cat);
+  if(canon) return CATEGORIA_CANONICA_ABBR[canon];
+  return String(cat||'').substring(0,3).toUpperCase();
+}
+// Agrupa un objeto crudo de categorías de un registro Supabase (ingresos/egresos_hacienda)
+// por canónicas. Categorías no canonizables (ej. "Mamón" legacy) se preservan literal con
+// su key original — para no perder el dato histórico. Filtra valores <=0.
+function agruparCategoriasReg(rawCats){
+  const out={};
+  for(const [k,v] of Object.entries(rawCats||{})){
+    const n=Number(v||0);
+    if(n<=0) continue;
+    const canon=canonizarCategoria(k);
+    const key=canon||k;
+    out[key]=(out[key]||0)+n;
+  }
+  return out;
+}
 const app=document.getElementById('app'); const modalBg=document.getElementById('modalBg'); const modal=document.getElementById('modal');
 function renderLogin(err=''){
   app.innerHTML=''
@@ -182,8 +245,35 @@ function mostrarLinkRemate(codigo,tipo){
   };
 }
 function remateTipoClass(t){const s=String(t||'').toLowerCase(); if(s.includes('entrada')) return 'row-entrada'; if(s.includes('salida')) return 'row-salida'; return '';}
-function calcMovSummary(filas){const ingresos={total:0,categorias:{}};const egresos={total:0,categorias:{}};const stats={faena:0,invernada:0,aptoSi:0,aptoNo:0,vacaFaenaNoApto:0};(filas||[]).forEach(f=>{const cantidad=Number(f.recibido)||Number(f.enviado)||0;const cat=f.categoria||'Sin categoria';const t=String(f.tipo_movimiento||'').toLowerCase();const motivo=String(f.motivo||'').toLowerCase();const apto=String(f.apto_china||'').toLowerCase();if(t.includes('entrada')){ingresos.total+=cantidad;ingresos.categorias[cat]=(ingresos.categorias[cat]||0)+cantidad;}else if(t.includes('salida')){egresos.total+=cantidad;egresos.categorias[cat]=(egresos.categorias[cat]||0)+cantidad;}if(motivo.includes('faena'))stats.faena+=cantidad;else if(motivo.includes('invernada'))stats.invernada+=cantidad;if(/^si$/i.test(apto))stats.aptoSi+=cantidad;else if(/^no$/i.test(apto))stats.aptoNo+=cantidad;if(/vaca/i.test(cat)&&motivo.includes('faena')&&/^no$/i.test(apto))stats.vacaFaenaNoApto+=cantidad;});return{ingresos,egresos,stats};}
-function renderSummaryBox(title,total,categorias,inOut){const entries=Object.entries(categorias).sort((a,b)=>b[1]-a[1]); return '<div class="summary-box"><div class="summary-head '+inOut+'"><div><div class="small" style="text-transform:uppercase;letter-spacing:1px">'+title+'</div><div class="summary-big">'+total.toLocaleString()+'</div></div></div><div class="summary-cats">'+(entries.length?entries.map(([cat,cant])=>'<div class="cat-pill '+inOut+'" title="'+esc(cat)+'"><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+esc(cant)+'</span></div>').join(''):'<div class="small">Sin movimientos</div>')+'</div></div>';}
+function calcMovSummary(filas){
+  // categorias arranca con las 7 canónicas en 0 — el cat-mini-grid muestra siempre las 7 fijas.
+  // Filas con categoría no canonizable (Mamón legacy) suman a `total` pero no al breakdown.
+  const ingresos={total:0,categorias:Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,0]))};
+  const egresos={total:0,categorias:Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,0]))};
+  const stats={faena:0,invernada:0,aptoSi:0,aptoNo:0,vacaFaenaNoApto:0};
+  (filas||[]).forEach(f=>{
+    const cantidad=Number(f.recibido)||Number(f.enviado)||0;
+    const cat=f.categoria||'Sin categoria';
+    const canon=canonizarCategoria(cat);
+    const t=String(f.tipo_movimiento||'').toLowerCase();
+    const motivo=String(f.motivo||'').toLowerCase();
+    const apto=String(f.apto_china||'').toLowerCase();
+    if(t.includes('entrada')){
+      ingresos.total+=cantidad;
+      if(canon) ingresos.categorias[canon]+=cantidad;
+    }else if(t.includes('salida')){
+      egresos.total+=cantidad;
+      if(canon) egresos.categorias[canon]+=cantidad;
+    }
+    if(motivo.includes('faena'))stats.faena+=cantidad;
+    else if(motivo.includes('invernada'))stats.invernada+=cantidad;
+    if(/^si$/i.test(apto))stats.aptoSi+=cantidad;
+    else if(/^no$/i.test(apto))stats.aptoNo+=cantidad;
+    if(/vaca/i.test(cat)&&motivo.includes('faena')&&/^no$/i.test(apto))stats.vacaFaenaNoApto+=cantidad;
+  });
+  return{ingresos,egresos,stats};
+}
+function renderSummaryBox(title,total,categorias,inOut){const entries=Object.entries(categorias).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]); return '<div class="summary-box"><div class="summary-head '+inOut+'"><div><div class="small" style="text-transform:uppercase;letter-spacing:1px">'+title+'</div><div class="summary-big">'+total.toLocaleString()+'</div></div></div><div class="summary-cats">'+(entries.length?entries.map(([cat,cant])=>'<div class="cat-pill '+inOut+'" title="'+esc(cat)+'"><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+esc(cant)+'</span></div>').join(''):'<div class="small">Sin movimientos</div>')+'</div></div>';}
 function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=null,q='',tipos=[],estados=[],categorias_f=[],motivos=[],aptoChinas=[],sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
 // Nombres por evento guardados en localStorage
 const remNombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');
@@ -214,15 +304,17 @@ function heroCard(r,origIdx){
   const isActive=origIdx===selected;
   const cod=esc(r.codigo||'');
 
-  // Top 5 categorías de ingresos para los .tag chips
-  const catsIn={};
-  (r.filas||[]).filter(f=>String(f.tipo_movimiento||'').toLowerCase().includes('entrada')).forEach(f=>{
-    if(f.categoria&&(f.recibido||f.enviado)){
-      catsIn[f.categoria]=(catsIn[f.categoria]||0)+Number(f.recibido||f.enviado||0);
-    }
-  });
-  const tagsHtml=Object.entries(catsIn).sort((a,b)=>b[1]-a[1]).slice(0,5)
+  // Tags de categorías canónicas con valor > 0 (sin slice, sin umbral) — ordenados desc por cantidad.
+  const catsCanon=normalizarCategoriasRemate(r);
+  const tagsHtml=Object.entries(catsCanon).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1])
     .map(([k,v])=>'<span class="tag"><span>'+esc(k)+'</span> <span class="num">'+v+'</span></span>').join('');
+
+  // Drift assertion: el campo agregado total_animales del JSON debería igualar Σ canónicas.
+  // Un mismatch indica datos del extractor desactualizados o categoría desconocida (Mamón legacy).
+  const sumCanon=Object.values(catsCanon).reduce((a,b)=>a+b,0);
+  if(Number(r.total_animales||0)!==sumCanon){
+    console.warn('[drift] Remate '+(r.codigo||'?')+': total_animales='+r.total_animales+' vs Σ canónicas='+sumCanon);
+  }
 
   // Placeholder serif italic cuando no hay nombre — handled by ::placeholder en CSS
   return '<div class="remate-card rem-hero'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
@@ -304,21 +396,16 @@ const pastHtml=pastRems.length>0
   +'</div>'
   :'';
 
-const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tiposAll=Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean))).sort(); const estadosAll=Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean))).sort(); const categoriasAll=Array.from(new Set((rem.filas||[]).map(f=>f.categoria).filter(Boolean))).sort(); const motivosAll=Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean))).sort(); exportRows=(rem.filas||[]).filter(f=>(!tipos.length||tipos.includes(f.tipo_movimiento))&&(!estados.length||estados.includes(normalizarEstado(f.estado)))&&(!categorias_f.length||categorias_f.includes(f.categoria||''))&&(!motivos.length||motivos.includes(f.motivo||''))&&(!aptoChinas.length||aptoChinas.includes(aptoChinaVal(f)))); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
+const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tiposAll=Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean))).sort(); const estadosAll=Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean))).sort(); const categoriasAll=Array.from(new Set((rem.filas||[]).map(f=>canonizarCategoria(f.categoria)).filter(Boolean))).sort(); const motivosAll=Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean))).sort(); exportRows=(rem.filas||[]).filter(f=>(!tipos.length||tipos.includes(f.tipo_movimiento))&&(!estados.length||estados.includes(normalizarEstado(f.estado)))&&(!categorias_f.length||categorias_f.includes(canonizarCategoria(f.categoria)||''))&&(!motivos.length||motivos.includes(f.motivo||''))&&(!aptoChinas.length||aptoChinas.includes(aptoChinaVal(f)))); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
 
-// Cat mini-grid 4x2 — categorías canónicas del sistema (las del CATS_INGRESO de los forms)
-const CATS_GRID=[
-  ['Novillo','NOV'],['Novillito','NTO'],['Vaquillona','VQ'],['Vaca','VA'],
-  ['Ternero','TRO'],['Ternera','TRA'],['Toro','TO'],['Torito/MEJ','TTO']
-];
+// Cat mini-grid — siempre las 7 canónicas (con 0 cuando no hay datos).
+// `cats` ya viene canonizado desde calcMovSummary — keys son TERNERO, TERNERA, etc.
 function catMiniGridHtml(cats){
-  const lookup={};
-  for(const[k,v] of Object.entries(cats||{})) lookup[String(k).toLowerCase().trim()]=v;
-  return CATS_GRID.map(([name,code])=>{
-    const v=lookup[name.toLowerCase()]||0;
+  const c=cats||{};
+  return CATEGORIAS_CANONICAS.map(canon=>{
+    const v=Number(c[canon]||0);
     const cls=v>0?'has':'empty';
-    const num=v>0?v:'—';
-    return '<div class="cat-mini '+cls+'"><span class="code">'+code+'</span><span class="num">'+num+'</span></div>';
+    return '<div class="cat-mini '+cls+'"><span class="code">'+CATEGORIA_CANONICA_ABBR[canon]+'</span><span class="num">'+v+'</span></div>';
   }).join('');
 }
 
@@ -734,7 +821,8 @@ const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 function compartirWhatsAppReg(reg){
   var sep='\u2501'.repeat(18);
   var bull='\u2022';
-  var cats=Object.entries(reg.categorias||{}).filter(function(kv){return kv[1]>0;})
+  // Canonizar antes de listar (Novillito viejo se fusiona en Novillo; Mamón legacy preserva literal)
+  var cats=Object.entries(agruparCategoriasReg(reg.categorias))
     .map(function(kv){return '  '+bull+' '+kv[0]+': '+kv[1];}).join('\n');
   var msg=''
     +'\uD83D\uDC04 *REMITO DE INGRESO \u2014 DARWASH SA*\n'
@@ -762,8 +850,10 @@ function compartirWhatsAppReg(reg){
   }
 }
 
-// ── CATEGORÍAS disponibles (igual que ingreso.html) ──────
-const CATS_INGRESO=['Novillo','Novillito','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ','Mamón'];
+// ── CATEGORÍAS disponibles para form de Ingreso/Egreso ──────
+// 7 canónicas con capitalización original (compatible con lo guardado en Supabase ingresos_hacienda).
+// Eliminados: 'Novillito' (unificado a 'Novillo') y 'Mamón' (descontinuado).
+const CATS_INGRESO=['Novillo','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
 
 async function verIngresos(codigoRemate){
   const modalBg=document.getElementById('modalBg');
@@ -788,11 +878,11 @@ async function verIngresos(codigoRemate){
 
     const totalCabezas=regs.reduce((a,r)=>a+(r.total_cabezas||0),0);
     const catTotals={};
-    regs.forEach(r=>{Object.entries(r.categorias||{}).forEach(([k,v])=>{catTotals[k]=(catTotals[k]||0)+v;});});
+    regs.forEach(r=>{Object.entries(agruparCategoriasReg(r.categorias)).forEach(([k,v])=>{catTotals[k]=(catTotals[k]||0)+v;});});
     const catPills=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span style="background:rgba(0,208,132,.1);border:1px solid rgba(0,208,132,.25);border-radius:6px;padding:2px 8px;font-size:11px">'+esc(k)+': '+v+'</span>').join(' ');
 
     const rows=regs.map(reg=>{
-      const cats=Object.entries(reg.categorias||{}).filter(([,v])=>v>0).map(([k,v])=>'<span style="font-size:10px;background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:4px;padding:1px 5px">'+esc(k)+':'+v+'</span>').join(' ');
+      const cats=Object.entries(agruparCategoriasReg(reg.categorias)).map(([k,v])=>'<span style="font-size:10px;background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:4px;padding:1px 5px">'+esc(k)+':'+v+'</span>').join(' ');
       const accionesCell='<td style="padding:8px 10px;white-space:nowrap;display:flex;gap:4px;align-items:center">'
         +'<button class="ing-wsp-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:#25d366;border-color:rgba(37,211,102,.3)">💬 WS</button>'
         +(esLeo
@@ -862,11 +952,12 @@ async function verIngresos(codigoRemate){
   function mostrarFormEdicion(id, regs, codigoRemate){
     const reg=regs.find(r=>String(r.id)===String(id));
     if(!reg) return;
-    const cats=reg.categorias||{};
+    // Cargar fusionado: registros viejos con "Novillito":N aparecen sumados en el input "Novillo".
+    const cats=agruparCategoriasReg(reg.categorias);
     const catInputs=CATS_INGRESO.map(cat=>`
       <div style="background:rgba(7,17,18,.8);border:1px solid rgba(21,48,51,.8);border-radius:10px;padding:10px 12px">
         <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">${esc(cat)}</div>
-        <input type="number" min="0" id="ecat_${cat.replace(/[^a-z]/gi,'_')}" value="${cats[cat]||0}"
+        <input type="number" min="0" id="ecat_${cat.replace(/[^a-z]/gi,'_')}" value="${cats[canonizarCategoria(cat)]||cats[cat]||0}"
           style="background:transparent;border:none;border-bottom:1px solid rgba(21,48,51,.9);color:var(--text);font-size:20px;font-weight:800;width:100%;outline:none;padding:2px 0">
       </div>`).join('');
 
@@ -909,6 +1000,12 @@ async function verIngresos(codigoRemate){
         const v=parseInt(inp?.value||0)||0;
         if(v>0){nuevasCats[cat]=v; total+=v;}
       });
+      // Preservar categorías legacy no canonizables del registro original (ej. "Mamón")
+      // para que la edición no pierda datos históricos que el form nuevo no muestra.
+      for(const [k,v] of Object.entries(reg.categorias||{})){
+        const n=Number(v||0);
+        if(n>0 && !canonizarCategoria(k)){nuevasCats[k]=n; total+=n;}
+      }
 
       const payload={
         nro_dte:document.getElementById('e_nro_dte').value.trim(),
@@ -1030,11 +1127,11 @@ async function verEgresos(codigoRemate){
       document.getElementById('closeModal').onclick=closeDetalle;
       return;
     }
-    const CATS_MAP={vaquillona:'Vaquillona',torito:'Torito/MEJ',vaca:'Vaca',novillo:'Novillo',ternero:'Ternero',novillito:'Novillito'};
     const totalCab=rows.reduce((a,r)=>a+(r.total_cabezas||0),0);
     const filas=rows.map(r=>{
-      const cats=Object.entries(r.categorias||{}).filter(([,v])=>v>0)
-        .map(([k,v])=>'<span style="background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.25);border-radius:5px;padding:2px 7px;font-size:10px;color:#ff6b7a;margin-right:3px">'+(CATS_MAP[k]||k)+': '+v+'</span>').join('');
+      // Agrupar por canónica (claves lowercase de Supabase egresos_hacienda como "vaquillona","torito" se mapean correctamente)
+      const cats=Object.entries(agruparCategoriasReg(r.categorias))
+        .map(([k,v])=>'<span style="background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.25);border-radius:5px;padding:2px 7px;font-size:10px;color:#ff6b7a;margin-right:3px">'+esc(k)+': '+v+'</span>').join('');
       const pdfLink=r.pdf_url?'<a href="'+esc(r.pdf_url)+'" target="_blank" style="color:var(--amber);font-size:11px">📄 PDF</a>':'—';
       const ts=r.ts?new Date(r.ts).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
       return '<tr>'
