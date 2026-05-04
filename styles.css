@@ -1615,22 +1615,12 @@ td.col-fecha {
   align-items: center;
   justify-content: center;
   margin-bottom: 8px;
-  box-shadow: var(--shadow-sm);
 }
 .brand-wordmark {
   font-family: var(--serif);
   font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 1.5px;
+  font-size: 20px;
   color: var(--text-light);
-}
-.brand-sub {
-  font-family: var(--mono);
-  font-weight: 500;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  color: var(--muted-light);
-  text-transform: uppercase;
 }
 
 .sidebar-nav {
@@ -1648,6 +1638,9 @@ td.col-fecha {
   color: var(--muted-light);
   text-transform: uppercase;
   padding: 0 18px 8px;
+}
+.nav-section-label::before {
+  content: "— ";
 }
 .nav-item {
   display: flex;
@@ -1709,6 +1702,16 @@ td.col-fecha {
   top: 0;
   z-index: 10;
 }
+/* Línea cyan decorativa — firma visual del sistema Darwash */
+.topbar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 3px;
+  background: var(--cyan-light);
+}
 .hamburger {
   display: none;
   background: transparent;
@@ -1728,22 +1731,23 @@ td.col-fecha {
 .topbar-title {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
-.topbar-pre {
+.topbar-main {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+  line-height: 1.15;
+}
+.topbar-sub {
   font-family: var(--mono);
   font-weight: 600;
   font-size: 9px;
   letter-spacing: 2px;
   color: var(--muted-light);
   text-transform: uppercase;
-}
-.topbar-main {
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--text-light);
-  letter-spacing: 0.5px;
 }
 .topbar-right {
   margin-left: auto;
@@ -1757,7 +1761,7 @@ td.col-fecha {
   align-items: flex-end;
   gap: 1px;
   padding: 6px 12px;
-  background: var(--surface-2);
+  background: transparent;
   border: 1px solid var(--border-light);
   border-radius: var(--radius);
 }
@@ -1794,7 +1798,7 @@ td.col-fecha {
   font-weight: 500;
 }
 .topbar .logout-btn {
-  background: var(--surface-2);
+  background: transparent;
   border: 1px solid var(--border-light);
   color: var(--text-2);
   padding: 5px 11px;
@@ -1805,7 +1809,6 @@ td.col-fecha {
   cursor: pointer;
 }
 .topbar .logout-btn:hover {
-  background: var(--surface);
   border-color: var(--border-strong);
   color: var(--text-light);
 }
@@ -1829,7 +1832,7 @@ td.col-fecha {
     height: 100vh;
     transform: translateX(-100%);
     transition: transform 200ms ease;
-    box-shadow: 2px 0 24px rgba(0,0,0,0.2);
+    box-shadow: 1px 0 6px rgba(0,0,0,0.06);
   }
   body.sidebar-open .sidebar {
     transform: translateX(0);
