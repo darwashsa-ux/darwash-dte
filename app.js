@@ -3,6 +3,8 @@ let DATOS_REMATES = {};
 let DATOS_ALIASES = {};
 const USUARIOS = {"leoqui1991@gmail.com": {"pass": "36604114", "nombre": "Leo", "mustChange": false}, "lorenzolavaselli@gmail.com": {"pass": "123456", "nombre": "Lorenzo", "mustChange": true}, "fernandodavidurcelay@gmail.com": {"pass": "123456", "nombre": "Fernando", "mustChange": true}, "darwashsa@gmail.com": {"pass": "123456", "nombre": "Darwash SA", "mustChange": true}};
 function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return String(h);} function getUsuarios(){const base={};for(const [email,u] of Object.entries(USUARIOS))base[email]={passHash:hashStr(u.pass),nombre:u.nombre,mustChange:u.mustChange};return base;} function getSession(){try{const s=JSON.parse(localStorage.getItem('dw_session')||'null');if(s&&s.exp>Date.now())return s;}catch(e){}return null;} function setSession(email,nombre){localStorage.setItem('dw_session',JSON.stringify({email,nombre,exp:Date.now()+8*3600*1000}));} function clearSession(){localStorage.removeItem('dw_session');}
+function getSidebarCollapsed(){try{return localStorage.getItem('dw_sidebar_collapsed')==='true';}catch(e){return false;}}
+function setSidebarCollapsed(v){try{localStorage.setItem('dw_sidebar_collapsed',v?'true':'false');}catch(e){}}
 function esc(v){return String(v??'—').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
 function normalizarEstado(s){
   const v=(s||'').toLowerCase();
@@ -21,27 +23,46 @@ function consClass(v){const s=(v||'').toUpperCase(); if(s.includes('DARWASH')) r
 function prettyCons(v){return '<span class="cons-chip"><span class="dot '+(consClass(v)==='dar'?'dar':consClass(v)==='bull'?'bull':'')+'"></span>'+esc(v||'-')+'</span>'}
 function abreviarCategoria(cat){const map={novillo:'NOV',novillos:'NOV',novillito:'NTO',novillitos:'NTO',vaquillona:'VQ',vaquillonas:'VQ',vaquilla:'VQ',vaquillas:'VQ',vaca:'VA',vacas:'VA',ternero:'TRO',terneros:'TRO',ternera:'TRA',terneras:'TRA',toro:'TO',toros:'TO',torito:'TTO',toritos:'TTO',mamón:'MAM',mamones:'MAM','sin categoria':'S/C'}; const k=String(cat||'').toLowerCase().trim(); return map[k] || String(cat||'').substring(0,3).toUpperCase();}
 const app=document.getElementById('app'); const modalBg=document.getElementById('modalBg'); const modal=document.getElementById('modal');
-function renderLogin(err=''){app.innerHTML='<div class="login"><div class="login-card"><div class="login-brand"><div class="brand-badge"><div class="brand-drw">DRW</div><div class="brand-sub">DARWASH</div></div><div><div class="title" style="font-size:13px">Livestock dashboard</div><div class="small" style="margin-top:4px">Ingresá con tu usuario autorizado</div></div></div><div class="small" style="margin-bottom:6px">Email</div><input class="input" id="lemail" style="width:100%;margin-bottom:14px"><div class="small" style="margin-bottom:6px">Contraseña</div><input class="input" id="lpass" type="password" style="width:100%;margin-bottom:14px">'+(err?'<div class="login-error">⚠ '+esc(err)+'</div>':'')+'<button id="loginBtn" class="btn" style="width:100%;background:var(--primary);color:#031011;font-weight:800;border-color:rgba(0,210,211,.4)">Ingresar →</button></div></div>'; document.getElementById('loginBtn').onclick=function(){const email=(document.getElementById('lemail').value||'').trim().toLowerCase();const pass=document.getElementById('lpass').value||'';const u=getUsuarios()[email]; if(!u) return renderLogin('Email no registrado.'); if(u.passHash!==hashStr(pass)) return renderLogin('Contraseña incorrecta.'); setSession(email,u.nombre); 
-async function init() {
-  try {
-    const [r1, r2, r3] = await Promise.all([
-      fetch('dtes_maestro.json'),
-      fetch('remates_maestro.json'),
-      fetch('remates_alias.json').catch(()=>null)
-    ]);
-    DATOS_DTES = await r1.json();
-    DATOS_REMATES = await r2.json();
-    if(r3 && r3.ok){
+function renderLogin(err=''){
+  app.innerHTML=''
+    +'<div class="login">'
+    +  '<div class="login-card">'
+    +    '<img src="drw-logo-full.png" alt="Darwash" class="login-logo">'
+    +    '<h1 class="login-title">Iniciar sesión</h1>'
+    +    '<input id="lemail" class="input" placeholder="Email" type="email" autocomplete="username">'
+    +    '<input id="lpass" class="input" placeholder="Contraseña" type="password" autocomplete="current-password">'
+    +    '<button id="loginBtn" class="btn btn-primary login-btn">Entrar</button>'
+    +    '<div class="login-error">'+(err?'⚠ '+esc(err):'')+'</div>'
+    +  '</div>'
+    +'</div>';
+  document.getElementById('loginBtn').onclick=function(){
+    const email=(document.getElementById('lemail').value||'').trim().toLowerCase();
+    const pass=document.getElementById('lpass').value||'';
+    const u=getUsuarios()[email];
+    if(!u) return renderLogin('Email no registrado.');
+    if(u.passHash!==hashStr(pass)) return renderLogin('Contraseña incorrecta.');
+    setSession(email,u.nombre);
+    async function init(){
       try{
-        const a=await r3.json();
-        if(a && typeof a==='object' && !Array.isArray(a)) DATOS_ALIASES=a;
-      }catch(_){ /* alias inválido — fallback {} silencioso */ }
+        const [r1,r2,r3]=await Promise.all([
+          fetch('dtes_maestro.json'),
+          fetch('remates_maestro.json'),
+          fetch('remates_alias.json').catch(()=>null)
+        ]);
+        DATOS_DTES=await r1.json();
+        DATOS_REMATES=await r2.json();
+        if(r3 && r3.ok){
+          try{
+            const a=await r3.json();
+            if(a && typeof a==='object' && !Array.isArray(a)) DATOS_ALIASES=a;
+          }catch(_){}
+        }
+      }catch(e){console.error('Error cargando datos:',e);}
+      renderApp();
     }
-  } catch(e) { console.error('Error cargando datos:', e); }
-  renderApp();
+    init();
+  };
 }
-init();
-};}
 function openDetalle(d){
   if(!d) return;
 
@@ -1000,16 +1021,19 @@ function renderApp(){
     +'<div class="app-shell">'
     +  '<aside class="sidebar" id="sidebar">'
     +    '<div class="sidebar-brand">'
-    +      '<div class="brand-logo-mark">DRW</div>'
+    +      '<div class="brand-logo-mark"><img src="drw-icon.png" alt="DRW"></div>'
     +      '<div class="brand-wordmark">Darwash</div>'
+    +      '<button class="sidebar-toggle" id="sidebar-toggle" title="Colapsar sidebar" aria-label="Colapsar sidebar">'
+    +        '<span class="toggle-icon">‹</span>'
+    +      '</button>'
     +    '</div>'
     +    '<nav class="sidebar-nav">'
     +      '<div class="nav-section-label">Operaciones</div>'
-    +      '<button class="nav-item active" data-view="rem">'
+    +      '<button class="nav-item active" data-view="rem" data-tooltip="Remates">'
     +        '<span class="nav-icon">📊</span>'
     +        '<span class="nav-label">Remates</span>'
     +      '</button>'
-    +      '<button class="nav-item" data-view="dte">'
+    +      '<button class="nav-item" data-view="dte" data-tooltip="DTEs">'
     +        '<span class="nav-icon">📄</span>'
     +        '<span class="nav-label">DTEs</span>'
     +      '</button>'
@@ -1065,6 +1089,20 @@ function renderApp(){
   document.getElementById('sidebar-overlay').onclick=function(){
     document.body.classList.remove('sidebar-open');
   };
+
+  // Sidebar colapsable (desktop): aplicar estado persistido + handler
+  if(getSidebarCollapsed()){
+    document.querySelector('.app-shell').classList.add('sidebar-collapsed');
+  }
+  const sidebarToggle=document.getElementById('sidebar-toggle');
+  if(sidebarToggle){
+    sidebarToggle.onclick=function(){
+      const shell=document.querySelector('.app-shell');
+      const willCollapse=!shell.classList.contains('sidebar-collapsed');
+      shell.classList.toggle('sidebar-collapsed',willCollapse);
+      setSidebarCollapsed(willCollapse);
+    };
+  }
 
   document.getElementById('logoutBtn').onclick=function(){
     clearSession();
