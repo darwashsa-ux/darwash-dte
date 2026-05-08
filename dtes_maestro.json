@@ -1,7 +1,7 @@
 {
   "empresa": "Darwash SA",
   "cuit": "20366041142",
-  "fecha_extraccion": "2026-05-07T18:16:15.377757",
+  "fecha_extraccion": "2026-05-08T16:45:00.970531",
   "periodo_desde": "01/02/2026",
   "periodo_hasta": "30/03/2026",
   "total_dtes": 1122,
@@ -39029,7 +39029,7 @@
       "renspa_origen": "03.014.3.15693/09",
       "renspa_destino": "18.003.0.04100/CY",
       "tipo": "EST-EST",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "04/05/2026",
       "fecha_carga": "04/05/2026",
       "fecha_vencimiento": "08/05/2026",
@@ -39040,8 +39040,8 @@
       "recibido": 0,
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "EST - EST",
-      "motivo_detalle": "Invernada",
-      "estado_detalle": "VIGENTE",
+      "motivo_detalle": "Invernada UE C. 481",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S A (30-51163433-0)",
       "fecha_emision_detalle": "04/05/2026 17:38",
       "fecha_vencimiento_detalle": "08/05/2026",
@@ -39065,7 +39065,7 @@
       "fecha_anteultima_aftosa": "FS 31/10/2025",
       "fecha_ultima_brucelosis": "09/05/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-04T22:17:53"
+      "detalle_actualizado_ts": "2026-05-08T16:44:49"
     },
     {
       "nro_dte": "031687410-5",
@@ -39131,7 +39131,7 @@
       "renspa_origen": "03.014.3.15693/09",
       "renspa_destino": "18.003.0.04100/CY",
       "tipo": "EST-EST",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "04/05/2026",
       "fecha_carga": "04/05/2026",
       "fecha_vencimiento": "08/05/2026",
@@ -39142,8 +39142,8 @@
       "recibido": 0,
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "EST - EST",
-      "motivo_detalle": "Invernada",
-      "estado_detalle": "VIGENTE",
+      "motivo_detalle": "Invernada UE C. 481",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S A (30-51163433-0)",
       "fecha_emision_detalle": "04/05/2026 17:30",
       "fecha_vencimiento_detalle": "08/05/2026",
@@ -39167,7 +39167,7 @@
       "fecha_anteultima_aftosa": "FS 31/10/2025",
       "fecha_ultima_brucelosis": "09/05/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-04T22:17:55"
+      "detalle_actualizado_ts": "2026-05-08T16:44:50"
     },
     {
       "nro_dte": "031687145-3",
@@ -39497,7 +39497,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "01.082.0.00101/02",
       "tipo": "REF-EST",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -39509,7 +39509,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 08:46",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -39533,7 +39533,7 @@
       "fecha_anteultima_aftosa": "FS 19/11/2025",
       "fecha_ultima_brucelosis": "19/11/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-06T09:43:30"
+      "detalle_actualizado_ts": "2026-05-08T16:44:47"
     },
     {
       "nro_dte": "031703651-5",
@@ -39548,7 +39548,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "01.082.0.00101/08",
       "tipo": "REF-EST",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -39560,7 +39560,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 08:44",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -39584,7 +39584,7 @@
       "fecha_anteultima_aftosa": "FS 19/11/2025",
       "fecha_ultima_brucelosis": "19/11/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-06T09:43:31"
+      "detalle_actualizado_ts": "2026-05-08T16:44:48"
     },
     {
       "nro_dte": "031703609-4",
@@ -42647,7 +42647,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "10.003.0.00093/00",
       "tipo": "REF-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -42659,7 +42659,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 17:50",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -42689,7 +42689,7 @@
       "fecha_anteultima_aftosa": "FS 30/12/2025",
       "fecha_ultima_brucelosis": "19/05/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T07:47:52"
+      "detalle_actualizado_ts": "2026-05-08T16:44:33"
     },
     {
       "nro_dte": "031710779-5",
@@ -42704,7 +42704,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "10.003.0.00093/00",
       "tipo": "REF-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -42716,7 +42716,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 17:38",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -42746,7 +42746,7 @@
       "fecha_anteultima_aftosa": "FS 02/03/2026",
       "fecha_ultima_brucelosis": "02/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T07:47:53"
+      "detalle_actualizado_ts": "2026-05-08T16:44:34"
     },
     {
       "nro_dte": "031710677-7",
@@ -42761,7 +42761,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "10.003.0.00093/00",
       "tipo": "REF-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -42773,7 +42773,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 17:36",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -42815,7 +42815,7 @@
       "fecha_anteultima_aftosa": "FS 21/10/2025",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T07:47:54"
+      "detalle_actualizado_ts": "2026-05-08T16:44:35"
     },
     {
       "nro_dte": "031710663-7",
@@ -42830,7 +42830,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "10.003.0.00093/00",
       "tipo": "REF-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -42842,7 +42842,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 17:32",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -42878,7 +42878,7 @@
       "fecha_anteultima_aftosa": "FS 05/12/2025",
       "fecha_ultima_brucelosis": "22/01/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T07:47:54"
+      "detalle_actualizado_ts": "2026-05-08T16:44:36"
     },
     {
       "nro_dte": "031710627-0",
@@ -42893,7 +42893,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "10.003.0.00093/00",
       "tipo": "REF-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -42905,7 +42905,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 17:25",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -42941,7 +42941,7 @@
       "fecha_anteultima_aftosa": "FS 31/10/2025",
       "fecha_ultima_brucelosis": "20/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T07:47:55"
+      "detalle_actualizado_ts": "2026-05-08T16:44:37"
     },
     {
       "nro_dte": "031709529-5",
@@ -42956,7 +42956,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "03.014.0.00172/00",
       "tipo": "REF-FRI",
-      "estado": "VIGENTE",
+      "estado": "ANULADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -42968,7 +42968,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "ANULADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 15:09",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -43100,7 +43100,7 @@
       "fecha_anteultima_aftosa": "FS 12/11/2025",
       "fecha_ultima_brucelosis": "20/04/2020",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T07:47:56"
+      "detalle_actualizado_ts": "2026-05-08T16:44:38"
     },
     {
       "nro_dte": "031708417-5",
@@ -43877,7 +43877,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "01.054.0.00104/00",
       "tipo": "REF-EST",
-      "estado": "VIGENTE",
+      "estado": "ANULADO",
       "fecha_emision": "06/05/2026",
       "fecha_carga": "06/05/2026",
       "fecha_vencimiento": "10/05/2026",
@@ -43889,7 +43889,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "ANULADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "06/05/2026 11:53",
       "fecha_vencimiento_detalle": "10/05/2026",
@@ -43925,7 +43925,7 @@
       "fecha_anteultima_aftosa": "FS 19/11/2025",
       "fecha_ultima_brucelosis": "03/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T07:48:05"
+      "detalle_actualizado_ts": "2026-05-08T16:44:44"
     },
     {
       "nro_dte": "031707409-3",
@@ -44279,7 +44279,7 @@
       "renspa_origen": "03.014.3.15647/80",
       "renspa_destino": "01.112.0.00069/00",
       "tipo": "EST-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "07/05/2026",
       "fecha_carga": "07/05/2026",
       "fecha_vencimiento": "09/05/2026",
@@ -44291,7 +44291,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S A (30-51163433-0)",
       "fecha_emision_detalle": "07/05/2026 13:34",
       "fecha_vencimiento_detalle": "09/05/2026",
@@ -44315,7 +44315,7 @@
       "fecha_anteultima_aftosa": "FS 17/03/2025",
       "fecha_ultima_brucelosis": "15/06/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T18:16:05"
+      "detalle_actualizado_ts": "2026-05-08T16:44:28"
     },
     {
       "nro_dte": "031716681-8",
@@ -44330,7 +44330,7 @@
       "renspa_origen": "03.014.3.15647/80",
       "renspa_destino": "01.112.0.00069/00",
       "tipo": "EST-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "07/05/2026",
       "fecha_carga": "07/05/2026",
       "fecha_vencimiento": "09/05/2026",
@@ -44342,7 +44342,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S A (30-51163433-0)",
       "fecha_emision_detalle": "07/05/2026 12:11",
       "fecha_vencimiento_detalle": "09/05/2026",
@@ -44366,7 +44366,7 @@
       "fecha_anteultima_aftosa": "FS 17/03/2025",
       "fecha_ultima_brucelosis": "15/06/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T18:16:06"
+      "detalle_actualizado_ts": "2026-05-08T16:44:28"
     },
     {
       "nro_dte": "031716505-6",
@@ -44381,7 +44381,7 @@
       "renspa_origen": "03.014.3.15647/80",
       "renspa_destino": "01.112.0.00069/00",
       "tipo": "EST-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "07/05/2026",
       "fecha_carga": "07/05/2026",
       "fecha_vencimiento": "09/05/2026",
@@ -44393,7 +44393,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S A (30-51163433-0)",
       "fecha_emision_detalle": "07/05/2026 11:50",
       "fecha_vencimiento_detalle": "09/05/2026",
@@ -44417,7 +44417,7 @@
       "fecha_anteultima_aftosa": "FS 17/03/2025",
       "fecha_ultima_brucelosis": "15/06/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T18:16:07"
+      "detalle_actualizado_ts": "2026-05-08T16:44:29"
     },
     {
       "nro_dte": "031716479-3",
@@ -44483,7 +44483,7 @@
       "renspa_origen": "01.019.0.00001/05-2026",
       "renspa_destino": "03.014.0.00172/00",
       "tipo": "REF-FRI",
-      "estado": "VIGENTE",
+      "estado": "CERRADO",
       "fecha_emision": "07/05/2026",
       "fecha_carga": "07/05/2026",
       "fecha_vencimiento": "11/05/2026",
@@ -44495,7 +44495,7 @@
       "ts_scrape": "2026-05-07T18:16:04",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
-      "estado_detalle": "VIGENTE",
+      "estado_detalle": "CERRADO",
       "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
       "fecha_emision_detalle": "07/05/2026 11:30",
       "fecha_vencimiento_detalle": "11/05/2026",
@@ -44537,7 +44537,7 @@
       "fecha_anteultima_aftosa": "FS 06/11/2025",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-05-07T18:16:09"
+      "detalle_actualizado_ts": "2026-05-08T16:44:30"
     },
     {
       "nro_dte": "031715409-7",
