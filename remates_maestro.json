@@ -10956,7 +10956,7 @@
     },
     {
       "codigo": "01.054.0.00001/03-2026",
-      "fecha_extraccion": "2026-05-08T16:47:39.426382",
+      "fecha_extraccion": "2026-05-08T18:31:14.984295",
       "info": {
         "Inicio": "29/04/2026",
         "Fin": "01/05/2026",
@@ -15448,7 +15448,7 @@
     },
     {
       "codigo": "01.019.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-08T16:47:38.738861",
+      "fecha_extraccion": "2026-05-08T18:31:14.282413",
       "info": {
         "Inicio": "05/05/2026",
         "Fin": "09/05/2026",
@@ -15458,8 +15458,8 @@
         "Predio ferial": "DARWASH S A"
       },
       "total_dtes": 106,
-      "total_dtes_salida": 47,
-      "total_filas": 251,
+      "total_dtes_salida": 50,
+      "total_filas": 255,
       "total_animales": 2101,
       "totales_categoria": {
         "Vaquillona": {
@@ -15468,11 +15468,11 @@
         },
         "Ternero": {
           "enviado": 583,
-          "recibido": 550
+          "recibido": 551
         },
         "Vaca": {
           "enviado": 716,
-          "recibido": 668
+          "recibido": 679
         },
         "Torito/MEJ": {
           "enviado": 30,
@@ -15492,7 +15492,7 @@
         },
         "Ternera": {
           "enviado": 232,
-          "recibido": 220
+          "recibido": 232
         }
       },
       "filas": [
@@ -19808,8 +19808,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "03/03/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 17,
+          "categoria": "Ternero",
+          "enviado": 90,
           "recibido": 0,
           "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
           "emisor_cuit": "30-51236191-5",
@@ -19826,13 +19826,31 @@
           "apto_china": "NO",
           "fecha_aftosa": "03/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 90,
+          "categoria": "Novillito",
+          "enviado": 17,
           "recibido": 0,
           "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
           "emisor_cuit": "30-51236191-5",
           "receptor_nombre": "FRIGORIFICO RIOPLATENSE S A I C I F",
           "receptor_cuit": "30-54008029-8"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031724543-2",
+          "origen": "03.014.0.00172/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "08/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "12/03/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "emisor_cuit": "30-51236191-5",
+          "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
+          "receptor_cuit": "30-70846564-6"
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -19862,8 +19880,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "12/03/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 3,
+          "categoria": "Novillo",
+          "enviado": 2,
           "recibido": 0,
           "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
           "emisor_cuit": "30-51236191-5",
@@ -19908,24 +19926,6 @@
         },
         {
           "tipo_movimiento": "SALIDA",
-          "documento": "031724543-2",
-          "origen": "03.014.0.00172/00",
-          "motivo": "Faena",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "08/05/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "12/03/26",
-          "especie": "Bovinos",
-          "categoria": "Novillo",
-          "enviado": 2,
-          "recibido": 0,
-          "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "emisor_cuit": "30-51236191-5",
-          "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
-        },
-        {
-          "tipo_movimiento": "SALIDA",
           "documento": "031724795-8",
           "origen": "03.014.3.15647/80",
           "motivo": "Invernada UE",
@@ -19936,24 +19936,6 @@
           "especie": "Bovinos",
           "categoria": "Vaca",
           "enviado": 27,
-          "recibido": 0,
-          "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "emisor_cuit": "30-51236191-5",
-          "receptor_nombre": "BULLTRADE SRL",
-          "receptor_cuit": "30-71128690-6"
-        },
-        {
-          "tipo_movimiento": "SALIDA",
-          "documento": "031724909-8",
-          "origen": "03.014.3.15647/80",
-          "motivo": "Invernada UE",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "08/05/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "02/03/26",
-          "especie": "Bovinos",
-          "categoria": "Torito/MEJ",
-          "enviado": 6,
           "recibido": 0,
           "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
           "emisor_cuit": "30-51236191-5",
@@ -20006,6 +19988,24 @@
           "apto_china": "NO",
           "fecha_aftosa": "02/03/26",
           "especie": "Bovinos",
+          "categoria": "Torito/MEJ",
+          "enviado": 6,
+          "recibido": 0,
+          "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "emisor_cuit": "30-51236191-5",
+          "receptor_nombre": "BULLTRADE SRL",
+          "receptor_cuit": "30-71128690-6"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031724909-8",
+          "origen": "03.014.3.15647/80",
+          "motivo": "Invernada UE",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "08/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "02/03/26",
+          "especie": "Bovinos",
           "categoria": "Novillo",
           "enviado": 2,
           "recibido": 0,
@@ -20013,12 +20013,84 @@
           "emisor_cuit": "30-51236191-5",
           "receptor_nombre": "BULLTRADE SRL",
           "receptor_cuit": "30-71128690-6"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031726500-5",
+          "origen": "01.019.0.00415/02",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "08/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "05/03/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031726500-5",
+          "origen": "01.019.0.00415/02",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "08/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "05/03/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 12,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031726651-0",
+          "origen": "03.014.3.15647/80",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "08/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "06/03/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 11,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031726778-9",
+          "origen": "03.014.3.15647/80",
+          "motivo": "Invernada",
+          "estado": "ANULADO",
+          "fecha_movimiento": "08/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "06/03/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 6,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
         }
       ]
     },
     {
       "codigo": "03.014.3.00015/07-2026",
-      "fecha_extraccion": "2026-05-08T16:47:37.711925",
+      "fecha_extraccion": "2026-05-08T18:31:13.298718",
       "info": {
         "Inicio": "13/05/2026",
         "Fin": "14/05/2026",
@@ -20198,5 +20270,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-05-08T16:47:37.711925"
+  "fecha_extraccion": "2026-05-08T18:31:13.298718"
 }
