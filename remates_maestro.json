@@ -10956,7 +10956,7 @@
     },
     {
       "codigo": "01.054.0.00001/03-2026",
-      "fecha_extraccion": "2026-05-12T17:58:36.854820",
+      "fecha_extraccion": "2026-05-12T19:06:37.868579",
       "info": {
         "Inicio": "29/04/2026",
         "Fin": "01/05/2026",
@@ -15448,7 +15448,7 @@
     },
     {
       "codigo": "01.019.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-12T17:58:36.225757",
+      "fecha_extraccion": "2026-05-12T19:06:36.817235",
       "info": {
         "Inicio": "05/05/2026",
         "Fin": "11/05/2026",
@@ -20576,7 +20576,7 @@
     },
     {
       "codigo": "03.014.3.00015/07-2026",
-      "fecha_extraccion": "2026-05-12T17:58:35.476193",
+      "fecha_extraccion": "2026-05-12T19:06:35.238424",
       "info": {
         "Inicio": "13/05/2026",
         "Fin": "14/05/2026",
@@ -20585,10 +20585,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 56,
+      "total_dtes": 57,
       "total_dtes_salida": 0,
-      "total_filas": 106,
-      "total_animales": 1190,
+      "total_filas": 107,
+      "total_animales": 1191,
       "totales_categoria": {},
       "filas": [
         {
@@ -20853,8 +20853,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "11/05/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 30,
+          "categoria": "Ternero",
+          "enviado": 33,
           "recibido": 0,
           "emisor_nombre": "AGROGANADERA LOS CUÑA S.A.",
           "emisor_cuit": "30-70973682-1",
@@ -20871,8 +20871,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "11/05/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 33,
+          "categoria": "Ternera",
+          "enviado": 30,
           "recibido": 0,
           "emisor_nombre": "AGROGANADERA LOS CUÑA S.A.",
           "emisor_cuit": "30-70973682-1",
@@ -22383,8 +22383,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "11/03/26",
           "especie": "Bovinos",
-          "categoria": "Toro",
-          "enviado": 2,
+          "categoria": "Vaca",
+          "enviado": 24,
           "recibido": 0,
           "emisor_nombre": "LASMARTRES ELENA",
           "emisor_cuit": "27-05870094-6",
@@ -22419,8 +22419,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "11/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 24,
+          "categoria": "Toro",
+          "enviado": 2,
           "recibido": 0,
           "emisor_nombre": "LASMARTRES ELENA",
           "emisor_cuit": "27-05870094-6",
@@ -22440,10 +22440,10 @@
           "categoria": "Vaquillona",
           "enviado": 7,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "NOGALINA SA",
+          "emisor_cuit": "30-71157052-3",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -22458,28 +22458,10 @@
           "categoria": "Novillito",
           "enviado": 8,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "031753401-9",
-          "origen": "03.014.3.12142/05",
-          "motivo": "Invernada",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "12/05/2026",
-          "apto_china": "SI",
-          "fecha_aftosa": "22/04/26",
-          "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 12,
-          "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "NOGALINA SA",
+          "emisor_cuit": "30-71157052-3",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -22494,13 +22476,49 @@
           "categoria": "Vaca",
           "enviado": 21,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "ARCADIA MACKENNA SOCIEDAD COLECTIVA",
+          "emisor_cuit": "30-71567996-1",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031753401-9",
+          "origen": "03.014.3.12142/05",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "12/05/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "22/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 12,
+          "recibido": 0,
+          "emisor_nombre": "ARCADIA MACKENNA SOCIEDAD COLECTIVA",
+          "emisor_cuit": "30-71567996-1",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031753436-1",
+          "origen": "03.014.3.15702/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "12/05/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "11/03/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "LASMARTRES ELENA",
+          "emisor_cuit": "27-05870094-6",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-05-12T17:58:35.476193"
+  "fecha_extraccion": "2026-05-12T19:06:35.238424"
 }
