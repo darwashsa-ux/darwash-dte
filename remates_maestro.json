@@ -10956,7 +10956,7 @@
     },
     {
       "codigo": "01.054.0.00001/03-2026",
-      "fecha_extraccion": "2026-05-13T21:34:51.411978",
+      "fecha_extraccion": "2026-05-14T09:14:41.044089",
       "info": {
         "Inicio": "29/04/2026",
         "Fin": "01/05/2026",
@@ -15448,7 +15448,7 @@
     },
     {
       "codigo": "01.019.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-13T21:34:50.003736",
+      "fecha_extraccion": "2026-05-14T09:14:40.175466",
       "info": {
         "Inicio": "05/05/2026",
         "Fin": "11/05/2026",
@@ -20576,7 +20576,7 @@
     },
     {
       "codigo": "03.014.3.00015/07-2026",
-      "fecha_extraccion": "2026-05-13T21:34:47.623780",
+      "fecha_extraccion": "2026-05-14T09:14:38.702516",
       "info": {
         "Inicio": "13/05/2026",
         "Fin": "14/05/2026",
@@ -20586,13 +20586,13 @@
         "Predio ferial": "DARWASH S A"
       },
       "total_dtes": 66,
-      "total_dtes_salida": 6,
-      "total_filas": 132,
+      "total_dtes_salida": 7,
+      "total_filas": 133,
       "total_animales": 1396,
       "totales_categoria": {
         "Vaquillona": {
           "enviado": 167,
-          "recibido": 0
+          "recibido": 7
         },
         "Ternero": {
           "enviado": 300,
@@ -20616,7 +20616,7 @@
         },
         "Novillito": {
           "enviado": 87,
-          "recibido": 0
+          "recibido": 14
         },
         "Ternera": {
           "enviado": 209,
@@ -22326,7 +22326,7 @@
           "apto_china": "NO",
           "fecha_aftosa": "01/04/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
+          "categoria": "Novillito",
           "enviado": 3,
           "recibido": 3,
           "emisor_nombre": "D AGOSTO PERNAS JAVIER ANTONIO",
@@ -22362,7 +22362,7 @@
           "apto_china": "NO",
           "fecha_aftosa": "01/04/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
+          "categoria": "Vaca",
           "enviado": 3,
           "recibido": 3,
           "emisor_nombre": "D AGOSTO PERNAS JAVIER ANTONIO",
@@ -22650,9 +22650,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "16/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 6,
-          "recibido": 6,
+          "categoria": "Ternera",
+          "enviado": 12,
+          "recibido": 12,
           "emisor_nombre": "D AGOSTO PERNAS MARIA DANIELA",
           "emisor_cuit": "27-20134838-8",
           "receptor_nombre": "DARWASH S A",
@@ -22668,9 +22668,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "16/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 12,
-          "recibido": 12,
+          "categoria": "Ternero",
+          "enviado": 6,
+          "recibido": 6,
           "emisor_nombre": "D AGOSTO PERNAS MARIA DANIELA",
           "emisor_cuit": "27-20134838-8",
           "receptor_nombre": "DARWASH S A",
@@ -22776,9 +22776,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "23/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 49,
-          "recibido": 49,
+          "categoria": "Ternero",
+          "enviado": 28,
+          "recibido": 28,
           "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
           "emisor_cuit": "30-71606908-3",
           "receptor_nombre": "DARWASH S A",
@@ -22794,9 +22794,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "23/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 28,
-          "recibido": 28,
+          "categoria": "Ternera",
+          "enviado": 49,
+          "recibido": 49,
           "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
           "emisor_cuit": "30-71606908-3",
           "receptor_nombre": "DARWASH S A",
@@ -22843,14 +22843,14 @@
           "documento": "031764678-5",
           "origen": "18.008.0.00101/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "13/05/2026",
           "apto_china": "SI",
           "fecha_aftosa": "06/04/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 7,
-          "recibido": 0,
+          "categoria": "Novillito",
+          "enviado": 14,
+          "recibido": 14,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "CARDINALI CESAR ALEJANDRO",
@@ -22861,14 +22861,14 @@
           "documento": "031764678-5",
           "origen": "18.008.0.00101/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "13/05/2026",
           "apto_china": "SI",
           "fecha_aftosa": "06/04/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 14,
-          "recibido": 0,
+          "categoria": "Vaquillona",
+          "enviado": 7,
+          "recibido": 7,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "CARDINALI CESAR ALEJANDRO",
@@ -22999,9 +22999,27 @@
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "SUCESION DE MACOR LUIS NEMESIO",
           "receptor_cuit": "20-12239686-0"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031768223-9",
+          "origen": "18.006.1.10048/04",
+          "motivo": "Retorno",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "14/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/04/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 5,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "EL MURMULLO SRL",
+          "receptor_cuit": "30-71619753-7"
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-05-13T21:34:47.623780"
+  "fecha_extraccion": "2026-05-14T09:14:38.702516"
 }
