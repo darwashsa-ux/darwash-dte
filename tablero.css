@@ -429,6 +429,25 @@
   font-size: 7.5px;
 }
 
+/* Compact: .remate-actions colapsadas por default, expanden al agregar .expanded al padre.
+   Transición ~200ms en max-height + opacity + spacing para un fade-in suave. */
+.remate-card.compact .remate-actions {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0 none;
+  transition: max-height 200ms ease, opacity 200ms ease, margin-top 200ms ease, padding-top 200ms ease;
+}
+.remate-card.compact.expanded .remate-actions {
+  max-height: 120px;
+  opacity: 1;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
 /* Arrow del prev-toggle rota cuando está abierto */
 .prev-toggle.is-open::before {
   transform: translateY(-1px) rotate(90deg);

@@ -323,29 +323,22 @@ function renderSummaryBox(title,total,categorias,inOut){
   }).join('');
   return '<div class="summary-box"><div class="summary-head '+inOut+'" '+totTitle+'><div><div class="small" style="text-transform:uppercase;letter-spacing:1px">'+title+'</div><div class="summary-big">'+total.enviadas.toLocaleString()+totBadge+'</div></div></div><div class="summary-cats">'+(entries.length?pills:'<div class="small">Sin movimientos</div>')+'</div></div>';
 }
-function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=null,q='',tipos=[],estados=[],categorias_f=[],motivos=[],aptoChinas=[],sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
+function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=null,expandedCompact=null,q='',tipos=[],estados=[],categorias_f=[],motivos=[],aptoChinas=[],sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
 // Nombres por evento guardados en localStorage
 const remNombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');
 
-// Detectar remates "activos" = todos los PENDIENTE; el resto a anteriores
+// Principal: el más reciente por fecha de Inicio, sin importar el estado. Se renderiza
+// arriba como heroCard (siempre expandido). Los demás van a la lista compact (colapsados
+// por default, click expande/colapsa un único item a la vez via expandedCompact).
 function parseDate(s){if(!s||s==='-')return 0; const p=s.split('/'); return p.length===3?new Date(+p[2],+p[1]-1,+p[0]).getTime():0;}
 const aliases=DATOS_ALIASES||{};
-const activeRems=[]; const pastRems=[];
-rems.forEach((r,origIdx)=>{
-  const t=parseDate((r.info||{})['Inicio']||'');
-  const estado=String((r.info||{}).Estado||'').toUpperCase();
-  const entry={r,origIdx,t};
-  // Cualquier estado distinto a CERRADA es "activo" — incluye PENDIENTE (futuro),
-  // ABIERTA (en curso), y cualquier estado nuevo que SENASA pueda introducir.
-  // Esto evita que el remate del día de la feria (estado ABIERTA) caiga en pastCard
-  // sin los botones de acciones.
-  if(estado !== 'CERRADA') activeRems.push(entry); else pastRems.push(entry);
-});
-activeRems.sort((a,b)=>b.t-a.t);
-pastRems.sort((a,b)=>b.t-a.t);
-// Inicializar selected al primer remate activo (no-CERRADA: PENDIENTE o ABIERTA).
-// Si no hay ninguno, selected queda en 0. Sentinela null en primera pasada.
-if(selected===null) selected=activeRems[0]?.origIdx ?? 0;
+const allEntries=rems.map((r,origIdx)=>({r,origIdx,t:parseDate((r.info||{})['Inicio']||'')}));
+allEntries.sort((a,b)=>b.t-a.t);
+const mainEntry=allEntries[0]||null;
+const mainIdx=mainEntry?.origIdx ?? null;
+const otherEntries=allEntries.slice(1);
+// Inicializar selected al principal en primera pasada (null sentinel).
+if(selected===null) selected=mainIdx ?? 0;
 
 // ── HERO CARD (remate activo) — Design system: .remate-card ────
 function heroCard(r,origIdx){
@@ -357,6 +350,8 @@ function heroCard(r,origIdx){
   const predio=esc((r.info||{})['Predio ferial']||(r.info||{}).consignataria||'');
   const isActive=origIdx===selected;
   const cod=esc(r.codigo||'');
+  // Label dinámico: si el remate más reciente está CERRADA, decir "Remate activo" miente.
+  const statusLabel=String((r.info||{}).Estado||'').toUpperCase()==='CERRADA' ? 'Último remate' : 'Remate activo';
 
   // Tags de categorías canónicas con enviadas > 0 (sin slice, sin umbral) — ordenados desc por enviadas.
   // El número grande del tag = enviadas. Sufijo (±N) cuando recibidas !== enviadas.
@@ -385,7 +380,7 @@ function heroCard(r,origIdx){
   // Placeholder serif italic cuando no hay nombre — handled by ::placeholder en CSS
   return '<div class="remate-card rem-hero'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
     +'<div class="remate-info">'
-      +'<div class="remate-status">Remate activo</div>'
+      +'<div class="remate-status">'+statusLabel+'</div>'
       +'<input class="remate-name rem-name-input" data-codigo="'+cod+'" placeholder="Nombre del evento…" value="'+esc(nombre)+'" onclick="event.stopPropagation()" />'
       +'<div class="remate-code">'+esc(r.codigo||'—')+'</div>'
       +'<div class="remate-meta">'
@@ -416,8 +411,11 @@ function heroCard(r,origIdx){
   +'</div>';
 }
 
-// ── PAST CARD (variante compacta de .remate-card) ─────────
-function pastCard(r,origIdx){
+// ── COMPACT CARD (variante chiquita de .remate-card) ─────────
+// Render con .remate-actions SIEMPRE incluido — la animación CSS lo colapsa/expande
+// según la clase .expanded del padre. expandedCompact (closure de renderRemates) controla
+// qué item está expandido; un solo item a la vez.
+function compactCard(r,origIdx){
   const isBull=((r.info||{}).consignataria||'').toUpperCase().includes('BULLTRADE');
   const titulo=remNombres[r.codigo||'']||aliases[r.codigo||'']||'';
   const dtes=new Set((r.filas||[]).map(f=>f.documento)).size;
@@ -425,11 +423,12 @@ function pastCard(r,origIdx){
   const fin=esc((r.info||{})['Fin']||'-');
   const isActive=origIdx===selected;
   const cod=esc(r.codigo||'');
+  const rawCod=r.codigo||'';
+  const isExpanded=expandedCompact===rawCod;
   const tot=totalRemate(normalizarCategoriasRemate(r));
   const totDiff=tot.recibidas-tot.enviadas, totLevel=driftLevel(totDiff);
 
-  // Variante compacta: sin tags, sin acciones, stat pills mas chicas (CSS las shrinkea)
-  return '<div class="remate-card compact rem-past-row'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
+  return '<div class="remate-card compact rem-past-row'+(isActive?' active':'')+(isExpanded?' expanded':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'" data-codigo="'+cod+'">'
     +'<div class="remate-info">'
       +'<input class="remate-name rem-name-input" data-codigo="'+cod+'" placeholder="Nombre del evento…" value="'+esc(titulo)+'" onclick="event.stopPropagation()" />'
       +'<div class="remate-code">'+esc(r.codigo||'—')+'</div>'
@@ -459,14 +458,14 @@ function pastCard(r,origIdx){
   +'</div>';
 }
 
-const heroHtml=activeRems.length>0
-  ? activeRems.map(({r,origIdx})=>heroCard(r,origIdx)).join('')
-  : '<div class="rem-no-active" style="padding:24px 18px;background:var(--surface);border:1px dashed var(--border);border-radius:var(--r-lg);text-align:center;color:var(--muted);font-size:13px">No hay remates activos.</div>';
-const pastHtml=pastRems.length>0
+const heroHtml=mainEntry
+  ? heroCard(mainEntry.r, mainEntry.origIdx)
+  : '<div class="rem-no-active" style="padding:24px 18px;background:var(--surface);border:1px dashed var(--border);border-radius:var(--r-lg);text-align:center;color:var(--muted);font-size:13px">No hay remates cargados.</div>';
+const pastHtml=otherEntries.length>0
   ?'<div class="rem-past-section">'
-    +'<button class="prev-toggle" id="rem-past-toggle"><span id="rem-past-label">Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+' anterior'+(pastRems.length>1?'es':'')+'</span></button>'
+    +'<button class="prev-toggle" id="rem-past-toggle"><span id="rem-past-label">Ver '+otherEntries.length+' remate'+(otherEntries.length>1?'s':'')+' anterior'+(otherEntries.length>1?'es':'')+'</span></button>'
     +'<div class="rem-past-list" id="rem-past-list" style="display:none">'
-      +pastRems.map(({r,origIdx})=>pastCard(r,origIdx)).join('')
+      +otherEntries.map(({r,origIdx})=>compactCard(r,origIdx)).join('')
     +'</div>'
   +'</div>'
   :'';
@@ -644,13 +643,23 @@ detail='<div class="section-caption"><span>'+esc(rem.codigo||'Remate')+'</span><
         mostrarLinkRemate(btn.dataset.codigo,btn.dataset.tipo);
       };
     });
-    // Past rows click
-    host.querySelectorAll('.rem-past-row').forEach(el=>el.onclick=function(){const prev=selected;selected=Number(el.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();});
+    // Click en compact card: alterna expanded del item + actualiza selected para el detalle.
+    // Guard contra clicks en los 4 botones de acción (ver-ing/ver-egr no llaman stopPropagation,
+    // link-rem sí pero por defensa incluimos los 3).
+    host.querySelectorAll('.rem-past-row').forEach(el=>el.onclick=function(e){
+      if(e.target.closest('.ver-ing-btn, .ver-egr-btn, .link-rem-btn')) return;
+      const codigo=el.dataset.codigo||'';
+      const prev=selected;
+      selected=Number(el.dataset.i);
+      if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}
+      expandedCompact=(expandedCompact===codigo)?null:codigo;
+      draw();
+    });
     // Toggle anteriores
     const tog=host.querySelector('#rem-past-toggle');
-    if(tog){tog.onclick=function(e){e.stopPropagation();const list=host.querySelector('#rem-past-list');const lbl=host.querySelector('#rem-past-label');if(list){const open=list.style.display==='none';list.style.display=open?'block':'none';tog.classList.toggle('is-open',open);if(lbl)lbl.textContent=open?'Ocultar anteriores':'Ver '+pastRems.length+' remate'+(pastRems.length>1?'s':'')+' anterior'+(pastRems.length>1?'es':'');}};}
-    // Si el selected es un remate anterior, abrir el panel
-    if(pastRems.some(p=>p.origIdx===selected)){const list=host.querySelector('#rem-past-list');const lbl=host.querySelector('#rem-past-label');if(list){list.style.display='block';if(tog)tog.classList.add('is-open');if(lbl)lbl.textContent='Ocultar anteriores';}}
+    if(tog){tog.onclick=function(e){e.stopPropagation();const list=host.querySelector('#rem-past-list');const lbl=host.querySelector('#rem-past-label');if(list){const open=list.style.display==='none';list.style.display=open?'block':'none';tog.classList.toggle('is-open',open);if(lbl)lbl.textContent=open?'Ocultar anteriores':'Ver '+otherEntries.length+' remate'+(otherEntries.length>1?'s':'')+' anterior'+(otherEntries.length>1?'es':'');}};}
+    // Si el selected es un remate de la lista compact, abrir el panel
+    if(otherEntries.some(p=>p.origIdx===selected)){const list=host.querySelector('#rem-past-list');const lbl=host.querySelector('#rem-past-label');if(list){list.style.display='block';if(tog)tog.classList.add('is-open');if(lbl)lbl.textContent='Ocultar anteriores';}}
     // Name inputs
     host.querySelectorAll('.rem-name-input').forEach(inp=>{
       inp.onchange=function(e){e.stopPropagation();const cod=inp.dataset.codigo;const nombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');nombres[cod]=inp.value.trim();localStorage.setItem('rem_nombres',JSON.stringify(nombres));};
