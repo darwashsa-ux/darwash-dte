@@ -335,11 +335,16 @@ rems.forEach((r,origIdx)=>{
   const t=parseDate((r.info||{})['Inicio']||'');
   const estado=String((r.info||{}).Estado||'').toUpperCase();
   const entry={r,origIdx,t};
-  if(estado==='PENDIENTE') activeRems.push(entry); else pastRems.push(entry);
+  // Cualquier estado distinto a CERRADA es "activo" — incluye PENDIENTE (futuro),
+  // ABIERTA (en curso), y cualquier estado nuevo que SENASA pueda introducir.
+  // Esto evita que el remate del día de la feria (estado ABIERTA) caiga en pastCard
+  // sin los botones de acciones.
+  if(estado !== 'CERRADA') activeRems.push(entry); else pastRems.push(entry);
 });
 activeRems.sort((a,b)=>b.t-a.t);
 pastRems.sort((a,b)=>b.t-a.t);
-// Inicializar selected al primer PENDIENTE (sentinela null en primera pasada)
+// Inicializar selected al primer remate activo (no-CERRADA: PENDIENTE o ABIERTA).
+// Si no hay ninguno, selected queda en 0. Sentinela null en primera pasada.
 if(selected===null) selected=activeRems[0]?.origIdx ?? 0;
 
 // ── HERO CARD (remate activo) — Design system: .remate-card ────
@@ -445,11 +450,12 @@ function pastCard(r,origIdx){
         +'<span class="lbl">DTEs</span>'
       +'</div>'
     +'</div>'
-    // Botones de acciones — invisibles via CSS .compact .remate-actions{display:none},
-    // pero los handlers necesitan ver los botones via dataset.codigo cuando se hace
-    // click en la fila. El click bubble llega a .rem-hero (la card) que setea selected.
-    // Si en el futuro queremos exponer "Ver ingresos/egresos" como mini-botones en el
-    // hover del compact, los re-mostramos via CSS sin tocar JS.
+    +'<div class="remate-actions">'
+      +'<button class="btn btn-ghost cyan ver-ing-btn" data-codigo="'+cod+'" onclick="event.stopPropagation()">👁 Ver ingresos</button>'
+      +'<button class="btn btn-ghost red link-rem-btn" data-codigo="'+cod+'" data-tipo="egreso" onclick="event.stopPropagation()">⬆ Registrar egreso</button>'
+      +'<button class="btn btn-ghost cyan ver-egr-btn" data-codigo="'+cod+'" onclick="event.stopPropagation()">👁 Ver egresos</button>'
+      +'<button class="btn btn-primary link-rem-btn" data-codigo="'+cod+'" data-tipo="ingreso" onclick="event.stopPropagation()">+ Registrar ingreso</button>'
+    +'</div>'
   +'</div>';
 }
 

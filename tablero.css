@@ -479,9 +479,6 @@ input.remate-name:focus {
   flex-wrap: wrap;
   gap: 8px;
 }
-.remate-card.compact .remate-actions {
-  display: none;
-}
 
 /* ============================================================
    FIX C — Card del remate activo (degradé sutil)
