@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Darwash · Feria en Vivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAFAF7;--surface:#FFFFFF;--surface-2:#F5F4EE;
+      --border:#E5E5E0;--border-strong:#D4D2C8;
+      --text:#1A1A1A;--text-2:#4A4A48;--muted:#8A8880;
+      --cyan:#00B5B6;--cyan-soft:#E6F8F8;
+      --green:#00A86B;--green-soft:#E6F7EF;
+      --amber:#B8881F;--amber-soft:#FBF3DC;
+      --red:#D63B47;--red-soft:#FCE8EA;
+      --blue:#2E7AC7;--blue-soft:#E8F0FA;
+      --serif:'Lora',Georgia,serif;
+      --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
+      --mono:'JetBrains Mono',Consolas,Monaco,monospace;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;min-height:100vh;overscroll-behavior:none;}
+
+    .lf-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
+    .lf-logo{width:36px;height:36px;border-radius:8px;background:var(--cyan);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-weight:700;font-size:13px;letter-spacing:.5px;flex-shrink:0;}
+    .lf-wordmark-wrap{display:flex;align-items:baseline;gap:6px;flex:1;min-width:0;}
+    .lf-wordmark{font-family:var(--serif);font-weight:700;font-size:14px;letter-spacing:1.2px;color:var(--text);}
+    .lf-wordmark-sub{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+    .lf-badge{font-family:var(--mono);font-weight:600;font-size:10px;letter-spacing:1.5px;padding:4px 10px;border-radius:4px;border:1px solid;text-transform:uppercase;flex-shrink:0;color:var(--cyan);border-color:var(--cyan);background:var(--cyan-soft);}
+
+    .lf-main{padding:16px 16px 100px;max-width:520px;margin:0 auto;}
+
+    .lf-section-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin:24px 0 10px;display:flex;align-items:center;gap:8px;}
+    .lf-section-label::after{content:"";flex:1;height:1px;background:var(--border);}
+    .lf-section-label:first-of-type{margin-top:8px;}
+
+    .lf-field{margin-bottom:10px;}
+    .lf-field-label{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;display:block;}
+    .lf-input,.lf-textarea,.lf-select{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 12px;color:var(--text);font-family:var(--sans);font-size:15px;outline:none;transition:border-color 150ms,background 150ms;-webkit-appearance:none;appearance:none;}
+    .lf-input:focus,.lf-textarea:focus,.lf-select:focus{border-color:var(--cyan);background:#FCFCFA;}
+    .lf-input::placeholder,.lf-textarea::placeholder{color:var(--border-strong);}
+    .lf-textarea{resize:none;min-height:80px;}
+    .lf-select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='%238A8880' d='M6 8L2 4h8z'/></svg>");background-repeat:no-repeat;background-position:right 12px center;background-size:10px;padding-right:32px;}
+
+    .lf-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+    .lf-row-2 .lf-field{margin-bottom:0;}
+
+    /* SEGMENT TIPO */
+    .tipo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+    .tipo-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 6px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:border-color 150ms,background 150ms;}
+    .tipo-card.active{border-color:var(--cyan);background:var(--cyan-soft);}
+    .tipo-icon{font-size:22px;line-height:1;}
+    .tipo-label{font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:1.2px;color:var(--text-2);text-transform:uppercase;}
+    .tipo-card.active .tipo-label{color:var(--cyan);}
+
+    /* CABEZAS BIG INPUT */
+    .cabezas-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:6px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;}
+    .cabezas-info{display:flex;flex-direction:column;}
+    .cabezas-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+    .cabezas-sub{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:2px;}
+    .cabezas-input{width:90px;background:transparent;border:none;font-family:var(--mono);font-weight:700;font-size:34px;text-align:right;color:var(--green);font-variant-numeric:tabular-nums;outline:none;-webkit-appearance:none;-moz-appearance:textfield;appearance:textfield;}
+    .cabezas-input::-webkit-outer-spin-button,.cabezas-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+    .cabezas-input::placeholder{color:var(--border-strong);}
+
+    .lf-btn{width:100%;border:1px solid transparent;border-radius:6px;padding:14px 16px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 150ms;}
+    .lf-btn:active{opacity:0.85;}
+    .lf-btn:disabled{opacity:0.5;cursor:not-allowed;}
+    .btn-save{background:var(--cyan);color:#fff;border-color:var(--cyan);margin-top:24px;}
+    .btn-nuevo{background:transparent;border-color:var(--blue);color:var(--blue);}
+    .btn-volver{background:transparent;border-color:var(--border-strong);color:var(--text-2);}
+
+    /* SUCCESS OVERLAY */
+    .success-overlay{display:none;position:fixed;inset:0;background:rgba(250,250,247,0.96);z-index:100;align-items:center;justify-content:center;padding:32px 24px;}
+    .success-overlay.show{display:flex;}
+    .success-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:6px;padding:32px 24px;text-align:center;max-width:380px;width:100%;}
+    .success-icon{width:56px;height:56px;border-radius:50%;background:var(--green-soft);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:28px;margin:0 auto 14px;}
+    .success-title{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--text);margin-bottom:6px;}
+    .success-sub{font-family:var(--sans);font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.5;}
+    .success-code{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:8px 12px;margin-bottom:18px;letter-spacing:0.5px;}
+    .btn-group{display:flex;flex-direction:column;gap:8px;}
+
+    .user-pill{font-family:var(--mono);font-weight:500;font-size:10px;color:var(--muted);letter-spacing:0.5px;}
+  </style>
+</head>
+<body>
+
+<div class="lf-header">
+  <div class="lf-logo">DRW</div>
+  <div class="lf-wordmark-wrap">
+    <span class="lf-wordmark">DARWASH</span>
+    <span class="lf-wordmark-sub">FERIA EN VIVO</span>
+  </div>
+  <span class="lf-badge">Movimiento</span>
+</div>
+
+<div class="lf-main">
+
+  <div class="lf-section-label">Tipo de movimiento</div>
+  <div class="tipo-grid" id="tipo-grid">
+    <div class="tipo-card active" data-tipo="entrada">
+      <div class="tipo-icon">⬇️</div>
+      <div class="tipo-label">Entrada</div>
+    </div>
+    <div class="tipo-card" data-tipo="interno">
+      <div class="tipo-icon">↔️</div>
+      <div class="tipo-label">Interno</div>
+    </div>
+    <div class="tipo-card" data-tipo="salida">
+      <div class="tipo-icon">⬆️</div>
+      <div class="tipo-label">Salida</div>
+    </div>
+  </div>
+
+  <div class="lf-section-label">Empresa / Propietario</div>
+  <div class="lf-field">
+    <input class="lf-input" id="empresa" type="text" placeholder="Pecuaria El Garabí, Las Taperas, etc." autocorrect="off"/>
+  </div>
+
+  <div class="lf-section-label">Detalle de hacienda</div>
+  <div class="lf-row-2">
+    <div class="lf-field">
+      <label class="lf-field-label">Categoría</label>
+      <select class="lf-select" id="categoria">
+        <option value="Novillo">Novillo</option>
+        <option value="Vaquillona">Vaquillona</option>
+        <option value="Vaca">Vaca</option>
+        <option value="Ternero">Ternero</option>
+        <option value="Ternera">Ternera</option>
+        <option value="Toro">Toro</option>
+        <option value="Torito/MEJ">Torito/MEJ</option>
+      </select>
+    </div>
+    <div class="lf-field">
+      <label class="lf-field-label">Cabezas</label>
+      <input class="lf-input" id="cabezas" type="number" min="0" inputmode="numeric" placeholder="0"/>
+    </div>
+  </div>
+
+  <div class="lf-section-label">Ubicación</div>
+  <div class="lf-field">
+    <label class="lf-field-label" id="lbl-procedencia">Procedencia (campo de origen)</label>
+    <input class="lf-input" id="procedencia" type="text" placeholder="Establecimiento de origen" autocorrect="off"/>
+  </div>
+  <div class="lf-field">
+    <label class="lf-field-label" id="lbl-destino">Corral destino</label>
+    <input class="lf-input" id="corral-destino" type="text" placeholder="Ej: 42" autocorrect="off"/>
+  </div>
+
+  <div class="lf-section-label">Observaciones</div>
+  <div class="lf-field">
+    <textarea class="lf-textarea" id="obs" placeholder="Notas, peso aproximado, incidencias…"></textarea>
+  </div>
+
+  <button class="lf-btn btn-save" id="btn-save" onclick="guardar()">Registrar movimiento</button>
+  <a href="index.html" class="lf-btn btn-volver" style="margin-top:8px;">← Volver al tablero</a>
+
+  <div style="text-align:center;margin-top:16px;"><span class="user-pill" id="user-pill"></span></div>
+</div>
+
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <div class="success-title">¡Movimiento registrado!</div>
+    <div class="success-sub" id="success-sub"></div>
+    <div class="success-code" id="success-code"></div>
+    <div class="btn-group">
+      <button class="lf-btn btn-nuevo" onclick="nuevoMovimiento()">+ Nuevo movimiento</button>
+      <a href="index.html" class="lf-btn btn-volver">← Volver al tablero</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
+const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+
+// Sesión: si no hay, mandamos a login.
+function getSession(){
+  try{
+    const raw=localStorage.getItem('dw_session');
+    if(!raw) return null;
+    const s=JSON.parse(raw);
+    if(!s || !s.exp || s.exp < Date.now()) return null;
+    return s;
+  }catch(_){return null;}
+}
+const session=getSession();
+if(!session){
+  alert('Sesión expirada. Volvé a iniciar sesión.');
+  location.href='index.html';
+}
+document.getElementById('user-pill').textContent='👤 '+(session?.nombre||session?.email||'—');
+
+// Tipo selector
+let tipo='entrada';
+document.querySelectorAll('.tipo-card').forEach(card=>{
+  card.onclick=()=>{
+    document.querySelectorAll('.tipo-card').forEach(c=>c.classList.remove('active'));
+    card.classList.add('active');
+    tipo=card.dataset.tipo;
+    actualizarLabels();
+  };
+});
+
+function actualizarLabels(){
+  const lblProc=document.getElementById('lbl-procedencia');
+  const lblDest=document.getElementById('lbl-destino');
+  const inpProc=document.getElementById('procedencia');
+  const inpDest=document.getElementById('corral-destino');
+  if(tipo==='entrada'){
+    lblProc.textContent='Procedencia (campo de origen)';
+    inpProc.placeholder='Establecimiento de origen';
+    lblDest.textContent='Corral destino';
+    inpDest.placeholder='Ej: 42';
+  } else if(tipo==='interno'){
+    lblProc.textContent='Corral origen';
+    inpProc.placeholder='Ej: 42';
+    lblDest.textContent='Corral destino';
+    inpDest.placeholder='Ej: 67';
+  } else { // salida
+    lblProc.textContent='Corral origen';
+    inpProc.placeholder='Ej: 42';
+    lblDest.textContent='Destino (frigorífico, campo, etc.)';
+    inpDest.placeholder='Nombre del destino';
+  }
+}
+
+function genCodigoTropa(){
+  const d=new Date();
+  const stamp=d.getFullYear().toString().slice(-2)
+    +String(d.getMonth()+1).padStart(2,'0')
+    +String(d.getDate()).padStart(2,'0')
+    +String(d.getHours()).padStart(2,'0')
+    +String(d.getMinutes()).padStart(2,'0');
+  const rand=Math.floor(Math.random()*1000).toString().padStart(3,'0');
+  return 'EXT-'+stamp+'-'+rand;
+}
+
+async function sbInsert(tabla, data){
+  const res=await fetch(SB_URL+'/rest/v1/'+tabla,{
+    method:'POST',
+    headers:{
+      'apikey':SB_KEY,
+      'Authorization':'Bearer '+SB_KEY,
+      'Content-Type':'application/json',
+      'Prefer':'return=representation'
+    },
+    body:JSON.stringify(data)
+  });
+  if(!res.ok){
+    const err=await res.text();
+    throw new Error(tabla+' ['+res.status+']: '+err);
+  }
+  const json=await res.json();
+  return Array.isArray(json)?json[0]:json;
+}
+
+const TIPO_MOV_MAP={
+  entrada:'extraferia_entrada',
+  interno:'movimiento_interno',
+  salida:'extraferia_salida'
+};
+
+async function guardar(){
+  const empresa=document.getElementById('empresa').value.trim();
+  const categoria=document.getElementById('categoria').value;
+  const cabezas=parseInt(document.getElementById('cabezas').value||'0',10);
+  const procedencia=document.getElementById('procedencia').value.trim();
+  const corralDestino=document.getElementById('corral-destino').value.trim();
+  const obs=document.getElementById('obs').value.trim();
+
+  if(!empresa){alert('Cargá la empresa/propietario.');return;}
+  if(!cabezas||cabezas<=0){alert('Cargá la cantidad de cabezas.');return;}
+  if(tipo==='entrada' && !corralDestino){alert('Indicá el corral destino.');return;}
+  if(tipo==='interno' && (!procedencia||!corralDestino)){alert('Indicá corral origen y destino.');return;}
+  if(tipo==='salida' && !procedencia){alert('Indicá el corral origen.');return;}
+
+  const btn=document.getElementById('btn-save');
+  btn.disabled=true;btn.textContent='Guardando…';
+
+  try{
+    const codigoTropa=genCodigoTropa();
+    const usuario=session?.email||null;
+
+    const tropa=await sbInsert('tropas',{
+      codigo_tropa:codigoTropa,
+      propietario:empresa,
+      empresa:empresa,
+      tipo_origen:'extraferia',
+      remate_codigo:null,
+      categoria:categoria,
+      cabezas_inicial:cabezas,
+      observaciones:obs||null,
+      usuario:usuario,
+      estado: tipo==='salida' ? 'cerrada' : 'activa'
+    });
+
+    await sbInsert('movimientos_corral',{
+      tropa_id:tropa.id,
+      corral_origen:procedencia||null,
+      corral_destino:corralDestino||null,
+      cabezas:cabezas,
+      tipo_movimiento:TIPO_MOV_MAP[tipo],
+      peso_kg:null,
+      usuario:usuario,
+      observaciones:obs||null
+    });
+
+    const tipoTxt={entrada:'Entrada',interno:'Movimiento interno',salida:'Salida'}[tipo];
+    document.getElementById('success-sub').textContent=
+      tipoTxt+' · '+cabezas+' '+(cabezas===1?'cabeza':'cabezas')+' · '+categoria+'\n'+empresa;
+    document.getElementById('success-code').textContent=codigoTropa;
+    document.getElementById('success-overlay').classList.add('show');
+  }catch(e){
+    console.error(e);
+    alert('Error al guardar: '+e.message);
+  }finally{
+    btn.disabled=false;btn.textContent='Registrar movimiento';
+  }
+}
+
+function nuevoMovimiento(){
+  document.getElementById('empresa').value='';
+  document.getElementById('cabezas').value='';
+  document.getElementById('procedencia').value='';
+  document.getElementById('corral-destino').value='';
+  document.getElementById('obs').value='';
+  document.getElementById('success-overlay').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+actualizarLabels();
+</script>
+</body>
+</html>

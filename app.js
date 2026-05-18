@@ -1403,6 +1403,10 @@ function renderApp(){
     +        '<span class="nav-icon">📄</span>'
     +        '<span class="nav-label">DTEs</span>'
     +      '</button>'
+    +      '<button class="nav-item" data-view="feria" data-tooltip="Feria en Vivo">'
+    +        '<span class="nav-icon">🐄</span>'
+    +        '<span class="nav-label">Feria en Vivo</span>'
+    +      '</button>'
     +    '</nav>'
     +    '<div class="sidebar-footer">'
     +      '<div class="sidebar-version">v1.0</div>'
@@ -1434,17 +1438,28 @@ function renderApp(){
   const content=document.getElementById('content');
   const remView=renderRemates();
   const dteView=renderDtes();
+  const feriaView=(()=>{
+    const d=document.createElement('div');
+    d.style.cssText='padding:48px 24px;text-align:center;font-family:Inter,system-ui,sans-serif;color:#4A4A48;';
+    d.innerHTML='<div style="font-family:Lora,Georgia,serif;font-size:28px;font-weight:600;color:#1A1A1A;margin-bottom:8px;">🐄 Feria en Vivo</div>'
+      +'<div style="font-size:14px;color:#8A8880;margin-bottom:24px;">Próximamente</div>'
+      +'<a href="hacienda-feria.html" style="display:inline-block;padding:12px 20px;background:#00B5B6;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:14px;">+ Nuevo movimiento</a>';
+    return d;
+  })();
   content.appendChild(remView);
   content.appendChild(dteView);
+  content.appendChild(feriaView);
   dteView.style.display='none';
+  feriaView.style.display='none';
 
   // Sidebar nav (reemplaza .tab → .nav-item, dataset.tab → dataset.view)
   document.querySelectorAll('.nav-item').forEach(btn=>btn.onclick=function(){
     document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
     btn.classList.add('active');
-    const isRem=btn.dataset.view==='rem';
-    remView.style.display=isRem?'block':'none';
-    dteView.style.display=isRem?'none':'block';
+    const v=btn.dataset.view;
+    remView.style.display=v==='rem'?'block':'none';
+    dteView.style.display=v==='dte'?'block':'none';
+    feriaView.style.display=v==='feria'?'block':'none';
     document.body.classList.remove('sidebar-open');
   });
 
