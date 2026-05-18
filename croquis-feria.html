@@ -24,7 +24,10 @@
       --serif:'Lora',Georgia,serif;
       --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
       --mono:'JetBrains Mono',Consolas,Monaco,monospace;
-      --cell:22px;
+      /* Desktop: el grid ocupa ~85% del viewport.
+         Fórmula: container = 31*cell + 30*gap + 2*padding = 85vw
+                  → cell = (85vw - 60px - 28px) / 31 */
+      --cell: clamp(24px, calc((85vw - 88px) / 31), 48px);
       --gap:2px;
     }
     @media (max-width:720px){ :root{ --cell:36px; --gap:3px; } }
@@ -52,8 +55,16 @@
     .sw-mixto{background:#78350f;border-color:#f59e0b;}
     .sw-bal  {background:#7f1d1d;border-color:#ef4444;}
 
-    /* CROQUIS WRAP — scroll en ambos ejes, container centrado */
-    .croquis-scroll{overflow:auto;padding:20px;width:100%;display:flex;justify-content:center;}
+    /* CROQUIS WRAP — ocupa todo el viewport menos header+leyenda, grid centrado */
+    .croquis-scroll{
+      overflow:auto;
+      padding:20px;
+      width:100%;
+      min-height:calc(100vh - 92px); /* header ~58px + legend ~34px */
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+    }
     .croquis{
       display:grid;
       grid-template-columns: repeat(31, var(--cell));
@@ -67,7 +78,7 @@
       flex-shrink: 0;
     }
     @media (max-width:720px){
-      .croquis-scroll{padding:12px;justify-content:flex-start;}
+      .croquis-scroll{padding:12px;justify-content:flex-start;min-height:auto;}
     }
 
     /* CORRAL CELL */
