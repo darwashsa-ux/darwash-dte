@@ -15448,7 +15448,7 @@
     },
     {
       "codigo": "01.019.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-18T16:10:53.583509",
+      "fecha_extraccion": "2026-05-18T17:33:21.767900",
       "info": {
         "Inicio": "05/05/2026",
         "Fin": "11/05/2026",
@@ -20576,7 +20576,7 @@
     },
     {
       "codigo": "03.014.3.00015/07-2026",
-      "fecha_extraccion": "2026-05-18T16:10:52.184255",
+      "fecha_extraccion": "2026-05-18T17:33:20.535377",
       "info": {
         "Inicio": "13/05/2026",
         "Fin": "14/05/2026",
@@ -24048,7 +24048,7 @@
     },
     {
       "codigo": "01.054.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-18T16:10:50.972594",
+      "fecha_extraccion": "2026-05-18T17:33:19.543518",
       "info": {
         "Inicio": "20/05/2026",
         "Fin": "22/05/2026",
@@ -24057,10 +24057,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 14,
+      "total_dtes": 16,
       "total_dtes_salida": 0,
-      "total_filas": 21,
-      "total_animales": 197,
+      "total_filas": 25,
+      "total_animales": 229,
       "totales_categoria": {},
       "filas": [
         {
@@ -24307,8 +24307,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "20/04/26",
           "especie": "Bovinos",
-          "categoria": "Toro",
-          "enviado": 1,
+          "categoria": "Vaquillona",
+          "enviado": 2,
           "recibido": 0,
           "emisor_nombre": "",
           "emisor_cuit": "",
@@ -24343,8 +24343,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "20/04/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 2,
+          "categoria": "Ternera",
+          "enviado": 1,
           "recibido": 0,
           "emisor_nombre": "",
           "emisor_cuit": "",
@@ -24361,7 +24361,7 @@
           "apto_china": "NO",
           "fecha_aftosa": "20/04/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
+          "categoria": "Toro",
           "enviado": 1,
           "recibido": 0,
           "emisor_nombre": "",
@@ -24440,9 +24440,81 @@
           "emisor_cuit": "",
           "receptor_nombre": "",
           "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031801550-3",
+          "origen": "01.054.0.11667/00",
+          "motivo": "Invernada",
+          "estado": "ELIMINADO",
+          "fecha_movimiento": "19/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "11/03/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 14,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031801550-3",
+          "origen": "01.054.0.11667/00",
+          "motivo": "Invernada",
+          "estado": "ELIMINADO",
+          "fecha_movimiento": "19/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "11/03/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 13,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031801727-1",
+          "origen": "01.128.0.00649/03",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "19/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "28/04/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031801727-1",
+          "origen": "01.128.0.00649/03",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "19/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "28/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 4,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-05-18T16:10:50.972594"
+  "fecha_extraccion": "2026-05-18T17:33:19.543518"
 }
