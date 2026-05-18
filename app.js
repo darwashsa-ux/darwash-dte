@@ -1522,7 +1522,10 @@ function renderApp(){
         +'</div>';
 
       const acciones='<div style="display:flex;justify-content:space-between;align-items:center;margin:0 0 16px;gap:12px;flex-wrap:wrap;">'
-        +'<a href="hacienda-feria.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--cyan);color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;font-family:var(--sans);">+ Nuevo movimiento</a>'
+        +'<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+          +'<a href="hacienda-feria.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--cyan);color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;font-family:var(--sans);">+ Nuevo movimiento</a>'
+          +'<a href="croquis-feria.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--surface);border:1px solid var(--cyan);color:var(--cyan);text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;font-family:var(--sans);">🗺️ Ver Croquis</a>'
+        +'</div>'
         +'<div style="display:flex;align-items:center;gap:10px;">'
           +'<span style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.5px;">Actualizado <span class="feria-upd">'+esc(updTxt)+'</span></span>'
           +'<button class="feria-refresh" style="padding:8px 14px;background:var(--surface);border:1px solid var(--border-strong);color:var(--text-2);border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;">↺ Actualizar</button>'

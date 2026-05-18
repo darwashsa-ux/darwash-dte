@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0"/>
+  <title>Darwash · Croquis Feria en Vivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAFAF7;--surface:#FFFFFF;--surface-2:#F5F4EE;
+      --border:#E5E5E0;--border-strong:#D4D2C8;
+      --text:#1A1A1A;--text-2:#4A4A48;--muted:#8A8880;
+      --cyan:#00B5B6;--cyan-soft:#E6F8F8;
+      --green:#00A86B;--red:#D63B47;--red-soft:#FCE8EA;
+      --serif:'Lora',Georgia,serif;
+      --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
+      --mono:'JetBrains Mono',Consolas,Monaco,monospace;
+      --cell:34px;
+      --gap:2px;
+    }
+    @media (max-width:720px){ :root{ --cell:28px; --gap:2px; } }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;min-height:100vh;}
+
+    /* HEADER */
+    .cf-header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:30;}
+    .cf-logo{width:34px;height:34px;border-radius:8px;background:var(--cyan);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-weight:700;font-size:12px;letter-spacing:.5px;flex-shrink:0;}
+    .cf-title-wrap{flex:1;min-width:0;}
+    .cf-title{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--text);line-height:1.1;}
+    .cf-sub{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+    .cf-upd{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.5px;white-space:nowrap;}
+    .cf-back{padding:8px 12px;background:transparent;border:1px solid var(--border-strong);color:var(--text-2);border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+    @media (max-width:560px){ .cf-upd{display:none;} .cf-title{font-size:13px;} }
+
+    /* LEYENDA */
+    .cf-legend{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px;background:var(--surface-2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;}
+    .cf-legend-item{display:inline-flex;align-items:center;gap:6px;color:var(--text-2);}
+    .cf-legend-sw{width:14px;height:14px;border-radius:3px;border:1px solid;}
+    .sw-vacio{background:#e5e7eb;border-color:#cbd2da;}
+    .sw-extra{background:#bbf7d0;border-color:#16a34a;}
+    .sw-mixto{background:#fef08a;border-color:#ca8a04;}
+    .sw-bal{background:#fca5a5;border-color:#dc2626;}
+
+    /* CROQUIS WRAP */
+    .croquis-scroll{overflow:auto;padding:20px;max-width:100vw;}
+    .croquis{
+      display:grid;
+      grid-template-columns: repeat(31, var(--cell));
+      grid-template-rows: repeat(80, var(--cell));
+      gap: var(--gap);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      width: max-content;
+      min-width: 100%;
+    }
+
+    /* CORRAL CELL */
+    .corral{
+      border-radius:4px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      font-family:var(--mono);font-weight:600;font-size:11px;line-height:1.1;
+      cursor:pointer;
+      border:1px solid;
+      padding:2px;
+      transition:transform 100ms,box-shadow 100ms;
+      user-select:none;
+      text-align:center;
+      overflow:hidden;
+    }
+    .corral:hover{transform:scale(1.04);box-shadow:0 2px 8px rgba(0,0,0,0.12);z-index:5;}
+    .corral.vacio    {background:#e5e7eb;color:#6b7280;border-color:#cbd2da;cursor:default;}
+    .corral.vacio:hover{transform:none;box-shadow:none;}
+    .corral.extra    {background:#bbf7d0;color:#166534;border-color:#16a34a;}
+    .corral.mixto    {background:#fef08a;color:#854d0e;border-color:#ca8a04;}
+    .corral.balanza  {background:#fca5a5;color:#991b1b;border-color:#dc2626;cursor:default;font-size:9px;letter-spacing:.5px;}
+    .corral.balanza:hover{transform:none;box-shadow:none;}
+    .corral-label{font-weight:700;font-size:12px;}
+    .corral-cab{font-size:9px;opacity:.85;margin-top:1px;}
+    @media (max-width:720px){
+      .corral-label{font-size:10px;}
+      .corral-cab{font-size:8px;}
+    }
+
+    /* MODAL */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(26,26,26,0.55);z-index:100;align-items:center;justify-content:center;padding:24px;}
+    .modal-bg.show{display:flex;}
+    .modal{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:8px;padding:20px 22px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;}
+    .modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;}
+    .modal-corral{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--text);line-height:1;}
+    .modal-corral-sub{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-top:4px;}
+    .modal-close{background:transparent;border:none;color:var(--muted);font-size:24px;cursor:pointer;line-height:1;padding:0 4px;}
+    .modal-close:hover{color:var(--text);}
+    .tropa-card{background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:8px;}
+    .tropa-card:last-of-type{margin-bottom:14px;}
+    .tropa-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px;font-size:13px;}
+    .tropa-row:last-child{margin-bottom:0;}
+    .tropa-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;flex-shrink:0;}
+    .tropa-val{font-family:var(--sans);color:var(--text);text-align:right;word-break:break-word;}
+    .tropa-val.mono{font-family:var(--mono);font-size:11px;}
+    .modal-btn{display:block;width:100%;padding:12px 16px;background:var(--cyan);color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:14px;text-align:center;font-family:var(--sans);border:none;cursor:pointer;}
+
+    /* ERROR */
+    .cf-error{display:none;padding:24px;max-width:520px;margin:24px auto;background:var(--red-soft);border:1px solid var(--red);border-left:3px solid var(--red);border-radius:8px;text-align:center;}
+    .cf-error.show{display:block;}
+    .cf-error-title{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--red);margin-bottom:8px;}
+    .cf-error-msg{font-family:var(--mono);font-size:11px;color:var(--text-2);margin-bottom:14px;word-break:break-word;}
+    .cf-error-btn{padding:10px 18px;background:var(--cyan);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-family:var(--sans);font-size:13px;}
+
+    .cf-loading{padding:48px 24px;text-align:center;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;}
+  </style>
+</head>
+<body>
+
+<div class="cf-header">
+  <div class="cf-logo">DRW</div>
+  <div class="cf-title-wrap">
+    <div class="cf-title">🗺️ Croquis Feria en Vivo</div>
+    <div class="cf-sub">153 corrales · refresco cada 30s</div>
+  </div>
+  <span class="cf-upd">Actualizado <span id="upd">—</span></span>
+  <a href="index.html" class="cf-back">← Tablero</a>
+</div>
+
+<div class="cf-legend">
+  <span class="cf-legend-item"><span class="cf-legend-sw sw-vacio"></span> Vacío</span>
+  <span class="cf-legend-item"><span class="cf-legend-sw sw-extra"></span> Extraferia</span>
+  <span class="cf-legend-item"><span class="cf-legend-sw sw-mixto"></span> Mixto</span>
+  <span class="cf-legend-item"><span class="cf-legend-sw sw-bal"></span> Balanza</span>
+</div>
+
+<div id="cf-error" class="cf-error">
+  <div class="cf-error-title">Error de conexión</div>
+  <div class="cf-error-msg" id="cf-error-msg"></div>
+  <button class="cf-error-btn" id="cf-retry">↻ Reintentar</button>
+</div>
+
+<div id="cf-loading" class="cf-loading">Cargando croquis…</div>
+
+<div class="croquis-scroll" id="croquis-scroll" style="display:none;">
+  <div class="croquis" id="croquis"></div>
+</div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
+const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+
+// Sesión: si no hay → redirect.
+function getSession(){
+  try{
+    const raw=localStorage.getItem('dw_session');
+    if(!raw) return null;
+    const s=JSON.parse(raw);
+    if(!s||!s.exp||s.exp<Date.now()) return null;
+    return s;
+  }catch(_){return null;}
+}
+if(!getSession()){
+  alert('Sesión expirada. Volvé a iniciar sesión.');
+  location.href='index.html';
+}
+
+// Layout del croquis (decodificado del JSON de croquisferiadw — 153 corrales + BALANZA).
+const LAYOUT=[{"id":"1","sc":18,"sr":14,"nc":2,"nr":4,"type":"corral","label":"1"},{"id":"2","sc":18,"sr":18,"nc":2,"nr":4,"type":"corral","label":"2"},{"id":"3","sc":18,"sr":22,"nc":2,"nr":4,"type":"corral","label":"3"},{"id":"4","sc":18,"sr":28,"nc":2,"nr":4,"type":"corral","label":"4"},{"id":"5","sc":18,"sr":32,"nc":2,"nr":4,"type":"corral","label":"5"},{"id":"6","sc":18,"sr":36,"nc":2,"nr":4,"type":"corral","label":"6"},{"id":"7","sc":18,"sr":42,"nc":2,"nr":4,"type":"corral","label":"7"},{"id":"8","sc":18,"sr":46,"nc":2,"nr":4,"type":"corral","label":"8"},{"id":"9","sc":18,"sr":50,"nc":2,"nr":4,"type":"corral","label":"9"},{"id":"10","sc":18,"sr":54,"nc":2,"nr":4,"type":"corral","label":"10"},{"id":"11","sc":18,"sr":60,"nc":2,"nr":3,"type":"corral","label":"11"},{"id":"12","sc":18,"sr":63,"nc":2,"nr":3,"type":"corral","label":"12"},{"id":"13","sc":18,"sr":66,"nc":2,"nr":3,"type":"corral","label":"13"},{"id":"14","sc":18,"sr":69,"nc":2,"nr":3,"type":"corral","label":"14"},{"id":"15","sc":14,"sr":53,"nc":2,"nr":4,"type":"corral","label":"15"},{"id":"16","sc":14,"sr":49,"nc":2,"nr":4,"type":"corral","label":"16"},{"id":"17","sc":14,"sr":45,"nc":2,"nr":4,"type":"corral","label":"17"},{"id":"18","sc":14,"sr":41,"nc":2,"nr":4,"type":"corral","label":"18"},{"id":"19","sc":14,"sr":37,"nc":2,"nr":4,"type":"corral","label":"19"},{"id":"20","sc":14,"sr":33,"nc":2,"nr":4,"type":"corral","label":"20"},{"id":"21","sc":14,"sr":29,"nc":2,"nr":4,"type":"corral","label":"21"},{"id":"22","sc":14,"sr":25,"nc":2,"nr":4,"type":"corral","label":"22"},{"id":"23","sc":14,"sr":21,"nc":2,"nr":4,"type":"corral","label":"23"},{"id":"24","sc":20,"sr":14,"nc":2,"nr":4,"type":"corral","label":"24"},{"id":"25","sc":20,"sr":18,"nc":2,"nr":4,"type":"corral","label":"25"},{"id":"26","sc":20,"sr":22,"nc":2,"nr":4,"type":"corral","label":"26"},{"id":"27","sc":20,"sr":28,"nc":2,"nr":4,"type":"corral","label":"27"},{"id":"28","sc":20,"sr":32,"nc":2,"nr":4,"type":"corral","label":"28"},{"id":"29","sc":20,"sr":36,"nc":2,"nr":4,"type":"corral","label":"29"},{"id":"30","sc":20,"sr":42,"nc":2,"nr":4,"type":"corral","label":"30"},{"id":"31","sc":20,"sr":46,"nc":2,"nr":4,"type":"corral","label":"31"},{"id":"32","sc":20,"sr":50,"nc":2,"nr":4,"type":"corral","label":"32"},{"id":"33","sc":20,"sr":54,"nc":2,"nr":4,"type":"corral","label":"33"},{"id":"34","sc":20,"sr":60,"nc":2,"nr":3,"type":"corral","label":"34"},{"id":"35","sc":20,"sr":63,"nc":2,"nr":3,"type":"corral","label":"35"},{"id":"36","sc":20,"sr":66,"nc":2,"nr":3,"type":"corral","label":"36"},{"id":"37","sc":20,"sr":69,"nc":2,"nr":3,"type":"corral","label":"37"},{"id":"38","sc":23,"sr":66,"nc":2,"nr":4,"type":"corral","label":"38"},{"id":"39","sc":23,"sr":62,"nc":2,"nr":4,"type":"corral","label":"39"},{"id":"40","sc":23,"sr":58,"nc":2,"nr":4,"type":"corral","label":"40"},{"id":"41","sc":23,"sr":54,"nc":2,"nr":4,"type":"corral","label":"41"},{"id":"42","sc":23,"sr":50,"nc":2,"nr":4,"type":"corral","label":"42"},{"id":"43","sc":23,"sr":46,"nc":2,"nr":4,"type":"corral","label":"43"},{"id":"44","sc":23,"sr":42,"nc":2,"nr":4,"type":"corral","label":"44"},{"id":"45","sc":23,"sr":38,"nc":2,"nr":4,"type":"corral","label":"45"},{"id":"46","sc":23,"sr":34,"nc":2,"nr":4,"type":"corral","label":"46"},{"id":"47","sc":23,"sr":30,"nc":2,"nr":4,"type":"corral","label":"47"},{"id":"48","sc":23,"sr":26,"nc":2,"nr":4,"type":"corral","label":"48"},{"id":"49","sc":23,"sr":22,"nc":2,"nr":4,"type":"corral","label":"49"},{"id":"50","sc":23,"sr":18,"nc":2,"nr":4,"type":"corral","label":"50"},{"id":"51","sc":23,"sr":14,"nc":2,"nr":4,"type":"corral","label":"51"},{"id":"52","sc":23,"sr":11,"nc":2,"nr":3,"type":"corral","label":"52"},{"id":"53","sc":25,"sr":11,"nc":2,"nr":3,"type":"corral","label":"53"},{"id":"54","sc":25,"sr":14,"nc":2,"nr":4,"type":"corral","label":"54"},{"id":"55","sc":25,"sr":18,"nc":2,"nr":4,"type":"corral","label":"55"},{"id":"56","sc":25,"sr":22,"nc":2,"nr":4,"type":"corral","label":"56"},{"id":"57","sc":25,"sr":26,"nc":2,"nr":4,"type":"corral","label":"57"},{"id":"58","sc":25,"sr":30,"nc":2,"nr":4,"type":"corral","label":"58"},{"id":"59","sc":25,"sr":34,"nc":2,"nr":4,"type":"corral","label":"59"},{"id":"60","sc":25,"sr":38,"nc":2,"nr":4,"type":"corral","label":"60"},{"id":"61","sc":25,"sr":42,"nc":2,"nr":4,"type":"corral","label":"61"},{"id":"62","sc":25,"sr":46,"nc":2,"nr":4,"type":"corral","label":"62"},{"id":"63","sc":25,"sr":50,"nc":2,"nr":4,"type":"corral","label":"63"},{"id":"64","sc":25,"sr":54,"nc":2,"nr":4,"type":"corral","label":"64"},{"id":"65","sc":25,"sr":58,"nc":2,"nr":4,"type":"corral","label":"65"},{"id":"66","sc":25,"sr":62,"nc":2,"nr":4,"type":"corral","label":"66"},{"id":"67","sc":25,"sr":66,"nc":2,"nr":4,"type":"corral","label":"67"},{"id":"68","sc":29,"sr":51,"nc":3,"nr":4,"type":"corral","label":"68"},{"id":"69","sc":29,"sr":47,"nc":3,"nr":4,"type":"corral","label":"69"},{"id":"70","sc":29,"sr":43,"nc":3,"nr":4,"type":"corral","label":"70"},{"id":"71","sc":29,"sr":39,"nc":3,"nr":4,"type":"corral","label":"71"},{"id":"72","sc":29,"sr":35,"nc":3,"nr":4,"type":"corral","label":"72"},{"id":"73","sc":29,"sr":31,"nc":3,"nr":4,"type":"corral","label":"73"},{"id":"74","sc":29,"sr":27,"nc":3,"nr":4,"type":"corral","label":"74"},{"id":"75","sc":29,"sr":23,"nc":3,"nr":4,"type":"corral","label":"75"},{"id":"76","sc":29,"sr":19,"nc":3,"nr":4,"type":"corral","label":"76"},{"id":"77","sc":29,"sr":15,"nc":3,"nr":4,"type":"corral","label":"77"},{"id":"78","sc":29,"sr":11,"nc":3,"nr":4,"type":"corral","label":"78"},{"id":"79","sc":29,"sr":4,"nc":3,"nr":7,"type":"corral","label":"79"},{"id":"80","sc":27,"sr":4,"nc":2,"nr":4,"type":"corral","label":"80"},{"id":"81","sc":26,"sr":4,"nc":1,"nr":4,"type":"corral","label":"81"},{"id":"82","sc":25,"sr":4,"nc":1,"nr":4,"type":"corral","label":"82"},{"id":"83","sc":24,"sr":4,"nc":1,"nr":4,"type":"corral","label":"83"},{"id":"84","sc":23,"sr":4,"nc":1,"nr":4,"type":"corral","label":"84"},{"id":"85","sc":22,"sr":4,"nc":1,"nr":4,"type":"corral","label":"85"},{"id":"86","sc":21,"sr":4,"nc":1,"nr":4,"type":"corral","label":"86"},{"id":"87","sc":20,"sr":4,"nc":1,"nr":4,"type":"corral","label":"87"},{"id":"88","sc":19,"sr":4,"nc":1,"nr":4,"type":"corral","label":"88"},{"id":"89","sc":18,"sr":4,"nc":1,"nr":4,"type":"corral","label":"89"},{"id":"90","sc":10,"sr":4,"nc":1,"nr":4,"type":"corral","label":"90"},{"id":"91","sc":9,"sr":4,"nc":1,"nr":4,"type":"corral","label":"91"},{"id":"92","sc":8,"sr":4,"nc":1,"nr":4,"type":"corral","label":"92"},{"id":"93","sc":7,"sr":4,"nc":1,"nr":4,"type":"corral","label":"93"},{"id":"94","sc":6,"sr":4,"nc":1,"nr":4,"type":"corral","label":"94"},{"id":"95","sc":5,"sr":4,"nc":1,"nr":4,"type":"corral","label":"95"},{"id":"96","sc":4,"sr":4,"nc":1,"nr":4,"type":"corral","label":"96"},{"id":"97","sc":3,"sr":4,"nc":1,"nr":4,"type":"corral","label":"97"},{"id":"98","sc":2,"sr":4,"nc":1,"nr":4,"type":"corral","label":"98"},{"id":"99","sc":2,"sr":12,"nc":2,"nr":4,"type":"corral","label":"153"},{"id":"100","sc":2,"sr":16,"nc":2,"nr":4,"type":"corral","label":"152"},{"id":"101","sc":2,"sr":20,"nc":2,"nr":4,"type":"corral","label":"151"},{"id":"102","sc":2,"sr":24,"nc":2,"nr":4,"type":"corral","label":"150"},{"id":"103","sc":2,"sr":28,"nc":2,"nr":4,"type":"corral","label":"149"},{"id":"104","sc":2,"sr":32,"nc":2,"nr":4,"type":"corral","label":"148"},{"id":"105","sc":2,"sr":36,"nc":2,"nr":4,"type":"corral","label":"147"},{"id":"106","sc":2,"sr":40,"nc":2,"nr":4,"type":"corral","label":"146"},{"id":"107","sc":2,"sr":44,"nc":2,"nr":4,"type":"corral","label":"145"},{"id":"108","sc":2,"sr":48,"nc":2,"nr":4,"type":"corral","label":"144"},{"id":"109","sc":2,"sr":52,"nc":2,"nr":4,"type":"corral","label":"143"},{"id":"110","sc":2,"sr":56,"nc":2,"nr":4,"type":"corral","label":"142"},{"id":"111","sc":2,"sr":60,"nc":2,"nr":4,"type":"corral","label":"141"},{"id":"112","sc":2,"sr":64,"nc":2,"nr":4,"type":"corral","label":"140"},{"id":"113","sc":3,"sr":75,"nc":2,"nr":5,"type":"corral","label":"139"},{"id":"114","sc":5,"sr":75,"nc":2,"nr":5,"type":"corral","label":"138"},{"id":"115","sc":7,"sr":75,"nc":2,"nr":5,"type":"corral","label":"137"},{"id":"116","sc":9,"sr":75,"nc":2,"nr":5,"type":"corral","label":"136"},{"id":"117","sc":6,"sr":66,"nc":2,"nr":4,"type":"corral","label":"112"},{"id":"118","sc":6,"sr":62,"nc":2,"nr":4,"type":"corral","label":"111"},{"id":"119","sc":6,"sr":58,"nc":2,"nr":4,"type":"corral","label":"110"},{"id":"120","sc":6,"sr":54,"nc":2,"nr":4,"type":"corral","label":"109"},{"id":"121","sc":6,"sr":48,"nc":2,"nr":4,"type":"corral","label":"108"},{"id":"122","sc":6,"sr":44,"nc":2,"nr":4,"type":"corral","label":"107"},{"id":"123","sc":6,"sr":40,"nc":2,"nr":4,"type":"corral","label":"106"},{"id":"124","sc":6,"sr":36,"nc":2,"nr":4,"type":"corral","label":"105"},{"id":"125","sc":6,"sr":30,"nc":2,"nr":4,"type":"corral","label":"104"},{"id":"126","sc":6,"sr":26,"nc":2,"nr":4,"type":"corral","label":"103"},{"id":"127","sc":6,"sr":22,"nc":2,"nr":4,"type":"corral","label":"102"},{"id":"128","sc":6,"sr":18,"nc":2,"nr":3,"type":"corral","label":"101"},{"id":"129","sc":6,"sr":15,"nc":2,"nr":3,"type":"corral","label":"100"},{"id":"130","sc":6,"sr":12,"nc":2,"nr":3,"type":"corral","label":"99"},{"id":"131","sc":8,"sr":12,"nc":2,"nr":3,"type":"corral","label":"126"},{"id":"132","sc":8,"sr":15,"nc":2,"nr":3,"type":"corral","label":"125"},{"id":"133","sc":8,"sr":18,"nc":2,"nr":3,"type":"corral","label":"124"},{"id":"134","sc":8,"sr":22,"nc":2,"nr":4,"type":"corral","label":"123"},{"id":"135","sc":8,"sr":26,"nc":2,"nr":4,"type":"corral","label":"122"},{"id":"136","sc":8,"sr":30,"nc":2,"nr":4,"type":"corral","label":"121"},{"id":"137","sc":8,"sr":36,"nc":2,"nr":4,"type":"corral","label":"120"},{"id":"138","sc":8,"sr":40,"nc":2,"nr":4,"type":"corral","label":"119"},{"id":"139","sc":8,"sr":44,"nc":2,"nr":4,"type":"corral","label":"118"},{"id":"140","sc":8,"sr":48,"nc":2,"nr":4,"type":"corral","label":"117"},{"id":"141","sc":8,"sr":54,"nc":2,"nr":4,"type":"corral","label":"116"},{"id":"142","sc":8,"sr":58,"nc":2,"nr":4,"type":"corral","label":"115"},{"id":"143","sc":8,"sr":62,"nc":2,"nr":4,"type":"corral","label":"114"},{"id":"144","sc":8,"sr":66,"nc":2,"nr":4,"type":"corral","label":"113"},{"id":"145","sc":12,"sr":53,"nc":2,"nr":4,"type":"corral","label":"135"},{"id":"146","sc":12,"sr":49,"nc":2,"nr":4,"type":"corral","label":"134"},{"id":"147","sc":12,"sr":45,"nc":2,"nr":4,"type":"corral","label":"133"},{"id":"148","sc":12,"sr":41,"nc":2,"nr":4,"type":"corral","label":"132"},{"id":"149","sc":12,"sr":37,"nc":2,"nr":4,"type":"corral","label":"131"},{"id":"150","sc":12,"sr":33,"nc":2,"nr":4,"type":"corral","label":"130"},{"id":"151","sc":12,"sr":29,"nc":2,"nr":4,"type":"corral","label":"129"},{"id":"152","sc":12,"sr":25,"nc":2,"nr":4,"type":"corral","label":"128"},{"id":"153","sc":12,"sr":21,"nc":2,"nr":4,"type":"corral","label":"127"},{"id":"BAL","sc":12,"sr":14,"nc":4,"nr":6,"type":"special","label":"⚖ BALANZA"}];
+
+let lastDataHash=null, pollHandle=null, firstLoad=true;
+let stockByLabel=new Map(); // label → [{tropa, mov}, ...]
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtDesde(iso){
+  if(!iso) return '—';
+  return new Date(iso).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+}
+
+async function fetchData(){
+  const h={apikey:SB_KEY,Authorization:'Bearer '+SB_KEY};
+  const [tR,mR]=await Promise.all([
+    fetch(SB_URL+'/rest/v1/tropas?estado=eq.activa&select=*&order=created_at.desc',{headers:h}),
+    fetch(SB_URL+'/rest/v1/movimientos_corral?select=*&order=created_at.desc',{headers:h})
+  ]);
+  if(!tR.ok) throw new Error('tropas HTTP '+tR.status);
+  if(!mR.ok) throw new Error('movimientos_corral HTTP '+mR.status);
+  return {tropas:await tR.json(),movs:await mR.json()};
+}
+
+function computeStock(tropas,movs){
+  const ultPorTropa=new Map();
+  for(const m of movs) if(!ultPorTropa.has(m.tropa_id)) ultPorTropa.set(m.tropa_id,m);
+  const byLabel=new Map();
+  for(const t of tropas){
+    const m=ultPorTropa.get(t.id);
+    const corral=m?m.corral_destino:null;
+    if(!corral) continue;
+    if(!byLabel.has(corral)) byLabel.set(corral,[]);
+    byLabel.get(corral).push({tropa:t,mov:m});
+  }
+  return byLabel;
+}
+
+function corralState(entries){
+  if(!entries||entries.length===0) return 'vacio';
+  let hasRemate=false, hasExtra=false;
+  for(const e of entries){
+    if(e.tropa.tipo_origen==='remate') hasRemate=true;
+    else hasExtra=true;
+  }
+  if(hasRemate) return 'mixto'; // sólo-remate o mezcla → amarillo
+  return 'extra';
+}
+
+function renderGrid(){
+  const root=document.getElementById('croquis');
+  const frag=document.createDocumentFragment();
+  for(const it of LAYOUT){
+    const div=document.createElement('div');
+    div.style.gridColumn = it.sc+' / span '+it.nc;
+    div.style.gridRow    = it.sr+' / span '+it.nr;
+    if(it.type==='special' && it.id==='BAL'){
+      div.className='corral balanza';
+      div.innerHTML='<span class="corral-label">⚖</span><span class="corral-cab">BALANZA</span>';
+      frag.appendChild(div);
+      continue;
+    }
+    const entries=stockByLabel.get(it.label)||[];
+    const state=corralState(entries);
+    div.className='corral '+state;
+    div.dataset.label=it.label;
+    const totalCab=entries.reduce((s,e)=>s+(parseInt(e.mov?e.mov.cabezas:e.tropa.cabezas_inicial,10)||0),0);
+    const cabText=entries.length===0?'':(totalCab+' cab');
+    div.innerHTML='<span class="corral-label">'+esc(it.label)+'</span>'+(cabText?'<span class="corral-cab">'+esc(cabText)+'</span>':'');
+    if(entries.length>0) div.addEventListener('click',()=>openModal(it.label));
+    frag.appendChild(div);
+  }
+  root.innerHTML='';
+  root.appendChild(frag);
+}
+
+function openModal(label){
+  const entries=stockByLabel.get(label)||[];
+  const head='<div class="modal-head">'
+    +'<div><div class="modal-corral">Corral '+esc(label)+'</div>'
+    +'<div class="modal-corral-sub">'+entries.length+' tropa'+(entries.length===1?'':'s')+' · '+entries.reduce((s,e)=>s+(parseInt(e.mov?e.mov.cabezas:e.tropa.cabezas_inicial,10)||0),0)+' cabezas</div></div>'
+    +'<button class="modal-close" onclick="closeModal()">×</button>'
+    +'</div>';
+  const cards=entries.map(e=>{
+    const t=e.tropa, m=e.mov;
+    const cab=m?m.cabezas:t.cabezas_inicial;
+    const desde=m?m.created_at:t.created_at;
+    return '<div class="tropa-card">'
+      +'<div class="tropa-row"><span class="tropa-lbl">Empresa</span><span class="tropa-val">'+esc(t.empresa||t.propietario||'—')+'</span></div>'
+      +'<div class="tropa-row"><span class="tropa-lbl">Categoría</span><span class="tropa-val">'+esc(t.categoria||'—')+' · '+esc(cab)+' cab</span></div>'
+      +'<div class="tropa-row"><span class="tropa-lbl">Desde</span><span class="tropa-val mono">'+esc(fmtDesde(desde))+'</span></div>'
+      +'<div class="tropa-row"><span class="tropa-lbl">Tropa</span><span class="tropa-val mono">'+esc(t.codigo_tropa||'—')+'</span></div>'
+      +(t.tipo_origen==='remate'?'<div class="tropa-row"><span class="tropa-lbl">Origen</span><span class="tropa-val">Remate '+esc(t.remate_codigo||'')+'</span></div>':'')
+      +'</div>';
+  }).join('');
+  const btn='<a href="hacienda-feria.html?corral='+encodeURIComponent(label)+'" target="_blank" rel="noopener" class="modal-btn">+ Registrar movimiento</a>';
+  document.getElementById('modal-content').innerHTML=head+cards+btn;
+  document.getElementById('modal-bg').classList.add('show');
+}
+
+function closeModal(){ document.getElementById('modal-bg').classList.remove('show'); }
+document.getElementById('modal-bg').addEventListener('click',e=>{
+  if(e.target.id==='modal-bg') closeModal();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+function hashData(d){
+  try{
+    return JSON.stringify({
+      t:d.tropas.map(x=>x.id+':'+x.estado+':'+x.empresa+':'+x.categoria),
+      m:d.movs.map(x=>x.id+':'+x.tropa_id+':'+x.corral_destino+':'+x.cabezas)
+    });
+  }catch(_){return Math.random().toString();}
+}
+
+function setUpd(){
+  document.getElementById('upd').textContent=new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+async function load(showLoading){
+  if(showLoading){
+    document.getElementById('cf-loading').style.display='block';
+    document.getElementById('croquis-scroll').style.display='none';
+    document.getElementById('cf-error').classList.remove('show');
+  }
+  try{
+    const data=await fetchData();
+    const h=hashData(data);
+    setUpd();
+    if(h===lastDataHash && !showLoading){
+      return; // sin cambios, no redibujar
+    }
+    lastDataHash=h;
+    stockByLabel=computeStock(data.tropas,data.movs);
+    renderGrid();
+    document.getElementById('cf-loading').style.display='none';
+    document.getElementById('croquis-scroll').style.display='block';
+    document.getElementById('cf-error').classList.remove('show');
+    firstLoad=false;
+  }catch(e){
+    console.error('Croquis load error:',e);
+    if(firstLoad){
+      document.getElementById('cf-loading').style.display='none';
+      document.getElementById('cf-error-msg').textContent=e.message||'desconocido';
+      document.getElementById('cf-error').classList.add('show');
+    }
+  }
+}
+
+document.getElementById('cf-retry').onclick=()=>load(true);
+
+// Polling
+function startPolling(){ if(!pollHandle) pollHandle=setInterval(()=>load(false),30000); }
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){ if(pollHandle){clearInterval(pollHandle);pollHandle=null;} }
+  else { load(false); startPolling(); }
+});
+
+load(true);
+startPolling();
+</script>
+</body>
+</html>

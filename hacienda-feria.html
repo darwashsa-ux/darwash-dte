@@ -333,6 +333,17 @@ function nuevoMovimiento(){
 }
 
 actualizarLabels();
+
+// Prefill desde ?corral=XX (viene del croquis al tocar un corral ocupado).
+// Defaultea a "movimiento interno": el usuario llega ya posicionado en ese corral
+// como ORIGEN y completa el destino.
+(function(){
+  const params=new URLSearchParams(location.search);
+  const c=params.get('corral');
+  if(!c) return;
+  document.querySelector('.tipo-card[data-tipo="interno"]').click();
+  document.getElementById('procedencia').value=c;
+})();
 </script>
 </body>
 </html>
