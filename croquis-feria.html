@@ -216,15 +216,40 @@ async function fetchData(){
 }
 
 function computeStock(tropas,movs){
-  const ultPorTropa=new Map();
-  for(const m of movs) if(!ultPorTropa.has(m.tropa_id)) ultPorTropa.set(m.tropa_id,m);
+  // Accounting por movimiento: +cabezas en destino, -cabezas en origen.
+  // Balance por (corral, tropa); sólo aparece si queda > 0.
+  const tropaById=new Map(tropas.map(t=>[t.id,t]));
+  const movsAsc=movs.slice().reverse(); // movs viene desc, acumular cronológicamente
+  const balance=new Map(); // label → Map<tropa_id, {tropa, cabezas, lastInMov}>
+  for(const m of movsAsc){
+    const tropa=tropaById.get(m.tropa_id);
+    if(!tropa) continue;
+    const cab=parseInt(m.cabezas,10)||0;
+    if(m.corral_destino){
+      if(!balance.has(m.corral_destino)) balance.set(m.corral_destino,new Map());
+      const inner=balance.get(m.corral_destino);
+      const cur=inner.get(m.tropa_id)||{tropa,cabezas:0,lastInMov:null};
+      cur.cabezas+=cab; cur.lastInMov=m;
+      inner.set(m.tropa_id,cur);
+    }
+    if(m.corral_origen){
+      if(!balance.has(m.corral_origen)) balance.set(m.corral_origen,new Map());
+      const inner=balance.get(m.corral_origen);
+      const cur=inner.get(m.tropa_id)||{tropa,cabezas:0,lastInMov:null};
+      cur.cabezas-=cab;
+      inner.set(m.tropa_id,cur);
+    }
+  }
   const byLabel=new Map();
-  for(const t of tropas){
-    const m=ultPorTropa.get(t.id);
-    const corral=m?m.corral_destino:null;
-    if(!corral) continue;
-    if(!byLabel.has(corral)) byLabel.set(corral,[]);
-    byLabel.get(corral).push({tropa:t,mov:m});
+  for(const [label,inner] of balance){
+    const entries=[];
+    for(const [,data] of inner){
+      if(data.cabezas<=0) continue;
+      const m=data.lastInMov;
+      const synthMov=m?{...m,cabezas:data.cabezas}:{cabezas:data.cabezas,created_at:data.tropa.created_at};
+      entries.push({tropa:data.tropa,mov:synthMov});
+    }
+    if(entries.length>0) byLabel.set(label,entries);
   }
   return byLabel;
 }

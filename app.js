@@ -1475,21 +1475,44 @@ function renderApp(){
     };
 
     const computeStock=(tropas,movs)=>{
-      const ultPorTropa=new Map();
-      for(const m of movs) if(!ultPorTropa.has(m.tropa_id)) ultPorTropa.set(m.tropa_id,m);
+      // Accounting por movimiento: +cabezas en destino, -cabezas en origen.
+      // Balance por (corral, tropa); sólo aparece si queda > 0.
+      const tropaById=new Map(tropas.map(t=>[t.id,t]));
+      const movsAsc=movs.slice().reverse(); // movs viene desc, acumular cronológicamente
+      const balance=new Map(); // corral → Map<tropa_id, {tropa, cabezas, lastInMov}>
+      for(const m of movsAsc){
+        const tropa=tropaById.get(m.tropa_id);
+        if(!tropa) continue;
+        const cab=parseInt(m.cabezas,10)||0;
+        if(m.corral_destino){
+          if(!balance.has(m.corral_destino)) balance.set(m.corral_destino,new Map());
+          const inner=balance.get(m.corral_destino);
+          const cur=inner.get(m.tropa_id)||{tropa,cabezas:0,lastInMov:null};
+          cur.cabezas+=cab; cur.lastInMov=m;
+          inner.set(m.tropa_id,cur);
+        }
+        if(m.corral_origen){
+          if(!balance.has(m.corral_origen)) balance.set(m.corral_origen,new Map());
+          const inner=balance.get(m.corral_origen);
+          const cur=inner.get(m.tropa_id)||{tropa,cabezas:0,lastInMov:null};
+          cur.cabezas-=cab;
+          inner.set(m.tropa_id,cur);
+        }
+      }
       const rows=[];
-      for(const t of tropas){
-        const m=ultPorTropa.get(t.id);
-        const corral=m?m.corral_destino:null;
-        if(!corral) continue;
-        rows.push({
-          corral,
-          empresa:t.empresa||t.propietario||'—',
-          categoria:t.categoria||'—',
-          cabezas:m?m.cabezas:t.cabezas_inicial,
-          desde:m?m.created_at:t.created_at,
-          codigo:t.codigo_tropa
-        });
+      for(const [corral,inner] of balance){
+        for(const [,data] of inner){
+          if(data.cabezas<=0) continue;
+          const t=data.tropa, m=data.lastInMov;
+          rows.push({
+            corral,
+            empresa:t.empresa||t.propietario||'—',
+            categoria:t.categoria||'—',
+            cabezas:data.cabezas,
+            desde:m?m.created_at:t.created_at,
+            codigo:t.codigo_tropa
+          });
+        }
       }
       rows.sort((a,b)=>{
         const an=parseInt(a.corral,10),bn=parseInt(b.corral,10);
