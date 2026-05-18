@@ -1439,12 +1439,182 @@ function renderApp(){
   const remView=renderRemates();
   const dteView=renderDtes();
   const feriaView=(()=>{
-    const d=document.createElement('div');
-    d.style.cssText='padding:48px 24px;text-align:center;font-family:Inter,system-ui,sans-serif;color:#4A4A48;';
-    d.innerHTML='<div style="font-family:Lora,Georgia,serif;font-size:28px;font-weight:600;color:#1A1A1A;margin-bottom:8px;">🐄 Feria en Vivo</div>'
-      +'<div style="font-size:14px;color:#8A8880;margin-bottom:24px;">Próximamente</div>'
-      +'<a href="hacienda-feria.html" style="display:inline-block;padding:12px 20px;background:#00B5B6;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:14px;">+ Nuevo movimiento</a>';
-    return d;
+    const root=document.createElement('div');
+    let lastFetchTs=null, pollHandle=null, lastDataHash=null, firstLoad=true;
+
+    const PALETTE=['#E6F8F8','#E6F7EF','#FBF3DC','#FCE8EA','#E8F0FA','#F5F4EE','#F0E8FA','#FAE8F0'];
+    const colorEmpresa=(s)=>{
+      if(!s) return 'transparent';
+      let h=0; for(let i=0;i<s.length;i++) h=((h<<5)-h+s.charCodeAt(i))|0;
+      return PALETTE[Math.abs(h)%PALETTE.length];
+    };
+    const fmtRel=(iso)=>{
+      if(!iso) return '—';
+      const m=Math.floor((Date.now()-new Date(iso).getTime())/60000);
+      if(m<1) return 'recién';
+      if(m<60) return 'hace '+m+' min';
+      const h=Math.floor(m/60);
+      if(h<24) return 'hace '+h+' h';
+      return 'hace '+Math.floor(h/24)+' d';
+    };
+    const fmtDesde=(iso)=>{
+      if(!iso) return '—';
+      const d=new Date(iso);
+      return d.toLocaleString('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    };
+
+    const fetchData=async()=>{
+      const h={apikey:SB_KEY,Authorization:'Bearer '+SB_KEY};
+      const [tR,mR]=await Promise.all([
+        fetch(SB_URL+'/rest/v1/tropas?estado=eq.activa&select=*&order=created_at.desc',{headers:h}),
+        fetch(SB_URL+'/rest/v1/movimientos_corral?select=*&order=created_at.desc',{headers:h})
+      ]);
+      if(!tR.ok) throw new Error('tropas HTTP '+tR.status);
+      if(!mR.ok) throw new Error('movimientos_corral HTTP '+mR.status);
+      return {tropas:await tR.json(), movs:await mR.json()};
+    };
+
+    const computeStock=(tropas,movs)=>{
+      const ultPorTropa=new Map();
+      for(const m of movs) if(!ultPorTropa.has(m.tropa_id)) ultPorTropa.set(m.tropa_id,m);
+      const rows=[];
+      for(const t of tropas){
+        const m=ultPorTropa.get(t.id);
+        const corral=m?m.corral_destino:null;
+        if(!corral) continue;
+        rows.push({
+          corral,
+          empresa:t.empresa||t.propietario||'—',
+          categoria:t.categoria||'—',
+          cabezas:m?m.cabezas:t.cabezas_inicial,
+          desde:m?m.created_at:t.created_at,
+          codigo:t.codigo_tropa
+        });
+      }
+      rows.sort((a,b)=>{
+        const an=parseInt(a.corral,10),bn=parseInt(b.corral,10);
+        if(!isNaN(an)&&!isNaN(bn)&&an!==bn) return an-bn;
+        return String(a.corral).localeCompare(String(b.corral));
+      });
+      return rows;
+    };
+
+    const drawError=(msg)=>{
+      root.innerHTML='<div style="padding:48px 24px;max-width:520px;margin:0 auto;">'
+        +'<div style="background:var(--red-soft);border:1px solid var(--red);border-left:3px solid var(--red);border-radius:8px;padding:24px;text-align:center;">'
+          +'<div style="font-family:var(--serif);font-size:18px;font-weight:600;color:var(--red);margin-bottom:8px;">Error de conexión</div>'
+          +'<div style="font-family:var(--mono);font-size:11px;color:var(--text-2);margin-bottom:18px;word-break:break-word;">'+esc(msg)+'</div>'
+          +'<button class="feria-retry" style="padding:10px 18px;background:var(--cyan);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-family:var(--sans);font-size:13px;">↻ Reintentar</button>'
+        +'</div></div>';
+      const b=root.querySelector('.feria-retry'); if(b) b.onclick=()=>load(true);
+    };
+
+    const draw=({tropas,movs})=>{
+      const rows=computeStock(tropas,movs);
+      const totalCab=rows.reduce((s,r)=>s+(parseInt(r.cabezas,10)||0),0);
+      const lastMov=movs[0];
+      const updTxt=lastFetchTs?lastFetchTs.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'—';
+
+      const kpis='<div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);">'
+        +'<div class="kpi-card total"><span class="kpi-label">Cabezas en feria</span><span class="kpi-num'+(totalCab===0?' zero':'')+'">'+totalCab+'</span></div>'
+        +'<div class="kpi-card total"><span class="kpi-label">Tropas activas</span><span class="kpi-num'+(rows.length===0?' zero':'')+'">'+rows.length+'</span></div>'
+        +'<div class="kpi-card total"><span class="kpi-label">Último movimiento</span><span class="kpi-num" style="font-size:20px;">'+esc(fmtRel(lastMov&&lastMov.created_at))+'</span></div>'
+        +'</div>';
+
+      const acciones='<div style="display:flex;justify-content:space-between;align-items:center;margin:0 0 16px;gap:12px;flex-wrap:wrap;">'
+        +'<a href="hacienda-feria.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--cyan);color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;font-family:var(--sans);">+ Nuevo movimiento</a>'
+        +'<div style="display:flex;align-items:center;gap:10px;">'
+          +'<span style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.5px;">Actualizado <span class="feria-upd">'+esc(updTxt)+'</span></span>'
+          +'<button class="feria-refresh" style="padding:8px 14px;background:var(--surface);border:1px solid var(--border-strong);color:var(--text-2);border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;">↺ Actualizar</button>'
+        +'</div></div>';
+
+      let tabla;
+      if(rows.length===0){
+        tabla='<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:56px 24px;text-align:center;">'
+          +'<div style="font-size:48px;margin-bottom:12px;line-height:1;">🐄</div>'
+          +'<div style="font-family:var(--serif);font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px;">Sin hacienda en feria</div>'
+          +'<div style="font-size:13px;color:var(--muted);">No hay tropas activas con corral asignado.</div>'
+          +'</div>';
+      } else {
+        const body=rows.map(r=>{
+          const bg=colorEmpresa(r.empresa);
+          return '<tr style="background:'+bg+';">'
+            +'<td style="font-family:var(--mono);font-weight:700;color:var(--text);">'+esc(r.corral)+'</td>'
+            +'<td>'+esc(r.empresa)+'</td>'
+            +'<td>'+esc(r.categoria)+'</td>'
+            +'<td class="numeric" style="font-family:var(--mono);font-weight:600;text-align:right;">'+esc(r.cabezas)+'</td>'
+            +'<td style="font-family:var(--mono);font-size:11px;color:var(--text-2);">'+esc(fmtDesde(r.desde))+'</td>'
+            +'<td style="font-family:var(--mono);font-size:11px;color:var(--muted);">'+esc(r.codigo)+'</td>'
+            +'</tr>';
+        }).join('');
+        tabla='<div class="table-wrap" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;">'
+          +'<table class="dte-table">'
+          +'<thead><tr>'
+            +'<th>Corral</th><th>Empresa</th><th>Categoría</th><th class="numeric">Cabezas</th><th>Desde</th><th>Tropa</th>'
+          +'</tr></thead>'
+          +'<tbody>'+body+'</tbody>'
+          +'</table></div>';
+      }
+
+      root.innerHTML='<div style="padding:24px;max-width:1280px;margin:0 auto;">'
+        +'<div style="margin-bottom:20px;">'
+          +'<h2 style="font-family:var(--serif);font-size:24px;font-weight:600;color:var(--text);margin:0 0 4px;">🐄 Feria en Vivo</h2>'
+          +'<div style="font-size:13px;color:var(--muted);">Stock real en corrales · refresco automático cada 30s</div>'
+        +'</div>'
+        +kpis
+        +acciones
+        +tabla
+        +'</div>';
+
+      const rb=root.querySelector('.feria-refresh'); if(rb) rb.onclick=()=>load(false);
+    };
+
+    const hashData=(d)=>{
+      try{
+        const slim={
+          t:d.tropas.map(x=>x.id+':'+x.estado),
+          m:d.movs.map(x=>x.id+':'+x.tropa_id+':'+x.corral_destino+':'+x.cabezas)
+        };
+        return JSON.stringify(slim);
+      }catch(_){return Math.random().toString();}
+    };
+
+    const load=async(showLoadingState)=>{
+      if(showLoadingState){
+        root.innerHTML='<div style="padding:48px 24px;text-align:center;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;">Cargando feria…</div>';
+      }
+      try{
+        const data=await fetchData();
+        lastFetchTs=new Date();
+        const h=hashData(data);
+        if(h===lastDataHash && !showLoadingState){
+          // Sin cambios: sólo actualizar el timestamp para no parpadear
+          const up=root.querySelector('.feria-upd');
+          if(up) up.textContent=lastFetchTs.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+          return;
+        }
+        lastDataHash=h;
+        draw(data);
+        firstLoad=false;
+      }catch(e){
+        console.error('Feria load error:',e);
+        if(firstLoad) drawError(e.message||'desconocido');
+      }
+    };
+
+    const startPolling=()=>{ if(!pollHandle) pollHandle=setInterval(()=>load(false),30000); };
+    const stopPolling=()=>{ if(pollHandle){clearInterval(pollHandle); pollHandle=null;} };
+
+    // Carga + polling sólo cuando la vista está visible (toggle por style.display).
+    const obs=new MutationObserver(()=>{
+      const visible=root.style.display!=='none';
+      if(visible){ load(firstLoad); startPolling(); }
+      else stopPolling();
+    });
+    obs.observe(root,{attributes:true,attributeFilter:['style']});
+
+    root.innerHTML='<div style="padding:48px 24px;text-align:center;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;">Cargando feria…</div>';
+    return root;
   })();
   content.appendChild(remView);
   content.appendChild(dteView);
