@@ -564,3 +564,467 @@ input.remate-name:focus {
 .cat-mini.has-drift.warn  { border-color: var(--amber); }
 .cat-mini.has-drift.alert { border-color: var(--red); }
 .cat-mini .drift-suffix   { font-size: 8.5px; margin-left: 0; line-height: 1; }
+
+/* ============================================================
+   MODALES — design system unificado (light theme).
+   Migrados desde styles.css en este commit. El mount point único
+   sigue siendo #modalBg/#modal en index.html; cada modal sobrescribe
+   modal.innerHTML desde JS y muestra el backdrop con style.display='flex'.
+   ============================================================ */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+}
+
+.modal.modal-wide {
+  max-width: min(95vw, 1100px);
+}
+
+.modal-head {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-title-top {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 500;
+  font-family: var(--mono);
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.modal-title.is-code {
+  font-family: var(--mono);
+  font-size: 15px;
+}
+
+.modal-close {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+  padding: 0;
+  font-family: var(--sans);
+}
+
+.modal-close:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.modal-body {
+  padding: 20px 24px;
+}
+
+.modal-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+/* Box reutilizable dentro de modales — override del .box dark del legacy */
+.modal .box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 10px 12px;
+}
+
+.modal .box-label {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 500;
+  font-family: var(--mono);
+}
+
+.modal .box-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.modal .box-value-mono {
+  font-family: var(--mono);
+}
+
+.modal .box-value-empty {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* Box variante ámbar — datos sanitarios (vacunación) */
+.modal .box.box-amber {
+  background: var(--amber-soft);
+  border-color: rgba(184, 136, 31, 0.25);
+}
+.modal .box.box-amber .box-label { color: #854F0B; }
+.modal .box.box-amber .box-value { color: #633806; }
+
+/* Grids */
+.modal .grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.modal .grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.modal .grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .modal .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .modal .grid-3 { grid-template-columns: 1fr; }
+  .modal .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Section headers en modal */
+.modal .section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 10px;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: var(--mono);
+}
+
+/* Tabla dentro de modal */
+.modal table.modal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.modal table.modal-table thead th {
+  padding: 8px 12px;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-family: var(--mono);
+  background: var(--surface-2);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.modal table.modal-table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.modal table.modal-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.modal table.modal-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.modal table.modal-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--mono);
+}
+
+/* Wrapper de overflow para tablas anchas en modales */
+.modal .modal-table-wrap {
+  overflow-x: auto;
+  margin: 0 -24px;
+  padding: 0 24px;
+}
+
+/* Botones en modales */
+.modal .btn-primary,
+.modal .btn-secondary,
+.modal .btn-export,
+.modal .btn-whatsapp {
+  height: 40px;
+  border-radius: var(--r-lg);
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 0 16px;
+  font-family: var(--sans);
+  line-height: 1;
+  transition: background 0.12s;
+}
+
+.modal .btn-primary {
+  background: var(--cyan);
+  color: #fff;
+  border: none;
+}
+.modal .btn-primary:hover { background: #009596; }
+.modal .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.modal .btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+.modal .btn-secondary:hover { background: var(--surface-2); }
+
+.modal .btn-export {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+.modal .btn-export:hover { background: var(--surface-2); }
+
+.modal .btn-whatsapp {
+  background: #128c3a;
+  color: #fff;
+  border: none;
+}
+.modal .btn-whatsapp:hover { background: #0e7330; }
+
+/* Chips de categoría — verde para ingresos, rojo para egresos */
+.modal .chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+  font-size: 11px;
+  font-weight: 500;
+  margin-right: 4px;
+  margin-bottom: 2px;
+  font-family: var(--mono);
+  letter-spacing: 0.3px;
+}
+
+.modal .chip-ingreso {
+  background: #E1F5EE;
+  color: #085041;
+}
+
+.modal .chip-egreso {
+  background: #FCEBEB;
+  color: #791F1F;
+}
+
+/* Acciones por fila — botones cuadrados chicos */
+.modal .row-actions {
+  display: inline-flex;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.modal .row-action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  font-family: inherit;
+  transition: background 0.12s;
+}
+
+.modal .row-action-btn:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.modal .row-action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.modal .row-action-btn.danger { color: #A32D2D; border-color: #F5C8C8; }
+.modal .row-action-btn.danger:hover { background: #FCEBEB; color: #791F1F; }
+
+.modal .row-action-btn.wa {
+  background: #128c3a;
+  color: #fff;
+  border: none;
+}
+.modal .row-action-btn.wa:hover { background: #0e7330; color: #fff; }
+
+/* Form de Editar Remito */
+.modal .form-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-lg);
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.modal .form-input:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-soft);
+}
+
+.modal .form-label {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-family: var(--mono);
+}
+
+/* Cat input pill — inputs grandes dentro de boxes en Editar Remito */
+.modal .cat-input-pill {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Link box — Modal Link de Ingreso/Egreso */
+.modal .link-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 12px 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  word-break: break-all;
+  user-select: all;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* Mensaje de feedback inline (dentro de modal-footer o modal-body) */
+.modal .modal-feedback {
+  font-size: 12px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: var(--r-md);
+}
+.modal .modal-feedback.success {
+  background: var(--green-soft);
+  color: #085041;
+}
+.modal .modal-feedback.error {
+  background: var(--red-soft);
+  color: #791F1F;
+}
+
+/* KPI compacto en header de tablas (Ver Ingresos / Ver Egresos) */
+.modal .modal-summary {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.modal .modal-summary-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.modal .modal-summary-kpi .label {
+  font-size: 10px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.modal .modal-summary-kpi .value {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+}
+.modal .modal-summary-kpi .value.is-ingreso { color: #00A86B; }
+.modal .modal-summary-kpi .value.is-egreso { color: #D63B47; }
+.modal .modal-summary-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}

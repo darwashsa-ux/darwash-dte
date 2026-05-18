@@ -111,10 +111,10 @@ a:hover {
    modales que dependían del color del body anterior.
    ELIMINAR en commit 10 (cleanup final).
    ============================================================ */
-.wrap,
-.modal {
+.wrap {
   color: var(--text-old);
 }
+/* .modal eliminado del color legacy — ahora usa design system light (ver tablero.css) */
 
 .header {
   display:flex;
@@ -832,56 +832,9 @@ td.col-fecha {
   min-width:90px
 }
 
-.modal-bg {
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:22px;
-  z-index:100
-}
-
-.modal {
-  width:min(980px,100%);
-  max-height:92vh;
-  overflow:auto;
-  background:#0b1112;
-  border:1px solid rgba(0,210,211,.25);
-  border-radius:18px;
-  box-shadow:0 30px 80px rgba(0,0,0,.4)
-}
-
-.modal-head {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 24px;
-  border-bottom:1px solid rgba(21,48,51,.95)
-}
-
-.modal-title-top {
-  font-size:12px;
-  letter-spacing:2px;
-  color:#7c969b;
-  text-transform:uppercase
-}
-
-.modal-title {
-  font-size:40px;
-  font-weight:800;
-  letter-spacing:.5px
-}
-
-.modal-close {
-  background:rgba(17,32,34,.9);
-  border:1px solid rgba(21,48,51,.95);
-  color:#d9eeee;
-  padding:9px 14px;
-  border-radius:10px;
-  cursor:pointer
-}
+/* Modales migrados a tablero.css en el rediseño de modales (commit 8).
+   .modal-bg / .modal / .modal-head / .modal-title-top / .modal-title /
+   .modal-close ahora viven ahí con el design system light. */
 
 .grid {
   display:grid;
@@ -971,9 +924,7 @@ td.col-fecha {
   .summary-dual {
     grid-template-columns:1fr
   }
-  .modal-title {
-    font-size:30px
-  }
+  /* .modal-title responsive ahora se maneja en tablero.css (tamaño base ya 17px, no necesita override mobile). */
   .input {
     min-width:100%
   }

@@ -153,66 +153,66 @@ function renderLogin(err=''){
 }
 function openDetalle(d){
   if(!d) return;
+  modal.classList.remove('modal-wide');
 
-  // ── Sección: info general ──
+  // ── Sección: info general (10 boxes) ──
   const infoItems=[
-    ['Consignatario',d.consignatario_nombre],
-    ['Tipo',d.tipo_movimiento_detalle],
-    ['Motivo',d.motivo_detalle],
-    ['Estado',d.estado_detalle],
-    ['Guía',d.nro_guia],
-    ['TRI',d.nro_tri],
-    ['Certificado faena',d.nro_certificado_faena],
-    ['Emisión',d.fecha_emision_detalle],
-    ['Vencimiento',d.fecha_vencimiento_detalle],
-    ['Caduca',d.fecha_caduca],
+    ['Consignatario',d.consignatario_nombre,false],
+    ['Tipo',d.tipo_movimiento_detalle,false],
+    ['Motivo',d.motivo_detalle,false],
+    ['Estado',d.estado_detalle,false],
+    ['Guía',d.nro_guia,true],
+    ['TRI',d.nro_tri,true],
+    ['Certificado faena',d.nro_certificado_faena,true],
+    ['Emisión',d.fecha_emision_detalle,true],
+    ['Vencimiento',d.fecha_vencimiento_detalle,true],
+    ['Caduca',d.fecha_caduca,true],
   ];
-  const infoHtml='<div class="grid">'+infoItems.map(it=>'<div class="box"><div class="k">'+esc(it[0])+'</div><div class="vv">'+esc(it[1]||'—')+'</div></div>').join('')+'</div>';
+  const infoHtml='<div class="grid-4">'+infoItems.map(it=>{
+    const empty=!it[1];
+    return '<div class="box"><div class="box-label">'+esc(it[0])+'</div><div class="box-value'+(it[2]?' box-value-mono':'')+(empty?' box-value-empty':'')+'">'+esc(it[1]||'—')+'</div></div>';
+  }).join('')+'</div>';
 
-  // ── Sección: vacunas ──
+  // ── Sección: vacunas (3 boxes ámbar) ──
   const vacunas=[
     ['Última Aftosa',d.fecha_ultima_aftosa],
     ['Anteúltima Aftosa',d.fecha_anteultima_aftosa],
     ['Última Brucelosis',d.fecha_ultima_brucelosis],
   ];
-  const vacHtml='<div class="det-section-label">🩺 Datos de vacunación</div>'
-    +'<div class="grid" style="grid-template-columns:repeat(3,1fr)">'+vacunas.map(it=>'<div class="box"><div class="k">'+esc(it[0])+'</div><div class="vv" style="color:var(--amber)">'+esc(it[1]||'—')+'</div></div>').join('')+'</div>';
+  const vacHtml='<div class="section-header">Datos de vacunación</div>'
+    +'<div class="grid-3">'+vacunas.map(it=>'<div class="box box-amber"><div class="box-label">'+esc(it[0])+'</div><div class="box-value box-value-mono'+(it[1]?'':' box-value-empty')+'">'+esc(it[1]||'—')+'</div></div>').join('')+'</div>';
 
-  // ── Sección: animales movidos (tabla como SENASA) ──
+  // ── Sección: animales movidos (tabla) ──
   const animales=d.animales_detalle||[];
-  let animHtml='<div class="det-section-label">🐄 Animales movidos</div>';
+  let animHtml='<div class="section-header">Animales movidos</div>';
   if(animales.length>0){
     const filas=animales.map(a=>'<tr>'
       +'<td>'+esc(a.especie||'Bovinos')+'</td>'
-      +'<td style="font-weight:700;color:var(--text)">'+esc(a.categoria||'—')+'</td>'
-      +'<td style="text-align:right;font-weight:800;color:var(--primary);font-size:16px">'+esc(a.despachados||0)+'</td>'
-      +'<td style="text-align:right;color:var(--muted)">'+esc(a.recibidos||0)+'</td>'
+      +'<td style="color:var(--text-2)">'+esc(a.categoria||'—')+'</td>'
+      +'<td class="num" style="font-weight:600">'+esc(a.despachados||0)+'</td>'
+      +'<td class="num" style="color:'+((a.recibidos||0)>0?'var(--text)':'var(--muted)')+'">'+esc(a.recibidos||0)+'</td>'
       +'</tr>').join('');
     const totDesp=animales.reduce((s,a)=>s+(a.despachados||0),0);
     const totRec=animales.reduce((s,a)=>s+(a.recibidos||0),0);
-    animHtml+='<div class="det-table-wrap"><table class="det-table">'
-      +'<thead><tr><th>Especie</th><th>Categoría</th><th style="text-align:right">Despachados</th><th style="text-align:right">Recibidos</th></tr></thead>'
-      +'<tbody>'+filas+'</tbody>'
-      +'<tfoot><tr>'
-        +'<td colspan="2" style="font-weight:700;color:var(--muted);font-size:11px;letter-spacing:1px">TOTAL</td>'
-        +'<td style="text-align:right;font-weight:800;font-size:18px;color:var(--primary)">'+totDesp+'</td>'
-        +'<td style="text-align:right;font-weight:700;color:var(--muted)">'+totRec+'</td>'
-      +'</tr></tfoot>'
+    animHtml+='<div class="modal-table-wrap"><table class="modal-table">'
+      +'<thead><tr><th>Especie</th><th>Categoría</th><th class="num">Despachados</th><th class="num">Recibidos</th></tr></thead>'
+      +'<tbody>'+filas
+        +'<tr style="border-top:2px solid var(--border)"><td style="font-weight:600">Total</td><td></td><td class="num" style="font-weight:600">'+totDesp+'</td><td class="num" style="color:var(--muted)">'+totRec+'</td></tr>'
+      +'</tbody>'
       +'</table></div>';
   }else if(d.cantidad_enviados){
-    // Fallback para DTEs sin detalle enriquecido aún
-    animHtml+='<div class="box" style="margin-top:4px"><div class="k">Categoría</div><div class="vv">'+esc(d.categoria_detalle||d.categoria||'—')+'</div></div>'
-      +'<div class="box"><div class="k">Cantidad enviados</div><div class="vv" style="color:var(--primary);font-size:18px;font-weight:800">'+esc(d.cantidad_enviados||0)+'</div></div>';
+    animHtml+='<div class="grid-2"><div class="box"><div class="box-label">Categoría</div><div class="box-value">'+esc(d.categoria_detalle||d.categoria||'—')+'</div></div>'
+      +'<div class="box"><div class="box-label">Cantidad enviados</div><div class="box-value" style="font-size:16px;color:var(--cyan)">'+esc(d.cantidad_enviados||0)+'</div></div></div>';
   }else{
     animHtml+='<div style="color:var(--muted);font-size:12px;padding:12px 0">Sin detalle cargado — corré el scraper para enriquecer este DTE.</div>';
   }
 
   modal.innerHTML=
     '<div class="modal-head">'
-      +'<div><div class="modal-title-top">Detalle DTE</div><div class="modal-title">'+esc(d.nro_dte)+'</div></div>'
-      +'<button id="closeModal" class="modal-close">Cerrar ✕</button>'
+      +'<div><div class="modal-title-top">Detalle DTE</div><div class="modal-title is-code">'+esc(d.nro_dte)+'</div></div>'
+      +'<button id="closeModal" class="modal-close" aria-label="Cerrar">×</button>'
     +'</div>'
-    +'<div style="padding:20px 28px 28px">'
+    +'<div class="modal-body">'
       +infoHtml
       +vacHtml
       +animHtml
@@ -221,29 +221,30 @@ function openDetalle(d){
   modalBg.style.display='flex';
   document.getElementById('closeModal').onclick=closeDetalle;
 }
-function closeDetalle(){modalBg.style.display='none';} modalBg.onclick=function(e){if(e.target===modalBg) closeDetalle();};
+function closeDetalle(){modalBg.style.display='none'; modal.classList.remove('modal-wide');} modalBg.onclick=function(e){if(e.target===modalBg) closeDetalle();};
 document.addEventListener('keydown',function(e){if(e.key==='Escape' && modalBg.style.display==='flex')closeDetalle();});
 function mostrarLinkRemate(codigo,tipo){
+  modal.classList.remove('modal-wide');
   const url='https://darwashsa-ux.github.io/darwash-dte/'+tipo+'.html?remate='+encodeURIComponent(codigo);
-  const tipoLbl=tipo==='egreso'?'Egreso':'Ingreso';
+  const tipoLbl=tipo==='egreso'?'Link de egreso':'Link de ingreso';
   const tipoLow=tipo==='egreso'?'egreso':'ingreso';
   const aliases=DATOS_ALIASES||{};
   const alias=aliases[codigo]||'';
   const tituloRef=alias||codigo;
   const mensaje='Hola, este es el link para registrar el '+tipoLow+' del remate '+tituloRef+':\n\n'+url;
   const tituloHtml=alias
-    ? '<div class="modal-title">'+esc(alias)+'</div><div style="font-family:monospace;font-size:11px;color:var(--muted);margin-top:4px">'+esc(codigo)+'</div>'
-    : '<div class="modal-title" style="font-family:monospace;font-size:20px">'+esc(codigo)+'</div>';
+    ? '<div class="modal-title">'+esc(alias)+'</div><div class="modal-title-top" style="margin-top:4px;margin-bottom:0;text-transform:none;letter-spacing:0">'+esc(codigo)+'</div>'
+    : '<div class="modal-title is-code">'+esc(codigo)+'</div>';
   modal.innerHTML='<div class="modal-head">'
-    +'<div><div class="modal-title-top">Link de '+esc(tipoLbl)+'</div>'+tituloHtml+'</div>'
-    +'<button class="modal-close" id="link-close">Cerrar</button>'
+    +'<div><div class="modal-title-top">'+esc(tipoLbl)+'</div>'+tituloHtml+'</div>'
+    +'<button class="modal-close" id="link-close" aria-label="Cerrar">×</button>'
     +'</div>'
-    +'<div style="padding:22px 24px 26px">'
-      +'<div class="small" style="margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;font-size:10px">Link único para este remate</div>'
-      +'<div id="link-box" style="background:#0a1410;border:1px solid rgba(0,210,132,.3);border-radius:10px;padding:14px 16px;font-family:monospace;font-size:12px;color:var(--primary);word-break:break-all;user-select:all;margin-bottom:18px;line-height:1.5">'+esc(url)+'</div>'
-      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'
-        +'<button id="btn-copy" style="padding:14px 12px;font-size:14px;font-weight:700;color:var(--primary);border:1px solid rgba(0,210,132,.4);background:rgba(0,210,132,.1);border-radius:12px;cursor:pointer;font-family:inherit">📋 Copiar link</button>'
-        +'<button id="btn-wsp" style="padding:14px 12px;font-size:14px;font-weight:700;color:#fff;border:none;background:linear-gradient(135deg,#128c3a,#075e24);border-radius:12px;cursor:pointer;font-family:inherit">💬 WhatsApp</button>'
+    +'<div class="modal-body">'
+      +'<div class="modal-title-top" style="margin-bottom:8px">Link único para este remate</div>'
+      +'<div class="link-box" id="link-box">'+esc(url)+'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">'
+        +'<button id="btn-copy" class="btn-secondary">Copiar link</button>'
+        +'<button id="btn-wsp" class="btn-whatsapp">WhatsApp</button>'
       +'</div>'
     +'</div>';
   modalBg.style.display='flex';
@@ -254,8 +255,7 @@ function mostrarLinkRemate(codigo,tipo){
     try{
       await navigator.clipboard.writeText(url);
       btnCopy.innerHTML='✓ Copiado';
-      btnCopy.style.background='rgba(0,210,132,.25)';
-      setTimeout(()=>{btnCopy.innerHTML=orig;btnCopy.style.background='rgba(0,210,132,.1)';},2000);
+      setTimeout(()=>{btnCopy.innerHTML=orig;},2000);
     }catch(e){
       // Fallback: seleccionar el texto del link para copia manual
       const box=document.getElementById('link-box');
@@ -952,20 +952,35 @@ const CATS_INGRESO=['Novillo','Vaquillona','Vaca','Ternero','Ternera','Toro','To
 async function verIngresos(codigoRemate){
   const modalBg=document.getElementById('modalBg');
   const modal=document.getElementById('modal');
+  modal.classList.add('modal-wide');
   const session=getSession();
   const esLeo=session&&session.email==='leoqui1991@gmail.com';
+  let regsCache=[]; // shared con export
+
+  function headerHtml(extraSubtitle){
+    return '<div class="modal-head">'
+      +'<div><div class="modal-title-top">Registros de ingreso</div><div class="modal-title is-code">'+esc(codigoRemate)+'</div>'
+        +(extraSubtitle?'<div class="modal-title-top" style="margin-top:6px;margin-bottom:0">'+extraSubtitle+'</div>':'')
+      +'</div>'
+      +'<button id="closeModal" class="modal-close" aria-label="Cerrar">×</button>'
+    +'</div>';
+  }
 
   async function cargarYRenderizar(){
-    modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Cargando registros...</div>';
+    modal.innerHTML=headerHtml()+'<div class="modal-body" style="text-align:center;color:var(--muted);padding:32px">Cargando registros…</div>';
     modalBg.style.display='flex';
     document.getElementById('closeModal').onclick=closeDetalle;
 
     const url=SB_URL+'/rest/v1/ingresos_hacienda?remate=eq.'+encodeURIComponent(codigoRemate)+'&order=ts.desc';
     const r=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
     const regs=await r.json();
+    regsCache=Array.isArray(regs)?regs:[];
 
     if(!regs||regs.length===0){
-      modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Sin registros aún.<br><br><a href="ingreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:var(--primary)">→ Registrar primer ingreso</a></div>';
+      modal.innerHTML=headerHtml()
+        +'<div class="modal-body" style="text-align:center;color:var(--muted);padding:32px">Sin registros aún.<br><br>'
+        +'<a href="ingreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:var(--cyan)">→ Registrar primer ingreso</a>'
+        +'</div>';
       document.getElementById('closeModal').onclick=closeDetalle;
       return;
     }
@@ -973,120 +988,124 @@ async function verIngresos(codigoRemate){
     const totalCabezas=regs.reduce((a,r)=>a+(r.total_cabezas||0),0);
     const catTotals={};
     regs.forEach(r=>{Object.entries(agruparCategoriasReg(r.categorias)).forEach(([k,v])=>{catTotals[k]=(catTotals[k]||0)+v;});});
-    const catPills=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span style="background:rgba(0,208,132,.1);border:1px solid rgba(0,208,132,.25);border-radius:6px;padding:2px 8px;font-size:11px">'+esc(k)+': '+v+'</span>').join(' ');
+    const catChips=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span class="chip chip-ingreso">'+esc(k)+': '+v+'</span>').join('');
 
     const rows=regs.map(reg=>{
-      const cats=Object.entries(agruparCategoriasReg(reg.categorias)).map(([k,v])=>'<span style="font-size:10px;background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:4px;padding:1px 5px">'+esc(k)+':'+v+'</span>').join(' ');
-      const accionesCell='<td style="padding:8px 10px;white-space:nowrap;display:flex;gap:4px;align-items:center">'
-        +'<button class="ing-wsp-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:#25d366;border-color:rgba(37,211,102,.3)">💬 WS</button>'
-        +(esLeo
-          ?'<button class="ing-edit-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:var(--amber);border-color:rgba(215,165,59,.3)">✏️</button>'
-           +'<button class="ing-del-btn ghost-btn" data-id="'+esc(reg.id)+'" style="font-size:11px;padding:4px 8px;color:var(--red);border-color:rgba(255,77,90,.3)">🗑</button>'
-          :'')
-        +'</td>';
-      return '<tr style="border-bottom:1px solid rgba(15,27,28,.95)" data-id="'+esc(reg.id)+'">'
-        +'<td style="padding:10px 14px;font-weight:700;color:var(--amber);white-space:nowrap">'+esc(reg.hora_descarga||'—')+'</td>'
-        +'<td style="padding:10px 14px;font-size:11px;white-space:nowrap">'+esc(reg.fecha||'—')+'</td>'
-        +'<td style="padding:10px 14px;font-size:11px;color:var(--primary);white-space:nowrap">'+esc(reg.nro_dte||'—')+'</td>'
-        +'<td style="padding:10px 14px;font-size:12px">'+esc(reg.productor||'—')+'</td>'
-        +'<td style="padding:10px 14px;font-size:12px;white-space:nowrap">'+esc(reg.transportista||'—')+(reg.patente?' <span style="color:var(--muted)">'+esc(reg.patente)+'</span>':'')+'</td>'
-        +'<td style="padding:10px 14px;text-align:right;font-weight:700;color:var(--green)">'+esc(reg.total_cabezas||0)+'</td>'
-        +'<td style="padding:10px 14px">'+cats+'</td>'
-        +'<td style="padding:10px 14px;font-size:11px;color:var(--muted);font-style:italic">'+esc(reg.observaciones||'')+'</td>'
-        +(reg.pdf_url?'<td style="padding:10px 14px"><a href="'+reg.pdf_url+'" target="_blank" style="background:rgba(100,160,255,.1);border:1px solid rgba(100,160,255,.3);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:#6aabff;text-decoration:none;white-space:nowrap">📄 PDF</a></td>':'<td style="padding:10px 14px;color:var(--muted);font-size:11px">—</td>')
-        +(reg.fotos&&Object.keys(reg.fotos).length>0?'<td style="padding:8px 14px"><div style="display:flex;gap:4px;flex-wrap:wrap">'+Object.values(reg.fotos).map(url=>'<a href="'+url+'" target="_blank"><img src="'+url+'" style="width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid rgba(0,208,132,.3)"/></a>').join('')+'</div></td>':'<td style="padding:10px 14px;color:var(--muted);font-size:11px">—</td>')
+      const cats=Object.entries(agruparCategoriasReg(reg.categorias)).map(([k,v])=>'<span class="chip chip-ingreso">'+esc(k)+':'+v+'</span>').join('');
+      const accionesBtns=[];
+      accionesBtns.push('<button class="row-action-btn wa ing-wsp-btn" data-id="'+esc(reg.id)+'" title="Compartir por WhatsApp">💬</button>');
+      if(esLeo){
+        accionesBtns.push('<button class="row-action-btn ing-edit-btn" data-id="'+esc(reg.id)+'" title="Editar">✏️</button>');
+        accionesBtns.push('<button class="row-action-btn danger ing-del-btn" data-id="'+esc(reg.id)+'" title="Eliminar">🗑</button>');
+      }
+      const accionesCell='<td><div class="row-actions">'+accionesBtns.join('')+'</div></td>';
+      const pdfCell=reg.pdf_url
+        ?'<td><a href="'+esc(reg.pdf_url)+'" target="_blank" style="color:var(--cyan);font-size:12px;white-space:nowrap">📄 PDF</a></td>'
+        :'<td style="color:var(--muted);font-size:12px">—</td>';
+      const fotosCell=(reg.fotos&&Object.keys(reg.fotos).length>0)
+        ?'<td><div style="display:flex;gap:4px;flex-wrap:wrap">'+Object.values(reg.fotos).map(url=>'<a href="'+esc(url)+'" target="_blank"><img src="'+esc(url)+'" style="width:32px;height:32px;object-fit:cover;border-radius:4px;border:1px solid var(--border)"/></a>').join('')+'</div></td>'
+        :'<td style="color:var(--muted);font-size:12px">—</td>';
+
+      return '<tr data-id="'+esc(reg.id)+'">'
+        +'<td style="white-space:nowrap;font-family:var(--mono);font-weight:500">'+esc(reg.hora_descarga||'—')+'</td>'
+        +'<td style="white-space:nowrap;font-family:var(--mono);font-size:12px">'+esc(reg.fecha||'—')+'</td>'
+        +'<td style="white-space:nowrap;font-family:var(--mono);font-size:12px;color:var(--cyan)">'+esc(reg.nro_dte||'—')+'</td>'
+        +'<td>'+esc(reg.productor||'—')+'</td>'
+        +'<td style="white-space:nowrap">'+esc(reg.transportista||'—')+(reg.patente?' <span style="color:var(--muted);font-family:var(--mono);font-size:11px">'+esc(reg.patente)+'</span>':'')+'</td>'
+        +'<td class="num" style="font-weight:600;color:#00A86B">'+esc(reg.total_cabezas||0)+'</td>'
+        +'<td>'+cats+'</td>'
+        +'<td style="font-size:11px;color:var(--muted);font-style:italic;max-width:180px">'+esc(reg.observaciones||'')+'</td>'
+        +pdfCell
+        +fotosCell
         +accionesCell
         +'</tr>';
     }).join('');
 
-    const thAcciones='<th style="padding:10px 14px;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase"></th>';
-
-    modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Registros de Ingreso</div><div class="modal-title" style="font-size:22px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div>'
-      +'<div style="padding:16px 24px;border-bottom:1px solid rgba(21,48,51,.95);display:flex;align-items:center;gap:16px;flex-wrap:wrap">'
-      +'<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Total ingresado</div><div style="font-size:36px;font-weight:800;color:var(--green)">'+totalCabezas+' <span style="font-size:16px;font-weight:400">cab.</span></div></div>'
-      +'<div style="display:flex;flex-wrap:wrap;gap:6px">'+catPills+'</div>'
-      +'<a href="ingreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="margin-left:auto;background:rgba(0,208,132,.12);border:1px solid rgba(0,208,132,.3);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--green);text-decoration:none;white-space:nowrap">📋 Nuevo Ingreso</a>'
+    modal.innerHTML=headerHtml()
+      +'<div class="modal-summary">'
+        +'<div class="modal-summary-kpi"><span class="label">Total ingresado</span><span class="value is-ingreso">'+totalCabezas+' <span style="font-size:13px;color:var(--muted);font-weight:400">cab.</span></span></div>'
+        +'<div class="modal-summary-chips">'+catChips+'</div>'
+        +'<a href="ingreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" class="btn-secondary" style="margin-left:auto;text-decoration:none">📋 Nuevo ingreso</a>'
       +'</div>'
-      +'<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">'
-      +'<thead><tr style="background:rgba(4,9,10,.88);position:sticky;top:0">'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap">Hora</th>'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Fecha</th>'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">DTE</th>'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Productor</th>'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Transporte</th>'
-      +'<th style="padding:10px 14px;text-align:right;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Cab.</th>'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Categorías</th>'
-      +'<th style="padding:10px 14px;text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Obs.</th>'
-      +'<th style="padding:10px 14px;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">PDF</th>'
-      +'<th style="padding:10px 14px;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Fotos</th>'
-      +thAcciones
-      +'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+      +'<div class="modal-body" style="padding-top:0">'
+        +'<div class="modal-table-wrap" style="margin-top:8px"><table class="modal-table">'
+        +'<thead><tr>'
+        +'<th>Hora</th><th>Fecha</th><th>DTE</th><th>Productor</th><th>Transporte</th>'
+        +'<th class="num">Cab.</th><th>Categorías</th><th>Obs.</th><th>PDF</th><th>Fotos</th><th></th>'
+        +'</tr></thead><tbody>'+rows+'</tbody></table></div>'
+      +'</div>'
+      +'<div class="modal-footer">'
+        +'<div id="ing-feedback"></div>'
+        +'<button id="ing-export" class="btn-export">↓ Exportar Excel</button>'
+      +'</div>';
 
     document.getElementById('closeModal').onclick=closeDetalle;
+    document.getElementById('ing-export').onclick=()=>exportarIngresosExcel(regsCache, codigoRemate);
 
-    // ── Listeners editar / eliminar ──────────────────────
-    // WhatsApp — disponible para todos
+    // ── Listeners ──
     modal.querySelectorAll('.ing-wsp-btn').forEach(btn=>{
-      btn.onclick=()=>{
-        const reg=regs.find(r=>String(r.id)===String(btn.dataset.id));
+      btn.onclick=(e)=>{
+        e.stopPropagation();
+        const reg=regsCache.find(r=>String(r.id)===String(btn.dataset.id));
         if(reg) compartirWhatsAppReg(reg);
       };
     });
     if(esLeo){
       modal.querySelectorAll('.ing-edit-btn').forEach(btn=>{
-        btn.onclick=()=>mostrarFormEdicion(btn.dataset.id, regs, codigoRemate);
+        btn.onclick=(e)=>{e.stopPropagation(); mostrarFormEdicion(btn.dataset.id, regsCache, codigoRemate);};
       });
       modal.querySelectorAll('.ing-del-btn').forEach(btn=>{
-        btn.onclick=()=>confirmarEliminar(btn.dataset.id, codigoRemate);
+        btn.onclick=(e)=>{e.stopPropagation(); confirmarEliminar(btn, codigoRemate);};
       });
     }
   }
 
   // ── Formulario de edición ─────────────────────────────
   function mostrarFormEdicion(id, regs, codigoRemate){
+    modal.classList.remove('modal-wide');
     const reg=regs.find(r=>String(r.id)===String(id));
     if(!reg) return;
-    // Cargar fusionado: registros viejos con "Novillito":N aparecen sumados en el input "Novillo".
     const cats=agruparCategoriasReg(reg.categorias);
-    const catInputs=CATS_INGRESO.map(cat=>`
-      <div style="background:rgba(7,17,18,.8);border:1px solid rgba(21,48,51,.8);border-radius:10px;padding:10px 12px">
-        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">${esc(cat)}</div>
-        <input type="number" min="0" id="ecat_${cat.replace(/[^a-z]/gi,'_')}" value="${cats[canonizarCategoria(cat)]||cats[cat]||0}"
-          style="background:transparent;border:none;border-bottom:1px solid rgba(21,48,51,.9);color:var(--text);font-size:20px;font-weight:800;width:100%;outline:none;padding:2px 0">
-      </div>`).join('');
+    const catInputs=CATS_INGRESO.map(cat=>
+      '<div class="box">'
+        +'<div class="box-label">'+esc(cat)+'</div>'
+        +'<input type="number" min="0" id="ecat_'+cat.replace(/[^a-z]/gi,'_')+'" value="'+(cats[canonizarCategoria(cat)]||cats[cat]||0)+'" class="cat-input-pill">'
+      +'</div>'
+    ).join('');
 
     modal.innerHTML=
-      '<div class="modal-head"><div><div class="modal-title-top">Editando Remito</div><div class="modal-title" style="font-size:18px">'+esc(reg.nro_dte||'—')+' · '+esc(reg.fecha||'—')+'</div></div>'
-        +'<button id="closeModal" class="modal-close">Cancelar ✕</button></div>'
-      +'<div style="padding:20px 24px 32px;overflow:auto">'
-
-        // Campos simples
-        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">'
-          +'<div class="box"><div class="k">Nro. DTE</div><input id="e_nro_dte" class="input" value="'+esc(reg.nro_dte||'')+'" style="margin-top:6px;width:100%"></div>'
-          +'<div class="box"><div class="k">Hora descarga</div><input id="e_hora" class="input" type="time" value="'+esc(reg.hora_descarga||'')+'" style="margin-top:6px;width:100%"></div>'
-          +'<div class="box"><div class="k">Productor / Procedencia</div><input id="e_productor" class="input" value="'+esc(reg.productor||'')+'" style="margin-top:6px;width:100%"></div>'
-          +'<div class="box"><div class="k">Transportista</div><input id="e_transportista" class="input" value="'+esc(reg.transportista||'')+'" style="margin-top:6px;width:100%"></div>'
-          +'<div class="box"><div class="k">Patente</div><input id="e_patente" class="input" value="'+esc(reg.patente||'')+'" style="margin-top:6px;width:100%;text-transform:uppercase"></div>'
-          +'<div class="box"><div class="k">Observaciones</div><input id="e_obs" class="input" value="'+esc(reg.observaciones||'')+'" style="margin-top:6px;width:100%"></div>'
+      '<div class="modal-head">'
+        +'<div><div class="modal-title-top">Editando remito</div><div class="modal-title is-code">'+esc(reg.nro_dte||'—')+' · '+esc(reg.fecha||'—')+'</div></div>'
+        +'<button id="closeModal" class="modal-close" aria-label="Cancelar">×</button>'
+      +'</div>'
+      +'<div class="modal-body">'
+        +'<div class="grid-2">'
+          +'<div><label class="form-label">Nro. DTE</label><input id="e_nro_dte" class="form-input" value="'+esc(reg.nro_dte||'')+'"></div>'
+          +'<div><label class="form-label">Hora descarga</label><input id="e_hora" class="form-input" type="time" value="'+esc(reg.hora_descarga||'')+'"></div>'
+          +'<div><label class="form-label">Productor / Procedencia</label><input id="e_productor" class="form-input" value="'+esc(reg.productor||'')+'"></div>'
+          +'<div><label class="form-label">Transportista</label><input id="e_transportista" class="form-input" value="'+esc(reg.transportista||'')+'"></div>'
+          +'<div><label class="form-label">Patente</label><input id="e_patente" class="form-input" value="'+esc(reg.patente||'')+'" style="text-transform:uppercase"></div>'
+          +'<div><label class="form-label">Observaciones</label><input id="e_obs" class="form-input" value="'+esc(reg.observaciones||'')+'"></div>'
         +'</div>'
-
-        // Categorías
-        +'<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Cantidad por categoría</div>'
-        +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px">'+catInputs+'</div>'
-
-        // Botón guardar
-        +'<button id="e_guardar" class="btn" style="width:100%;background:var(--primary);color:#031011;font-weight:800;font-size:15px;padding:14px">✓ Guardar cambios</button>'
-        +'<div id="e_msg" style="margin-top:10px;text-align:center;font-size:12px"></div>'
+        +'<div class="section-header">Cantidad por categoría</div>'
+        +'<div class="grid-3" style="grid-template-columns:repeat(4,1fr)">'+catInputs+'</div>'
+        +'<div id="e_msg"></div>'
+      +'</div>'
+      +'<div class="modal-footer">'
+        +'<button class="btn-secondary" id="e_cancel">Cancelar</button>'
+        +'<button id="e_guardar" class="btn-primary">Guardar cambios</button>'
       +'</div>';
 
     document.getElementById('closeModal').onclick=()=>cargarYRenderizar();
+    document.getElementById('e_cancel').onclick=()=>cargarYRenderizar();
 
     document.getElementById('e_guardar').onclick=async()=>{
       const btn=document.getElementById('e_guardar');
       const msg=document.getElementById('e_msg');
-      btn.disabled=true; btn.textContent='Guardando...';
+      msg.className='modal-feedback';
+      msg.textContent='';
+      btn.disabled=true; btn.textContent='Guardando…';
 
-      // Armar categorías
       const nuevasCats={};
       let total=0;
       CATS_INGRESO.forEach(cat=>{
@@ -1094,8 +1113,6 @@ async function verIngresos(codigoRemate){
         const v=parseInt(inp?.value||0)||0;
         if(v>0){nuevasCats[cat]=v; total+=v;}
       });
-      // Preservar categorías legacy no canonizables del registro original (ej. "Mamón")
-      // para que la edición no pierda datos históricos que el form nuevo no muestra.
       for(const [k,v] of Object.entries(reg.categorias||{})){
         const n=Number(v||0);
         if(n>0 && !canonizarCategoria(k)){nuevasCats[k]=n; total+=n;}
@@ -1119,37 +1136,87 @@ async function verIngresos(codigoRemate){
           body:JSON.stringify(payload)
         });
         if(!r.ok) throw new Error('Error '+r.status);
-        msg.style.color='var(--green)';
+        msg.className='modal-feedback success';
         msg.textContent='✅ Remito actualizado correctamente';
-        setTimeout(()=>cargarYRenderizar(),1200);
+        setTimeout(()=>cargarYRenderizar(),1000);
       }catch(e){
-        msg.style.color='var(--red)';
+        msg.className='modal-feedback error';
         msg.textContent='❌ Error al guardar: '+e.message;
-        btn.disabled=false; btn.textContent='✓ Guardar cambios';
+        btn.disabled=false; btn.textContent='Guardar cambios';
       }
     };
   }
 
   // ── Confirmar eliminación ─────────────────────────────
-  function confirmarEliminar(id, codigoRemate){
-    const reg=modal.querySelector('tr[data-id="'+id+'"]');
-    const info=reg?reg.querySelector('td:nth-child(3)')?.textContent:'este registro';
-    if(!confirm('⚠️ ¿Eliminar el remito '+info+'?\n\nEsta acción no se puede deshacer.')) return;
+  // Mejora vs versión previa: feedback visual (loading state + opacity + disabled),
+  // mensaje de error inline en el footer del modal en vez de alert(), y stopPropagation
+  // en el botón origen (ya lo hace el caller) para evitar bubble accidental al tr.
+  function confirmarEliminar(btnEl, codigoRemate){
+    const id=btnEl.dataset.id;
+    const reg=regsCache.find(r=>String(r.id)===String(id));
+    const refInfo=reg?(reg.nro_dte||reg.fecha||id):id;
+    if(!confirm('⚠️ ¿Eliminar el remito '+refInfo+'?\n\nEsta acción no se puede deshacer.')) return;
+
+    const feedback=document.getElementById('ing-feedback');
+    const orig=btnEl.innerHTML;
+    btnEl.disabled=true;
+    btnEl.style.opacity='0.5';
+    btnEl.innerHTML='…';
+    if(feedback){feedback.className=''; feedback.textContent='';}
+
     fetch(SB_URL+'/rest/v1/ingresos_hacienda?id=eq.'+encodeURIComponent(id),{
       method:'DELETE',
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=minimal'}
     }).then(r=>{
-      if(!r.ok) throw new Error('Error '+r.status);
+      if(!r.ok) throw new Error('HTTP '+r.status);
       cargarYRenderizar();
-    }).catch(e=>alert('❌ No se pudo eliminar: '+e.message));
+    }).catch(e=>{
+      btnEl.disabled=false;
+      btnEl.style.opacity='';
+      btnEl.innerHTML=orig;
+      if(feedback){
+        feedback.className='modal-feedback error';
+        feedback.textContent='❌ No se pudo eliminar: '+e.message;
+      } else {
+        alert('❌ No se pudo eliminar: '+e.message);
+      }
+    });
   }
 
   try{
     await cargarYRenderizar();
   }catch(e){
-    modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Error</div><div class="modal-title" style="font-size:20px">No se pudo cargar</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:24px;color:var(--red)">'+esc(e.message)+'</div>';
+    modal.innerHTML=headerHtml()
+      +'<div class="modal-body">'
+        +'<div class="modal-feedback error">'+esc(e.message)+'</div>'
+      +'</div>';
     document.getElementById('closeModal').onclick=closeDetalle;
   }
+}
+
+// Export Ingresos a Excel — flatten categorias + datos planos del registro.
+function exportarIngresosExcel(regs, codigoRemate){
+  if(!regs || regs.length===0){ alert('No hay datos para exportar'); return; }
+  const data=regs.map(reg=>{
+    const cats=agruparCategoriasReg(reg.categorias);
+    const obj={
+      'Fecha': reg.fecha||'',
+      'Hora': reg.hora_descarga||'',
+      'Nro DTE': reg.nro_dte||'',
+      'Productor': reg.productor||'',
+      'Transportista': reg.transportista||'',
+      'Patente': reg.patente||'',
+      'Total cabezas': reg.total_cabezas||0,
+    };
+    CATS_INGRESO.forEach(cat=>{ obj[cat]=cats[canonizarCategoria(cat)]||cats[cat]||0; });
+    obj['Observaciones']=reg.observaciones||'';
+    obj['PDF']=reg.pdf_url||'';
+    return obj;
+  });
+  const safe=String(codigoRemate||'remate').replace(/[\/.]/g,'-');
+  const filename='ingresos_'+safe;
+  const cols=Object.keys(data[0]).map(k=>[k,k]);
+  exportToExcel(data, cols, filename);
 }
 
 function exportToExcel(rows, cols, filename) {
@@ -1204,64 +1271,108 @@ function exportRemates(rows) {
 
 // ── Ver Egresos modal ─────────────────────────────────────
 async function verEgresos(codigoRemate){
-  const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
-  const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
   const modalBg=document.getElementById('modalBg');
   const modal=document.getElementById('modal');
-  modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">⬆ Registros de Egreso</div><div class="modal-title" style="font-size:20px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Cargando egresos...</div>';
+  modal.classList.add('modal-wide');
+
+  function headerHtml(){
+    return '<div class="modal-head">'
+      +'<div><div class="modal-title-top">Registros de egreso</div><div class="modal-title is-code">'+esc(codigoRemate)+'</div></div>'
+      +'<button id="closeModal" class="modal-close" aria-label="Cerrar">×</button>'
+    +'</div>';
+  }
+
+  modal.innerHTML=headerHtml()+'<div class="modal-body" style="text-align:center;color:var(--muted);padding:32px">Cargando egresos…</div>';
   modalBg.style.display='flex';
   document.getElementById('closeModal').onclick=closeDetalle;
+
   try{
     const res=await fetch(SB_URL+'/rest/v1/egresos_hacienda?remate=eq.'+encodeURIComponent(codigoRemate)+'&order=ts.desc',{
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
     });
     const rows=await res.json();
     if(!Array.isArray(rows)||!rows.length){
-      modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">⬆ Registros de Egreso</div><div class="modal-title" style="font-size:20px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:32px;text-align:center;color:var(--muted)">Sin egresos registrados.<br><br><a href="egreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:#ff6b7a">→ Registrar primer egreso</a></div>';
+      modal.innerHTML=headerHtml()
+        +'<div class="modal-body" style="text-align:center;color:var(--muted);padding:32px">Sin egresos registrados.<br><br>'
+        +'<a href="egreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:#D63B47">→ Registrar primer egreso</a>'
+        +'</div>';
       document.getElementById('closeModal').onclick=closeDetalle;
       return;
     }
+
     const totalCab=rows.reduce((a,r)=>a+(r.total_cabezas||0),0);
+    const catTotals={};
+    rows.forEach(r=>{Object.entries(agruparCategoriasReg(r.categorias)).forEach(([k,v])=>{catTotals[k]=(catTotals[k]||0)+v;});});
+    const catChips=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span class="chip chip-egreso">'+esc(k)+': '+v+'</span>').join('');
+
     const filas=rows.map(r=>{
-      // Agrupar por canónica (claves lowercase de Supabase egresos_hacienda como "vaquillona","torito" se mapean correctamente)
       const cats=Object.entries(agruparCategoriasReg(r.categorias))
-        .map(([k,v])=>'<span style="background:rgba(255,77,90,.1);border:1px solid rgba(255,77,90,.25);border-radius:5px;padding:2px 7px;font-size:10px;color:#ff6b7a;margin-right:3px">'+esc(k)+': '+v+'</span>').join('');
-      const pdfLink=r.pdf_url?'<a href="'+esc(r.pdf_url)+'" target="_blank" style="color:var(--amber);font-size:11px">📄 PDF</a>':'—';
+        .map(([k,v])=>'<span class="chip chip-egreso">'+esc(k)+':'+v+'</span>').join('');
+      const pdfCell=r.pdf_url
+        ?'<td><a href="'+esc(r.pdf_url)+'" target="_blank" style="color:var(--cyan);font-size:12px;white-space:nowrap">📄 PDF</a></td>'
+        :'<td style="color:var(--muted);font-size:12px">—</td>';
       const ts=r.ts?new Date(r.ts).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
       return '<tr>'
-        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px">'+esc(ts)+'</td>'
-        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px;font-weight:700">'+esc(r.tropa||'—')+'</td>'
-        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px">'+esc(r.nro_dte||'—')+'</td>'
-        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px">'+esc(r.destino||'—')+'</td>'
-        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-size:12px">'+esc(r.transportista||'—')+'</td>'
-        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08);font-weight:900;color:#ff6b7a;text-align:right;font-size:14px">'+(r.total_cabezas||0)+'</td>'
-        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08)">'+cats+'</td>'
-        +'<td style="padding:8px 10px;border-bottom:1px solid rgba(0,208,132,.08)">'+pdfLink+'</td>'
+        +'<td style="font-family:var(--mono);font-size:12px;white-space:nowrap">'+esc(ts)+'</td>'
+        +'<td style="font-weight:600">'+esc(r.tropa||'—')+'</td>'
+        +'<td style="font-family:var(--mono);font-size:12px;color:var(--cyan)">'+esc(r.nro_dte||'—')+'</td>'
+        +'<td>'+esc(r.destino||'—')+'</td>'
+        +'<td>'+esc(r.transportista||'—')+'</td>'
+        +'<td class="num" style="font-weight:600;color:#D63B47">'+(r.total_cabezas||0)+'</td>'
+        +'<td>'+cats+'</td>'
+        +pdfCell
         +'</tr>';
     }).join('');
-    modal.innerHTML=
-      '<div class="modal-head"><div><div class="modal-title-top">⬆ Registros de Egreso</div><div class="modal-title" style="font-size:20px">'+esc(codigoRemate)+'</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div>'
-      +'<div style="padding:16px 20px;overflow-x:auto">'
-      +'<div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">'
-      +'<span style="font-size:12px;color:var(--muted)">'+rows.length+' egreso'+(rows.length>1?'s':'')+' registrado'+(rows.length>1?'s':'')+'</span>'
-      +'<span style="font-size:20px;font-weight:900;color:#ff6b7a">'+totalCab+' cab. egresadas</span></div>'
-      +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">'
-      +'<thead><tr style="background:rgba(255,77,90,.06)">'
-      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">FECHA</th>'
-      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">TROPA</th>'
-      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">DTE</th>'
-      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">DESTINO</th>'
-      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">TRANSPORTISTA</th>'
-      +'<th style="padding:8px 10px;text-align:right;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">CAB.</th>'
-      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">CATEGORÍAS</th>'
-      +'<th style="padding:8px 10px;text-align:left;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px">PDF</th>'
-      +'</tr></thead>'
-      +'<tbody>'+filas+'</tbody></table></div></div>';
+
+    modal.innerHTML=headerHtml()
+      +'<div class="modal-summary">'
+        +'<div class="modal-summary-kpi"><span class="label">Total egresado</span><span class="value is-egreso">'+totalCab+' <span style="font-size:13px;color:var(--muted);font-weight:400">cab.</span></span></div>'
+        +'<div class="modal-summary-kpi"><span class="label">Registros</span><span class="value">'+rows.length+'</span></div>'
+        +'<div class="modal-summary-chips">'+catChips+'</div>'
+        +'<a href="egreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" class="btn-secondary" style="margin-left:auto;text-decoration:none">⬆ Nuevo egreso</a>'
+      +'</div>'
+      +'<div class="modal-body" style="padding-top:0">'
+        +'<div class="modal-table-wrap" style="margin-top:8px"><table class="modal-table">'
+        +'<thead><tr>'
+        +'<th>Fecha</th><th>Tropa</th><th>DTE</th><th>Destino</th><th>Transportista</th>'
+        +'<th class="num">Cab.</th><th>Categorías</th><th>PDF</th>'
+        +'</tr></thead><tbody>'+filas+'</tbody></table></div>'
+      +'</div>'
+      +'<div class="modal-footer">'
+        +'<div></div>'
+        +'<button id="egr-export" class="btn-export">↓ Exportar Excel</button>'
+      +'</div>';
+
     document.getElementById('closeModal').onclick=closeDetalle;
+    document.getElementById('egr-export').onclick=()=>exportarEgresosExcel(rows, codigoRemate);
   }catch(e){
-    modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Error</div></div><button id="closeModal" class="modal-close">Cerrar ✕</button></div><div style="padding:24px;color:var(--red)">'+esc(e.message)+'</div>';
+    modal.innerHTML=headerHtml()
+      +'<div class="modal-body"><div class="modal-feedback error">'+esc(e.message)+'</div></div>';
     document.getElementById('closeModal').onclick=closeDetalle;
   }
+}
+
+// Export Egresos a Excel — flatten categorias + datos planos del registro.
+function exportarEgresosExcel(rows, codigoRemate){
+  if(!rows || rows.length===0){ alert('No hay datos para exportar'); return; }
+  const data=rows.map(r=>{
+    const cats=agruparCategoriasReg(r.categorias);
+    const obj={
+      'Fecha': r.ts?new Date(r.ts).toLocaleString('es-AR'):'',
+      'Tropa': r.tropa||'',
+      'Nro DTE': r.nro_dte||'',
+      'Destino': r.destino||'',
+      'Transportista': r.transportista||'',
+      'Total cabezas': r.total_cabezas||0,
+    };
+    CATS_INGRESO.forEach(cat=>{ obj[cat]=cats[canonizarCategoria(cat)]||cats[cat]||0; });
+    obj['PDF']=r.pdf_url||'';
+    return obj;
+  });
+  const safe=String(codigoRemate||'remate').replace(/[\/.]/g,'-');
+  const filename='egresos_'+safe;
+  const cols=Object.keys(data[0]).map(k=>[k,k]);
+  exportToExcel(data, cols, filename);
 }
 
 function renderApp(){
