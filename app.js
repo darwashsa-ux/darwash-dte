@@ -1441,6 +1441,7 @@ function renderApp(){
   const feriaView=(()=>{
     const root=document.createElement('div');
     let lastFetchTs=null, pollHandle=null, lastDataHash=null, firstLoad=true;
+    let tropaByCodigo=new Map(); // codigo_tropa → tropa (poblado en draw)
 
     const PALETTE=['#E6F8F8','#E6F7EF','#FBF3DC','#FCE8EA','#E8F0FA','#F5F4EE','#F0E8FA','#FAE8F0'];
     const colorEmpresa=(s)=>{
@@ -1532,7 +1533,82 @@ function renderApp(){
       const b=root.querySelector('.feria-retry'); if(b) b.onclick=()=>load(true);
     };
 
+    // ===== MODAL DE TROPA (singleton, montado sobre root) =====
+    const tropaModalBg=document.createElement('div');
+    tropaModalBg.style.cssText='display:none;position:fixed;inset:0;background:rgba(26,26,26,0.55);z-index:200;align-items:center;justify-content:center;padding:24px;';
+    const tropaModal=document.createElement('div');
+    tropaModal.style.cssText='background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:8px;padding:22px 24px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,0.15);';
+    tropaModalBg.appendChild(tropaModal);
+    tropaModalBg.addEventListener('click',e=>{ if(e.target===tropaModalBg) tropaModalBg.style.display='none'; });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape' && tropaModalBg.style.display==='flex') tropaModalBg.style.display='none'; });
+    root.appendChild(tropaModalBg);
+
+    const TIPO_MOV_LBL={extraferia_entrada:'Entrada',movimiento_interno:'Movimiento',extraferia_salida:'Salida'};
+
+    async function openTropaModal(codigo, corralActual){
+      const tropa=tropaByCodigo.get(codigo);
+      if(!tropa) return;
+      tropaModal.innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;">Cargando historial…</div>';
+      tropaModalBg.style.display='flex';
+
+      let movs=[];
+      try{
+        const res=await fetch(SB_URL+'/rest/v1/movimientos_corral?tropa_id=eq.'+encodeURIComponent(tropa.id)+'&select=*&order=created_at.asc',{
+          headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}
+        });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        movs=await res.json();
+      }catch(e){
+        tropaModal.innerHTML='<div style="padding:24px;text-align:center;color:var(--red);font-family:var(--mono);font-size:12px;">Error: '+esc(e.message)+'</div>';
+        return;
+      }
+
+      const head='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;">'
+        +'<div>'
+          +'<div style="font-family:var(--serif);font-size:22px;font-weight:600;color:var(--text);line-height:1;">'+esc(tropa.codigo_tropa||'—')+'</div>'
+          +'<div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-top:6px;">'
+            +esc(tropa.empresa||tropa.propietario||'—')+' · '+esc(tropa.categoria||'—')+' · '+esc(tropa.cabezas_inicial)+' cab'
+            +(tropa.estado==='cerrada'?' · CERRADA':'')
+          +'</div>'
+        +'</div>'
+        +'<button class="ftm-close" style="background:transparent;border:none;color:var(--muted);font-size:26px;cursor:pointer;line-height:1;padding:0 4px;">×</button>'
+        +'</div>';
+
+      const histItems=movs.map(m=>{
+        const arrow=(m.corral_origen?esc(m.corral_origen):'—')+' → '+(m.corral_destino?esc(m.corral_destino):'—');
+        return '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:6px;">'
+          +'<div style="display:flex;justify-content:space-between;margin-bottom:4px;">'
+            +'<span style="font-family:var(--mono);font-weight:700;font-size:9px;color:var(--text);letter-spacing:1.5px;text-transform:uppercase;">'+esc(TIPO_MOV_LBL[m.tipo_movimiento]||m.tipo_movimiento)+'</span>'
+            +'<span style="font-family:var(--mono);font-size:10px;color:var(--muted);">'+esc(fmtDesde(m.created_at))+'</span>'
+          +'</div>'
+          +'<div style="font-family:var(--mono);font-size:12px;color:var(--text-2);">'+arrow+' · '+esc(m.cabezas)+' cab</div>'
+          +(m.observaciones?'<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:4px;">'+esc(m.observaciones)+'</div>':'')
+          +'</div>';
+      }).join('');
+
+      const histSection='<div style="margin-bottom:16px;">'
+        +'<div style="font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Historial de movimientos</div>'
+        +(movs.length===0?'<div style="font-size:12px;color:var(--muted);font-style:italic;padding:12px;text-align:center;">Sin movimientos registrados.</div>':histItems)
+        +'</div>';
+
+      let actions='';
+      if(tropa.estado==='activa' && corralActual){
+        const idEnc=encodeURIComponent(tropa.id);
+        const corralEnc=encodeURIComponent(corralActual);
+        actions='<div style="display:flex;flex-direction:column;gap:8px;">'
+          +'<a href="hacienda-feria.html?modo=interno&tropa_id='+idEnc+'&corral_origen='+corralEnc+'" target="_blank" rel="noopener" style="display:block;padding:12px 16px;background:var(--cyan);color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:14px;text-align:center;font-family:var(--sans);">↔ Mover corral</a>'
+          +'<a href="hacienda-feria.html?modo=salida&tropa_id='+idEnc+'&corral_origen='+corralEnc+'" target="_blank" rel="noopener" style="display:block;padding:12px 16px;background:var(--surface);border:1px solid var(--amber);color:var(--amber);text-decoration:none;border-radius:6px;font-weight:600;font-size:14px;text-align:center;font-family:var(--sans);">⬆ Sacar de feria</a>'
+          +'</div>';
+      } else if(tropa.estado!=='activa'){
+        actions='<div style="padding:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;color:var(--muted);font-family:var(--mono);">Tropa cerrada — sin acciones disponibles</div>';
+      }
+
+      tropaModal.innerHTML=head+histSection+actions;
+      tropaModal.querySelector('.ftm-close').onclick=()=>{ tropaModalBg.style.display='none'; };
+    }
+
     const draw=({tropas,movs})=>{
+      tropaByCodigo=new Map(tropas.map(t=>[t.codigo_tropa,t]));
       const rows=computeStock(tropas,movs);
       const totalCab=rows.reduce((s,r)=>s+(parseInt(r.cabezas,10)||0),0);
       const lastMov=movs[0];
@@ -1564,7 +1640,7 @@ function renderApp(){
       } else {
         const body=rows.map(r=>{
           const bg=colorEmpresa(r.empresa);
-          return '<tr style="background:'+bg+';">'
+          return '<tr data-codigo="'+esc(r.codigo)+'" data-corral="'+esc(r.corral)+'" style="background:'+bg+';cursor:pointer;">'
             +'<td style="font-family:var(--mono);font-weight:700;color:var(--text);">'+esc(r.corral)+'</td>'
             +'<td>'+esc(r.empresa)+'</td>'
             +'<td>'+esc(r.categoria)+'</td>'
@@ -1593,6 +1669,10 @@ function renderApp(){
         +'</div>';
 
       const rb=root.querySelector('.feria-refresh'); if(rb) rb.onclick=()=>load(false);
+      // Click en fila → modal de tropa con historial + acciones
+      root.querySelectorAll('tr[data-codigo]').forEach(tr=>{
+        tr.onclick=()=>openTropaModal(tr.dataset.codigo, tr.dataset.corral);
+      });
     };
 
     const hashData=(d)=>{

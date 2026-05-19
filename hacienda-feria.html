@@ -56,19 +56,24 @@
     .tipo-label{font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:1.2px;color:var(--text-2);text-transform:uppercase;}
     .tipo-card.active .tipo-label{color:var(--cyan);}
 
-    /* CABEZAS BIG INPUT */
-    .cabezas-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:6px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;}
-    .cabezas-info{display:flex;flex-direction:column;}
-    .cabezas-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
-    .cabezas-sub{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:2px;}
-    .cabezas-input{width:90px;background:transparent;border:none;font-family:var(--mono);font-weight:700;font-size:34px;text-align:right;color:var(--green);font-variant-numeric:tabular-nums;outline:none;-webkit-appearance:none;-moz-appearance:textfield;appearance:textfield;}
-    .cabezas-input::-webkit-outer-spin-button,.cabezas-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-    .cabezas-input::placeholder{color:var(--border-strong);}
+    /* TROPA INFO CARD — modo interno/salida (readonly) */
+    .tropa-info-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:6px;padding:14px 16px;}
+    .tropa-info-card.mode-salida{border-left-color:var(--amber);}
+    .tropa-info-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+    .tropa-info-codigo{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--text);letter-spacing:0.5px;}
+    .tropa-info-mode{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;padding:3px 8px;border-radius:4px;border:1px solid;text-transform:uppercase;}
+    .tropa-info-mode.mode-interno{color:var(--cyan);border-color:var(--cyan);background:var(--cyan-soft);}
+    .tropa-info-mode.mode-salida{color:var(--amber);border-color:var(--amber);background:var(--amber-soft);}
+    .tropa-info-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px;font-size:13px;}
+    .tropa-info-row:last-child{margin-bottom:0;}
+    .tropa-info-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;flex-shrink:0;}
+    .tropa-info-val{font-family:var(--sans);color:var(--text);text-align:right;word-break:break-word;}
 
     .lf-btn{width:100%;border:1px solid transparent;border-radius:6px;padding:14px 16px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 150ms;}
     .lf-btn:active{opacity:0.85;}
     .lf-btn:disabled{opacity:0.5;cursor:not-allowed;}
     .btn-save{background:var(--cyan);color:#fff;border-color:var(--cyan);margin-top:24px;}
+    .btn-save.salida{background:var(--amber);border-color:var(--amber);}
     .btn-nuevo{background:transparent;border-color:var(--blue);color:var(--blue);}
     .btn-volver{background:transparent;border-color:var(--border-strong);color:var(--text-2);}
 
@@ -91,12 +96,12 @@
   <div class="lf-logo">DRW</div>
   <div class="lf-wordmark-wrap">
     <span class="lf-wordmark">DARWASH</span>
-    <span class="lf-wordmark-sub">FERIA EN VIVO</span>
+    <span class="lf-wordmark-sub" id="header-sub">FERIA EN VIVO</span>
   </div>
-  <span class="lf-badge">Movimiento</span>
+  <span class="lf-badge" id="header-badge">Movimiento</span>
 </div>
 
-<div class="lf-main">
+<div class="lf-main" id="lf-main">
 
   <div class="lf-section-label">Tipo de movimiento</div>
   <div class="tipo-grid" id="tipo-grid">
@@ -154,7 +159,7 @@
     <textarea class="lf-textarea" id="obs" placeholder="Notas, peso aproximado, incidencias…"></textarea>
   </div>
 
-  <button class="lf-btn btn-save" id="btn-save" onclick="guardar()">Registrar movimiento</button>
+  <button class="lf-btn btn-save" id="btn-save">Registrar movimiento</button>
   <a href="index.html" class="lf-btn btn-volver" style="margin-top:8px;">← Volver al tablero</a>
 
   <div style="text-align:center;margin-top:16px;"><span class="user-pill" id="user-pill"></span></div>
@@ -163,11 +168,11 @@
 <div class="success-overlay" id="success-overlay">
   <div class="success-card">
     <div class="success-icon">✓</div>
-    <div class="success-title">¡Movimiento registrado!</div>
+    <div class="success-title" id="success-title">¡Movimiento registrado!</div>
     <div class="success-sub" id="success-sub"></div>
     <div class="success-code" id="success-code"></div>
     <div class="btn-group">
-      <button class="lf-btn btn-nuevo" onclick="nuevoMovimiento()">+ Nuevo movimiento</button>
+      <button class="lf-btn btn-nuevo" id="btn-nuevo">+ Nuevo movimiento</button>
       <a href="index.html" class="lf-btn btn-volver">← Volver al tablero</a>
     </div>
   </div>
@@ -177,7 +182,8 @@
 const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 
-// Sesión: si no hay, mandamos a login.
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
 function getSession(){
   try{
     const raw=localStorage.getItem('dw_session');
@@ -194,52 +200,7 @@ if(!session){
 }
 document.getElementById('user-pill').textContent='👤 '+(session?.nombre||session?.email||'—');
 
-// Tipo selector
-let tipo='entrada';
-document.querySelectorAll('.tipo-card').forEach(card=>{
-  card.onclick=()=>{
-    document.querySelectorAll('.tipo-card').forEach(c=>c.classList.remove('active'));
-    card.classList.add('active');
-    tipo=card.dataset.tipo;
-    actualizarLabels();
-  };
-});
-
-function actualizarLabels(){
-  const lblProc=document.getElementById('lbl-procedencia');
-  const lblDest=document.getElementById('lbl-destino');
-  const inpProc=document.getElementById('procedencia');
-  const inpDest=document.getElementById('corral-destino');
-  if(tipo==='entrada'){
-    lblProc.textContent='Procedencia (campo de origen)';
-    inpProc.placeholder='Establecimiento de origen';
-    lblDest.textContent='Corral destino';
-    inpDest.placeholder='Ej: 42';
-  } else if(tipo==='interno'){
-    lblProc.textContent='Corral origen';
-    inpProc.placeholder='Ej: 42';
-    lblDest.textContent='Corral destino';
-    inpDest.placeholder='Ej: 67';
-  } else { // salida
-    lblProc.textContent='Corral origen';
-    inpProc.placeholder='Ej: 42';
-    lblDest.textContent='Destino (frigorífico, campo, etc.)';
-    inpDest.placeholder='Nombre del destino';
-  }
-}
-
-function genCodigoTropa(){
-  const d=new Date();
-  const stamp=d.getFullYear().toString().slice(-2)
-    +String(d.getMonth()+1).padStart(2,'0')
-    +String(d.getDate()).padStart(2,'0')
-    +String(d.getHours()).padStart(2,'0')
-    +String(d.getMinutes()).padStart(2,'0');
-  const rand=Math.floor(Math.random()*1000).toString().padStart(3,'0');
-  return 'EXT-'+stamp+'-'+rand;
-}
-
-async function sbInsert(tabla, data){
+async function sbInsert(tabla,data){
   const res=await fetch(SB_URL+'/rest/v1/'+tabla,{
     method:'POST',
     headers:{
@@ -258,92 +219,296 @@ async function sbInsert(tabla, data){
   return Array.isArray(json)?json[0]:json;
 }
 
-const TIPO_MOV_MAP={
-  entrada:'extraferia_entrada',
-  interno:'movimiento_interno',
-  salida:'extraferia_salida'
-};
+async function sbPatch(tabla,query,data){
+  const res=await fetch(SB_URL+'/rest/v1/'+tabla+'?'+query,{
+    method:'PATCH',
+    headers:{
+      'apikey':SB_KEY,
+      'Authorization':'Bearer '+SB_KEY,
+      'Content-Type':'application/json',
+      'Prefer':'return=minimal'
+    },
+    body:JSON.stringify(data)
+  });
+  if(!res.ok){
+    const err=await res.text();
+    throw new Error('PATCH '+tabla+' ['+res.status+']: '+err);
+  }
+}
 
-async function guardar(){
-  const empresa=document.getElementById('empresa').value.trim();
-  const categoria=document.getElementById('categoria').value;
-  const cabezas=parseInt(document.getElementById('cabezas').value||'0',10);
-  const procedencia=document.getElementById('procedencia').value.trim();
-  const corralDestino=document.getElementById('corral-destino').value.trim();
+async function sbGet(tabla,query){
+  const res=await fetch(SB_URL+'/rest/v1/'+tabla+'?'+query,{
+    headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}
+  });
+  if(!res.ok) throw new Error(tabla+' ['+res.status+']');
+  return await res.json();
+}
+
+// ============================================================
+// ROUTING — decide modo según URL params
+// ============================================================
+const params=new URLSearchParams(location.search);
+const modoParam=params.get('modo');
+const tropaIdParam=params.get('tropa_id');
+const corralOrigenParam=params.get('corral_origen');
+
+if(modoParam==='interno' || modoParam==='salida'){
+  initReadonlyMode(modoParam, tropaIdParam, corralOrigenParam);
+} else {
+  initEntradaMode();
+}
+
+// ============================================================
+// MODO ENTRADA — crea tropa nueva + movimiento extraferia_entrada
+// ============================================================
+function initEntradaMode(){
+  let tipo='entrada';
+
+  document.querySelectorAll('.tipo-card').forEach(card=>{
+    card.onclick=()=>{
+      document.querySelectorAll('.tipo-card').forEach(c=>c.classList.remove('active'));
+      card.classList.add('active');
+      tipo=card.dataset.tipo;
+      actualizarLabels(tipo);
+    };
+  });
+
+  function actualizarLabels(tipo){
+    const lblProc=document.getElementById('lbl-procedencia');
+    const lblDest=document.getElementById('lbl-destino');
+    const inpProc=document.getElementById('procedencia');
+    const inpDest=document.getElementById('corral-destino');
+    if(tipo==='entrada'){
+      lblProc.textContent='Procedencia (campo de origen)';
+      inpProc.placeholder='Establecimiento de origen';
+      lblDest.textContent='Corral destino';
+      inpDest.placeholder='Ej: 42';
+    } else if(tipo==='interno'){
+      lblProc.textContent='Corral origen';
+      inpProc.placeholder='Ej: 42';
+      lblDest.textContent='Corral destino';
+      inpDest.placeholder='Ej: 67';
+    } else {
+      lblProc.textContent='Corral origen';
+      inpProc.placeholder='Ej: 42';
+      lblDest.textContent='Destino (frigorífico, campo, etc.)';
+      inpDest.placeholder='Nombre del destino';
+    }
+  }
+
+  function genCodigoTropa(){
+    const d=new Date();
+    const stamp=d.getFullYear().toString().slice(-2)
+      +String(d.getMonth()+1).padStart(2,'0')
+      +String(d.getDate()).padStart(2,'0')
+      +String(d.getHours()).padStart(2,'0')
+      +String(d.getMinutes()).padStart(2,'0');
+    const rand=Math.floor(Math.random()*1000).toString().padStart(3,'0');
+    return 'EXT-'+stamp+'-'+rand;
+  }
+
+  const TIPO_MOV_MAP={
+    entrada:'extraferia_entrada',
+    interno:'movimiento_interno',
+    salida:'extraferia_salida'
+  };
+
+  async function guardar(){
+    const empresa=document.getElementById('empresa').value.trim();
+    const categoria=document.getElementById('categoria').value;
+    const cabezas=parseInt(document.getElementById('cabezas').value||'0',10);
+    const procedencia=document.getElementById('procedencia').value.trim();
+    const corralDestino=document.getElementById('corral-destino').value.trim();
+    const obs=document.getElementById('obs').value.trim();
+
+    if(!empresa){alert('Cargá la empresa/propietario.');return;}
+    if(!cabezas||cabezas<=0){alert('Cargá la cantidad de cabezas.');return;}
+    if(tipo==='entrada' && !corralDestino){alert('Indicá el corral destino.');return;}
+    if(tipo==='interno' && (!procedencia||!corralDestino)){alert('Indicá corral origen y destino.');return;}
+    if(tipo==='salida' && !procedencia){alert('Indicá el corral origen.');return;}
+
+    const btn=document.getElementById('btn-save');
+    btn.disabled=true;btn.textContent='Guardando…';
+
+    try{
+      const codigoTropa=genCodigoTropa();
+      const usuario=session?.email||null;
+
+      const tropa=await sbInsert('tropas',{
+        codigo_tropa:codigoTropa,
+        propietario:empresa,
+        empresa:empresa,
+        tipo_origen:'extraferia',
+        remate_codigo:null,
+        categoria:categoria,
+        cabezas_inicial:cabezas,
+        observaciones:obs||null,
+        usuario:usuario,
+        estado: tipo==='salida' ? 'cerrada' : 'activa'
+      });
+
+      await sbInsert('movimientos_corral',{
+        tropa_id:tropa.id,
+        corral_origen:procedencia||null,
+        corral_destino:corralDestino||null,
+        cabezas:cabezas,
+        tipo_movimiento:TIPO_MOV_MAP[tipo],
+        peso_kg:null,
+        usuario:usuario,
+        observaciones:obs||null
+      });
+
+      const tipoTxt={entrada:'Entrada',interno:'Movimiento interno',salida:'Salida'}[tipo];
+      document.getElementById('success-sub').textContent=
+        tipoTxt+' · '+cabezas+' '+(cabezas===1?'cabeza':'cabezas')+' · '+categoria+'\n'+empresa;
+      document.getElementById('success-code').textContent=codigoTropa;
+      document.getElementById('success-overlay').classList.add('show');
+    }catch(e){
+      console.error(e);
+      alert('Error al guardar: '+e.message);
+    }finally{
+      btn.disabled=false;btn.textContent='Registrar movimiento';
+    }
+  }
+
+  function nuevoMovimiento(){
+    document.getElementById('empresa').value='';
+    document.getElementById('cabezas').value='';
+    document.getElementById('procedencia').value='';
+    document.getElementById('corral-destino').value='';
+    document.getElementById('obs').value='';
+    document.getElementById('success-overlay').classList.remove('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  document.getElementById('btn-save').onclick=guardar;
+  document.getElementById('btn-nuevo').onclick=nuevoMovimiento;
+  actualizarLabels(tipo);
+}
+
+// ============================================================
+// MODO INTERNO / SALIDA — usa tropa existente, no crea ninguna
+// ============================================================
+async function initReadonlyMode(modo, tropaId, corralOrigen){
+  if(!tropaId){
+    alert('Falta tropa_id en la URL.');
+    location.href='index.html';
+    return;
+  }
+
+  let tropa;
+  try{
+    const arr=await sbGet('tropas','id=eq.'+encodeURIComponent(tropaId)+'&select=*');
+    tropa=arr[0];
+    if(!tropa) throw new Error('Tropa no encontrada');
+  }catch(e){
+    alert('Error cargando la tropa: '+e.message);
+    location.href='index.html';
+    return;
+  }
+
+  // Header
+  const badge=document.getElementById('header-badge');
+  const sub=document.getElementById('header-sub');
+  if(modo==='interno'){
+    badge.textContent='Mover corral';
+    sub.textContent='MOVIMIENTO INTERNO';
+  } else {
+    badge.textContent='Sacar de feria';
+    badge.style.color='var(--amber)';
+    badge.style.borderColor='var(--amber)';
+    badge.style.background='var(--amber-soft)';
+    sub.textContent='SALIDA DE FERIA';
+  }
+
+  // Rebuild .lf-main para readonly mode
+  const destLabel=modo==='interno'?'Corral destino':'Destino (frigorífico, campo, etc.)';
+  const destPlaceholder=modo==='interno'?'Ej: 67':'Frigorífico XYZ, campo, feedlot…';
+  const btnText=modo==='interno'?'Confirmar movimiento':'Confirmar salida';
+  const btnClass=modo==='salida'?'btn-save salida':'btn-save';
+
+  const main=document.getElementById('lf-main');
+  main.innerHTML=
+    '<div class="lf-section-label">Tropa</div>'
+    +'<div class="tropa-info-card mode-'+esc(modo)+'">'
+      +'<div class="tropa-info-head">'
+        +'<span class="tropa-info-codigo">'+esc(tropa.codigo_tropa||'—')+'</span>'
+        +'<span class="tropa-info-mode mode-'+esc(modo)+'">'+(modo==='interno'?'Interno':'Salida')+'</span>'
+      +'</div>'
+      +'<div class="tropa-info-row"><span class="tropa-info-lbl">Empresa</span><span class="tropa-info-val">'+esc(tropa.empresa||tropa.propietario||'—')+'</span></div>'
+      +'<div class="tropa-info-row"><span class="tropa-info-lbl">Categoría</span><span class="tropa-info-val">'+esc(tropa.categoria||'—')+' · '+esc(tropa.cabezas_inicial)+' cab</span></div>'
+      +'<div class="tropa-info-row"><span class="tropa-info-lbl">Corral origen</span><span class="tropa-info-val">'+esc(corralOrigen||'—')+'</span></div>'
+    +'</div>'
+    +'<div class="lf-section-label">'+esc(destLabel)+'</div>'
+    +'<div class="lf-field">'
+      +'<input class="lf-input" id="destino" type="text" placeholder="'+esc(destPlaceholder)+'" autocorrect="off" autocomplete="off"/>'
+    +'</div>'
+    +'<div class="lf-section-label">Observaciones</div>'
+    +'<div class="lf-field">'
+      +'<textarea class="lf-textarea" id="obs" placeholder="Notas, incidencias…"></textarea>'
+    +'</div>'
+    +'<button class="lf-btn '+btnClass+'" id="btn-save">'+esc(btnText)+'</button>'
+    +'<a href="index.html" class="lf-btn btn-volver" style="margin-top:8px;">← Volver al tablero</a>'
+    +'<div style="text-align:center;margin-top:16px;"><span class="user-pill">👤 '+esc(session?.nombre||session?.email||'—')+'</span></div>';
+
+  // Success overlay: ajustar
+  document.getElementById('success-title').textContent=
+    modo==='interno'?'¡Movimiento registrado!':'¡Salida confirmada!';
+  const nuevoBtn=document.getElementById('btn-nuevo');
+  if(nuevoBtn) nuevoBtn.remove(); // no "nuevo movimiento" desde estos modos
+
+  document.getElementById('btn-save').onclick=()=>guardarExistente(modo,tropa,corralOrigen);
+  document.getElementById('destino').focus();
+}
+
+async function guardarExistente(modo, tropa, corralOrigen){
+  const destino=document.getElementById('destino').value.trim();
   const obs=document.getElementById('obs').value.trim();
 
-  if(!empresa){alert('Cargá la empresa/propietario.');return;}
-  if(!cabezas||cabezas<=0){alert('Cargá la cantidad de cabezas.');return;}
-  if(tipo==='entrada' && !corralDestino){alert('Indicá el corral destino.');return;}
-  if(tipo==='interno' && (!procedencia||!corralDestino)){alert('Indicá corral origen y destino.');return;}
-  if(tipo==='salida' && !procedencia){alert('Indicá el corral origen.');return;}
+  if(!destino){
+    alert(modo==='interno'?'Indicá el corral destino.':'Indicá el destino.');
+    return;
+  }
 
   const btn=document.getElementById('btn-save');
-  btn.disabled=true;btn.textContent='Guardando…';
+  const originalLabel=btn.textContent;
+  btn.disabled=true;
+  btn.textContent='Guardando…';
 
   try{
-    const codigoTropa=genCodigoTropa();
     const usuario=session?.email||null;
-
-    const tropa=await sbInsert('tropas',{
-      codigo_tropa:codigoTropa,
-      propietario:empresa,
-      empresa:empresa,
-      tipo_origen:'extraferia',
-      remate_codigo:null,
-      categoria:categoria,
-      cabezas_inicial:cabezas,
-      observaciones:obs||null,
-      usuario:usuario,
-      estado: tipo==='salida' ? 'cerrada' : 'activa'
-    });
+    const cabezas=parseInt(tropa.cabezas_inicial,10)||0;
+    const tipoMov=modo==='interno'?'movimiento_interno':'extraferia_salida';
 
     await sbInsert('movimientos_corral',{
       tropa_id:tropa.id,
-      corral_origen:procedencia||null,
-      corral_destino:corralDestino||null,
-      cabezas:cabezas,
-      tipo_movimiento:TIPO_MOV_MAP[tipo],
+      corral_origen:corralOrigen,
+      corral_destino:destino,
+      cabezas,
+      tipo_movimiento:tipoMov,
       peso_kg:null,
-      usuario:usuario,
+      usuario,
       observaciones:obs||null
     });
 
-    const tipoTxt={entrada:'Entrada',interno:'Movimiento interno',salida:'Salida'}[tipo];
-    document.getElementById('success-sub').textContent=
-      tipoTxt+' · '+cabezas+' '+(cabezas===1?'cabeza':'cabezas')+' · '+categoria+'\n'+empresa;
-    document.getElementById('success-code').textContent=codigoTropa;
+    if(modo==='salida'){
+      await sbPatch('tropas','id=eq.'+encodeURIComponent(tropa.id),{estado:'cerrada'});
+    }
+
+    const subText=modo==='interno'
+      ?'Tropa movida del corral '+corralOrigen+' al '+destino
+      :'Tropa salió de feria → "'+destino+'"';
+    document.getElementById('success-sub').textContent=subText;
+    document.getElementById('success-code').textContent=tropa.codigo_tropa||'';
     document.getElementById('success-overlay').classList.add('show');
   }catch(e){
     console.error(e);
     alert('Error al guardar: '+e.message);
   }finally{
-    btn.disabled=false;btn.textContent='Registrar movimiento';
+    btn.disabled=false;
+    btn.textContent=originalLabel;
   }
 }
-
-function nuevoMovimiento(){
-  document.getElementById('empresa').value='';
-  document.getElementById('cabezas').value='';
-  document.getElementById('procedencia').value='';
-  document.getElementById('corral-destino').value='';
-  document.getElementById('obs').value='';
-  document.getElementById('success-overlay').classList.remove('show');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-actualizarLabels();
-
-// Prefill desde ?corral=XX (viene del croquis al tocar un corral ocupado).
-// Defaultea a "movimiento interno": el usuario llega ya posicionado en ese corral
-// como ORIGEN y completa el destino.
-(function(){
-  const params=new URLSearchParams(location.search);
-  const c=params.get('corral');
-  if(!c) return;
-  document.querySelector('.tipo-card[data-tipo="interno"]').click();
-  document.getElementById('procedencia').value=c;
-})();
 </script>
 </body>
 </html>

@@ -126,6 +126,12 @@
     .tropa-val.mono{font-family:var(--mono);font-size:11px;color:var(--text-2);}
     .modal-btn{display:block;width:100%;padding:12px 16px;background:var(--teal);color:#0f172a;text-decoration:none;border-radius:6px;font-weight:700;font-size:14px;text-align:center;font-family:var(--sans);border:none;cursor:pointer;transition:filter 120ms;}
     .modal-btn:hover{filter:brightness(1.1);}
+    /* Acciones por tropa dentro de tropa-card */
+    .tropa-actions{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+    .tropa-actions a{flex:1;display:inline-flex;align-items:center;justify-content:center;padding:9px 8px;border-radius:5px;font-family:var(--sans);font-weight:700;font-size:11.5px;text-decoration:none;transition:filter 120ms;letter-spacing:.3px;}
+    .tropa-actions .btn-mover{background:var(--teal);color:#0f172a;}
+    .tropa-actions .btn-sacar{background:transparent;color:#fcd34d;border:1px solid #f59e0b;}
+    .tropa-actions a:hover{filter:brightness(1.15);}
 
     /* ERROR */
     .cf-error{display:none;padding:24px;max-width:520px;margin:24px auto;background:var(--red-soft);border:1px solid var(--red);border-left:3px solid var(--red);border-radius:8px;text-align:center;}
@@ -303,16 +309,21 @@ function openModal(label){
     const t=e.tropa, m=e.mov;
     const cab=m?m.cabezas:t.cabezas_inicial;
     const desde=m?m.created_at:t.created_at;
+    const idEnc=encodeURIComponent(t.id);
+    const corralEnc=encodeURIComponent(label);
     return '<div class="tropa-card">'
       +'<div class="tropa-row"><span class="tropa-lbl">Empresa</span><span class="tropa-val">'+esc(t.empresa||t.propietario||'—')+'</span></div>'
       +'<div class="tropa-row"><span class="tropa-lbl">Categoría</span><span class="tropa-val">'+esc(t.categoria||'—')+' · '+esc(cab)+' cab</span></div>'
       +'<div class="tropa-row"><span class="tropa-lbl">Desde</span><span class="tropa-val mono">'+esc(fmtDesde(desde))+'</span></div>'
       +'<div class="tropa-row"><span class="tropa-lbl">Tropa</span><span class="tropa-val mono">'+esc(t.codigo_tropa||'—')+'</span></div>'
       +(t.tipo_origen==='remate'?'<div class="tropa-row"><span class="tropa-lbl">Origen</span><span class="tropa-val">Remate '+esc(t.remate_codigo||'')+'</span></div>':'')
+      +'<div class="tropa-actions">'
+        +'<a href="hacienda-feria.html?modo=interno&tropa_id='+idEnc+'&corral_origen='+corralEnc+'" target="_blank" rel="noopener" class="btn-mover">↔ Mover</a>'
+        +'<a href="hacienda-feria.html?modo=salida&tropa_id='+idEnc+'&corral_origen='+corralEnc+'" target="_blank" rel="noopener" class="btn-sacar">⬆ Sacar</a>'
+      +'</div>'
       +'</div>';
   }).join('');
-  const btn='<a href="hacienda-feria.html?corral='+encodeURIComponent(label)+'" target="_blank" rel="noopener" class="modal-btn">+ Registrar movimiento</a>';
-  document.getElementById('modal-content').innerHTML=head+cards+btn;
+  document.getElementById('modal-content').innerHTML=head+cards;
   document.getElementById('modal-bg').classList.add('show');
 }
 
