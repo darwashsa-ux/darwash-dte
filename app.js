@@ -1533,15 +1533,20 @@ function renderApp(){
       const b=root.querySelector('.feria-retry'); if(b) b.onclick=()=>load(true);
     };
 
-    // ===== MODAL DE TROPA (singleton, montado sobre root) =====
+    // ===== MODAL DE TROPA (singleton montado sobre document.body) =====
+    // NO va sobre root: cada draw() hace root.innerHTML='...' y borraría el modal.
+    // Limpiamos cualquier instancia previa por si renderApp() se re-ejecuta.
+    const prevModal=document.getElementById('feria-tropa-modal-bg');
+    if(prevModal) prevModal.remove();
     const tropaModalBg=document.createElement('div');
-    tropaModalBg.style.cssText='display:none;position:fixed;inset:0;background:rgba(26,26,26,0.55);z-index:200;align-items:center;justify-content:center;padding:24px;';
+    tropaModalBg.id='feria-tropa-modal-bg';
+    tropaModalBg.style.cssText='display:none;position:fixed;inset:0;background:rgba(26,26,26,0.55);z-index:9999;align-items:center;justify-content:center;padding:24px;';
     const tropaModal=document.createElement('div');
     tropaModal.style.cssText='background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:8px;padding:22px 24px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,0.15);';
     tropaModalBg.appendChild(tropaModal);
     tropaModalBg.addEventListener('click',e=>{ if(e.target===tropaModalBg) tropaModalBg.style.display='none'; });
     document.addEventListener('keydown',e=>{ if(e.key==='Escape' && tropaModalBg.style.display==='flex') tropaModalBg.style.display='none'; });
-    root.appendChild(tropaModalBg);
+    document.body.appendChild(tropaModalBg);
 
     const TIPO_MOV_LBL={extraferia_entrada:'Entrada',movimiento_interno:'Movimiento',extraferia_salida:'Salida'};
 
