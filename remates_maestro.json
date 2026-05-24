@@ -20576,7 +20576,7 @@
     },
     {
       "codigo": "03.014.3.00015/07-2026",
-      "fecha_extraccion": "2026-05-23T10:20:27.853264",
+      "fecha_extraccion": "2026-05-24T11:34:28.390423",
       "info": {
         "Inicio": "13/05/2026",
         "Fin": "14/05/2026",
@@ -24048,7 +24048,7 @@
     },
     {
       "codigo": "01.054.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-23T10:20:26.741432",
+      "fecha_extraccion": "2026-05-24T11:34:26.958179",
       "info": {
         "Inicio": "20/05/2026",
         "Fin": "22/05/2026",
@@ -26449,10 +26449,10 @@
           "categoria": "Vaca",
           "enviado": 34,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
+          "emisor_cuit": "30-55794772-4",
+          "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
+          "receptor_cuit": "30-70846564-6"
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -26629,10 +26629,10 @@
           "categoria": "Novillito",
           "enviado": 26,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
+          "emisor_cuit": "30-55794772-4",
+          "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
+          "receptor_cuit": "30-54808315-6"
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -26647,10 +26647,10 @@
           "categoria": "Novillo",
           "enviado": 14,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
+          "emisor_cuit": "30-55794772-4",
+          "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
+          "receptor_cuit": "30-54808315-6"
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -26665,10 +26665,10 @@
           "categoria": "Vaquillona",
           "enviado": 24,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
+          "emisor_cuit": "30-55794772-4",
+          "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
+          "receptor_cuit": "30-54808315-6"
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -26692,7 +26692,7 @@
     },
     {
       "codigo": "03.014.3.00015/08-2026",
-      "fecha_extraccion": "2026-05-23T10:20:25.862348",
+      "fecha_extraccion": "2026-05-24T11:34:26.098369",
       "info": {
         "Inicio": "27/05/2026",
         "Fin": "28/05/2026",
@@ -26701,10 +26701,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 5,
+      "total_dtes": 7,
       "total_dtes_salida": 0,
-      "total_filas": 6,
-      "total_animales": 142,
+      "total_filas": 11,
+      "total_animales": 168,
       "totales_categoria": {},
       "filas": [
         {
@@ -26814,9 +26814,99 @@
           "emisor_cuit": "",
           "receptor_nombre": "",
           "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031847488-5",
+          "origen": "03.012.0.00088/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "26/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031847488-5",
+          "origen": "03.012.0.00088/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "26/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 5,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031847488-5",
+          "origen": "03.012.0.00088/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "26/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/04/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 12,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031847488-5",
+          "origen": "03.012.0.00088/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "26/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/04/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 5,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031847505-9",
+          "origen": "03.012.0.00088/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "26/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/04/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-05-23T10:20:25.862348"
+  "fecha_extraccion": "2026-05-24T11:34:26.098369"
 }
