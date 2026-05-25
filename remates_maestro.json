@@ -20576,7 +20576,7 @@
     },
     {
       "codigo": "03.014.3.00015/07-2026",
-      "fecha_extraccion": "2026-05-25T12:33:55.719726",
+      "fecha_extraccion": "2026-05-25T16:54:28.952176",
       "info": {
         "Inicio": "13/05/2026",
         "Fin": "14/05/2026",
@@ -24048,7 +24048,7 @@
     },
     {
       "codigo": "01.054.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-25T12:33:54.456990",
+      "fecha_extraccion": "2026-05-25T16:54:27.191521",
       "info": {
         "Inicio": "20/05/2026",
         "Fin": "22/05/2026",
@@ -26692,7 +26692,7 @@
     },
     {
       "codigo": "03.014.3.00015/08-2026",
-      "fecha_extraccion": "2026-05-25T12:33:53.532352",
+      "fecha_extraccion": "2026-05-25T16:54:25.684265",
       "info": {
         "Inicio": "27/05/2026",
         "Fin": "28/05/2026",
@@ -26701,10 +26701,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 7,
+      "total_dtes": 8,
       "total_dtes_salida": 0,
-      "total_filas": 11,
-      "total_animales": 168,
+      "total_filas": 13,
+      "total_animales": 173,
       "totales_categoria": {},
       "filas": [
         {
@@ -26825,6 +26825,24 @@
           "apto_china": "NO",
           "fecha_aftosa": "24/04/26",
           "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 5,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031847488-5",
+          "origen": "03.012.0.00088/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "26/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/04/26",
+          "especie": "Bovinos",
           "categoria": "Vaquillona",
           "enviado": 1,
           "recibido": 0,
@@ -26871,24 +26889,6 @@
         },
         {
           "tipo_movimiento": "ENTRADA",
-          "documento": "031847488-5",
-          "origen": "03.012.0.00088/00",
-          "motivo": "Invernada",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "26/05/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "24/04/26",
-          "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 5,
-          "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
           "documento": "031847505-9",
           "origen": "03.012.0.00088/00",
           "motivo": "Invernada",
@@ -26904,9 +26904,45 @@
           "emisor_cuit": "",
           "receptor_nombre": "",
           "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031850036-3",
+          "origen": "03.014.3.00539/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "25/05/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "10/03/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "SOSA OSCAR ADALBERTO",
+          "emisor_cuit": "20-12408894-2",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031850036-3",
+          "origen": "03.014.3.00539/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "25/05/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "10/03/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "SOSA OSCAR ADALBERTO",
+          "emisor_cuit": "20-12408894-2",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-05-25T12:33:53.532352"
+  "fecha_extraccion": "2026-05-25T16:54:25.684265"
 }
