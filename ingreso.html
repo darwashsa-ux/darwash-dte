@@ -63,6 +63,16 @@
     .lf-textarea{resize:none;min-height:80px;}
     .lf-input.uppercase{text-transform:uppercase;}
 
+    /* AUTOCOMPLETE PRODUCTOR */
+    .prod-autocomplete-wrap{position:relative;}
+    .prod-suggestions{display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,0.08);max-height:260px;overflow-y:auto;z-index:20;}
+    .prod-suggestions.show{display:block;}
+    .prod-suggestion-item{padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--border);}
+    .prod-suggestion-item:last-child{border-bottom:none;}
+    .prod-suggestion-item:hover{background:var(--cyan-soft);}
+    .prod-suggestion-name{font-family:var(--sans);font-size:14px;color:var(--text);font-weight:500;line-height:1.3;}
+    .prod-suggestion-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:0.3px;margin-top:3px;}
+
     /* ROW de 2 columnas */
     .lf-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
     .lf-row-2 .lf-field{margin-bottom:0;}
@@ -188,7 +198,10 @@
 
   <div class="lf-field">
     <label class="lf-field-label">Productor / Procedencia</label>
-    <input class="lf-input" id="productor" type="text" placeholder="Nombre del productor o establecimiento" autocorrect="off"/>
+    <div class="prod-autocomplete-wrap">
+      <input class="lf-input" id="productor" type="text" placeholder="Nombre del productor o establecimiento" autocorrect="off" autocomplete="off"/>
+      <div class="prod-suggestions" id="prod-suggestions"></div>
+    </div>
   </div>
 
   <!-- TRANSPORTE -->
@@ -270,6 +283,8 @@ const GH_REPO='darwash-dte';
 const CATS=['Novillo','Vaquillona','Vaca','Ternero','Ternera','Toro','Torito/MEJ'];
 const CAT_CODES={'Novillo':'NOV','Vaquillona':'VQ','Vaca':'VA','Ternero':'TER','Ternera':'TRA','Toro':'TORO','Torito/MEJ':'MEJ'};
 let remateActual='',horaManual=null,ultimoRegistro=null,nroRemito=null;
+let padronClientes=[],clienteSeleccionado=null;
+function normalizaTxt(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
 async function sbInsert(tabla,data){
@@ -284,7 +299,70 @@ async function sbSelect(tabla,filtros={}){
   return r.json();
 }
 
-function init(){renderCatGrid();iniciarReloj();cargarRemate();initFirma();initFotos();}
+function init(){renderCatGrid();iniciarReloj();cargarRemate();initFirma();initFotos();cargarPadronClientes();initProductorAutocomplete();}
+
+async function cargarPadronClientes(){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/remate_clientes?select=razon_social,cuit,id_cuenta_auxi,localidad&limit=10000`,{
+      headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    if(Array.isArray(data)){
+      padronClientes=data.filter(c=>c&&c.razon_social).map(c=>({
+        razon_social:c.razon_social,
+        cuit:c.cuit||null,
+        id_cuenta_auxi:c.id_cuenta_auxi||null,
+        localidad:c.localidad||'',
+        _norm:normalizaTxt(c.razon_social)
+      }));
+      console.log('[PADRÓN] Cargados',padronClientes.length,'clientes');
+    }
+  }catch(e){
+    console.warn('[PADRÓN] No se pudo cargar — el form sigue como texto libre:',e);
+  }
+}
+
+function initProductorAutocomplete(){
+  const inp=document.getElementById('productor');
+  const sug=document.getElementById('prod-suggestions');
+  if(!inp||!sug) return;
+  function ocultar(){sug.classList.remove('show');sug.innerHTML='';}
+  function render(items){
+    if(!items.length){ocultar();return;}
+    sug.innerHTML=items.map((c,i)=>{
+      const meta=[c.localidad||'',c.cuit||''].filter(Boolean).join(' · ')||'—';
+      return `<div class="prod-suggestion-item" data-idx="${i}">
+        <div class="prod-suggestion-name">${esc(c.razon_social)}</div>
+        <div class="prod-suggestion-meta">${esc(meta)}</div>
+      </div>`;
+    }).join('');
+    sug.classList.add('show');
+    sug.querySelectorAll('.prod-suggestion-item').forEach(el=>{
+      // mousedown dispara antes que blur del input — así el click sobrevive
+      el.addEventListener('mousedown',function(e){
+        e.preventDefault();
+        const c=items[Number(el.dataset.idx)];
+        clienteSeleccionado=c;
+        inp.value=c.razon_social;
+        ocultar();
+      });
+    });
+  }
+  inp.addEventListener('input',function(){
+    // Si el texto ya no coincide exacto con el cliente elegido, soltar la selección.
+    // Resultado: cuit/id_cuenta_auxi vuelven a null en el INSERT.
+    if(clienteSeleccionado&&inp.value!==clienteSeleccionado.razon_social){
+      clienteSeleccionado=null;
+    }
+    const q=normalizaTxt(inp.value.trim());
+    if(q.length<2||!padronClientes.length){ocultar();return;}
+    const matches=padronClientes.filter(c=>c._norm.includes(q)).slice(0,8);
+    render(matches);
+  });
+  inp.addEventListener('blur',function(){setTimeout(ocultar,150);});
+  inp.addEventListener('keydown',function(e){if(e.key==='Escape')ocultar();});
+}
 
 let firmaCanvas,firmaCtx,firmando=false,firmaVacia=true;
 
@@ -486,7 +564,7 @@ async function guardar(){
   const fecha=`${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
   const btn=document.getElementById('btn-save');
   btn.disabled=true;btn.textContent='Guardando...';
-  const res=await sbInsert('ingresos_hacienda',{remate:remateActual,fecha,hora_descarga:hora,nro_dte:dte||null,productor:prod||null,transportista:trans||null,patente:pat||null,categorias:cats,total_cabezas:total,observaciones:obs||null});
+  const res=await sbInsert('ingresos_hacienda',{remate:remateActual,fecha,hora_descarga:hora,nro_dte:dte||null,productor:prod||null,cuit:(clienteSeleccionado&&clienteSeleccionado.cuit)||null,id_cuenta_auxi:(clienteSeleccionado&&clienteSeleccionado.id_cuenta_auxi)||null,transportista:trans||null,patente:pat||null,categorias:cats,total_cabezas:total,observaciones:obs||null});
   btn.disabled=false;btn.textContent='✓ Registrar Ingreso';
   if(res){
     ultimoRegistro={...res,fecha,hora_descarga:hora,nro_dte:dte,productor:prod,transportista:trans,patente:pat,categorias:cats,total_cabezas:total,observaciones:obs,remate:remateActual,firma:getFirmaDataURL()};
@@ -806,7 +884,7 @@ function nuevoRegistro(){
   document.getElementById('success-overlay').classList.remove('show');
   ['nro-dte','productor','transportista','patente','obs'].forEach(id=>document.getElementById(id).value='');
   document.querySelectorAll('#cat-grid input').forEach(i=>i.value='');
-  calcTotal();horaManual=null;ultimoRegistro=null;
+  calcTotal();horaManual=null;ultimoRegistro=null;clienteSeleccionado=null;
   document.getElementById('hora-input-wrap').style.display='none';
   limpiarFirma();
   limpiarFotos();
