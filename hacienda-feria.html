@@ -48,6 +48,16 @@
     .lf-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
     .lf-row-2 .lf-field{margin-bottom:0;}
 
+    /* AUTOCOMPLETE PRODUCTOR */
+    .prod-autocomplete-wrap{position:relative;}
+    .prod-suggestions{display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,0.08);max-height:260px;overflow-y:auto;z-index:20;}
+    .prod-suggestions.show{display:block;}
+    .prod-suggestion-item{padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--border);}
+    .prod-suggestion-item:last-child{border-bottom:none;}
+    .prod-suggestion-item:hover{background:var(--cyan-soft);}
+    .prod-suggestion-name{font-family:var(--sans);font-size:14px;color:var(--text);font-weight:500;line-height:1.3;}
+    .prod-suggestion-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:0.3px;margin-top:3px;}
+
     /* SEGMENT TIPO */
     .tipo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
     .tipo-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 6px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:border-color 150ms,background 150ms;}
@@ -119,9 +129,12 @@
     </div>
   </div>
 
-  <div class="lf-section-label">Empresa / Propietario</div>
+  <div class="lf-section-label">Cliente / Propietario</div>
   <div class="lf-field">
-    <input class="lf-input" id="empresa" type="text" placeholder="Pecuaria El Garabí, Las Taperas, etc." autocorrect="off"/>
+    <div class="prod-autocomplete-wrap">
+      <input class="lf-input" id="empresa" type="text" placeholder="Buscar productor o establecimiento…" autocorrect="off" autocomplete="off"/>
+      <div class="prod-suggestions" id="prod-suggestions"></div>
+    </div>
   </div>
 
   <div class="lf-section-label">Detalle de hacienda</div>
@@ -142,6 +155,10 @@
       <label class="lf-field-label">Cabezas</label>
       <input class="lf-input" id="cabezas" type="number" min="0" inputmode="numeric" placeholder="0"/>
     </div>
+  </div>
+  <div class="lf-field">
+    <label class="lf-field-label">Detalle del lote (opcional)</label>
+    <input class="lf-input" id="detalle-lote" type="text" placeholder="Ej: vacas gordas, novillos holando…" autocorrect="off"/>
   </div>
 
   <div class="lf-section-label">Ubicación</div>
@@ -183,6 +200,72 @@ const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
 
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function normalizaTxt(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
+
+let padronClientes=[],clienteSeleccionado=null;
+
+async function cargarPadronClientes(){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/remate_clientes?select=razon_social,cuit,id_cuenta_auxi,localidad&limit=10000`,{
+      headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    if(Array.isArray(data)){
+      padronClientes=data.filter(c=>c&&c.razon_social).map(c=>({
+        razon_social:c.razon_social,
+        cuit:c.cuit||null,
+        id_cuenta_auxi:c.id_cuenta_auxi||null,
+        localidad:c.localidad||'',
+        _norm:normalizaTxt(c.razon_social)
+      }));
+      console.log('[PADRÓN] Cargados',padronClientes.length,'clientes');
+    }
+  }catch(e){
+    console.warn('[PADRÓN] No se pudo cargar — el form sigue como texto libre:',e);
+  }
+}
+
+function initProductorAutocomplete(){
+  const inp=document.getElementById('empresa');
+  const sug=document.getElementById('prod-suggestions');
+  if(!inp||!sug) return;
+  function ocultar(){sug.classList.remove('show');sug.innerHTML='';}
+  function render(items){
+    if(!items.length){ocultar();return;}
+    sug.innerHTML=items.map((c,i)=>{
+      const meta=[c.localidad||'',c.cuit||''].filter(Boolean).join(' · ')||'—';
+      return `<div class="prod-suggestion-item" data-idx="${i}">
+        <div class="prod-suggestion-name">${esc(c.razon_social)}</div>
+        <div class="prod-suggestion-meta">${esc(meta)}</div>
+      </div>`;
+    }).join('');
+    sug.classList.add('show');
+    sug.querySelectorAll('.prod-suggestion-item').forEach(el=>{
+      // mousedown dispara antes que blur del input — así el click sobrevive
+      el.addEventListener('mousedown',function(e){
+        e.preventDefault();
+        const c=items[Number(el.dataset.idx)];
+        clienteSeleccionado=c;
+        inp.value=c.razon_social;
+        ocultar();
+      });
+    });
+  }
+  inp.addEventListener('input',function(){
+    // Si el texto ya no coincide exacto con el cliente elegido, soltar la selección.
+    // Resultado: cuit/id_cuenta_auxi vuelven a null en el INSERT.
+    if(clienteSeleccionado&&inp.value!==clienteSeleccionado.razon_social){
+      clienteSeleccionado=null;
+    }
+    const q=normalizaTxt(inp.value.trim());
+    if(q.length<2||!padronClientes.length){ocultar();return;}
+    const matches=padronClientes.filter(c=>c._norm.includes(q)).slice(0,8);
+    render(matches);
+  });
+  inp.addEventListener('blur',function(){setTimeout(ocultar,150);});
+  inp.addEventListener('keydown',function(e){if(e.key==='Escape')ocultar();});
+}
 
 function getSession(){
   try{
@@ -264,6 +347,9 @@ if(modoParam==='interno' || modoParam==='salida'){
 function initEntradaMode(){
   let tipo='entrada';
 
+  cargarPadronClientes();
+  initProductorAutocomplete();
+
   document.querySelectorAll('.tipo-card').forEach(card=>{
     card.onclick=()=>{
       document.querySelectorAll('.tipo-card').forEach(c=>c.classList.remove('active'));
@@ -337,7 +423,10 @@ function initEntradaMode(){
       const tropa=await sbInsert('tropas',{
         codigo_tropa:codigoTropa,
         propietario:empresa,
-        empresa:empresa,
+        empresa:(clienteSeleccionado&&clienteSeleccionado.razon_social)||empresa,
+        id_cuenta_auxi:(clienteSeleccionado&&clienteSeleccionado.id_cuenta_auxi)||null,
+        cuit:(clienteSeleccionado&&clienteSeleccionado.cuit)||null,
+        detalle_lote:document.getElementById('detalle-lote').value.trim()||null,
         tipo_origen:'extraferia',
         remate_codigo:null,
         categoria:categoria,
@@ -377,6 +466,9 @@ function initEntradaMode(){
     document.getElementById('procedencia').value='';
     document.getElementById('corral-destino').value='';
     document.getElementById('obs').value='';
+    const dl=document.getElementById('detalle-lote');
+    if(dl) dl.value='';
+    clienteSeleccionado=null;
     document.getElementById('success-overlay').classList.remove('show');
     window.scrollTo({top:0,behavior:'smooth'});
   }
