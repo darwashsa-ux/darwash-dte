@@ -1,5 +1,12 @@
 # CLAUDE.md — darwash-dte (Feria en Vivo)
 
+## Carpeta oficial
+**La única carpeta de trabajo es `C:\Dev\darwash-dte`** (fuera de OneDrive).
+En la **PC LEO** se clona en **la misma ruta `C:\Dev\darwash-dte`**.
+**NO trabajar nunca desde OneDrive** — corrompe `.git/objects` y desincroniza ramas.
+Las copias viejas están archivadas en `C:\Users\darwa\VIEJO\` (no usar; sólo backup).
+Para abrir el proyecto: `ABRIR_FERIA.bat` en el escritorio (hace `cd`, `git pull`, abre Pages y lanza `claude`).
+
 ## Qué es
 Módulo **Feria en Vivo** de **Darwash SA** (feria ganadera en Vicuña Mackenna, Córdoba).
 Maneja hacienda en **153 corrales + balanza**. Dos flujos:
