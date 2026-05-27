@@ -20576,7 +20576,7 @@
     },
     {
       "codigo": "03.014.3.00015/07-2026",
-      "fecha_extraccion": "2026-05-27T15:33:06.263178",
+      "fecha_extraccion": "2026-05-27T17:02:55.660743",
       "info": {
         "Inicio": "13/05/2026",
         "Fin": "14/05/2026",
@@ -24048,7 +24048,7 @@
     },
     {
       "codigo": "01.054.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-27T15:33:05.061289",
+      "fecha_extraccion": "2026-05-27T17:02:54.603226",
       "info": {
         "Inicio": "20/05/2026",
         "Fin": "22/05/2026",
@@ -26692,7 +26692,7 @@
     },
     {
       "codigo": "03.014.3.00015/08-2026",
-      "fecha_extraccion": "2026-05-27T15:33:04.094738",
+      "fecha_extraccion": "2026-05-27T17:02:53.662867",
       "info": {
         "Inicio": "27/05/2026",
         "Fin": "28/05/2026",
@@ -26702,8 +26702,8 @@
         "Predio ferial": "DARWASH S A"
       },
       "total_dtes": 50,
-      "total_dtes_salida": 1,
-      "total_filas": 86,
+      "total_dtes_salida": 2,
+      "total_filas": 88,
       "total_animales": 1135,
       "totales_categoria": {
         "Vaquillona": {
@@ -28082,9 +28082,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "15/04/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 27,
-          "recibido": 27,
+          "categoria": "Toro",
+          "enviado": 2,
+          "recibido": 2,
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
           "receptor_nombre": "DARWASH S A",
@@ -28100,9 +28100,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "15/04/26",
           "especie": "Bovinos",
-          "categoria": "Toro",
-          "enviado": 2,
-          "recibido": 2,
+          "categoria": "Vaca",
+          "enviado": 27,
+          "recibido": 27,
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
           "receptor_nombre": "DARWASH S A",
@@ -28154,24 +28154,6 @@
           "apto_china": "SI",
           "fecha_aftosa": "19/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 3,
-          "recibido": 3,
-          "emisor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
-          "emisor_cuit": "30-71862137-9",
-          "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "031867220-2",
-          "origen": "03.014.3.15693/09",
-          "motivo": "Invernada",
-          "estado": "CERRADO",
-          "fecha_movimiento": "27/05/2026",
-          "apto_china": "SI",
-          "fecha_aftosa": "19/03/26",
-          "especie": "Bovinos",
           "categoria": "Novillito",
           "enviado": 3,
           "recibido": 3,
@@ -28193,6 +28175,24 @@
           "categoria": "Ternera",
           "enviado": 10,
           "recibido": 10,
+          "emisor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
+          "emisor_cuit": "30-71862137-9",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031867220-2",
+          "origen": "03.014.3.15693/09",
+          "motivo": "Invernada",
+          "estado": "CERRADO",
+          "fecha_movimiento": "27/05/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "19/03/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 3,
+          "recibido": 3,
           "emisor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
           "emisor_cuit": "30-71862137-9",
           "receptor_nombre": "DARWASH S A",
@@ -28287,9 +28287,45 @@
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
           "receptor_cuit": "30-70860143-4"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031873108-5",
+          "origen": "03.014.0.00432/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "27/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "22/10/25",
+          "especie": "Bovinos",
+          "categoria": "Novillo",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
+          "receptor_cuit": "30-70846564-6"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031873108-5",
+          "origen": "03.014.0.00432/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "27/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "22/10/25",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 46,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
+          "receptor_cuit": "30-70846564-6"
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-05-27T15:33:04.094738"
+  "fecha_extraccion": "2026-05-27T17:02:53.662867"
 }
