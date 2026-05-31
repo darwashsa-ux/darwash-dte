@@ -20576,7 +20576,7 @@
     },
     {
       "codigo": "03.014.3.00015/07-2026",
-      "fecha_extraccion": "2026-05-30T09:04:33.571515",
+      "fecha_extraccion": "2026-05-31T18:16:03.400802",
       "info": {
         "Inicio": "13/05/2026",
         "Fin": "14/05/2026",
@@ -20596,7 +20596,7 @@
         },
         "Ternero": {
           "enviado": 300,
-          "recibido": 212
+          "recibido": 247
         },
         "Vaca": {
           "enviado": 311,
@@ -22776,9 +22776,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "23/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 49,
-          "recibido": 49,
+          "categoria": "Ternero",
+          "enviado": 28,
+          "recibido": 28,
           "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
           "emisor_cuit": "30-71606908-3",
           "receptor_nombre": "DARWASH S A",
@@ -22794,27 +22794,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "23/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 28,
-          "recibido": 28,
-          "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
-          "emisor_cuit": "30-71606908-3",
-          "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "031764053-6",
-          "origen": "03.014.3.15652/03",
-          "motivo": "Invernada",
-          "estado": "CERRADO",
-          "fecha_movimiento": "13/05/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "23/03/26",
-          "especie": "Bovinos",
           "categoria": "Ternera",
-          "enviado": 18,
-          "recibido": 18,
+          "enviado": 49,
+          "recibido": 49,
           "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
           "emisor_cuit": "30-71606908-3",
           "receptor_nombre": "DARWASH S A",
@@ -22833,6 +22815,24 @@
           "categoria": "Ternero",
           "enviado": 16,
           "recibido": 16,
+          "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
+          "emisor_cuit": "30-71606908-3",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031764053-6",
+          "origen": "03.014.3.15652/03",
+          "motivo": "Invernada",
+          "estado": "CERRADO",
+          "fecha_movimiento": "13/05/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "23/03/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 18,
+          "recibido": 18,
           "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
           "emisor_cuit": "30-71606908-3",
           "receptor_nombre": "DARWASH S A",
@@ -22915,14 +22915,14 @@
           "documento": "031764965-7",
           "origen": "03.014.2.06157/00",
           "motivo": "Invernada UE",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "13/05/2026",
           "apto_china": "NO",
           "fecha_aftosa": "16/03/26",
           "especie": "Bovinos",
           "categoria": "Ternero",
           "enviado": 35,
-          "recibido": 0,
+          "recibido": 35,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "PERASSI MIGUEL ANGEL",
@@ -22974,9 +22974,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "20/03/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 28,
-          "recibido": 28,
+          "categoria": "Vaquillona",
+          "enviado": 6,
+          "recibido": 6,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "SUCESION DE MACOR LUIS NEMESIO",
@@ -22992,9 +22992,9 @@
           "apto_china": "NO",
           "fecha_aftosa": "20/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 6,
-          "recibido": 6,
+          "categoria": "Ternera",
+          "enviado": 28,
+          "recibido": 28,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "SUCESION DE MACOR LUIS NEMESIO",
@@ -24048,7 +24048,7 @@
     },
     {
       "codigo": "01.054.0.00001/05-2026",
-      "fecha_extraccion": "2026-05-30T09:04:32.464265",
+      "fecha_extraccion": "2026-05-31T18:16:01.769836",
       "info": {
         "Inicio": "20/05/2026",
         "Fin": "22/05/2026",
@@ -26692,7 +26692,7 @@
     },
     {
       "codigo": "03.014.3.00015/08-2026",
-      "fecha_extraccion": "2026-05-30T09:04:31.292486",
+      "fecha_extraccion": "2026-05-31T18:16:00.588824",
       "info": {
         "Inicio": "27/05/2026",
         "Fin": "28/05/2026",
@@ -29227,5 +29227,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-05-30T09:04:31.292486"
+  "fecha_extraccion": "2026-05-31T18:16:00.588824"
 }
