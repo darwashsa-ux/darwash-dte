@@ -26692,7 +26692,7 @@
     },
     {
       "codigo": "03.014.3.00015/08-2026",
-      "fecha_extraccion": "2026-06-11T09:23:34.540779",
+      "fecha_extraccion": "2026-06-11T12:13:24.457365",
       "info": {
         "Inicio": "27/05/2026",
         "Fin": "28/05/2026",
@@ -29228,7 +29228,7 @@
     },
     {
       "codigo": "03.014.3.00015/09-2026",
-      "fecha_extraccion": "2026-06-11T09:23:33.460923",
+      "fecha_extraccion": "2026-06-11T12:13:22.812782",
       "info": {
         "Inicio": "10/06/2026",
         "Fin": "11/06/2026",
@@ -29238,8 +29238,8 @@
         "Predio ferial": "DARWASH S A"
       },
       "total_dtes": 40,
-      "total_dtes_salida": 10,
-      "total_filas": 83,
+      "total_dtes_salida": 15,
+      "total_filas": 90,
       "total_animales": 1079,
       "totales_categoria": {
         "Vaquillona": {
@@ -29247,12 +29247,12 @@
           "recibido": 69
         },
         "Ternero": {
-          "enviado": 328,
+          "enviado": 131,
           "recibido": 15
         },
         "Vaca": {
           "enviado": 197,
-          "recibido": 47
+          "recibido": 74
         },
         "Torito/MEJ": {
           "enviado": 37,
@@ -29260,15 +29260,15 @@
         },
         "Novillo": {
           "enviado": 105,
-          "recibido": 18
+          "recibido": 61
         },
         "Toro": {
           "enviado": 5,
           "recibido": 0
         },
         "Novillito": {
-          "enviado": 250,
-          "recibido": 70
+          "enviado": 447,
+          "recibido": 87
         },
         "Ternera": {
           "enviado": 22,
@@ -30649,7 +30649,7 @@
           "documento": "031972060-5",
           "origen": "10.003.0.00093/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "ANULADO",
           "fecha_movimiento": "10/06/2026",
           "apto_china": "SI",
           "fecha_aftosa": "22/10/25",
@@ -30667,14 +30667,14 @@
           "documento": "031972068-5",
           "origen": "01.074.0.00005/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "10/06/2026",
           "apto_china": "SI",
           "fecha_aftosa": "08/04/26",
           "especie": "Bovinos",
           "categoria": "Vaca",
           "enviado": 27,
-          "recibido": 0,
+          "recibido": 27,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "RUNFO S A",
@@ -30721,14 +30721,14 @@
           "documento": "031972313-7",
           "origen": "01.074.0.00041/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "10/06/2026",
           "apto_china": "NO",
           "fecha_aftosa": "22/10/25",
           "especie": "Bovinos",
-          "categoria": "Novillo",
-          "enviado": 43,
-          "recibido": 0,
+          "categoria": "Novillito",
+          "enviado": 17,
+          "recibido": 17,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
@@ -30739,14 +30739,14 @@
           "documento": "031972313-7",
           "origen": "01.074.0.00041/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "10/06/2026",
           "apto_china": "NO",
           "fecha_aftosa": "22/10/25",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 17,
-          "recibido": 0,
+          "categoria": "Novillo",
+          "enviado": 43,
+          "recibido": 43,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
@@ -30769,15 +30769,141 @@
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FEDERICO DOGI Y ASOCIADOS SOCIEDAD CIVIL",
           "receptor_cuit": "30-71252829-6"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031974100-3",
+          "origen": "03.014.1.09295/06",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "11/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "08/06/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 63,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "LOS MALINOIS S.A.",
+          "receptor_cuit": "30-71842313-5"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031974217-4",
+          "origen": "03.005.0.01031/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "11/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "09/06/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 58,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "LARAPINTA S.A.",
+          "receptor_cuit": "30-71507416-4"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031974847-4",
+          "origen": "18.005.0.00664/08",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "11/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "13/03/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 46,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "EL SAGUAIPE S.A.S.",
+          "receptor_cuit": "30-71740897-3"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031975342-7",
+          "origen": "03.014.3.12007/01",
+          "motivo": "Invernada UE",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "11/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "16/04/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 64,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
+          "receptor_cuit": "30-70860143-4"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031975342-7",
+          "origen": "03.014.3.12007/01",
+          "motivo": "Invernada UE",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "11/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "16/04/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
+          "receptor_cuit": "30-70860143-4"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031976140-3",
+          "origen": "10.003.0.00093/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "11/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "22/10/25",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 22,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "SOCIEDAD ANONIMA CARNES PAMPEANAS SA",
+          "receptor_cuit": "30-67859719-4"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "031976140-3",
+          "origen": "10.003.0.00093/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "11/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "22/10/25",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 6,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "SOCIEDAD ANONIMA CARNES PAMPEANAS SA",
+          "receptor_cuit": "30-67859719-4"
         }
       ]
     },
     {
       "codigo": "01.019.0.00001/06-2026",
-      "fecha_extraccion": "2026-06-11T09:23:32.484430",
+      "fecha_extraccion": "2026-06-11T12:13:20.591894",
       "info": {
-        "Inicio": "16/06/2026",
-        "Fin": "22/06/2026",
+        "Inicio": "18/06/2026",
+        "Fin": "24/06/2026",
         "Estado": "PENDIENTE",
         "Finalidad": "",
         "Apto China": "",
@@ -30794,25 +30920,7 @@
           "documento": "031972867-8",
           "origen": "01.115.1.15352/01",
           "motivo": "Faena",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "15/06/2026",
-          "apto_china": "SI",
-          "fecha_aftosa": "11/03/26",
-          "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 3,
-          "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "031972867-8",
-          "origen": "01.115.1.15352/01",
-          "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "ANULADO",
           "fecha_movimiento": "15/06/2026",
           "apto_china": "SI",
           "fecha_aftosa": "11/03/26",
@@ -30824,9 +30932,27 @@
           "emisor_cuit": "",
           "receptor_nombre": "",
           "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031972867-8",
+          "origen": "01.115.1.15352/01",
+          "motivo": "Faena",
+          "estado": "ANULADO",
+          "fecha_movimiento": "15/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "11/03/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-06-11T09:23:32.484430"
+  "fecha_extraccion": "2026-06-11T12:13:20.591894"
 }
