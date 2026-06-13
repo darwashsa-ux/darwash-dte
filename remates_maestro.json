@@ -29228,11 +29228,11 @@
     },
     {
       "codigo": "03.014.3.00015/09-2026",
-      "fecha_extraccion": "2026-06-12T21:28:21.183926",
+      "fecha_extraccion": "2026-06-13T09:32:22.105563",
       "info": {
         "Inicio": "10/06/2026",
         "Fin": "12/06/2026",
-        "Estado": "ABIERTA",
+        "Estado": "CERRADA",
         "Finalidad": "",
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
@@ -31359,10 +31359,10 @@
           "categoria": "Vaca",
           "enviado": 17,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
+          "receptor_cuit": "30-70846564-6"
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -31386,7 +31386,7 @@
     },
     {
       "codigo": "01.019.0.00001/06-2026",
-      "fecha_extraccion": "2026-06-12T21:28:19.707258",
+      "fecha_extraccion": "2026-06-13T09:32:20.493227",
       "info": {
         "Inicio": "18/06/2026",
         "Fin": "24/06/2026",
@@ -31395,10 +31395,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 14,
+      "total_dtes": 15,
       "total_dtes_salida": 0,
-      "total_filas": 17,
-      "total_animales": 148,
+      "total_filas": 19,
+      "total_animales": 176,
       "totales_categoria": {},
       "filas": [
         {
@@ -31411,8 +31411,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "11/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 25,
+          "categoria": "Vaquillona",
+          "enviado": 3,
           "recibido": 0,
           "emisor_nombre": "",
           "emisor_cuit": "",
@@ -31429,8 +31429,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "11/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 3,
+          "categoria": "Vaca",
+          "enviado": 25,
           "recibido": 0,
           "emisor_nombre": "",
           "emisor_cuit": "",
@@ -31706,12 +31706,48 @@
           "emisor_cuit": "",
           "receptor_nombre": "",
           "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031987315-5",
+          "origen": "01.115.1.15352/01",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "17/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "11/03/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "031987315-5",
+          "origen": "01.115.1.15352/01",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "17/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "11/03/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 25,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": ""
         }
       ]
     },
     {
       "codigo": "01.054.0.00001/07-2026",
-      "fecha_extraccion": "2026-06-12T21:28:20.205013",
+      "fecha_extraccion": "2026-06-13T09:32:21.111363",
       "info": {
         "Inicio": "17/06/2026",
         "Fin": "19/06/2026",
@@ -31819,5 +31855,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-06-12T21:28:20.205013"
+  "fecha_extraccion": "2026-06-13T09:32:21.111363"
 }
