@@ -520,16 +520,19 @@ async function cargarRemate(){
     return;
   }
 
-  // 4. Validar estado — INGRESO solo permite PENDIENTE
-  const estado=String((remate.info||{}).Estado||'').toUpperCase();
-  if(estado==='CERRADA'){
-    showError('⚠ Este remate ya cerró. Pedí un link nuevo a Darwash.');
-    return;
+  // 4. Validar ventana operativa por fechas (Inicio−5 a Fin+5), ignorando el Estado de SENASA.
+  //    SENASA puede pasar el remate a CERRADA durante la feria; igual debemos poder cargar ingresos.
+  const ini=(remate.info||{}).Inicio, fin=(remate.info||{}).Fin;
+  const parseF=(s)=>{const m=String(s||'').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);if(!m)return null;const d=new Date(+m[3],+m[2]-1,+m[1]);return isNaN(d.getTime())?null:d;};
+  const fIni=parseF(ini), fFin=parseF(fin);
+  const hoy=new Date(); hoy.setHours(0,0,0,0);
+  if(fIni && fFin){
+    const desde=new Date(fIni); desde.setDate(desde.getDate()-5);
+    const hasta=new Date(fFin); hasta.setDate(hasta.getDate()+5); hasta.setHours(23,59,59,999);
+    if(hoy<desde){ showError('⚠ Este remate todavía no abre para ingresos (abre el '+ini+').'); return; }
+    if(hoy>hasta){ showError('⚠ La ventana de ingresos de este remate ya cerró. Pedí un link nuevo a Darwash.'); return; }
   }
-  if(estado!=='PENDIENTE'){
-    showError('⚠ Estado del remate no válido para ingreso. Pedí un link nuevo.');
-    return;
-  }
+  // Si las fechas no parsean, no bloqueamos: mejor cargar que trabar la feria.
 
   // 5. Render header fijo (no clickeable, sin posibilidad de cambiar)
   const info=remate.info||{};

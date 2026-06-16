@@ -728,19 +728,20 @@ async function generarPDF(soloSubir=false){
     y+=20;
   }
 
-  // Firma
-  if(firmaDataURL){
-    if(y>H-45){ doc.addPage(); y=20; }
-    seccion('FIRMA DEL TRANSPORTISTA');
-    Cf(C.white); Cd(C.border); doc.setLineWidth(0.2);
-    doc.rect(M,y,W-M-MR,22,'FD');
-    try{ doc.addImage(firmaDataURL,'PNG',M+10,y+1,W-M-MR-20,20); }catch(e){}
-    Cd(C.muted); doc.setLineWidth(0.3);
-    doc.line(M+10,y+19,W-MR-10,y+19);
-    doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
-    doc.text(r.transportista||'Transportista',(M+W-MR)/2,y+23,{align:'center'});
-    y+=28;
-  }
+  // Firma del transportista — recuadro en blanco para firma manuscrita (siempre presente)
+  if(y>H-52){ doc.addPage(); y=20; }
+  seccion('FIRMA DEL TRANSPORTISTA');
+  y+=2;
+  Cf(C.white); Cd(C.border); doc.setLineWidth(0.2);
+  doc.rect(M,y,W-M-MR,28,'FD');                       // recuadro vacío para firmar a mano
+  Cd(C.muted); doc.setLineWidth(0.3);
+  doc.line(M+12,y+18,W-MR-12,y+18);                   // línea de firma
+  doc.setFont('helvetica','normal'); doc.setFontSize(6); Ct(C.muted);
+  doc.text('Firma del transportista',(M+W-MR)/2,y+22,{align:'center'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.text);
+  doc.text('Aclaración: '+((r.transportista||'').toUpperCase()||'—'),M+4,y+26);
+  doc.text('DNI: ____________________',W-MR-4,y+26,{align:'right'});
+  y+=34;
 
   // Footer
   const fy=H-14;
