@@ -29228,7 +29228,7 @@
     },
     {
       "codigo": "03.014.3.00015/09-2026",
-      "fecha_extraccion": "2026-06-16T20:36:11.344898",
+      "fecha_extraccion": "2026-06-17T00:29:23.361663",
       "info": {
         "Inicio": "10/06/2026",
         "Fin": "12/06/2026",
@@ -29252,7 +29252,7 @@
         },
         "Vaca": {
           "enviado": 197,
-          "recibido": 180
+          "recibido": 197
         },
         "Torito/MEJ": {
           "enviado": 37,
@@ -31351,14 +31351,14 @@
           "documento": "031979247-3",
           "origen": "03.014.0.00172/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "13/06/2026",
           "apto_china": "NO",
           "fecha_aftosa": "04/04/26",
           "especie": "Bovinos",
           "categoria": "Vaca",
           "enviado": 17,
-          "recibido": 0,
+          "recibido": 17,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
@@ -31386,7 +31386,7 @@
     },
     {
       "codigo": "01.019.0.00001/06-2026",
-      "fecha_extraccion": "2026-06-16T20:36:08.368530",
+      "fecha_extraccion": "2026-06-17T00:29:21.647468",
       "info": {
         "Inicio": "18/06/2026",
         "Fin": "24/06/2026",
@@ -31395,10 +31395,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 33,
+      "total_dtes": 34,
       "total_dtes_salida": 0,
-      "total_filas": 41,
-      "total_animales": 351,
+      "total_filas": 42,
+      "total_animales": 354,
       "totales_categoria": {},
       "filas": [
         {
@@ -32023,7 +32023,7 @@
           "apto_china": "SI",
           "fecha_aftosa": "10/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
+          "categoria": "Ternera",
           "enviado": 9,
           "recibido": 0,
           "emisor_nombre": "G.V.W. POLO SRL",
@@ -32041,7 +32041,7 @@
           "apto_china": "SI",
           "fecha_aftosa": "10/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
+          "categoria": "Ternero",
           "enviado": 9,
           "recibido": 0,
           "emisor_nombre": "G.V.W. POLO SRL",
@@ -32138,16 +32138,34 @@
           "emisor_cuit": "20-18401162-0",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
           "receptor_cuit": "30-51236191-5"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032006335-3",
+          "origen": "01.065.0.04309/02",
+          "motivo": "Reproducción",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "17/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "29/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "PAIOLA WALTER DANIEL",
+          "emisor_cuit": "20-18055495-6",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5"
         }
       ]
     },
     {
       "codigo": "01.054.0.00001/07-2026",
-      "fecha_extraccion": "2026-06-16T20:36:09.725113",
+      "fecha_extraccion": "2026-06-17T00:29:22.519530",
       "info": {
         "Inicio": "17/06/2026",
         "Fin": "19/06/2026",
-        "Estado": "PENDIENTE",
+        "Estado": "ABIERTA",
         "Finalidad": "",
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
@@ -33979,5 +33997,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-06-16T20:36:09.725113"
+  "fecha_extraccion": "2026-06-17T00:29:22.519530"
 }
