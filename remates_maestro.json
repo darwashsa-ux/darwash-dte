@@ -29228,7 +29228,7 @@
     },
     {
       "codigo": "03.014.3.00015/09-2026",
-      "fecha_extraccion": "2026-06-18T16:04:50.651712",
+      "fecha_extraccion": "2026-06-18T17:34:34.073743",
       "info": {
         "Inicio": "10/06/2026",
         "Fin": "12/06/2026",
@@ -31386,7 +31386,7 @@
     },
     {
       "codigo": "01.019.0.00001/06-2026",
-      "fecha_extraccion": "2026-06-18T16:04:48.504434",
+      "fecha_extraccion": "2026-06-18T17:34:31.434681",
       "info": {
         "Inicio": "18/06/2026",
         "Fin": "24/06/2026",
@@ -31416,16 +31416,16 @@
           "enviado": 222,
           "recibido": 0
         },
+        "Ternera": {
+          "enviado": 40,
+          "recibido": 0
+        },
         "Novillo": {
           "enviado": 26,
           "recibido": 0
         },
         "Toro": {
           "enviado": 55,
-          "recibido": 0
-        },
-        "Ternera": {
-          "enviado": 40,
           "recibido": 0
         }
       },
@@ -33918,7 +33918,7 @@
     },
     {
       "codigo": "01.054.0.00001/07-2026",
-      "fecha_extraccion": "2026-06-18T16:04:49.667461",
+      "fecha_extraccion": "2026-06-18T17:34:32.695225",
       "info": {
         "Inicio": "17/06/2026",
         "Fin": "19/06/2026",
@@ -33948,16 +33948,16 @@
           "enviado": 124,
           "recibido": 0
         },
-        "Ternera": {
-          "enviado": 32,
+        "Toro": {
+          "enviado": 25,
           "recibido": 0
         },
         "Novillo": {
           "enviado": 120,
           "recibido": 0
         },
-        "Toro": {
-          "enviado": 25,
+        "Ternera": {
+          "enviado": 32,
           "recibido": 0
         }
       },
@@ -36341,5 +36341,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-06-18T16:04:49.667461"
+  "fecha_extraccion": "2026-06-18T17:34:32.695225"
 }
