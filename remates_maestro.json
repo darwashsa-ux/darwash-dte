@@ -29228,7 +29228,7 @@
     },
     {
       "codigo": "03.014.3.00015/09-2026",
-      "fecha_extraccion": "2026-06-20T22:04:20.522033",
+      "fecha_extraccion": "2026-06-21T12:25:47.412908",
       "info": {
         "Inicio": "10/06/2026",
         "Fin": "12/06/2026",
@@ -29262,17 +29262,17 @@
           "enviado": 108,
           "recibido": 108
         },
-        "Ternera": {
-          "enviado": 22,
-          "recibido": 20
+        "Toro": {
+          "enviado": 2,
+          "recibido": 2
         },
         "Novillito": {
           "enviado": 453,
           "recibido": 413
         },
-        "Toro": {
-          "enviado": 2,
-          "recibido": 2
+        "Ternera": {
+          "enviado": 22,
+          "recibido": 20
         }
       },
       "filas": [
@@ -31386,7 +31386,7 @@
     },
     {
       "codigo": "01.019.0.00001/06-2026",
-      "fecha_extraccion": "2026-06-20T22:04:17.881314",
+      "fecha_extraccion": "2026-06-21T12:25:43.920813",
       "info": {
         "Inicio": "18/06/2026",
         "Fin": "24/06/2026",
@@ -31416,10 +31416,6 @@
           "enviado": 224,
           "recibido": 215
         },
-        "Ternera": {
-          "enviado": 40,
-          "recibido": 40
-        },
         "Novillo": {
           "enviado": 26,
           "recibido": 25
@@ -31427,6 +31423,10 @@
         "Toro": {
           "enviado": 56,
           "recibido": 56
+        },
+        "Ternera": {
+          "enviado": 40,
+          "recibido": 40
         }
       },
       "filas": [
@@ -35070,7 +35070,7 @@
     },
     {
       "codigo": "01.054.0.00001/07-2026",
-      "fecha_extraccion": "2026-06-20T22:04:19.268492",
+      "fecha_extraccion": "2026-06-21T12:25:45.979762",
       "info": {
         "Inicio": "17/06/2026",
         "Fin": "19/06/2026",
@@ -35104,13 +35104,13 @@
           "enviado": 120,
           "recibido": 106
         },
-        "Ternera": {
-          "enviado": 32,
-          "recibido": 0
-        },
         "Toro": {
           "enviado": 25,
           "recibido": 3
+        },
+        "Ternera": {
+          "enviado": 32,
+          "recibido": 0
         }
       },
       "filas": [
@@ -38159,5 +38159,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-06-20T22:04:19.268492"
+  "fecha_extraccion": "2026-06-21T12:25:45.979762"
 }
