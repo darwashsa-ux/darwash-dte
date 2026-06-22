@@ -974,9 +974,23 @@ async function verIngresos(codigoRemate){
     const url=SB_URL+'/rest/v1/ingresos_hacienda?remate=eq.'+encodeURIComponent(codigoRemate)+'&order=ts.desc';
     const r=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
     const regs=await r.json();
-    regsCache=Array.isArray(regs)?regs:[];
-
-    if(!regs||regs.length===0){
+    // Blindaje: Supabase devuelve objeto de error (no array) ante 4xx/5xx/RLS/JWT.
+    // Distinguimos "respuesta inválida" (mostrar error real) de "array vacío" (sin registros).
+    if(!r.ok || !Array.isArray(regs)){
+      const det = (regs && (regs.message||regs.details||regs.hint))
+        ? (regs.message||'') + (regs.details?' — '+regs.details:'') + (regs.hint?' ('+regs.hint+')':'')
+        : 'Respuesta inesperada del servidor';
+      regsCache=[];
+      modal.innerHTML=headerHtml()
+        +'<div class="modal-body"><div class="modal-feedback error">'
+        +'⚠️ No se pudieron cargar los ingresos (HTTP '+r.status+')<br>'
+        +'<span style="font-family:var(--mono);font-size:12px">'+esc(det)+'</span>'
+        +'</div></div>';
+      document.getElementById('closeModal').onclick=closeDetalle;
+      return;
+    }
+    regsCache=regs;
+    if(regs.length===0){
       modal.innerHTML=headerHtml()
         +'<div class="modal-body" style="text-align:center;color:var(--muted);padding:32px">Sin registros aún.<br><br>'
         +'<a href="ingreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:var(--cyan)">→ Registrar primer ingreso</a>'
@@ -1291,7 +1305,20 @@ async function verEgresos(codigoRemate){
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
     });
     const rows=await res.json();
-    if(!Array.isArray(rows)||!rows.length){
+    // Error de Supabase (objeto, no array) NO es lo mismo que "sin egresos".
+    if(!res.ok || !Array.isArray(rows)){
+      const det = (rows && (rows.message||rows.details||rows.hint))
+        ? (rows.message||'') + (rows.details?' — '+rows.details:'') + (rows.hint?' ('+rows.hint+')':'')
+        : 'Respuesta inesperada del servidor';
+      modal.innerHTML=headerHtml()
+        +'<div class="modal-body"><div class="modal-feedback error">'
+        +'⚠️ No se pudieron cargar los egresos (HTTP '+res.status+')<br>'
+        +'<span style="font-family:var(--mono);font-size:12px">'+esc(det)+'</span>'
+        +'</div></div>';
+      document.getElementById('closeModal').onclick=closeDetalle;
+      return;
+    }
+    if(!rows.length){
       modal.innerHTML=headerHtml()
         +'<div class="modal-body" style="text-align:center;color:var(--muted);padding:32px">Sin egresos registrados.<br><br>'
         +'<a href="egreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:#D63B47">→ Registrar primer egreso</a>'
