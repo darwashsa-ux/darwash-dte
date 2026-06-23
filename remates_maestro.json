@@ -31386,7 +31386,7 @@
     },
     {
       "codigo": "01.019.0.00001/06-2026",
-      "fecha_extraccion": "2026-06-23T14:40:28.877312",
+      "fecha_extraccion": "2026-06-23T16:18:37.865901",
       "info": {
         "Inicio": "18/06/2026",
         "Fin": "24/06/2026",
@@ -35214,7 +35214,7 @@
     },
     {
       "codigo": "01.054.0.00001/07-2026",
-      "fecha_extraccion": "2026-06-23T14:40:30.242624",
+      "fecha_extraccion": "2026-06-23T16:18:39.442507",
       "info": {
         "Inicio": "17/06/2026",
         "Fin": "19/06/2026",
@@ -35244,17 +35244,17 @@
           "enviado": 124,
           "recibido": 56
         },
-        "Ternera": {
-          "enviado": 32,
-          "recibido": 0
+        "Toro": {
+          "enviado": 25,
+          "recibido": 25
         },
         "Novillo": {
           "enviado": 120,
           "recibido": 106
         },
-        "Toro": {
-          "enviado": 25,
-          "recibido": 25
+        "Ternera": {
+          "enviado": 32,
+          "recibido": 0
         }
       },
       "filas": [
@@ -38304,7 +38304,7 @@
     },
     {
       "codigo": "03.014.3.00015/0A-2026",
-      "fecha_extraccion": "2026-06-23T14:40:27.467164",
+      "fecha_extraccion": "2026-06-23T16:18:35.748395",
       "info": {
         "Inicio": "24/06/2026",
         "Fin": "25/06/2026",
@@ -38313,10 +38313,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 38,
+      "total_dtes": 39,
       "total_dtes_salida": 0,
-      "total_filas": 59,
-      "total_animales": 1147,
+      "total_filas": 60,
+      "total_animales": 1152,
       "totales_categoria": {},
       "filas": [
         {
@@ -38995,8 +38995,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "08/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 24,
+          "categoria": "Ternera",
+          "enviado": 18,
           "recibido": 0,
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
@@ -39031,26 +39031,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "08/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 18,
-          "recibido": 0,
-          "emisor_nombre": "ABATE DAGA GERMAN DARIO",
-          "emisor_cuit": "20-35057968-1",
-          "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "032047056-0",
-          "origen": "03.005.1.03036/03",
-          "motivo": "Invernada",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "23/06/2026",
-          "apto_china": "SI",
-          "fecha_aftosa": "08/06/26",
-          "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 7,
+          "categoria": "Vaquillona",
+          "enviado": 24,
           "recibido": 0,
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
@@ -39069,6 +39051,24 @@
           "especie": "Bovinos",
           "categoria": "Vaquillona",
           "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "ABATE DAGA GERMAN DARIO",
+          "emisor_cuit": "20-35057968-1",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032047056-0",
+          "origen": "03.005.1.03036/03",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "08/06/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 7,
           "recibido": 0,
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
@@ -39175,8 +39175,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "14/03/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 59,
+          "categoria": "Vaquillona",
+          "enviado": 16,
           "recibido": 0,
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
@@ -39193,8 +39193,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "14/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 16,
+          "categoria": "Novillito",
+          "enviado": 59,
           "recibido": 0,
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
@@ -39283,8 +39283,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "06/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 13,
+          "categoria": "Vaquillona",
+          "enviado": 10,
           "recibido": 0,
           "emisor_nombre": "BERARDO MARCELO JUAN",
           "emisor_cuit": "20-17049737-7",
@@ -39301,8 +39301,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "06/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 10,
+          "categoria": "Vaca",
+          "enviado": 13,
           "recibido": 0,
           "emisor_nombre": "BERARDO MARCELO JUAN",
           "emisor_cuit": "20-17049737-7",
@@ -39337,8 +39337,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "09/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 10,
+          "categoria": "Ternera",
+          "enviado": 30,
           "recibido": 0,
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
@@ -39355,8 +39355,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "09/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 30,
+          "categoria": "Vaca",
+          "enviado": 10,
           "recibido": 0,
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
@@ -39376,13 +39376,31 @@
           "categoria": "Novillito",
           "enviado": 40,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": ""
+          "emisor_nombre": "ITURRIOZ ALDO DANIEL",
+          "emisor_cuit": "20-34958353-5",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032049843-0",
+          "origen": "03.014.3.12140/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "08/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 5,
+          "recibido": 0,
+          "emisor_nombre": "ALLENDE DANIEL RAUL",
+          "emisor_cuit": "20-11748497-2",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-06-23T14:40:27.467164"
+  "fecha_extraccion": "2026-06-23T16:18:35.748395"
 }
