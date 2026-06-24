@@ -31386,7 +31386,7 @@
     },
     {
       "codigo": "01.019.0.00001/06-2026",
-      "fecha_extraccion": "2026-06-24T17:34:00.589582",
+      "fecha_extraccion": "2026-06-24T19:04:00.330199",
       "info": {
         "Inicio": "18/06/2026",
         "Fin": "24/06/2026",
@@ -31416,10 +31416,6 @@
           "enviado": 224,
           "recibido": 224
         },
-        "Ternera": {
-          "enviado": 40,
-          "recibido": 40
-        },
         "Novillo": {
           "enviado": 26,
           "recibido": 26
@@ -31427,6 +31423,10 @@
         "Toro": {
           "enviado": 56,
           "recibido": 56
+        },
+        "Ternera": {
+          "enviado": 40,
+          "recibido": 40
         }
       },
       "filas": [
@@ -35322,7 +35322,7 @@
     },
     {
       "codigo": "01.054.0.00001/07-2026",
-      "fecha_extraccion": "2026-06-24T17:34:01.688516",
+      "fecha_extraccion": "2026-06-24T19:04:01.583721",
       "info": {
         "Inicio": "17/06/2026",
         "Fin": "19/06/2026",
@@ -35356,13 +35356,13 @@
           "enviado": 120,
           "recibido": 106
         },
-        "Ternera": {
-          "enviado": 32,
-          "recibido": 26
-        },
         "Toro": {
           "enviado": 25,
           "recibido": 25
+        },
+        "Ternera": {
+          "enviado": 32,
+          "recibido": 26
         }
       },
       "filas": [
@@ -38412,7 +38412,7 @@
     },
     {
       "codigo": "03.014.3.00015/0A-2026",
-      "fecha_extraccion": "2026-06-24T17:33:59.350191",
+      "fecha_extraccion": "2026-06-24T19:03:58.991749",
       "info": {
         "Inicio": "24/06/2026",
         "Fin": "25/06/2026",
@@ -38422,12 +38422,12 @@
         "Predio ferial": "DARWASH S A"
       },
       "total_dtes": 51,
-      "total_dtes_salida": 0,
-      "total_filas": 78,
+      "total_dtes_salida": 1,
+      "total_filas": 79,
       "total_animales": 1719,
       "totales_categoria": {
         "Vaquillona": {
-          "enviado": 248,
+          "enviado": 323,
           "recibido": 0
         },
         "Ternero": {
@@ -38435,23 +38435,27 @@
           "recibido": 0
         },
         "Vaca": {
-          "enviado": 238,
+          "enviado": 239,
           "recibido": 0
         },
         "Torito/MEJ": {
           "enviado": 41,
           "recibido": 0
         },
-        "Ternera": {
-          "enviado": 29,
+        "Novillo": {
+          "enviado": 84,
+          "recibido": 0
+        },
+        "Toro": {
+          "enviado": 2,
           "recibido": 0
         },
         "Novillito": {
-          "enviado": 182,
+          "enviado": 257,
           "recibido": 0
         },
-        "Novillo": {
-          "enviado": 84,
+        "Ternera": {
+          "enviado": 69,
           "recibido": 0
         }
       },
@@ -38929,14 +38933,14 @@
           "documento": "032044707-0",
           "origen": "03.014.3.15516/00",
           "motivo": "Invernada",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "23/06/2026",
           "apto_china": "SI",
           "fecha_aftosa": "21/03/26",
           "especie": "Bovinos",
           "categoria": "Toro",
           "enviado": 2,
-          "recibido": 0,
+          "recibido": 2,
           "emisor_nombre": "LEONE HECTOR OSVALDO",
           "emisor_cuit": "23-08439817-9",
           "receptor_nombre": "DARWASH S A",
@@ -38947,14 +38951,14 @@
           "documento": "032044707-0",
           "origen": "03.014.3.15516/00",
           "motivo": "Invernada",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "23/06/2026",
           "apto_china": "SI",
           "fecha_aftosa": "21/03/26",
           "especie": "Bovinos",
           "categoria": "Vaca",
           "enviado": 1,
-          "recibido": 0,
+          "recibido": 1,
           "emisor_nombre": "LEONE HECTOR OSVALDO",
           "emisor_cuit": "23-08439817-9",
           "receptor_nombre": "DARWASH S A",
@@ -38965,14 +38969,14 @@
           "documento": "032044767-4",
           "origen": "03.008.0.06742/00",
           "motivo": "Invernada",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "23/06/2026",
           "apto_china": "SI",
           "fecha_aftosa": "20/06/26",
           "especie": "Bovinos",
           "categoria": "Ternera",
           "enviado": 40,
-          "recibido": 0,
+          "recibido": 40,
           "emisor_nombre": "LA ZORAIDA SOCIEDAD CIVIL",
           "emisor_cuit": "30-70981948-4",
           "receptor_nombre": "DARWASH S A",
@@ -39024,7 +39028,7 @@
           "apto_china": "NO",
           "fecha_aftosa": "17/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
+          "categoria": "Vaca",
           "enviado": 6,
           "recibido": 6,
           "emisor_nombre": "LONGO CHRISTIAN JAVIER",
@@ -39060,7 +39064,7 @@
           "apto_china": "NO",
           "fecha_aftosa": "17/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
+          "categoria": "Novillito",
           "enviado": 6,
           "recibido": 6,
           "emisor_nombre": "LONGO CHRISTIAN JAVIER",
@@ -39150,9 +39154,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "08/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 31,
-          "recibido": 31,
+          "categoria": "Ternera",
+          "enviado": 18,
+          "recibido": 18,
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
           "receptor_nombre": "DARWASH S A",
@@ -39168,27 +39172,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "08/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 18,
-          "recibido": 18,
-          "emisor_nombre": "ABATE DAGA GERMAN DARIO",
-          "emisor_cuit": "20-35057968-1",
-          "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "032047056-0",
-          "origen": "03.005.1.03036/03",
-          "motivo": "Invernada",
-          "estado": "CERRADO",
-          "fecha_movimiento": "23/06/2026",
-          "apto_china": "SI",
-          "fecha_aftosa": "08/06/26",
-          "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 2,
-          "recibido": 2,
+          "categoria": "Ternero",
+          "enviado": 31,
+          "recibido": 31,
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
           "receptor_nombre": "DARWASH S A",
@@ -39207,6 +39193,24 @@
           "categoria": "Novillito",
           "enviado": 7,
           "recibido": 7,
+          "emisor_nombre": "ABATE DAGA GERMAN DARIO",
+          "emisor_cuit": "20-35057968-1",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032047056-0",
+          "origen": "03.005.1.03036/03",
+          "motivo": "Invernada",
+          "estado": "CERRADO",
+          "fecha_movimiento": "23/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "08/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 2,
+          "recibido": 2,
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
           "receptor_nombre": "DARWASH S A",
@@ -39235,14 +39239,14 @@
           "documento": "032047312-8",
           "origen": "01.054.0.00060/08",
           "motivo": "Invernada",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "23/06/2026",
           "apto_china": "NO",
           "fecha_aftosa": "14/03/26",
           "especie": "Bovinos",
           "categoria": "Vaquillona",
           "enviado": 75,
-          "recibido": 0,
+          "recibido": 75,
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
           "receptor_nombre": "DARWASH S A",
@@ -39271,14 +39275,14 @@
           "documento": "032047381-0",
           "origen": "01.054.0.00060/08",
           "motivo": "Invernada",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "23/06/2026",
           "apto_china": "NO",
           "fecha_aftosa": "14/03/26",
           "especie": "Bovinos",
           "categoria": "Novillito",
           "enviado": 75,
-          "recibido": 0,
+          "recibido": 75,
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
           "receptor_nombre": "DARWASH S A",
@@ -39312,8 +39316,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "14/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 16,
+          "categoria": "Novillito",
+          "enviado": 59,
           "recibido": 0,
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
@@ -39330,8 +39334,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "14/03/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 59,
+          "categoria": "Vaquillona",
+          "enviado": 16,
           "recibido": 0,
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
@@ -39366,9 +39370,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "20/04/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 6,
-          "recibido": 6,
+          "categoria": "Vaquillona",
+          "enviado": 9,
+          "recibido": 9,
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
           "receptor_nombre": "DARWASH S A",
@@ -39384,9 +39388,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "20/04/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 9,
-          "recibido": 9,
+          "categoria": "Vaca",
+          "enviado": 6,
+          "recibido": 6,
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
           "receptor_nombre": "DARWASH S A",
@@ -39708,8 +39712,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "28/04/26",
           "especie": "Bovinos",
-          "categoria": "Novillo",
-          "enviado": 30,
+          "categoria": "Vaquillona",
+          "enviado": 1,
           "recibido": 0,
           "emisor_nombre": "TRECCO VICTOR ALFREDO",
           "emisor_cuit": "20-08428156-6",
@@ -39726,8 +39730,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "28/04/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 1,
+          "categoria": "Novillo",
+          "enviado": 30,
           "recibido": 0,
           "emisor_nombre": "TRECCO VICTOR ALFREDO",
           "emisor_cuit": "20-08428156-6",
@@ -39816,8 +39820,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "07/03/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 24,
+          "categoria": "Vaquillona",
+          "enviado": 105,
           "recibido": 0,
           "emisor_nombre": "AGROPECUARIA EL ESPINILLO",
           "emisor_cuit": "30-71820017-9",
@@ -39834,8 +39838,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "07/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 105,
+          "categoria": "Novillito",
+          "enviado": 24,
           "recibido": 0,
           "emisor_nombre": "AGROPECUARIA EL ESPINILLO",
           "emisor_cuit": "30-71820017-9",
@@ -39859,9 +39863,27 @@
           "emisor_cuit": "20-12050372-4",
           "receptor_nombre": "DARWASH S A",
           "receptor_cuit": "30-51163433-0"
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032060606-3",
+          "origen": "20.018.0.00099/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "24/06/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "06/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 30,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "QUICKFOOD S A",
+          "receptor_cuit": "30-50413188-9"
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-06-24T17:33:59.350191"
+  "fecha_extraccion": "2026-06-24T19:03:58.991749"
 }
