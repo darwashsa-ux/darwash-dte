@@ -303,7 +303,7 @@ function init(){renderCatGrid();iniciarReloj();cargarRemate();initFirma();initFo
 
 async function cargarPadronClientes(){
   try{
-    const r=await fetch(`${SB_URL}/rest/v1/remate_clientes?select=razon_social,cuit,id_cuenta_auxi,localidad&limit=10000`,{
+    const r=await fetch(`${SB_URL}/rest/v1/remate_clientes_padron?select=razon_social,cuit,id_cuenta_auxi,localidad&limit=10000`,{
       headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
     });
     if(!r.ok) throw new Error('HTTP '+r.status);
