@@ -1,10 +1,10 @@
 {
   "empresa": "Darwash SA",
   "cuit": "20366041142",
-  "fecha_extraccion": "2026-07-16T17:27:44.108300",
+  "fecha_extraccion": "2026-07-18T11:27:37.622553",
   "periodo_desde": "01/02/2026",
   "periodo_hasta": "30/03/2026",
-  "total_dtes": 2002,
+  "total_dtes": 2012,
   "periodos": [
     {
       "desde": "01/02/2026",
@@ -544,7 +544,10 @@
       "fecha_anteultima_aftosa": "FS 03/04/2025",
       "fecha_ultima_brucelosis": "03/04/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:33:52"
+      "detalle_actualizado_ts": "2026-03-27T11:33:52",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425816-9",
@@ -585,7 +588,10 @@
       "fecha_anteultima_aftosa": "FS 20/03/2025",
       "fecha_ultima_brucelosis": "30/10/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-24T14:20:37"
+      "detalle_actualizado_ts": "2026-03-24T14:20:37",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425713-8",
@@ -626,7 +632,10 @@
       "fecha_anteultima_aftosa": "FS 19/03/2025",
       "fecha_ultima_brucelosis": "28/10/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:33:53"
+      "detalle_actualizado_ts": "2026-03-27T11:33:53",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425550-5",
@@ -667,7 +676,10 @@
       "fecha_anteultima_aftosa": "FS 27/10/2025",
       "fecha_ultima_brucelosis": "04/12/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:33:54"
+      "detalle_actualizado_ts": "2026-03-27T11:33:54",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425536-4",
@@ -708,7 +720,10 @@
       "fecha_anteultima_aftosa": "FS 11/04/2025",
       "fecha_ultima_brucelosis": "20/11/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:33:55"
+      "detalle_actualizado_ts": "2026-03-27T11:33:55",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425513-5",
@@ -749,7 +764,10 @@
       "fecha_anteultima_aftosa": "FS 14/03/2025",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:33:56"
+      "detalle_actualizado_ts": "2026-03-27T11:33:56",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425509-7",
@@ -790,7 +808,10 @@
       "fecha_anteultima_aftosa": "FS 19/11/2025",
       "fecha_ultima_brucelosis": "23/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:33:57"
+      "detalle_actualizado_ts": "2026-03-27T11:33:57",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425508-9",
@@ -831,7 +852,10 @@
       "fecha_anteultima_aftosa": "FS 14/03/2025",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:33:58"
+      "detalle_actualizado_ts": "2026-03-27T11:33:58",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425316-7",
@@ -872,7 +896,10 @@
       "fecha_anteultima_aftosa": "FS 30/04/2025",
       "fecha_ultima_brucelosis": "29/04/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:33:59"
+      "detalle_actualizado_ts": "2026-03-27T11:33:59",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425283-7",
@@ -913,7 +940,10 @@
       "fecha_anteultima_aftosa": "FE 09/10/2025",
       "fecha_ultima_brucelosis": "SIN REGISTRO",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:00"
+      "detalle_actualizado_ts": "2026-03-27T11:34:00",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425170-9",
@@ -954,7 +984,10 @@
       "fecha_anteultima_aftosa": "FS 16/04/2025",
       "fecha_ultima_brucelosis": "10/12/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:01"
+      "detalle_actualizado_ts": "2026-03-27T11:34:01",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425164-4",
@@ -995,7 +1028,10 @@
       "fecha_anteultima_aftosa": "FS 27/03/2025",
       "fecha_ultima_brucelosis": "28/03/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:02"
+      "detalle_actualizado_ts": "2026-03-27T11:34:02",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031425132-6",
@@ -1036,7 +1072,10 @@
       "fecha_anteultima_aftosa": "FS 16/10/2025",
       "fecha_ultima_brucelosis": "12/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:04"
+      "detalle_actualizado_ts": "2026-03-27T11:34:04",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424905-4",
@@ -1077,7 +1116,10 @@
       "fecha_anteultima_aftosa": "FS 27/11/2025",
       "fecha_ultima_brucelosis": "27/11/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:04"
+      "detalle_actualizado_ts": "2026-03-27T11:34:04",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424899-6",
@@ -1118,7 +1160,10 @@
       "fecha_anteultima_aftosa": "FS 07/05/2025",
       "fecha_ultima_brucelosis": "03/12/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:05"
+      "detalle_actualizado_ts": "2026-03-27T11:34:05",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424894-5",
@@ -1159,7 +1204,10 @@
       "fecha_anteultima_aftosa": "FS 07/05/2025",
       "fecha_ultima_brucelosis": "07/05/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:06"
+      "detalle_actualizado_ts": "2026-03-27T11:34:06",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424888-0",
@@ -1200,7 +1248,10 @@
       "fecha_anteultima_aftosa": "FS 27/11/2025",
       "fecha_ultima_brucelosis": "27/11/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-24T14:20:49"
+      "detalle_actualizado_ts": "2026-03-24T14:20:49",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424877-5",
@@ -1241,7 +1292,10 @@
       "fecha_anteultima_aftosa": "FS 30/10/2025",
       "fecha_ultima_brucelosis": "08/05/2014",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:07"
+      "detalle_actualizado_ts": "2026-03-27T11:34:07",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424838-4",
@@ -1282,7 +1336,10 @@
       "fecha_anteultima_aftosa": "FS 27/10/2025",
       "fecha_ultima_brucelosis": "04/12/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:08"
+      "detalle_actualizado_ts": "2026-03-27T11:34:08",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424759-0",
@@ -1323,7 +1380,10 @@
       "fecha_anteultima_aftosa": "FS 18/11/2025",
       "fecha_ultima_brucelosis": "17/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:09"
+      "detalle_actualizado_ts": "2026-03-27T11:34:09",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424736-1",
@@ -1364,7 +1424,10 @@
       "fecha_anteultima_aftosa": "FS 20/10/2025",
       "fecha_ultima_brucelosis": "04/04/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:10"
+      "detalle_actualizado_ts": "2026-03-27T11:34:10",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424655-1",
@@ -1405,7 +1468,10 @@
       "fecha_anteultima_aftosa": "FS 12/11/2025",
       "fecha_ultima_brucelosis": "12/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:11"
+      "detalle_actualizado_ts": "2026-03-27T11:34:11",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424632-2",
@@ -1446,7 +1512,10 @@
       "fecha_anteultima_aftosa": "FS 10/11/2025",
       "fecha_ultima_brucelosis": "09/05/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:12"
+      "detalle_actualizado_ts": "2026-03-27T11:34:12",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424622-5",
@@ -1487,7 +1556,10 @@
       "fecha_anteultima_aftosa": "FS 25/11/2025",
       "fecha_ultima_brucelosis": "23/04/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:13"
+      "detalle_actualizado_ts": "2026-03-27T11:34:13",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424568-7",
@@ -1528,7 +1600,10 @@
       "fecha_anteultima_aftosa": "FS 25/11/2025",
       "fecha_ultima_brucelosis": "23/04/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:13"
+      "detalle_actualizado_ts": "2026-03-27T11:34:13",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424567-9",
@@ -1569,7 +1644,10 @@
       "fecha_anteultima_aftosa": "FS 16/10/2025",
       "fecha_ultima_brucelosis": "16/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-25T08:54:07"
+      "detalle_actualizado_ts": "2026-03-25T08:54:07",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424565-2",
@@ -1610,7 +1688,10 @@
       "fecha_anteultima_aftosa": "FS 10/11/2025",
       "fecha_ultima_brucelosis": "09/05/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:14"
+      "detalle_actualizado_ts": "2026-03-27T11:34:14",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424541-5",
@@ -1651,7 +1732,10 @@
       "fecha_anteultima_aftosa": "FS 10/11/2025",
       "fecha_ultima_brucelosis": "17/10/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:15"
+      "detalle_actualizado_ts": "2026-03-27T11:34:15",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424299-8",
@@ -1692,7 +1776,10 @@
       "fecha_anteultima_aftosa": "FS 30/10/2025",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:16"
+      "detalle_actualizado_ts": "2026-03-27T11:34:16",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424108-8",
@@ -1733,7 +1820,10 @@
       "fecha_anteultima_aftosa": "FS 05/11/2025",
       "fecha_ultima_brucelosis": "16/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-03-27T11:34:17"
+      "detalle_actualizado_ts": "2026-03-27T11:34:17",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true
     },
     {
       "nro_dte": "031424039-1",
@@ -96026,8 +96116,8 @@
       "nro_dte": "032198266-2",
       "codigo": "32132564",
       "id_movimiento": 32132564,
-      "consignataria": "DARWASH SA",
-      "tipo_movimiento": "",
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "SALIDA",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
@@ -96044,7 +96134,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-07-16T17:27:38",
+      "ts_scrape": "2026-07-18T11:27:20",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -96128,8 +96218,8 @@
       "nro_dte": "032190358-4",
       "codigo": "32124656",
       "id_movimiento": 32124656,
-      "consignataria": "DARWASH SA",
-      "tipo_movimiento": "",
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "SALIDA",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
@@ -96146,7 +96236,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-07-16T17:27:38",
+      "ts_scrape": "2026-07-18T11:27:20",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -96179,8 +96269,8 @@
       "nro_dte": "032178434-8",
       "codigo": "32112732",
       "id_movimiento": 32112732,
-      "consignataria": "DARWASH SA",
-      "tipo_movimiento": "",
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "SALIDA",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
@@ -96197,7 +96287,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-07-16T17:27:38",
+      "ts_scrape": "2026-07-18T11:27:20",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -96230,8 +96320,8 @@
       "nro_dte": "032178421-6",
       "codigo": "32112719",
       "id_movimiento": 32112719,
-      "consignataria": "DARWASH SA",
-      "tipo_movimiento": "",
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "SALIDA",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
@@ -96248,7 +96338,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-07-16T17:27:38",
+      "ts_scrape": "2026-07-18T11:27:20",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -96276,6 +96366,576 @@
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
       "detalle_actualizado_ts": "2026-07-16T17:27:43"
+    },
+    {
+      "nro_dte": "032214710-4",
+      "codigo": "32148589",
+      "id_movimiento": 32148589,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "",
+      "emisor_nombre": "AGUIRRE SARAVIA PATRICIO AUGUSTO",
+      "emisor_cuit": "20-13232685-2",
+      "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+      "receptor_cuit": "30-51236191-5",
+      "renspa_origen": "01.019.0.00495/00",
+      "renspa_destino": "01.019.0.00001/07-2026",
+      "tipo": "EST-REF",
+      "estado": "EMITIDO",
+      "fecha_emision": "18/07/2026",
+      "fecha_carga": "20/07/2026",
+      "fecha_vencimiento": "22/07/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - REF",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "EMITIDO",
+      "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true,
+      "fecha_emision_detalle": "18/07/2026 09:35",
+      "fecha_vencimiento_detalle": "22/07/2026",
+      "fecha_caduca": "29/07/2026",
+      "cantidad_enviados": 11,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 9,
+          "recibidos": 0
+        },
+        {
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "despachados": 2,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 11,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": null,
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 27/04/2026",
+      "fecha_anteultima_aftosa": "FS 02/12/2025",
+      "fecha_ultima_brucelosis": "27/04/2026",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:23"
+    },
+    {
+      "nro_dte": "032214702-3",
+      "codigo": "32148581",
+      "id_movimiento": 32148581,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "",
+      "emisor_nombre": "URIEN ALDAO PAULA GLORIA",
+      "emisor_cuit": "27-17839605-1",
+      "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+      "receptor_cuit": "30-51236191-5",
+      "renspa_origen": "01.019.0.00991/00",
+      "renspa_destino": "01.019.0.00001/07-2026",
+      "tipo": "EST-REF",
+      "estado": "EMITIDO",
+      "fecha_emision": "18/07/2026",
+      "fecha_carga": "20/07/2026",
+      "fecha_vencimiento": "22/07/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - REF",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "EMITIDO",
+      "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true,
+      "fecha_emision_detalle": "18/07/2026 09:33",
+      "fecha_vencimiento_detalle": "22/07/2026",
+      "fecha_caduca": "29/07/2026",
+      "cantidad_enviados": 5,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 5,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 5,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": null,
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 10/07/2026",
+      "fecha_anteultima_aftosa": "FS 13/03/2026",
+      "fecha_ultima_brucelosis": "18/12/2025",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:25"
+    },
+    {
+      "nro_dte": "032214695-7",
+      "codigo": "32148574",
+      "id_movimiento": 32148574,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "",
+      "emisor_nombre": "YOCARO S.A.",
+      "emisor_cuit": "30-71017870-0",
+      "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+      "receptor_cuit": "30-51236191-5",
+      "renspa_origen": "01.019.0.00228/01",
+      "renspa_destino": "01.019.0.00001/07-2026",
+      "tipo": "EST-REF",
+      "estado": "EMITIDO",
+      "fecha_emision": "18/07/2026",
+      "fecha_carga": "20/07/2026",
+      "fecha_vencimiento": "22/07/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - REF",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "EMITIDO",
+      "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true,
+      "fecha_emision_detalle": "18/07/2026 09:29",
+      "fecha_vencimiento_detalle": "22/07/2026",
+      "fecha_caduca": "29/07/2026",
+      "cantidad_enviados": 5,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 5,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 5,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": null,
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 07/07/2026",
+      "fecha_anteultima_aftosa": "FS 31/03/2026",
+      "fecha_ultima_brucelosis": "31/03/2026",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:26"
+    },
+    {
+      "nro_dte": "032214677-9",
+      "codigo": "32148556",
+      "id_movimiento": 32148556,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "",
+      "emisor_nombre": "RODOVIARIA PIRENEUS LTDA",
+      "emisor_cuit": "30-59674199-8",
+      "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+      "receptor_cuit": "30-51236191-5",
+      "renspa_origen": "01.019.0.00899/00",
+      "renspa_destino": "01.019.0.00001/07-2026",
+      "tipo": "EST-REF",
+      "estado": "EMITIDO",
+      "fecha_emision": "18/07/2026",
+      "fecha_carga": "20/07/2026",
+      "fecha_vencimiento": "22/07/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - REF",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "EMITIDO",
+      "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true,
+      "fecha_emision_detalle": "18/07/2026 09:26",
+      "fecha_vencimiento_detalle": "22/07/2026",
+      "fecha_caduca": "29/07/2026",
+      "cantidad_enviados": 39,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 39,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 39,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": null,
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 10/07/2026",
+      "fecha_anteultima_aftosa": "FS 17/03/2026",
+      "fecha_ultima_brucelosis": "18/03/2026",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:28"
+    },
+    {
+      "nro_dte": "032214666-3",
+      "codigo": "32148545",
+      "id_movimiento": 32148545,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "",
+      "emisor_nombre": "SAHARREA FRANCISCO",
+      "emisor_cuit": "20-05044229-3",
+      "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+      "receptor_cuit": "30-51236191-5",
+      "renspa_origen": "01.019.0.00013/00",
+      "renspa_destino": "01.019.0.00001/07-2026",
+      "tipo": "EST-REF",
+      "estado": "EMITIDO",
+      "fecha_emision": "18/07/2026",
+      "fecha_carga": "20/07/2026",
+      "fecha_vencimiento": "22/07/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - REF",
+      "motivo_detalle": "Invernada",
+      "estado_detalle": "EMITIDO",
+      "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true,
+      "fecha_emision_detalle": "18/07/2026 09:19",
+      "fecha_vencimiento_detalle": "22/07/2026",
+      "fecha_caduca": "29/07/2026",
+      "cantidad_enviados": 9,
+      "categoria_detalle": "Novillito",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "despachados": 6,
+          "recibidos": 0
+        },
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "despachados": 3,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 9,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": null,
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 16/06/2026",
+      "fecha_anteultima_aftosa": "FS 01/05/2026",
+      "fecha_ultima_brucelosis": "01/05/2026",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:29"
+    },
+    {
+      "nro_dte": "032214652-3",
+      "codigo": "32148531",
+      "id_movimiento": 32148531,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "",
+      "emisor_nombre": "LOS MOORE S.A.",
+      "emisor_cuit": "30-70860114-0",
+      "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+      "receptor_cuit": "30-51236191-5",
+      "renspa_origen": "01.019.0.00115/01",
+      "renspa_destino": "01.019.0.00001/07-2026",
+      "tipo": "EST-REF",
+      "estado": "EMITIDO",
+      "fecha_emision": "18/07/2026",
+      "fecha_carga": "20/07/2026",
+      "fecha_vencimiento": "22/07/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - REF",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "EMITIDO",
+      "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true,
+      "fecha_emision_detalle": "18/07/2026 09:17",
+      "fecha_vencimiento_detalle": "22/07/2026",
+      "fecha_caduca": "29/07/2026",
+      "cantidad_enviados": 60,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 45,
+          "recibidos": 0
+        },
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "despachados": 15,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 60,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": null,
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 30/06/2026",
+      "fecha_anteultima_aftosa": "FS 02/05/2026",
+      "fecha_ultima_brucelosis": "30/06/2026",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:31"
+    },
+    {
+      "nro_dte": "032214647-7",
+      "codigo": "32148526",
+      "id_movimiento": 32148526,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "",
+      "emisor_nombre": "ESTANCIAS LA DORITA SA",
+      "emisor_cuit": "30-61069864-2",
+      "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+      "receptor_cuit": "30-51236191-5",
+      "renspa_origen": "01.019.0.00678/00",
+      "renspa_destino": "01.019.0.00001/07-2026",
+      "tipo": "EST-REF",
+      "estado": "EMITIDO",
+      "fecha_emision": "18/07/2026",
+      "fecha_carga": "20/07/2026",
+      "fecha_vencimiento": "22/07/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - REF",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "EMITIDO",
+      "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true,
+      "fecha_emision_detalle": "18/07/2026 09:15",
+      "fecha_vencimiento_detalle": "22/07/2026",
+      "fecha_caduca": "29/07/2026",
+      "cantidad_enviados": 26,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 16,
+          "recibidos": 0
+        },
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "despachados": 6,
+          "recibidos": 0
+        },
+        {
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "despachados": 4,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 26,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": null,
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 29/06/2026",
+      "fecha_anteultima_aftosa": "FS 25/03/2026",
+      "fecha_ultima_brucelosis": "19/05/2022",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:32"
+    },
+    {
+      "nro_dte": "032214644-2",
+      "codigo": "32148523",
+      "id_movimiento": 32148523,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "",
+      "emisor_nombre": "LACTEOS VIDAL S A",
+      "emisor_cuit": "30-61366019-0",
+      "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+      "receptor_cuit": "30-51236191-5",
+      "renspa_origen": "01.019.0.01151/00",
+      "renspa_destino": "01.019.0.00001/07-2026",
+      "tipo": "EST-REF",
+      "estado": "EMITIDO",
+      "fecha_emision": "18/07/2026",
+      "fecha_carga": "20/07/2026",
+      "fecha_vencimiento": "22/07/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - REF",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "EMITIDO",
+      "consignatario_nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T. (30-71939525-9)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": false,
+      "destino_es_feria": true,
+      "fecha_emision_detalle": "18/07/2026 09:13",
+      "fecha_vencimiento_detalle": "22/07/2026",
+      "fecha_caduca": "29/07/2026",
+      "cantidad_enviados": 22,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 22,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 22,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": null,
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 27/06/2026",
+      "fecha_anteultima_aftosa": "FS 04/05/2026",
+      "fecha_ultima_brucelosis": "04/05/2026",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:34"
+    },
+    {
+      "nro_dte": "032206323-7",
+      "codigo": "32140620",
+      "id_movimiento": 32140620,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "SALIDA",
+      "emisor_nombre": "PECUARIA EL GARABI SA",
+      "emisor_cuit": "33-70793667-9",
+      "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
+      "receptor_cuit": "30-70846564-6",
+      "renspa_origen": "03.014.3.15647/02",
+      "renspa_destino": "03.014.0.00172/00",
+      "tipo": "EST-FRI",
+      "estado": "CERRADO",
+      "fecha_emision": "16/07/2026",
+      "fecha_carga": "16/07/2026",
+      "fecha_vencimiento": "20/07/2026",
+      "fecha_arribo": "16/07/2026",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - FRI",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "CERRADO",
+      "consignatario_nombre": "BULLTRADE SRL (30-71128690-6)",
+      "usuario_faena_nombre": "MILLAN S A (33-50385092-9)",
+      "destino_es_frigorifico": true,
+      "destino_es_feria": false,
+      "fecha_emision_detalle": "16/07/2026 20:53",
+      "fecha_vencimiento_detalle": "20/07/2026",
+      "fecha_caduca": "27/07/2026",
+      "cantidad_enviados": 32,
+      "categoria_detalle": "Novillito",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "despachados": 32,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 32,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": "3177845",
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 02/07/2026",
+      "fecha_anteultima_aftosa": "FS 06/11/2025",
+      "fecha_ultima_brucelosis": "16/08/2024",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:35"
+    },
+    {
+      "nro_dte": "032205817-9",
+      "codigo": "32140114",
+      "id_movimiento": 32140114,
+      "consignataria": "BULLTRADE",
+      "tipo_movimiento": "SALIDA",
+      "emisor_nombre": "PECUARIA EL GARABI SA",
+      "emisor_cuit": "33-70793667-9",
+      "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
+      "receptor_cuit": "30-54808315-6",
+      "renspa_origen": "03.014.3.15647/02",
+      "renspa_destino": "01.074.0.00041/00",
+      "tipo": "EST-FRI",
+      "estado": "CERRADO",
+      "fecha_emision": "16/07/2026",
+      "fecha_carga": "16/07/2026",
+      "fecha_vencimiento": "20/07/2026",
+      "fecha_arribo": "17/07/2026",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-07-18T11:27:20",
+      "tipo_movimiento_detalle": "EST - FRI",
+      "motivo_detalle": "Faena",
+      "estado_detalle": "CERRADO",
+      "consignatario_nombre": "BULLTRADE SRL (30-71128690-6)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": true,
+      "destino_es_feria": false,
+      "fecha_emision_detalle": "16/07/2026 18:46",
+      "fecha_vencimiento_detalle": "20/07/2026",
+      "fecha_caduca": "27/07/2026",
+      "cantidad_enviados": 60,
+      "categoria_detalle": "Novillito",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "despachados": 60,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 60,
+      "total_recibidos": 0,
+      "nro_tri": null,
+      "nro_guia": "3177707",
+      "nro_certificado_faena": null,
+      "fecha_ultima_aftosa": "FS 02/07/2026",
+      "fecha_anteultima_aftosa": "FS 06/11/2025",
+      "fecha_ultima_brucelosis": "16/08/2024",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-07-18T11:27:37"
     }
   ]
 }
