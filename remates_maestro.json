@@ -38412,7 +38412,7 @@
     },
     {
       "codigo": "03.014.3.00015/0A-2026",
-      "fecha_extraccion": "2026-07-18T18:02:41.958199",
+      "fecha_extraccion": "2026-07-19T00:34:42.737977",
       "info": {
         "Inicio": "24/06/2026",
         "Fin": "25/06/2026",
@@ -38436,7 +38436,7 @@
         },
         "Vaca": {
           "enviado": 318,
-          "recibido": 272
+          "recibido": 318
         },
         "Torito/MEJ": {
           "enviado": 41,
@@ -38476,7 +38476,11 @@
           "emisor_nombre": "ALDO NAVILLI Y HNO S. A.",
           "emisor_cuit": "30-61840809-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38494,7 +38498,11 @@
           "emisor_nombre": "ALDO NAVILLI Y HNO S. A.",
           "emisor_cuit": "30-61840809-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38512,7 +38520,11 @@
           "emisor_nombre": "ALDO NAVILLI Y HNO S. A.",
           "emisor_cuit": "30-61840809-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38530,7 +38542,11 @@
           "emisor_nombre": "ALDO NAVILLI Y HNO S. A.",
           "emisor_cuit": "30-61840809-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38548,7 +38564,11 @@
           "emisor_nombre": "ALDO NAVILLI Y HNO S. A.",
           "emisor_cuit": "30-61840809-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38566,7 +38586,11 @@
           "emisor_nombre": "TARQUINI MAURICIO FABIAN",
           "emisor_cuit": "20-17946641-5",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38584,7 +38608,11 @@
           "emisor_nombre": "ARRIETA JUAN PEDRO",
           "emisor_cuit": "20-17171581-5",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38602,7 +38630,11 @@
           "emisor_nombre": "ARRIETA JUAN PEDRO",
           "emisor_cuit": "20-17171581-5",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38620,7 +38652,11 @@
           "emisor_nombre": "NAZARIO CARLOS WALTER",
           "emisor_cuit": "20-16655198-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38638,7 +38674,11 @@
           "emisor_nombre": "NAZARIO CARLOS WALTER",
           "emisor_cuit": "20-16655198-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38656,7 +38696,11 @@
           "emisor_nombre": "NAZARIO CARLOS WALTER",
           "emisor_cuit": "20-16655198-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38674,7 +38718,11 @@
           "emisor_nombre": "NAZARIO CARLOS WALTER",
           "emisor_cuit": "20-16655198-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38692,7 +38740,11 @@
           "emisor_nombre": "CUATRO ASES SRL",
           "emisor_cuit": "30-70906093-3",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38710,7 +38762,11 @@
           "emisor_nombre": "GIUGGIA JORGE ANTONIO Y GIUGGIA MIRYAM ETHEL SOC SECC IV LGS",
           "emisor_cuit": "30-65844609-2",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38728,7 +38784,11 @@
           "emisor_nombre": "GANADERA SAN RAFAEL S A",
           "emisor_cuit": "30-67723445-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38746,7 +38806,11 @@
           "emisor_nombre": "GANADERA SAN RAFAEL S A",
           "emisor_cuit": "30-67723445-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38764,7 +38828,11 @@
           "emisor_nombre": "GANADERA SAN RAFAEL S A",
           "emisor_cuit": "30-67723445-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38782,7 +38850,11 @@
           "emisor_nombre": "LA BELLAQUITA S.A.",
           "emisor_cuit": "30-71878178-3",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38800,7 +38872,11 @@
           "emisor_nombre": "IJF S.A.",
           "emisor_cuit": "30-71878194-5",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38818,7 +38894,11 @@
           "emisor_nombre": "EL ALFALFAR S.A.",
           "emisor_cuit": "30-71878188-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38836,7 +38916,11 @@
           "emisor_nombre": "LA NOSTALGIA SA",
           "emisor_cuit": "30-61574568-1",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38854,7 +38938,11 @@
           "emisor_nombre": "LA NOSTALGIA SA",
           "emisor_cuit": "30-61574568-1",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38872,7 +38960,11 @@
           "emisor_nombre": "LEONE HECTOR OSVALDO",
           "emisor_cuit": "23-08439817-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38890,7 +38982,11 @@
           "emisor_nombre": "LEONE HECTOR OSVALDO",
           "emisor_cuit": "23-08439817-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38908,7 +39004,11 @@
           "emisor_nombre": "LEONE HECTOR OSVALDO",
           "emisor_cuit": "23-08439817-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38926,7 +39026,11 @@
           "emisor_nombre": "PAGANI SERGIO ALFONSO",
           "emisor_cuit": "20-13894853-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38944,7 +39048,11 @@
           "emisor_nombre": "LEONE HECTOR OSVALDO",
           "emisor_cuit": "23-08439817-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38962,7 +39070,11 @@
           "emisor_nombre": "LEONE HECTOR OSVALDO",
           "emisor_cuit": "23-08439817-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38980,7 +39092,11 @@
           "emisor_nombre": "LA ZORAIDA SOCIEDAD CIVIL",
           "emisor_cuit": "30-70981948-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -38998,7 +39114,11 @@
           "emisor_nombre": "MICHEO HECTOR ESTEBAN",
           "emisor_cuit": "20-05067421-6",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39016,7 +39136,11 @@
           "emisor_nombre": "SUCESION DE BUDINI ROBERTO JUAN",
           "emisor_cuit": "20-06636547-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39034,7 +39158,11 @@
           "emisor_nombre": "LONGO CHRISTIAN JAVIER",
           "emisor_cuit": "20-20516243-8",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39052,7 +39180,11 @@
           "emisor_nombre": "LONGO CHRISTIAN JAVIER",
           "emisor_cuit": "20-20516243-8",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39070,7 +39202,11 @@
           "emisor_nombre": "LONGO CHRISTIAN JAVIER",
           "emisor_cuit": "20-20516243-8",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39088,7 +39224,11 @@
           "emisor_nombre": "MICHEO HECTOR ESTEBAN",
           "emisor_cuit": "20-05067421-6",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39106,7 +39246,11 @@
           "emisor_nombre": "CARDETTI JUAN JOSE",
           "emisor_cuit": "20-12556478-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39124,7 +39268,11 @@
           "emisor_nombre": "MG SERVICIOS INTEGRALES S. A. S.",
           "emisor_cuit": "30-71894733-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39142,7 +39290,11 @@
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39160,7 +39312,11 @@
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39178,7 +39334,11 @@
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39196,7 +39356,11 @@
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39214,7 +39378,11 @@
           "emisor_nombre": "ABATE DAGA GERMAN DARIO",
           "emisor_cuit": "20-35057968-1",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39232,7 +39400,11 @@
           "emisor_nombre": "GALIZIO LUIS EDUARDO",
           "emisor_cuit": "20-28704396-2",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39250,7 +39422,11 @@
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39268,7 +39444,11 @@
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39286,7 +39466,11 @@
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39304,7 +39488,11 @@
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39322,7 +39510,11 @@
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39340,7 +39532,11 @@
           "emisor_nombre": "AGROGANADERA BERPIZTU SOC. SIMPLE",
           "emisor_cuit": "33-71619466-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39358,7 +39554,11 @@
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39376,7 +39576,11 @@
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39394,7 +39598,11 @@
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39412,7 +39620,11 @@
           "emisor_nombre": "NAZARIO HUGO MARCOS",
           "emisor_cuit": "23-14792702-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39430,7 +39642,11 @@
           "emisor_nombre": "BERARDO MARCELO JUAN",
           "emisor_cuit": "20-17049737-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39448,7 +39664,11 @@
           "emisor_nombre": "BERARDO MARCELO JUAN",
           "emisor_cuit": "20-17049737-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39466,7 +39686,11 @@
           "emisor_nombre": "BERARDO MARCELO JUAN",
           "emisor_cuit": "20-17049737-7",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39484,7 +39708,11 @@
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39502,7 +39730,11 @@
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39520,7 +39752,11 @@
           "emisor_nombre": "ITURRIOZ ALDO DANIEL",
           "emisor_cuit": "20-34958353-5",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39538,7 +39774,11 @@
           "emisor_nombre": "ALLENDE DANIEL RAUL",
           "emisor_cuit": "20-11748497-2",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39556,7 +39796,11 @@
           "emisor_nombre": "LOS TUELCHES SA",
           "emisor_cuit": "30-51213275-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39574,7 +39818,11 @@
           "emisor_nombre": "FATU S.A.S.",
           "emisor_cuit": "30-71697804-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39592,7 +39840,11 @@
           "emisor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
           "emisor_cuit": "30-70860143-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39610,7 +39862,11 @@
           "emisor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
           "emisor_cuit": "30-70860143-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39628,7 +39884,11 @@
           "emisor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
           "emisor_cuit": "30-70860143-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39646,7 +39906,11 @@
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39664,7 +39928,11 @@
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39682,7 +39950,11 @@
           "emisor_nombre": "MP CAMPO S. R. L.",
           "emisor_cuit": "30-71909827-0",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39700,7 +39972,11 @@
           "emisor_nombre": "PECUARIA EL GARABI SA",
           "emisor_cuit": "33-70793667-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39718,7 +39994,11 @@
           "emisor_nombre": "TRECCO VICTOR ALFREDO",
           "emisor_cuit": "20-08428156-6",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39736,7 +40016,11 @@
           "emisor_nombre": "TRECCO VICTOR ALFREDO",
           "emisor_cuit": "20-08428156-6",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39754,7 +40038,11 @@
           "emisor_nombre": "ALLENDE DANIEL RAUL",
           "emisor_cuit": "20-11748497-2",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39772,7 +40060,11 @@
           "emisor_nombre": "PECUARIA EL GARABI SA",
           "emisor_cuit": "33-70793667-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39790,7 +40082,11 @@
           "emisor_nombre": "PECUARIA EL GARABI SA",
           "emisor_cuit": "33-70793667-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39808,7 +40104,11 @@
           "emisor_nombre": "PECUARIA EL GARABI SA",
           "emisor_cuit": "33-70793667-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39826,7 +40126,11 @@
           "emisor_nombre": "AGROPECUARIA EL ESPINILLO",
           "emisor_cuit": "30-71820017-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39844,7 +40148,11 @@
           "emisor_nombre": "AGROPECUARIA EL ESPINILLO",
           "emisor_cuit": "30-71820017-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39862,7 +40170,11 @@
           "emisor_nombre": "SUCESION DE SANCHEZ HECTOR ALBERTO",
           "emisor_cuit": "20-12050372-4",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39880,7 +40192,11 @@
           "emisor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
           "emisor_cuit": "30-71862137-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -39898,7 +40214,11 @@
           "emisor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
           "emisor_cuit": "30-71862137-9",
           "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0"
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -39916,7 +40236,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "QUICKFOOD S A",
-          "receptor_cuit": "30-50413188-9"
+          "receptor_cuit": "30-50413188-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -39934,7 +40258,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "CARDINALI CESAR ALEJANDRO",
-          "receptor_cuit": "20-28091933-1"
+          "receptor_cuit": "20-28091933-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -39952,7 +40280,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "CARDINALI CESAR ALEJANDRO",
-          "receptor_cuit": "20-28091933-1"
+          "receptor_cuit": "20-28091933-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -39970,7 +40302,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
-          "receptor_cuit": "30-70860143-4"
+          "receptor_cuit": "30-70860143-4",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -39988,7 +40324,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
-          "receptor_cuit": "30-70860143-4"
+          "receptor_cuit": "30-70860143-4",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40006,7 +40346,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GOROSTIAGUE GUSTAVO R Y GOROSTIAGUE RAUL L SOCIEDAD SIMPLE",
-          "receptor_cuit": "30-70860143-4"
+          "receptor_cuit": "30-70860143-4",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40024,7 +40368,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "AGROGANADERA LOS CUÑA S.A.",
-          "receptor_cuit": "30-70973682-1"
+          "receptor_cuit": "30-70973682-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40042,7 +40390,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "AGROGANADERA LOS CUÑA S.A.",
-          "receptor_cuit": "30-70973682-1"
+          "receptor_cuit": "30-70973682-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40060,7 +40412,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "MEATEX S. A.",
-          "receptor_cuit": "33-62636566-9"
+          "receptor_cuit": "33-62636566-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40078,7 +40434,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40096,7 +40456,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40114,7 +40478,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40132,7 +40500,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40150,7 +40522,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40168,7 +40544,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40186,7 +40566,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40204,7 +40588,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40222,7 +40610,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "PAMPA COMPANIA DE CARNES S.A.S.",
-          "receptor_cuit": "30-71626364-5"
+          "receptor_cuit": "30-71626364-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40240,7 +40632,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "SOCIEDAD ANONIMA CARNES PAMPEANAS SA",
-          "receptor_cuit": "30-67859719-4"
+          "receptor_cuit": "30-67859719-4",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40258,7 +40654,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FATU S.A.S.",
-          "receptor_cuit": "30-71697804-0"
+          "receptor_cuit": "30-71697804-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40276,7 +40676,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FATU S.A.S.",
-          "receptor_cuit": "30-71697804-0"
+          "receptor_cuit": "30-71697804-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40294,7 +40698,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
-          "receptor_cuit": "30-54808315-6"
+          "receptor_cuit": "30-54808315-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40312,7 +40720,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
-          "receptor_cuit": "30-54808315-6"
+          "receptor_cuit": "30-54808315-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40330,7 +40742,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
-          "receptor_cuit": "30-54808315-6"
+          "receptor_cuit": "30-54808315-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40348,7 +40764,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40366,7 +40786,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COSTA SANTIAGO MARTIN",
-          "receptor_cuit": "20-30782051-0"
+          "receptor_cuit": "20-30782051-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40384,7 +40808,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COSTA SANTIAGO MARTIN",
-          "receptor_cuit": "20-30782051-0"
+          "receptor_cuit": "20-30782051-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40402,7 +40830,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COSTA SANTIAGO MARTIN",
-          "receptor_cuit": "20-30782051-0"
+          "receptor_cuit": "20-30782051-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40420,7 +40852,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
-          "receptor_cuit": "30-54808315-6"
+          "receptor_cuit": "30-54808315-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40438,7 +40874,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GUIPUZCOA AGROINVERSIONES SA",
-          "receptor_cuit": "33-71081450-9"
+          "receptor_cuit": "33-71081450-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40456,43 +40896,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "HIDALGO FERNANDO EDUARDO",
-          "receptor_cuit": "20-24199912-3"
-        },
-        {
-          "tipo_movimiento": "SALIDA",
-          "documento": "032069263-6",
-          "origen": "03.014.1.05065/00",
-          "motivo": "Invernada",
-          "estado": "CERRADO",
-          "fecha_movimiento": "25/06/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "17/04/26",
-          "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 24,
-          "recibido": 24,
-          "emisor_nombre": "DARWASH S A",
-          "emisor_cuit": "30-51163433-0",
-          "receptor_nombre": "GERVASIO ZUZA S R L",
-          "receptor_cuit": "30-51180849-5"
-        },
-        {
-          "tipo_movimiento": "SALIDA",
-          "documento": "032069263-6",
-          "origen": "03.014.1.05065/00",
-          "motivo": "Invernada",
-          "estado": "CERRADO",
-          "fecha_movimiento": "25/06/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "17/04/26",
-          "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 14,
-          "recibido": 14,
-          "emisor_nombre": "DARWASH S A",
-          "emisor_cuit": "30-51163433-0",
-          "receptor_nombre": "GERVASIO ZUZA S R L",
-          "receptor_cuit": "30-51180849-5"
+          "receptor_cuit": "20-24199912-3",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40510,7 +40918,33 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GERVASIO ZUZA S R L",
-          "receptor_cuit": "30-51180849-5"
+          "receptor_cuit": "30-51180849-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032069263-6",
+          "origen": "03.014.1.05065/00",
+          "motivo": "Invernada",
+          "estado": "CERRADO",
+          "fecha_movimiento": "25/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "17/04/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 14,
+          "recibido": 14,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "GERVASIO ZUZA S R L",
+          "receptor_cuit": "30-51180849-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40528,7 +40962,33 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GERVASIO ZUZA S R L",
-          "receptor_cuit": "30-51180849-5"
+          "receptor_cuit": "30-51180849-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032069263-6",
+          "origen": "03.014.1.05065/00",
+          "motivo": "Invernada",
+          "estado": "CERRADO",
+          "fecha_movimiento": "25/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "17/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 24,
+          "recibido": 24,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "GERVASIO ZUZA S R L",
+          "receptor_cuit": "30-51180849-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40546,7 +41006,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40564,7 +41028,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40582,25 +41050,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "COSTA SANTIAGO MARTIN",
-          "receptor_cuit": "20-30782051-0"
-        },
-        {
-          "tipo_movimiento": "SALIDA",
-          "documento": "032069547-3",
-          "origen": "03.014.3.15641/06",
-          "motivo": "Invernada",
-          "estado": "ANULADO",
-          "fecha_movimiento": "25/06/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "14/03/26",
-          "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 1,
-          "recibido": 0,
-          "emisor_nombre": "DARWASH S A",
-          "emisor_cuit": "30-51163433-0",
-          "receptor_nombre": "ESPAROLA S.A.",
-          "receptor_cuit": "30-71288650-8"
+          "receptor_cuit": "20-30782051-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40618,7 +41072,33 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "ESPAROLA S.A.",
-          "receptor_cuit": "30-71288650-8"
+          "receptor_cuit": "30-71288650-8",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032069547-3",
+          "origen": "03.014.3.15641/06",
+          "motivo": "Invernada",
+          "estado": "ANULADO",
+          "fecha_movimiento": "25/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "14/03/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "ESPAROLA S.A.",
+          "receptor_cuit": "30-71288650-8",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40636,7 +41116,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "ESPAROLA S.A.",
-          "receptor_cuit": "30-71288650-8"
+          "receptor_cuit": "30-71288650-8",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40654,7 +41138,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "ESPAROLA S.A.",
-          "receptor_cuit": "30-71288650-8"
+          "receptor_cuit": "30-71288650-8",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40672,25 +41160,33 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "ESPAROLA S.A.",
-          "receptor_cuit": "30-71288650-8"
+          "receptor_cuit": "30-71288650-8",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
           "documento": "032069603-8",
           "origen": "03.014.3.15544/02",
           "motivo": "Invernada UE",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "25/06/2026",
           "apto_china": "NO",
           "fecha_aftosa": "18/06/26",
           "especie": "Bovinos",
           "categoria": "Vaca",
           "enviado": 46,
-          "recibido": 0,
+          "recibido": 46,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "DIMET SA",
-          "receptor_cuit": "30-57131186-7"
+          "receptor_cuit": "30-57131186-7",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40708,7 +41204,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "EL RITO SRL",
-          "receptor_cuit": "30-71066333-1"
+          "receptor_cuit": "30-71066333-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40726,7 +41226,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40744,7 +41248,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40762,7 +41270,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40780,7 +41292,33 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "VARGAS ALONSO",
-          "receptor_cuit": "20-08578148-1"
+          "receptor_cuit": "20-08578148-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032069732-8",
+          "origen": "18.005.0.02351/06",
+          "motivo": "Invernada",
+          "estado": "CERRADO",
+          "fecha_movimiento": "25/06/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "27/03/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 27,
+          "recibido": 27,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "GIUGGIA JORGE ANTONIO Y GIUGGIA MIRYAM ETHEL SOC SECC IV LGS",
+          "receptor_cuit": "30-65844609-2",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40798,25 +41336,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GIUGGIA JORGE ANTONIO Y GIUGGIA MIRYAM ETHEL SOC SECC IV LGS",
-          "receptor_cuit": "30-65844609-2"
-        },
-        {
-          "tipo_movimiento": "SALIDA",
-          "documento": "032069732-8",
-          "origen": "18.005.0.02351/06",
-          "motivo": "Invernada",
-          "estado": "CERRADO",
-          "fecha_movimiento": "25/06/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "27/03/26",
-          "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 27,
-          "recibido": 27,
-          "emisor_nombre": "DARWASH S A",
-          "emisor_cuit": "30-51163433-0",
-          "receptor_nombre": "GIUGGIA JORGE ANTONIO Y GIUGGIA MIRYAM ETHEL SOC SECC IV LGS",
-          "receptor_cuit": "30-65844609-2"
+          "receptor_cuit": "30-65844609-2",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40834,7 +41358,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GIUGGIA JORGE ANTONIO Y GIUGGIA MIRYAM ETHEL SOC SECC IV LGS",
-          "receptor_cuit": "30-65844609-2"
+          "receptor_cuit": "30-65844609-2",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40852,7 +41380,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GIUGGIA JORGE ANTONIO Y GIUGGIA MIRYAM ETHEL SOC SECC IV LGS",
-          "receptor_cuit": "30-65844609-2"
+          "receptor_cuit": "30-65844609-2",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40870,7 +41402,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "SUCESION DE AUZMENDI MIGUEL SERVANDO",
-          "receptor_cuit": "20-06643793-1"
+          "receptor_cuit": "20-06643793-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40888,7 +41424,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "SUCESION DE AUZMENDI MIGUEL SERVANDO",
-          "receptor_cuit": "20-06643793-1"
+          "receptor_cuit": "20-06643793-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40906,7 +41446,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "SUCESION DE AUZMENDI MIGUEL SERVANDO",
-          "receptor_cuit": "20-06643793-1"
+          "receptor_cuit": "20-06643793-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40924,7 +41468,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "GANADERA SAN RAFAEL S A",
-          "receptor_cuit": "30-67723445-4"
+          "receptor_cuit": "30-67723445-4",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40942,7 +41490,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "LAS MOCHAS S.A.S.",
-          "receptor_cuit": "30-71831961-3"
+          "receptor_cuit": "30-71831961-3",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40960,7 +41512,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "LAS MOCHAS S.A.S.",
-          "receptor_cuit": "30-71831961-3"
+          "receptor_cuit": "30-71831961-3",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40978,7 +41534,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "TARQUINI MAURICIO FABIAN",
-          "receptor_cuit": "20-17946641-5"
+          "receptor_cuit": "20-17946641-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -40996,7 +41556,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "ARRIETA JUAN PEDRO",
-          "receptor_cuit": "20-17171581-5"
+          "receptor_cuit": "20-17171581-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41014,7 +41578,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "ARRIETA JUAN PEDRO",
-          "receptor_cuit": "20-17171581-5"
+          "receptor_cuit": "20-17171581-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41032,7 +41600,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "ARRIETA MILAGROS MACARENA",
-          "receptor_cuit": "27-45116932-2"
+          "receptor_cuit": "27-45116932-2",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41050,7 +41622,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "QUICKFOOD S A",
-          "receptor_cuit": "30-50413188-9"
+          "receptor_cuit": "30-50413188-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41068,7 +41644,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "PECUARIA EL GARABI SA",
-          "receptor_cuit": "33-70793667-9"
+          "receptor_cuit": "33-70793667-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41086,7 +41666,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "PECUARIA EL GARABI SA",
-          "receptor_cuit": "33-70793667-9"
+          "receptor_cuit": "33-70793667-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41104,7 +41688,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
-          "receptor_cuit": "30-71862137-9"
+          "receptor_cuit": "30-71862137-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41122,7 +41710,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
-          "receptor_cuit": "30-71862137-9"
+          "receptor_cuit": "30-71862137-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41140,7 +41732,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41158,7 +41754,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41176,7 +41776,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41194,7 +41798,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41212,7 +41820,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
-          "receptor_cuit": "30-70846564-6"
+          "receptor_cuit": "30-70846564-6",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41230,7 +41842,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
-          "receptor_cuit": "30-71862137-9"
+          "receptor_cuit": "30-71862137-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41248,7 +41864,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
-          "receptor_cuit": "30-71862137-9"
+          "receptor_cuit": "30-71862137-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41266,7 +41886,11 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
-          "receptor_cuit": "30-71862137-9"
+          "receptor_cuit": "30-71862137-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "SALIDA",
@@ -41284,13 +41908,17 @@
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
           "receptor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
-          "receptor_cuit": "30-71862137-9"
+          "receptor_cuit": "30-71862137-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         }
       ]
     },
     {
       "codigo": "01.019.0.00001/07-2026",
-      "fecha_extraccion": "2026-07-18T18:02:41.218479",
+      "fecha_extraccion": "2026-07-19T00:34:41.999895",
       "info": {
         "Inicio": "21/07/2026",
         "Fin": "27/07/2026",
@@ -41299,10 +41927,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 8,
+      "total_dtes": 15,
       "total_dtes_salida": 0,
-      "total_filas": 13,
-      "total_animales": 177,
+      "total_filas": 27,
+      "total_animales": 231,
       "totales_categoria": {},
       "filas": [
         {
@@ -41321,7 +41949,11 @@
           "emisor_nombre": "LACTEOS VIDAL S A",
           "emisor_cuit": "30-61366019-0",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41333,13 +41965,17 @@
           "apto_china": "SI",
           "fecha_aftosa": "29/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 4,
+          "categoria": "Vaquillona",
+          "enviado": 6,
           "recibido": 0,
           "emisor_nombre": "ESTANCIAS LA DORITA SA",
           "emisor_cuit": "30-61069864-2",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41357,7 +41993,11 @@
           "emisor_nombre": "ESTANCIAS LA DORITA SA",
           "emisor_cuit": "30-61069864-2",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41369,31 +42009,17 @@
           "apto_china": "SI",
           "fecha_aftosa": "29/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 6,
+          "categoria": "Novillito",
+          "enviado": 4,
           "recibido": 0,
           "emisor_nombre": "ESTANCIAS LA DORITA SA",
           "emisor_cuit": "30-61069864-2",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "032214652-3",
-          "origen": "01.019.0.00115/01",
-          "motivo": "Faena",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "20/07/2026",
-          "apto_china": "SI",
-          "fecha_aftosa": "30/06/26",
-          "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 45,
-          "recibido": 0,
-          "emisor_nombre": "LOS MOORE S.A.",
-          "emisor_cuit": "30-70860114-0",
-          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41411,25 +42037,33 @@
           "emisor_nombre": "LOS MOORE S.A.",
           "emisor_cuit": "30-70860114-0",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
-          "documento": "032214666-3",
-          "origen": "01.019.0.00013/00",
-          "motivo": "Invernada",
+          "documento": "032214652-3",
+          "origen": "01.019.0.00115/01",
+          "motivo": "Faena",
           "estado": "EMITIDO",
           "fecha_movimiento": "20/07/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "16/06/26",
+          "apto_china": "SI",
+          "fecha_aftosa": "30/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 3,
+          "categoria": "Vaca",
+          "enviado": 45,
           "recibido": 0,
-          "emisor_nombre": "SAHARREA FRANCISCO",
-          "emisor_cuit": "20-05044229-3",
+          "emisor_nombre": "LOS MOORE S.A.",
+          "emisor_cuit": "30-70860114-0",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41447,7 +42081,33 @@
           "emisor_nombre": "SAHARREA FRANCISCO",
           "emisor_cuit": "20-05044229-3",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032214666-3",
+          "origen": "01.019.0.00013/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "16/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "SAHARREA FRANCISCO",
+          "emisor_cuit": "20-05044229-3",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41465,7 +42125,11 @@
           "emisor_nombre": "RODOVIARIA PIRENEUS LTDA",
           "emisor_cuit": "30-59674199-8",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41483,7 +42147,11 @@
           "emisor_nombre": "YOCARO S.A.",
           "emisor_cuit": "30-71017870-0",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41501,7 +42169,11 @@
           "emisor_nombre": "URIEN ALDAO PAULA GLORIA",
           "emisor_cuit": "27-17839605-1",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41519,7 +42191,11 @@
           "emisor_nombre": "AGUIRRE SARAVIA PATRICIO AUGUSTO",
           "emisor_cuit": "20-13232685-2",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         },
         {
           "tipo_movimiento": "ENTRADA",
@@ -41537,13 +42213,325 @@
           "emisor_nombre": "AGUIRRE SARAVIA PATRICIO AUGUSTO",
           "emisor_cuit": "20-13232685-2",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5"
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215798-3",
+          "origen": "01.019.0.00235/01",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "10/07/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "RONCATI DELIA GRACIELA",
+          "emisor_cuit": "27-10970886-6",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215800-9",
+          "origen": "01.019.0.00251/02",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/06/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "FOGLIA JAVIER OSCAR",
+          "emisor_cuit": "20-29470645-4",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215800-9",
+          "origen": "01.019.0.00251/02",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "24/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 4,
+          "recibido": 0,
+          "emisor_nombre": "FOGLIA JAVIER OSCAR",
+          "emisor_cuit": "20-29470645-4",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215802-5",
+          "origen": "01.019.0.01096/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "12/06/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "S A RURAL Y FINANCIERA VICTORIA",
+          "emisor_cuit": "30-52747212-8",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215802-5",
+          "origen": "01.019.0.01096/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "12/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 4,
+          "recibido": 0,
+          "emisor_nombre": "S A RURAL Y FINANCIERA VICTORIA",
+          "emisor_cuit": "30-52747212-8",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215802-5",
+          "origen": "01.019.0.01096/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "12/06/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "S A RURAL Y FINANCIERA VICTORIA",
+          "emisor_cuit": "30-52747212-8",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215803-3",
+          "origen": "01.019.0.00528/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "17/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "GORNATTI ROBERTO OSCAR",
+          "emisor_cuit": "20-22643744-5",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215805-5",
+          "origen": "01.019.0.00516/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "10/04/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "AULET MIGUEL ANGEL",
+          "emisor_cuit": "20-05064667-0",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215805-5",
+          "origen": "01.019.0.00516/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "10/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 15,
+          "recibido": 0,
+          "emisor_nombre": "AULET MIGUEL ANGEL",
+          "emisor_cuit": "20-05064667-0",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215805-5",
+          "origen": "01.019.0.00516/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "10/04/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "AULET MIGUEL ANGEL",
+          "emisor_cuit": "20-05064667-0",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215809-2",
+          "origen": "01.019.0.00950/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "08/07/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 7,
+          "recibido": 0,
+          "emisor_nombre": "MERELLI GUILLERMO ANTONIO",
+          "emisor_cuit": "20-12218350-6",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215809-2",
+          "origen": "01.019.0.00950/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "08/07/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "MERELLI GUILLERMO ANTONIO",
+          "emisor_cuit": "20-12218350-6",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215815-7",
+          "origen": "01.019.0.00185/01",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "02/05/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "MENSI GUSTAVO ROBERTO",
+          "emisor_cuit": "20-13898854-7",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032215815-7",
+          "origen": "01.019.0.00185/01",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "20/07/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "02/05/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 9,
+          "recibido": 0,
+          "emisor_nombre": "MENSI GUSTAVO ROBERTO",
+          "emisor_cuit": "20-13898854-7",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         }
       ]
     },
     {
       "codigo": "01.054.0.00001/09-2026",
-      "fecha_extraccion": "2026-07-18T18:02:40.660517",
+      "fecha_extraccion": "2026-07-19T00:34:41.468013",
       "info": {
         "Inicio": "23/07/2026",
         "Fin": "25/07/2026",
@@ -41560,5 +42548,5 @@
       "filas": []
     }
   ],
-  "fecha_extraccion": "2026-07-18T18:02:40.660517"
+  "fecha_extraccion": "2026-07-19T00:34:41.468013"
 }
