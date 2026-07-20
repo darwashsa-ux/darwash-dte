@@ -705,3 +705,6 @@
   font-weight: 600;
 }
 
+
+/* Comprador n/a: filas de ingreso a feria no tienen comprador (no aplica) */
+.na { color: var(--text-old, #888); font-style: italic; font-size: 0.9em; }

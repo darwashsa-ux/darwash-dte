@@ -570,6 +570,7 @@ const cols=[
   {key:'documento',       label:'Documento',   thClass:'col-num numeric'},
   {key:'emisor_nombre',   label:'Emisor',      thClass:'col-origen'},
   {key:'receptor_nombre', label:'Receptor',    thClass:'col-destino'},
+  {key:'comprador',       label:'Comprador',   thClass:'col-destino'},
   {key:'categoria',       label:'Categoría',   thClass:''},
   {key:'fecha_movimiento',label:'Fecha Mov.',  thClass:'col-fecha'},
   {key:'motivo',          label:'Motivo',      thClass:''},
@@ -600,6 +601,7 @@ const body=exportRows.map(f=>{
     +'<td class="col-num numeric dte-link" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'—')+'</td>'
     +'<td class="col-origen" title="'+esc(f.emisor_nombre||'')+'">'+esc(f.emisor_nombre||'—')+'</td>'
     +'<td class="col-destino" title="'+esc(f.receptor_nombre||'')+'">'+esc(f.receptor_nombre||'—')+'</td>'
+    +'<td class="col-destino'+(f.destino_es_feria?' celda-na':'')+'" title="'+esc(f.comprador||'')+'">'+(f.destino_es_feria?'<span class="na">n/a</span>':esc(f.comprador||'—'))+'</td>'
     +'<td>'+esc(f.categoria||'—')+'</td>'
     +'<td class="col-fecha">'+esc(f.fecha_movimiento||'—')+'</td>'
     +'<td>'+esc(f.motivo||'—')+'</td>'
@@ -1277,7 +1279,7 @@ function exportDtes(rows) {
 function exportRemates(rows) {
   exportToExcel(rows, [
     ['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],
-    ['receptor_nombre','Receptor'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],
+    ['receptor_nombre','Receptor'],['comprador','Comprador'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],
     ['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],
     ['enviado','Enviado'],['recibido','Recibido']
   ], 'Remates_Darwash');
