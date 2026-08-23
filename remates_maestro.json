@@ -54030,7 +54030,7 @@
     },
     {
       "codigo": "01.019.0.00001/08-2026",
-      "fecha_extraccion": "2026-08-23T10:05:27.843299",
+      "fecha_extraccion": "2026-08-23T16:35:15.327630",
       "info": {
         "Inicio": "18/08/2026",
         "Fin": "24/08/2026",
@@ -57172,7 +57172,7 @@
     },
     {
       "codigo": "01.054.0.00001/0A-2026",
-      "fecha_extraccion": "2026-08-23T10:05:26.544970",
+      "fecha_extraccion": "2026-08-23T16:35:14.332591",
       "info": {
         "Inicio": "19/08/2026",
         "Fin": "22/08/2026",
@@ -57328,9 +57328,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "17/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillo",
-          "enviado": 4,
-          "recibido": 4,
+          "categoria": "Novillito",
+          "enviado": 13,
+          "recibido": 13,
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
           "receptor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
@@ -57350,9 +57350,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "17/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 13,
-          "recibido": 13,
+          "categoria": "Novillo",
+          "enviado": 4,
+          "recibido": 4,
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
           "receptor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
@@ -57416,9 +57416,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "17/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 6,
-          "recibido": 6,
+          "categoria": "Novillito",
+          "enviado": 9,
+          "recibido": 9,
           "emisor_nombre": "RUIZ RICARDO GUILLERMO",
           "emisor_cuit": "20-07824725-9",
           "receptor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
@@ -57438,9 +57438,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "17/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 9,
-          "recibido": 9,
+          "categoria": "Vaquillona",
+          "enviado": 6,
+          "recibido": 6,
           "emisor_nombre": "RUIZ RICARDO GUILLERMO",
           "emisor_cuit": "20-07824725-9",
           "receptor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
@@ -59412,7 +59412,7 @@
     },
     {
       "codigo": "03.014.3.00015/0E-2026",
-      "fecha_extraccion": "2026-08-23T10:05:25.472815",
+      "fecha_extraccion": "2026-08-23T16:35:13.481958",
       "info": {
         "Inicio": "26/08/2026",
         "Fin": "27/08/2026",
@@ -59429,5 +59429,5 @@
       "filas": []
     }
   ],
-  "fecha_extraccion": "2026-08-23T10:05:25.472815"
+  "fecha_extraccion": "2026-08-23T16:35:13.481958"
 }
