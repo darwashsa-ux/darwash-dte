@@ -54030,7 +54030,7 @@
     },
     {
       "codigo": "01.019.0.00001/08-2026",
-      "fecha_extraccion": "2026-08-25T22:42:43.293901",
+      "fecha_extraccion": "2026-08-26T08:13:44.997225",
       "info": {
         "Inicio": "18/08/2026",
         "Fin": "24/08/2026",
@@ -57172,7 +57172,7 @@
     },
     {
       "codigo": "01.054.0.00001/0A-2026",
-      "fecha_extraccion": "2026-08-25T22:42:42.123278",
+      "fecha_extraccion": "2026-08-26T08:13:43.716539",
       "info": {
         "Inicio": "19/08/2026",
         "Fin": "22/08/2026",
@@ -59412,11 +59412,11 @@
     },
     {
       "codigo": "03.014.3.00015/0E-2026",
-      "fecha_extraccion": "2026-08-25T22:42:41.152007",
+      "fecha_extraccion": "2026-08-26T08:13:42.690909",
       "info": {
         "Inicio": "26/08/2026",
         "Fin": "27/08/2026",
-        "Estado": "PENDIENTE",
+        "Estado": "ABIERTA",
         "Finalidad": "",
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
@@ -61879,16 +61879,16 @@
           "apto_china": "SI",
           "fecha_aftosa": "22/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 19,
+          "categoria": "Novillito",
+          "enviado": 11,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": "",
+          "emisor_nombre": "BERARDO MARCELO JUAN",
+          "emisor_cuit": "20-17049737-7",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
           "usuario_faena_nombre": "",
           "destino_es_frigorifico": false,
-          "destino_es_feria": false,
+          "destino_es_feria": true,
           "comprador": ""
         },
         {
@@ -61904,13 +61904,13 @@
           "categoria": "Torito/MEJ",
           "enviado": 2,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": "",
+          "emisor_nombre": "BERARDO MARCELO JUAN",
+          "emisor_cuit": "20-17049737-7",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
           "usuario_faena_nombre": "",
           "destino_es_frigorifico": false,
-          "destino_es_feria": false,
+          "destino_es_feria": true,
           "comprador": ""
         },
         {
@@ -61923,20 +61923,20 @@
           "apto_china": "SI",
           "fecha_aftosa": "22/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 11,
+          "categoria": "Vaquillona",
+          "enviado": 19,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": "",
+          "emisor_nombre": "BERARDO MARCELO JUAN",
+          "emisor_cuit": "20-17049737-7",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
           "usuario_faena_nombre": "",
           "destino_es_frigorifico": false,
-          "destino_es_feria": false,
+          "destino_es_feria": true,
           "comprador": ""
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-08-25T22:42:41.152007"
+  "fecha_extraccion": "2026-08-26T08:13:42.690909"
 }
