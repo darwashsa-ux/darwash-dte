@@ -1,10 +1,10 @@
 {
   "empresa": "Darwash SA",
   "cuit": "20366041142",
-  "fecha_extraccion": "2026-09-01T09:46:10.561412",
+  "fecha_extraccion": "2026-09-01T10:00:38.135784",
   "periodo_desde": "01/02/2026",
   "periodo_hasta": "31/08/2026",
-  "total_dtes": 2734,
+  "total_dtes": 2735,
   "periodos": [
     {
       "desde": "01/02/2026",
@@ -131736,7 +131736,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Reproducción",
       "estado_detalle": "CERRADO",
@@ -131772,7 +131772,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:14"
+      "detalle_actualizado_ts": "2026-08-26T14:31:14",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032439887-2",
@@ -131850,7 +131851,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -131880,7 +131881,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:10"
+      "detalle_actualizado_ts": "2026-08-26T14:31:10",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032439850-3",
@@ -131904,7 +131906,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -131934,7 +131936,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:11"
+      "detalle_actualizado_ts": "2026-08-26T14:31:11",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032439208-4",
@@ -132120,7 +132123,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -132150,7 +132153,8 @@
       "fecha_anteultima_aftosa": "FS 10/03/2026",
       "fecha_ultima_brucelosis": "23/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:12"
+      "detalle_actualizado_ts": "2026-08-26T14:31:12",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032438034-5",
@@ -132360,7 +132364,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -132396,7 +132400,8 @@
       "fecha_anteultima_aftosa": "FS 14/04/2026",
       "fecha_ultima_brucelosis": "14/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:49"
+      "detalle_actualizado_ts": "2026-08-26T13:02:49",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032440665-4",
@@ -132474,7 +132479,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -132522,7 +132527,8 @@
       "fecha_anteultima_aftosa": "FS 09/04/2026",
       "fecha_ultima_brucelosis": "29/04/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:04:12"
+      "detalle_actualizado_ts": "2026-08-26T13:04:12",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441162-3",
@@ -132546,7 +132552,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -132576,7 +132582,8 @@
       "fecha_anteultima_aftosa": "FS 09/04/2026",
       "fecha_ultima_brucelosis": "29/04/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:04:13"
+      "detalle_actualizado_ts": "2026-08-26T13:04:13",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441690-0",
@@ -132600,7 +132607,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -132630,7 +132637,8 @@
       "fecha_anteultima_aftosa": "FS 18/03/2026",
       "fecha_ultima_brucelosis": "19/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:41"
+      "detalle_actualizado_ts": "2026-08-26T13:02:41",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441650-1",
@@ -132654,7 +132662,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -132684,7 +132692,8 @@
       "fecha_anteultima_aftosa": "FS 04/03/2026",
       "fecha_ultima_brucelosis": "04/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:42"
+      "detalle_actualizado_ts": "2026-08-26T13:02:42",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441610-2",
@@ -132708,7 +132717,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -132738,7 +132747,8 @@
       "fecha_anteultima_aftosa": "FS 04/03/2026",
       "fecha_ultima_brucelosis": "04/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:43"
+      "detalle_actualizado_ts": "2026-08-26T13:02:43",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441591-2",
@@ -132762,7 +132772,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -132792,7 +132802,8 @@
       "fecha_anteultima_aftosa": "FS 04/03/2026",
       "fecha_ultima_brucelosis": "04/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:44"
+      "detalle_actualizado_ts": "2026-08-26T13:02:44",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441507-6",
@@ -132816,7 +132827,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -132852,7 +132863,8 @@
       "fecha_anteultima_aftosa": "FS 23/03/2026",
       "fecha_ultima_brucelosis": "24/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:09"
+      "detalle_actualizado_ts": "2026-08-26T14:31:09",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441473-8",
@@ -132876,7 +132888,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -132906,7 +132918,8 @@
       "fecha_anteultima_aftosa": "FS 25/11/2025",
       "fecha_ultima_brucelosis": "24/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:09"
+      "detalle_actualizado_ts": "2026-08-26T14:31:09",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441467-3",
@@ -132930,7 +132943,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -132960,7 +132973,8 @@
       "fecha_anteultima_aftosa": "FS 23/03/2026",
       "fecha_ultima_brucelosis": "24/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:45"
+      "detalle_actualizado_ts": "2026-08-26T13:02:45",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446309-7",
@@ -132984,7 +132998,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133020,7 +133034,8 @@
       "fecha_anteultima_aftosa": "FS 08/06/2026",
       "fecha_ultima_brucelosis": "17/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:32"
+      "detalle_actualizado_ts": "2026-08-26T13:02:32",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446279-1",
@@ -133044,7 +133059,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133080,7 +133095,8 @@
       "fecha_anteultima_aftosa": "FS 28/04/2026",
       "fecha_ultima_brucelosis": "28/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:33"
+      "detalle_actualizado_ts": "2026-08-26T13:02:33",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446117-5",
@@ -133104,7 +133120,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "ANULADO",
@@ -133134,7 +133150,8 @@
       "fecha_anteultima_aftosa": "FS 19/03/2026",
       "fecha_ultima_brucelosis": "09/05/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-25T12:01:54"
+      "detalle_actualizado_ts": "2026-08-25T12:01:54",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032445879-4",
@@ -133158,7 +133175,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133194,7 +133211,8 @@
       "fecha_anteultima_aftosa": "FS 16/03/2026",
       "fecha_ultima_brucelosis": "16/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:34"
+      "detalle_actualizado_ts": "2026-08-26T13:02:34",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032445803-4",
@@ -133218,7 +133236,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -133248,7 +133266,8 @@
       "fecha_anteultima_aftosa": "FS 29/04/2026",
       "fecha_ultima_brucelosis": "24/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:34"
+      "detalle_actualizado_ts": "2026-08-26T13:02:34",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032445724-0",
@@ -133272,7 +133291,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133302,7 +133321,8 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:35"
+      "detalle_actualizado_ts": "2026-08-26T13:02:35",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032445500-0",
@@ -133326,7 +133346,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133356,7 +133376,8 @@
       "fecha_anteultima_aftosa": "FS 31/03/2026",
       "fecha_ultima_brucelosis": "31/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:36"
+      "detalle_actualizado_ts": "2026-08-26T13:02:36",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032445462-4",
@@ -133380,7 +133401,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133428,7 +133449,8 @@
       "fecha_anteultima_aftosa": "FS 10/03/2026",
       "fecha_ultima_brucelosis": "10/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:37"
+      "detalle_actualizado_ts": "2026-08-26T13:02:37",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032445449-7",
@@ -133452,7 +133474,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133482,7 +133504,8 @@
       "fecha_anteultima_aftosa": "FS 06/07/2026",
       "fecha_ultima_brucelosis": "23/11/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:38"
+      "detalle_actualizado_ts": "2026-08-26T13:02:38",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032444987-6",
@@ -133506,7 +133529,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133542,7 +133565,8 @@
       "fecha_anteultima_aftosa": "FS 20/04/2026",
       "fecha_ultima_brucelosis": "10/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:02"
+      "detalle_actualizado_ts": "2026-08-26T14:31:02",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032444963-9",
@@ -133566,7 +133590,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -133596,7 +133620,8 @@
       "fecha_anteultima_aftosa": "FS 22/04/2026",
       "fecha_ultima_brucelosis": "10/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:03"
+      "detalle_actualizado_ts": "2026-08-26T14:31:03",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032444571-4",
@@ -133620,7 +133645,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133650,7 +133675,8 @@
       "fecha_anteultima_aftosa": "FS 19/03/2026",
       "fecha_ultima_brucelosis": "23/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:04:04"
+      "detalle_actualizado_ts": "2026-08-26T13:04:04",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032443999-4",
@@ -133674,7 +133700,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133710,7 +133736,8 @@
       "fecha_anteultima_aftosa": "FS 24/04/2026",
       "fecha_ultima_brucelosis": "28/03/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:04"
+      "detalle_actualizado_ts": "2026-08-26T14:31:04",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032443838-6",
@@ -133734,7 +133761,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133770,7 +133797,8 @@
       "fecha_anteultima_aftosa": "FS 12/03/2026",
       "fecha_ultima_brucelosis": "20/11/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:39"
+      "detalle_actualizado_ts": "2026-08-26T13:02:39",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032443727-4",
@@ -133794,7 +133822,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133824,7 +133852,8 @@
       "fecha_anteultima_aftosa": "FS 16/10/2025",
       "fecha_ultima_brucelosis": "16/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:05"
+      "detalle_actualizado_ts": "2026-08-26T14:31:05",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032443603-0",
@@ -133848,7 +133877,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -133878,7 +133907,8 @@
       "fecha_anteultima_aftosa": "FS 13/03/2026",
       "fecha_ultima_brucelosis": "20/04/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:06"
+      "detalle_actualizado_ts": "2026-08-26T14:31:06",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032443584-0",
@@ -133902,7 +133932,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -133932,7 +133962,8 @@
       "fecha_anteultima_aftosa": "FS 22/11/2025",
       "fecha_ultima_brucelosis": "08/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:12"
+      "detalle_actualizado_ts": "2026-08-27T09:54:12",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032443489-5",
@@ -133956,7 +133987,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -133992,7 +134023,8 @@
       "fecha_anteultima_aftosa": "FS 23/03/2026",
       "fecha_ultima_brucelosis": "24/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:40"
+      "detalle_actualizado_ts": "2026-08-26T13:02:40",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032443309-0",
@@ -134016,7 +134048,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134046,7 +134078,8 @@
       "fecha_anteultima_aftosa": "FS 09/04/2026",
       "fecha_ultima_brucelosis": "09/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:07"
+      "detalle_actualizado_ts": "2026-08-26T14:31:07",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032442882-8",
@@ -134070,7 +134103,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -134100,7 +134133,8 @@
       "fecha_anteultima_aftosa": "FS 15/04/2026",
       "fecha_ultima_brucelosis": "15/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-25T10:44:21"
+      "detalle_actualizado_ts": "2026-08-25T10:44:21",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032442838-0",
@@ -134124,7 +134158,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -134154,7 +134188,8 @@
       "fecha_anteultima_aftosa": "FS 15/04/2026",
       "fecha_ultima_brucelosis": "15/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-25T10:44:22"
+      "detalle_actualizado_ts": "2026-08-25T10:44:22",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032442598-5",
@@ -134178,7 +134213,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134214,7 +134249,8 @@
       "fecha_anteultima_aftosa": "FS 12/03/2026",
       "fecha_ultima_brucelosis": "12/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:08"
+      "detalle_actualizado_ts": "2026-08-26T14:31:08",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032441938-1",
@@ -134238,7 +134274,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134268,7 +134304,8 @@
       "fecha_anteultima_aftosa": "FS 01/04/2025",
       "fecha_ultima_brucelosis": "12/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:40"
+      "detalle_actualizado_ts": "2026-08-26T13:02:40",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032447844-2",
@@ -134292,7 +134329,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134328,7 +134365,8 @@
       "fecha_anteultima_aftosa": "FS 06/03/2026",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:23"
+      "detalle_actualizado_ts": "2026-08-26T13:01:23",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032447712-8",
@@ -134352,7 +134390,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -134388,14 +134426,15 @@
       "fecha_anteultima_aftosa": "FS 13/03/2026",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:01"
+      "detalle_actualizado_ts": "2026-08-26T14:31:01",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032447338-6",
       "codigo": "32381137",
       "id_movimiento": 32381137,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "SALIDA",
       "emisor_nombre": "DARWASH S A",
       "emisor_cuit": "30-51163433-0",
       "receptor_nombre": "FRIGORIFICO CORONEL MOLDES S.A.",
@@ -134412,7 +134451,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -134448,7 +134487,8 @@
       "fecha_anteultima_aftosa": "FS 20/03/2025",
       "fecha_ultima_brucelosis": "27/01/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T08:00:42"
+      "detalle_actualizado_ts": "2026-08-26T08:00:42",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032447294-0",
@@ -134472,7 +134512,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "ANULADO",
@@ -134502,7 +134542,8 @@
       "fecha_anteultima_aftosa": "FS 28/10/2025",
       "fecha_ultima_brucelosis": "24/04/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-25T15:01:11"
+      "detalle_actualizado_ts": "2026-08-25T15:01:11",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032447257-6",
@@ -134526,7 +134567,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -134556,7 +134597,8 @@
       "fecha_anteultima_aftosa": "FS 28/10/2025",
       "fecha_ultima_brucelosis": "24/04/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T08:00:43"
+      "detalle_actualizado_ts": "2026-08-26T08:00:43",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446728-9",
@@ -134580,7 +134622,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "ANULADO",
@@ -134610,7 +134652,8 @@
       "fecha_anteultima_aftosa": "FS 06/03/2026",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T08:00:44"
+      "detalle_actualizado_ts": "2026-08-26T08:00:44",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446706-8",
@@ -134634,7 +134677,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134664,7 +134707,8 @@
       "fecha_anteultima_aftosa": "FS 09/04/2026",
       "fecha_ultima_brucelosis": "09/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:24"
+      "detalle_actualizado_ts": "2026-08-26T13:01:24",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446654-1",
@@ -134688,7 +134732,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134724,7 +134768,8 @@
       "fecha_anteultima_aftosa": "FS 06/03/2026",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:25"
+      "detalle_actualizado_ts": "2026-08-26T13:01:25",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446388-7",
@@ -134748,7 +134793,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134778,7 +134823,8 @@
       "fecha_anteultima_aftosa": "FS 19/03/2026",
       "fecha_ultima_brucelosis": "09/05/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:25"
+      "detalle_actualizado_ts": "2026-08-26T13:01:25",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446369-0",
@@ -134802,7 +134848,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -134844,7 +134890,8 @@
       "fecha_anteultima_aftosa": "FS 08/06/2026",
       "fecha_ultima_brucelosis": "17/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:26"
+      "detalle_actualizado_ts": "2026-08-26T13:01:26",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032446315-1",
@@ -134868,7 +134915,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134898,7 +134945,8 @@
       "fecha_anteultima_aftosa": "FS 18/03/2026",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:02:31"
+      "detalle_actualizado_ts": "2026-08-26T13:02:31",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448790-5",
@@ -134922,7 +134970,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -134952,7 +135000,8 @@
       "fecha_anteultima_aftosa": "FS 19/03/2026",
       "fecha_ultima_brucelosis": "09/05/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-25T15:01:10"
+      "detalle_actualizado_ts": "2026-08-25T15:01:10",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448768-9",
@@ -134976,7 +135025,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135012,7 +135061,8 @@
       "fecha_anteultima_aftosa": "FS 19/03/2026",
       "fecha_ultima_brucelosis": "09/05/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:12"
+      "detalle_actualizado_ts": "2026-08-26T13:01:12",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448733-6",
@@ -135036,7 +135086,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135066,7 +135116,8 @@
       "fecha_anteultima_aftosa": "FS 06/12/2025",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:14"
+      "detalle_actualizado_ts": "2026-08-26T13:01:14",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448710-7",
@@ -135090,7 +135141,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135120,7 +135171,8 @@
       "fecha_anteultima_aftosa": "FS 06/12/2025",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:15"
+      "detalle_actualizado_ts": "2026-08-26T13:01:15",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448597-5",
@@ -135144,7 +135196,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135186,7 +135238,8 @@
       "fecha_anteultima_aftosa": "FS 27/03/2026",
       "fecha_ultima_brucelosis": "27/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:01"
+      "detalle_actualizado_ts": "2026-08-26T14:31:01",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448342-5",
@@ -135210,7 +135263,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135246,7 +135299,8 @@
       "fecha_anteultima_aftosa": "FS 31/03/2026",
       "fecha_ultima_brucelosis": "17/02/2019",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:17"
+      "detalle_actualizado_ts": "2026-08-26T13:01:17",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448332-2",
@@ -135270,7 +135324,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Reproducción",
       "estado_detalle": "CERRADO",
@@ -135300,7 +135354,8 @@
       "fecha_anteultima_aftosa": "FS 09/12/2025",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:19"
+      "detalle_actualizado_ts": "2026-08-26T13:01:19",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448288-1",
@@ -135324,7 +135379,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135366,7 +135421,8 @@
       "fecha_anteultima_aftosa": "FS 31/03/2026",
       "fecha_ultima_brucelosis": "31/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:19"
+      "detalle_actualizado_ts": "2026-08-26T13:01:19",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448147-8",
@@ -135390,7 +135446,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135426,7 +135482,8 @@
       "fecha_anteultima_aftosa": "FS 18/03/2026",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:21"
+      "detalle_actualizado_ts": "2026-08-26T13:01:21",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448002-1",
@@ -135450,7 +135507,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135486,7 +135543,8 @@
       "fecha_anteultima_aftosa": "FS 18/03/2026",
       "fecha_ultima_brucelosis": "19/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:22"
+      "detalle_actualizado_ts": "2026-08-26T13:01:22",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032449557-6",
@@ -135510,7 +135568,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -135540,7 +135598,8 @@
       "fecha_anteultima_aftosa": "FS 28/10/2025",
       "fecha_ultima_brucelosis": "24/04/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-25T22:31:05"
+      "detalle_actualizado_ts": "2026-08-25T22:31:05",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032449513-4",
@@ -135564,7 +135623,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -135594,7 +135653,8 @@
       "fecha_anteultima_aftosa": "FS 30/10/2025",
       "fecha_ultima_brucelosis": "03/12/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:11"
+      "detalle_actualizado_ts": "2026-08-26T13:01:11",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032449475-8",
@@ -135618,7 +135678,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -135648,7 +135708,8 @@
       "fecha_anteultima_aftosa": "FS 30/10/2025",
       "fecha_ultima_brucelosis": "03/12/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-25T22:31:06"
+      "detalle_actualizado_ts": "2026-08-25T22:31:06",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032449469-3",
@@ -135672,7 +135733,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -135702,7 +135763,8 @@
       "fecha_anteultima_aftosa": "FS 13/03/2026",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:52"
+      "detalle_actualizado_ts": "2026-08-28T09:13:52",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032448972-5",
@@ -135726,7 +135788,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135756,7 +135818,8 @@
       "fecha_anteultima_aftosa": "FS 16/03/2026",
       "fecha_ultima_brucelosis": "16/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:31:00"
+      "detalle_actualizado_ts": "2026-08-26T14:31:00",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032449950-4",
@@ -135780,7 +135843,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135828,7 +135891,8 @@
       "fecha_anteultima_aftosa": "FS 23/04/2026",
       "fecha_ultima_brucelosis": "23/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:10"
+      "detalle_actualizado_ts": "2026-08-26T13:01:10",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032451139-3",
@@ -135852,7 +135916,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Reproducción",
       "estado_detalle": "CERRADO",
@@ -135882,7 +135946,8 @@
       "fecha_anteultima_aftosa": "FS 09/12/2025",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:30:57"
+      "detalle_actualizado_ts": "2026-08-26T14:30:57",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032450603-9",
@@ -135906,7 +135971,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -135936,7 +136001,8 @@
       "fecha_anteultima_aftosa": "FS 17/04/2026",
       "fecha_ultima_brucelosis": "17/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:30:58"
+      "detalle_actualizado_ts": "2026-08-26T14:30:58",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032450576-8",
@@ -135960,7 +136026,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136002,7 +136068,8 @@
       "fecha_anteultima_aftosa": "FS 17/04/2026",
       "fecha_ultima_brucelosis": "17/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T14:30:59"
+      "detalle_actualizado_ts": "2026-08-26T14:30:59",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032451880-0",
@@ -136026,7 +136093,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136062,7 +136129,8 @@
       "fecha_anteultima_aftosa": "FS 09/12/2025",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:07"
+      "detalle_actualizado_ts": "2026-08-26T13:01:07",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032451835-5",
@@ -136086,7 +136154,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136116,7 +136184,8 @@
       "fecha_anteultima_aftosa": "FS 20/03/2026",
       "fecha_ultima_brucelosis": "20/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:08"
+      "detalle_actualizado_ts": "2026-08-26T13:01:08",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032451782-0",
@@ -136140,7 +136209,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136176,7 +136245,8 @@
       "fecha_anteultima_aftosa": "FS 20/03/2026",
       "fecha_ultima_brucelosis": "20/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:09"
+      "detalle_actualizado_ts": "2026-08-26T13:01:09",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032452360-5",
@@ -136200,7 +136270,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136230,7 +136300,8 @@
       "fecha_anteultima_aftosa": "FS 27/03/2026",
       "fecha_ultima_brucelosis": "27/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T20:00:52"
+      "detalle_actualizado_ts": "2026-08-26T20:00:52",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032452172-0",
@@ -136254,7 +136325,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136284,7 +136355,8 @@
       "fecha_anteultima_aftosa": "FS 02/03/2026",
       "fecha_ultima_brucelosis": "02/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:06"
+      "detalle_actualizado_ts": "2026-08-26T13:01:06",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032452634-5",
@@ -136308,7 +136380,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136338,14 +136410,15 @@
       "fecha_anteultima_aftosa": "FS 19/03/2026",
       "fecha_ultima_brucelosis": "09/05/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:05"
+      "detalle_actualizado_ts": "2026-08-26T13:01:05",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032452618-8",
       "codigo": "32386416",
       "id_movimiento": 32386416,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -136362,7 +136435,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -136392,14 +136465,15 @@
       "fecha_anteultima_aftosa": "FS 21/10/2025",
       "fecha_ultima_brucelosis": "24/03/2021",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:09"
+      "detalle_actualizado_ts": "2026-08-27T09:54:09",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032452615-3",
       "codigo": "32386413",
       "id_movimiento": 32386413,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -136416,7 +136490,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -136446,7 +136520,8 @@
       "fecha_anteultima_aftosa": "FS 21/10/2025",
       "fecha_ultima_brucelosis": "24/03/2021",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:10"
+      "detalle_actualizado_ts": "2026-08-27T09:54:10",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032452710-9",
@@ -136470,7 +136545,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136512,14 +136587,15 @@
       "fecha_anteultima_aftosa": "FS 06/03/2026",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:05"
+      "detalle_actualizado_ts": "2026-08-26T13:01:05",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032458829-9",
       "codigo": "32392627",
       "id_movimiento": 32392627,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -136536,7 +136612,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -136566,14 +136642,15 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:07"
+      "detalle_actualizado_ts": "2026-08-27T09:54:07",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032458306-8",
       "codigo": "32392104",
       "id_movimiento": 32392104,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -136590,7 +136667,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -136620,7 +136697,8 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:08"
+      "detalle_actualizado_ts": "2026-08-27T09:54:08",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032457930-3",
@@ -136644,7 +136722,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -136674,7 +136752,8 @@
       "fecha_anteultima_aftosa": "FS 28/10/2025",
       "fecha_ultima_brucelosis": "24/04/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:02"
+      "detalle_actualizado_ts": "2026-08-26T13:01:02",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032457409-3",
@@ -136698,7 +136777,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -136740,7 +136819,8 @@
       "fecha_anteultima_aftosa": "FS 23/03/2026",
       "fecha_ultima_brucelosis": "23/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T13:01:04"
+      "detalle_actualizado_ts": "2026-08-26T13:01:04",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462137-7",
@@ -136764,7 +136844,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "ANULADO",
@@ -136818,7 +136898,8 @@
       "fecha_anteultima_aftosa": "FS 09/12/2025",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-26T21:31:15"
+      "detalle_actualizado_ts": "2026-08-26T21:31:15",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032461925-9",
@@ -136842,7 +136923,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -136872,7 +136953,8 @@
       "fecha_anteultima_aftosa": "FS 30/10/2025",
       "fecha_ultima_brucelosis": "03/12/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:06"
+      "detalle_actualizado_ts": "2026-08-27T09:54:06",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462577-1",
@@ -136896,7 +136978,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -136956,7 +137038,8 @@
       "fecha_anteultima_aftosa": "FS 09/12/2025",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:01"
+      "detalle_actualizado_ts": "2026-08-27T09:54:01",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462521-6",
@@ -136980,7 +137063,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -137022,7 +137105,8 @@
       "fecha_anteultima_aftosa": "FS 09/04/2026",
       "fecha_ultima_brucelosis": "09/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:02"
+      "detalle_actualizado_ts": "2026-08-27T09:54:02",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462489-9",
@@ -137046,7 +137130,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -137106,7 +137190,8 @@
       "fecha_anteultima_aftosa": "FS 25/11/2025",
       "fecha_ultima_brucelosis": "24/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T09:54:04"
+      "detalle_actualizado_ts": "2026-08-27T09:54:04",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462440-6",
@@ -137130,7 +137215,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -137178,7 +137263,8 @@
       "fecha_anteultima_aftosa": "FS 16/03/2026",
       "fecha_ultima_brucelosis": "16/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T02:01:13"
+      "detalle_actualizado_ts": "2026-08-31T02:01:13",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462409-0",
@@ -137202,7 +137288,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -137238,7 +137324,8 @@
       "fecha_anteultima_aftosa": "FS 09/12/2025",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T02:01:14"
+      "detalle_actualizado_ts": "2026-08-31T02:01:14",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462353-1",
@@ -137262,7 +137349,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -137298,7 +137385,8 @@
       "fecha_anteultima_aftosa": "FS 24/04/2026",
       "fecha_ultima_brucelosis": "28/03/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:46"
+      "detalle_actualizado_ts": "2026-08-28T09:13:46",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462332-9",
@@ -137322,7 +137410,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "ANULADO",
@@ -137364,7 +137452,8 @@
       "fecha_anteultima_aftosa": "FS 26/03/2026",
       "fecha_ultima_brucelosis": "08/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:47"
+      "detalle_actualizado_ts": "2026-08-28T09:13:47",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462310-8",
@@ -137388,7 +137477,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "ANULADO",
@@ -137436,7 +137525,8 @@
       "fecha_anteultima_aftosa": "FS 28/10/2025",
       "fecha_ultima_brucelosis": "24/04/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:48"
+      "detalle_actualizado_ts": "2026-08-28T09:13:48",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462278-0",
@@ -137460,7 +137550,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "ANULADO",
@@ -137496,7 +137586,8 @@
       "fecha_anteultima_aftosa": "FS 02/03/2026",
       "fecha_ultima_brucelosis": "02/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:49"
+      "detalle_actualizado_ts": "2026-08-28T09:13:49",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462248-9",
@@ -137520,7 +137611,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -137556,7 +137647,8 @@
       "fecha_anteultima_aftosa": "FS 02/03/2026",
       "fecha_ultima_brucelosis": "02/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:50"
+      "detalle_actualizado_ts": "2026-08-28T09:13:50",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462206-3",
@@ -137580,7 +137672,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -137628,7 +137720,8 @@
       "fecha_anteultima_aftosa": "FS 29/04/2026",
       "fecha_ultima_brucelosis": "24/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:51"
+      "detalle_actualizado_ts": "2026-08-28T09:13:51",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032462157-1",
@@ -137652,7 +137745,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada UE",
       "estado_detalle": "VENCIDO",
@@ -137682,7 +137775,8 @@
       "fecha_anteultima_aftosa": "FS 09/12/2025",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T02:01:15"
+      "detalle_actualizado_ts": "2026-08-31T02:01:15",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032464910-7",
@@ -137706,7 +137800,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -137742,7 +137836,8 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T19:31:09"
+      "detalle_actualizado_ts": "2026-08-29T19:31:09",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467252-4",
@@ -137766,7 +137861,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "ANULADO",
@@ -137808,7 +137903,8 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:09"
+      "detalle_actualizado_ts": "2026-08-29T13:23:09",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467163-3",
@@ -137832,7 +137928,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -137874,7 +137970,8 @@
       "fecha_anteultima_aftosa": "FS 06/03/2026",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:26"
+      "detalle_actualizado_ts": "2026-09-01T09:43:26",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467118-8",
@@ -137898,7 +137995,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -137928,7 +138025,8 @@
       "fecha_anteultima_aftosa": "FS 12/03/2026",
       "fecha_ultima_brucelosis": "20/11/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:10"
+      "detalle_actualizado_ts": "2026-08-29T13:23:10",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032466557-9",
@@ -137952,7 +138050,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -137982,7 +138080,8 @@
       "fecha_anteultima_aftosa": "FS 17/04/2026",
       "fecha_ultima_brucelosis": "17/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:42"
+      "detalle_actualizado_ts": "2026-08-28T09:12:42",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032466424-6",
@@ -138006,7 +138105,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -138060,7 +138159,8 @@
       "fecha_anteultima_aftosa": "FS 30/10/2025",
       "fecha_ultima_brucelosis": "03/12/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:43"
+      "detalle_actualizado_ts": "2026-08-28T09:12:43",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032465706-1",
@@ -138084,7 +138184,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -138132,14 +138232,15 @@
       "fecha_anteultima_aftosa": "FS 16/03/2026",
       "fecha_ultima_brucelosis": "16/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:27"
+      "detalle_actualizado_ts": "2026-09-01T09:43:27",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032465601-4",
       "codigo": "32399399",
       "id_movimiento": 32399399,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -138156,7 +138257,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -138186,14 +138287,15 @@
       "fecha_anteultima_aftosa": "FS 21/10/2025",
       "fecha_ultima_brucelosis": "24/03/2021",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:44"
+      "detalle_actualizado_ts": "2026-08-28T09:13:44",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032465506-9",
       "codigo": "32399304",
       "id_movimiento": 32399304,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -138210,7 +138312,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -138240,7 +138342,8 @@
       "fecha_anteultima_aftosa": "FS 21/10/2025",
       "fecha_ultima_brucelosis": "24/03/2021",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:13:45"
+      "detalle_actualizado_ts": "2026-08-28T09:13:45",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467828-5",
@@ -138264,7 +138367,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -138294,7 +138397,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:08"
+      "detalle_actualizado_ts": "2026-08-29T13:23:08",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467799-2",
@@ -138318,7 +138422,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -138354,7 +138458,8 @@
       "fecha_anteultima_aftosa": "FS 16/10/2025",
       "fecha_ultima_brucelosis": "16/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:22"
+      "detalle_actualizado_ts": "2026-09-01T09:43:22",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467476-4",
@@ -138378,7 +138483,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -138420,7 +138525,8 @@
       "fecha_anteultima_aftosa": "FS 20/03/2026",
       "fecha_ultima_brucelosis": "20/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:23"
+      "detalle_actualizado_ts": "2026-09-01T09:43:23",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467428-4",
@@ -138444,7 +138550,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -138492,7 +138598,8 @@
       "fecha_anteultima_aftosa": "FS 23/04/2026",
       "fecha_ultima_brucelosis": "23/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:25"
+      "detalle_actualizado_ts": "2026-09-01T09:43:25",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032469296-7",
@@ -138516,7 +138623,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -138546,7 +138653,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:18"
+      "detalle_actualizado_ts": "2026-09-01T09:43:18",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032469274-6",
@@ -138570,7 +138678,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Retorno",
       "estado_detalle": "ANULADO",
@@ -138600,7 +138708,8 @@
       "fecha_anteultima_aftosa": "FS 16/10/2025",
       "fecha_ultima_brucelosis": "16/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:07"
+      "detalle_actualizado_ts": "2026-08-29T13:23:07",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032469219-3",
@@ -138624,7 +138733,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Retorno",
       "estado_detalle": "ANULADO",
@@ -138660,7 +138769,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:34"
+      "detalle_actualizado_ts": "2026-08-28T09:12:34",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032469164-2",
@@ -138684,7 +138794,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Reproducción UE",
       "estado_detalle": "VENCIDO",
@@ -138714,7 +138824,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:19"
+      "detalle_actualizado_ts": "2026-09-01T09:43:19",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032469082-4",
@@ -138738,7 +138849,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -138780,7 +138891,8 @@
       "fecha_anteultima_aftosa": "FS 23/04/2026",
       "fecha_ultima_brucelosis": "23/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-27T20:09:20"
+      "detalle_actualizado_ts": "2026-08-27T20:09:20",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032469034-4",
@@ -138804,7 +138916,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -138852,7 +138964,8 @@
       "fecha_anteultima_aftosa": "FS 02/03/2026",
       "fecha_ultima_brucelosis": "02/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:35"
+      "detalle_actualizado_ts": "2026-08-28T09:12:35",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032468909-5",
@@ -138876,7 +138989,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -138918,7 +139031,8 @@
       "fecha_anteultima_aftosa": "FS 06/12/2025",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:36"
+      "detalle_actualizado_ts": "2026-08-28T09:12:36",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032468824-2",
@@ -138942,7 +139056,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -138972,7 +139086,8 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:36"
+      "detalle_actualizado_ts": "2026-08-28T09:12:36",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032468802-1",
@@ -138996,7 +139111,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -139026,7 +139141,8 @@
       "fecha_anteultima_aftosa": "FS 06/03/2026",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:37"
+      "detalle_actualizado_ts": "2026-08-28T09:12:37",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032468151-5",
@@ -139050,7 +139166,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -139110,7 +139226,8 @@
       "fecha_anteultima_aftosa": "FS 26/03/2026",
       "fecha_ultima_brucelosis": "08/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:08"
+      "detalle_actualizado_ts": "2026-08-29T13:23:08",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032468091-8",
@@ -139134,7 +139251,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -139164,7 +139281,8 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:38"
+      "detalle_actualizado_ts": "2026-08-28T09:12:38",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032468055-1",
@@ -139188,7 +139306,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada UE",
       "estado_detalle": "VENCIDO",
@@ -139266,7 +139384,8 @@
       "fecha_anteultima_aftosa": "FS 09/12/2025",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:20"
+      "detalle_actualizado_ts": "2026-09-01T09:43:20",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467989-8",
@@ -139290,7 +139409,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -139326,14 +139445,15 @@
       "fecha_anteultima_aftosa": "FS 17/04/2026",
       "fecha_ultima_brucelosis": "17/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:39"
+      "detalle_actualizado_ts": "2026-08-28T09:12:39",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467938-3",
       "codigo": "32401736",
       "id_movimiento": 32401736,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -139350,7 +139470,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -139380,14 +139500,15 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:40"
+      "detalle_actualizado_ts": "2026-08-28T09:12:40",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032467878-6",
       "codigo": "32401676",
       "id_movimiento": 32401676,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -139404,7 +139525,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -139434,7 +139555,8 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:41"
+      "detalle_actualizado_ts": "2026-08-28T09:12:41",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032469860-4",
@@ -139458,7 +139580,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -139506,7 +139628,8 @@
       "fecha_anteultima_aftosa": "FS 10/03/2026",
       "fecha_ultima_brucelosis": "23/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T14:59:13"
+      "detalle_actualizado_ts": "2026-08-31T14:59:13",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032469342-4",
@@ -139530,7 +139653,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -139566,7 +139689,8 @@
       "fecha_anteultima_aftosa": "FS 10/03/2026",
       "fecha_ultima_brucelosis": "10/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:16"
+      "detalle_actualizado_ts": "2026-09-01T09:43:16",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470545-7",
@@ -139590,7 +139714,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -139620,7 +139744,8 @@
       "fecha_anteultima_aftosa": "FS 02/03/2026",
       "fecha_ultima_brucelosis": "02/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:01"
+      "detalle_actualizado_ts": "2026-08-29T13:23:01",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470541-4",
@@ -139644,7 +139769,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Reproducción",
       "estado_detalle": "VIGENTE",
@@ -139674,7 +139799,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:23"
+      "detalle_actualizado_ts": "2026-08-28T09:12:23",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470540-6",
@@ -139698,7 +139824,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Retorno",
       "estado_detalle": "VENCIDO",
@@ -139734,7 +139860,8 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:11"
+      "detalle_actualizado_ts": "2026-09-01T09:43:11",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470536-8",
@@ -139758,7 +139885,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -139800,7 +139927,8 @@
       "fecha_anteultima_aftosa": "FS 26/03/2026",
       "fecha_ultima_brucelosis": "08/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:12"
+      "detalle_actualizado_ts": "2026-09-01T09:43:12",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470530-9",
@@ -139824,7 +139952,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -139872,7 +140000,8 @@
       "fecha_anteultima_aftosa": "FS 28/10/2025",
       "fecha_ultima_brucelosis": "24/04/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:13"
+      "detalle_actualizado_ts": "2026-09-01T09:43:13",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470519-8",
@@ -139896,7 +140025,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -139944,7 +140073,8 @@
       "fecha_anteultima_aftosa": "FS 24/04/2026",
       "fecha_ultima_brucelosis": "28/03/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:14"
+      "detalle_actualizado_ts": "2026-09-01T09:43:14",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470512-0",
@@ -139968,7 +140098,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -140016,7 +140146,8 @@
       "fecha_anteultima_aftosa": "FS 26/03/2026",
       "fecha_ultima_brucelosis": "08/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:03"
+      "detalle_actualizado_ts": "2026-08-29T13:23:03",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470466-3",
@@ -140040,7 +140171,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -140148,7 +140279,8 @@
       "fecha_anteultima_aftosa": "FS 06/12/2025",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:15"
+      "detalle_actualizado_ts": "2026-09-01T09:43:15",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470424-8",
@@ -140172,7 +140304,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada UE",
       "estado_detalle": "VIGENTE",
@@ -140226,7 +140358,8 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:04"
+      "detalle_actualizado_ts": "2026-08-29T13:23:04",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470394-2",
@@ -140250,7 +140383,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada UE C. 481",
       "estado_detalle": "VIGENTE",
@@ -140280,7 +140413,8 @@
       "fecha_anteultima_aftosa": "FS 19/03/2026",
       "fecha_ultima_brucelosis": "09/05/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:30"
+      "detalle_actualizado_ts": "2026-08-28T09:12:30",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470334-9",
@@ -140304,7 +140438,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -140352,7 +140486,8 @@
       "fecha_anteultima_aftosa": "FS 06/12/2025",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:05"
+      "detalle_actualizado_ts": "2026-08-29T13:23:05",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470289-5",
@@ -140376,7 +140511,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -140454,7 +140589,8 @@
       "fecha_anteultima_aftosa": "FS 01/04/2025",
       "fecha_ultima_brucelosis": "12/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:05"
+      "detalle_actualizado_ts": "2026-08-29T13:23:05",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470268-7",
@@ -140478,7 +140614,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "ELIMINADO",
@@ -140520,7 +140656,8 @@
       "fecha_anteultima_aftosa": "FS 06/03/2026",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-28T09:12:32"
+      "detalle_actualizado_ts": "2026-08-28T09:12:32",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032470194-5",
@@ -140544,7 +140681,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -140598,7 +140735,8 @@
       "fecha_anteultima_aftosa": "FS 24/04/2026",
       "fecha_ultima_brucelosis": "28/03/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T14:59:12"
+      "detalle_actualizado_ts": "2026-08-31T14:59:12",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032477321-5",
@@ -140622,7 +140760,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VENCIDO",
@@ -140652,7 +140790,8 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "07/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T02:01:12"
+      "detalle_actualizado_ts": "2026-08-31T02:01:12",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032475525-5",
@@ -140676,7 +140815,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -140706,7 +140845,8 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "07/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:22:56"
+      "detalle_actualizado_ts": "2026-08-29T13:22:56",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032475364-8",
@@ -140730,7 +140870,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -140760,7 +140900,8 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "07/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:22:57"
+      "detalle_actualizado_ts": "2026-08-29T13:22:57",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032475349-4",
@@ -140784,7 +140925,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -140814,7 +140955,8 @@
       "fecha_anteultima_aftosa": "FS 22/11/2025",
       "fecha_ultima_brucelosis": "08/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T02:01:13"
+      "detalle_actualizado_ts": "2026-08-31T02:01:13",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032475265-5",
@@ -140838,7 +140980,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -140868,7 +141010,8 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "07/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:22:58"
+      "detalle_actualizado_ts": "2026-08-29T13:22:58",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032475085-1",
@@ -140892,7 +141035,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "CERRADO",
@@ -140934,7 +141077,8 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:22:59"
+      "detalle_actualizado_ts": "2026-08-29T13:22:59",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032474655-2",
@@ -140958,7 +141102,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "REF - EST",
       "motivo_detalle": "Retorno",
       "estado_detalle": "VIGENTE",
@@ -140988,13 +141132,14 @@
       "fecha_anteultima_aftosa": "FS 16/10/2025",
       "fecha_ultima_brucelosis": "16/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-29T13:23:00"
+      "detalle_actualizado_ts": "2026-08-29T13:23:00",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032480128-6",
       "codigo": "32413926",
       "id_movimiento": 32413926,
-      "consignataria": "BULLTRADE",
+      "consignataria": "DARWASH SA",
       "tipo_movimiento": "",
       "emisor_nombre": "LAS TAPERAS DEL OESTE S.A.S.",
       "emisor_cuit": "30-71862137-9",
@@ -141012,7 +141157,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -141048,14 +141193,15 @@
       "fecha_anteultima_aftosa": "FS 28/10/2025",
       "fecha_ultima_brucelosis": "24/04/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T14:59:10"
+      "detalle_actualizado_ts": "2026-08-31T14:59:10",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032480078-6",
       "codigo": "32413876",
       "id_movimiento": 32413876,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "SALIDA",
       "emisor_nombre": "DARWASH S A",
       "emisor_cuit": "30-51163433-0",
       "receptor_nombre": "MEATEX S. A.",
@@ -141072,7 +141218,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -141102,7 +141248,8 @@
       "fecha_anteultima_aftosa": "FS 20/03/2025",
       "fecha_ultima_brucelosis": "27/01/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T14:59:11"
+      "detalle_actualizado_ts": "2026-08-31T14:59:11",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032480701-2",
@@ -141126,7 +141273,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -141156,7 +141303,8 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-08-31T14:59:09"
+      "detalle_actualizado_ts": "2026-08-31T14:59:09",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032484417-1",
@@ -141180,7 +141328,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -141210,14 +141358,15 @@
       "fecha_anteultima_aftosa": "FS 09/05/2026",
       "fecha_ultima_brucelosis": "09/04/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:09"
+      "detalle_actualizado_ts": "2026-09-01T09:43:09",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032494402-8",
       "codigo": "32428198",
       "id_movimiento": 32428198,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "SALIDA",
       "emisor_nombre": "DARWASH S A",
       "emisor_cuit": "30-51163433-0",
       "receptor_nombre": "COTO CENTRO INTEGRAL DE COMERCIALIZACION SOCIEDAD ANONIMA",
@@ -141234,7 +141383,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -141264,14 +141413,15 @@
       "fecha_anteultima_aftosa": "FS 20/03/2025",
       "fecha_ultima_brucelosis": "27/01/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:04"
+      "detalle_actualizado_ts": "2026-09-01T09:43:04",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032494321-8",
       "codigo": "32428117",
       "id_movimiento": 32428117,
-      "consignataria": "BULLTRADE",
-      "tipo_movimiento": "SALIDA",
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
       "emisor_nombre": "PECUARIA EL GARABI SA",
       "emisor_cuit": "33-70793667-9",
       "receptor_nombre": "FRIMSA S.A.",
@@ -141288,7 +141438,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:46:10",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "VIGENTE",
@@ -141318,7 +141468,8 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:06"
+      "detalle_actualizado_ts": "2026-09-01T09:43:06",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032490978-8",
@@ -141342,7 +141493,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - EST",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -141372,7 +141523,8 @@
       "fecha_anteultima_aftosa": "FS 02/03/2026",
       "fecha_ultima_brucelosis": "02/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:07"
+      "detalle_actualizado_ts": "2026-09-01T09:43:07",
+      "consignataria_scrape": "DARWASH SA"
     },
     {
       "nro_dte": "032490526-5",
@@ -141396,7 +141548,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-09-01T09:43:03",
+      "ts_scrape": "2026-09-01T09:58:13",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "VIGENTE",
@@ -141426,7 +141578,63 @@
       "fecha_anteultima_aftosa": "FS 31/03/2026",
       "fecha_ultima_brucelosis": "31/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-09-01T09:43:08"
+      "detalle_actualizado_ts": "2026-09-01T09:43:08",
+      "consignataria_scrape": "DARWASH SA"
+    },
+    {
+      "nro_dte": "032494918-6",
+      "codigo": "32428714",
+      "id_movimiento": 32428714,
+      "consignataria": "DARWASH SA",
+      "consignataria_scrape": "DARWASH SA",
+      "tipo_movimiento": "",
+      "emisor_nombre": "PECUARIA EL GARABI SA",
+      "emisor_cuit": "33-70793667-9",
+      "receptor_nombre": "FRIMSA S.A.",
+      "receptor_cuit": "33-65323982-9",
+      "renspa_origen": "03.014.3.15647/02",
+      "renspa_destino": "01.034.0.01043/00",
+      "tipo": "EST-FRI",
+      "estado": "VIGENTE",
+      "fecha_emision": "01/09/2026",
+      "fecha_carga": "01/09/2026",
+      "fecha_vencimiento": "03/09/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-09-01T09:58:13",
+      "tipo_movimiento_detalle": "EST - FRI",
+      "motivo_detalle": "Faena UE - NO HILTON",
+      "estado_detalle": "VIGENTE",
+      "consignatario_nombre": "BULLTRADE SRL (30-71128690-6)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": true,
+      "destino_es_feria": false,
+      "fecha_emision_detalle": "01/09/2026 09:53",
+      "fecha_vencimiento_detalle": "03/09/2026",
+      "fecha_caduca": "10/09/2026",
+      "cantidad_enviados": 31,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 31,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 31,
+      "total_recibidos": 0,
+      "nro_tri": "005051421",
+      "nro_guia": "3254353",
+      "nro_certificado_faena": "005051421",
+      "fecha_ultima_aftosa": "FS 06/11/2025",
+      "fecha_anteultima_aftosa": "FS 15/10/2025",
+      "fecha_ultima_brucelosis": "16/08/2024",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-09-01T09:58:14"
     }
   ]
 }
