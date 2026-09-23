@@ -68998,7 +68998,7 @@
     },
     {
       "codigo": "01.019.0.00001/09-2026",
-      "fecha_extraccion": "2026-09-23T18:05:11.259709",
+      "fecha_extraccion": "2026-09-23T19:34:23.506618",
       "info": {
         "Inicio": "17/09/2026",
         "Fin": "22/09/2026",
@@ -73340,7 +73340,7 @@
     },
     {
       "codigo": "01.054.0.00001/0C-2026",
-      "fecha_extraccion": "2026-09-23T18:05:12.071699",
+      "fecha_extraccion": "2026-09-23T19:34:24.550981",
       "info": {
         "Inicio": "16/09/2026",
         "Fin": "18/09/2026",
@@ -76046,7 +76046,7 @@
     },
     {
       "codigo": "03.014.3.00015/0G-2026",
-      "fecha_extraccion": "2026-09-23T18:05:10.332795",
+      "fecha_extraccion": "2026-09-23T19:34:22.191339",
       "info": {
         "Inicio": "23/09/2026",
         "Fin": "24/09/2026",
@@ -76056,8 +76056,8 @@
         "Predio ferial": "DARWASH S A"
       },
       "total_dtes": 56,
-      "total_dtes_salida": 0,
-      "total_filas": 95,
+      "total_dtes_salida": 1,
+      "total_filas": 96,
       "total_animales": 1223,
       "totales_categoria": {
         "Vaquillona": {
@@ -77816,28 +77816,6 @@
           "apto_china": "NO",
           "fecha_aftosa": "25/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 2,
-          "recibido": 2,
-          "emisor_nombre": "FATU S.A.S.",
-          "emisor_cuit": "30-71697804-0",
-          "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0",
-          "usuario_faena_nombre": "",
-          "destino_es_frigorifico": false,
-          "destino_es_feria": true,
-          "comprador": ""
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "032648636-1",
-          "origen": "03.014.3.15565/04",
-          "motivo": "Invernada",
-          "estado": "CERRADO",
-          "fecha_movimiento": "22/09/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "25/06/26",
-          "especie": "Bovinos",
           "categoria": "Ternero",
           "enviado": 5,
           "recibido": 5,
@@ -77863,6 +77841,28 @@
           "categoria": "Novillito",
           "enviado": 15,
           "recibido": 15,
+          "emisor_nombre": "FATU S.A.S.",
+          "emisor_cuit": "30-71697804-0",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032648636-1",
+          "origen": "03.014.3.15565/04",
+          "motivo": "Invernada",
+          "estado": "CERRADO",
+          "fecha_movimiento": "22/09/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "25/06/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 2,
+          "recibido": 2,
           "emisor_nombre": "FATU S.A.S.",
           "emisor_cuit": "30-71697804-0",
           "receptor_nombre": "DARWASH S A",
@@ -78036,9 +78036,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "19/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 13,
-          "recibido": 13,
+          "categoria": "Vaca",
+          "enviado": 3,
+          "recibido": 3,
           "emisor_nombre": "SUCESION DE SANCHEZ HECTOR ALBERTO",
           "emisor_cuit": "20-12050372-4",
           "receptor_nombre": "DARWASH S A",
@@ -78058,9 +78058,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "19/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 3,
-          "recibido": 3,
+          "categoria": "Novillito",
+          "enviado": 13,
+          "recibido": 13,
           "emisor_nombre": "SUCESION DE SANCHEZ HECTOR ALBERTO",
           "emisor_cuit": "20-12050372-4",
           "receptor_nombre": "DARWASH S A",
@@ -78179,9 +78179,31 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": true,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032660192-6",
+          "origen": "20.017.0.00371/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/09/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "19/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 31,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "MEATEX S. A.",
+          "receptor_cuit": "33-62636566-9",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": true,
+          "destino_es_feria": false,
+          "comprador": "MEATEX S. A."
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-09-23T18:05:10.332795"
+  "fecha_extraccion": "2026-09-23T19:34:22.191339"
 }
