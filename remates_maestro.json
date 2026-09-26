@@ -68998,7 +68998,7 @@
     },
     {
       "codigo": "01.019.0.00001/09-2026",
-      "fecha_extraccion": "2026-09-26T13:45:39.585052",
+      "fecha_extraccion": "2026-09-26T18:36:07.658162",
       "info": {
         "Inicio": "17/09/2026",
         "Fin": "22/09/2026",
@@ -69028,13 +69028,13 @@
           "enviado": 7,
           "recibido": 7
         },
-        "Novillo": {
-          "enviado": 5,
-          "recibido": 5
-        },
         "Toro": {
           "enviado": 31,
           "recibido": 31
+        },
+        "Novillo": {
+          "enviado": 5,
+          "recibido": 5
         },
         "Novillito": {
           "enviado": 273,
@@ -76046,7 +76046,7 @@
     },
     {
       "codigo": "03.014.3.00015/0G-2026",
-      "fecha_extraccion": "2026-09-26T13:45:37.955779",
+      "fecha_extraccion": "2026-09-26T18:36:05.681798",
       "info": {
         "Inicio": "23/09/2026",
         "Fin": "24/09/2026",
@@ -79174,7 +79174,7 @@
     },
     {
       "codigo": "03.014.1.00008/0E-2026",
-      "fecha_extraccion": "2026-09-26T13:45:36.686348",
+      "fecha_extraccion": "2026-09-26T18:36:04.017103",
       "info": {
         "Inicio": "26/09/2026",
         "Fin": "27/09/2026",
@@ -79461,5 +79461,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-09-26T13:45:36.686348"
+  "fecha_extraccion": "2026-09-26T18:36:04.017103"
 }
