@@ -223,9 +223,15 @@ function openDetalle(d){
 }
 function closeDetalle(){modalBg.style.display='none'; modal.classList.remove('modal-wide');} modalBg.onclick=function(e){if(e.target===modalBg) closeDetalle();};
 document.addEventListener('keydown',function(e){if(e.key==='Escape' && modalBg.style.display==='flex')closeDetalle();});
-function mostrarLinkRemate(codigo,tipo){
+async function mostrarLinkRemate(codigo,tipo){
+  let url='https://darwashsa-ux.github.io/darwash-dte/'+tipo+'.html?remate='+encodeURIComponent(codigo);
+  if(tipo==='egreso'){
+    // Sin clave de carga válida no se muestra un link que no carga.
+    const tok=await claveCargaPara(codigo);
+    if(!tok) return;
+    url=linkEgreso(codigo,tok);
+  }
   modal.classList.remove('modal-wide');
-  const url='https://darwashsa-ux.github.io/darwash-dte/'+tipo+'.html?remate='+encodeURIComponent(codigo);
   const tipoLbl=tipo==='egreso'?'Link de egreso':'Link de ingreso';
   const tipoLow=tipo==='egreso'?'egreso':'ingreso';
   const aliases=DATOS_ALIASES||{};
@@ -919,6 +925,52 @@ const LECTURA_KEY='dw_lectura_egresos';
 function leerLecturaToken(){try{return localStorage.getItem(LECTURA_KEY)||'';}catch(e){return '';}}
 function guardarLecturaToken(v){try{if(v)localStorage.setItem(LECTURA_KEY,v);else localStorage.removeItem(LECTURA_KEY);}catch(e){}}
 (function(){try{const u=new URL(location.href);const q=(u.searchParams.get('t')||'').trim();if(q){guardarLecturaToken(q);u.searchParams.delete('t');history.replaceState(null,'',u.pathname+u.search+u.hash);}}catch(e){}})();
+// Clave de CARGA de remitos (token con alcance egreso), aparte de la de lectura: es la que
+// llevan los links de egreso que arma el dashboard (&t=). Tampoco va en el código: llega una
+// vez por ?te=… o se pide; se guarda en este navegador y se borra si la base la rechaza.
+const CARGA_KEY='dw_carga_egreso';
+const PEDIR_CARGA='Clave de CARGA de egresos (no la de lectura). Se guarda en este navegador.';
+function leerCargaToken(){try{return localStorage.getItem(CARGA_KEY)||'';}catch(e){return '';}}
+function guardarCargaToken(v){try{if(v)localStorage.setItem(CARGA_KEY,v);else localStorage.removeItem(CARGA_KEY);}catch(e){}}
+(function(){try{const u=new URL(location.href);const q=(u.searchParams.get('te')||'').trim();if(q){guardarCargaToken(q);u.searchParams.delete('te');history.replaceState(null,'',u.pathname+u.search+u.hash);}}catch(e){}})();
+function linkEgreso(codigo,tok){return 'https://darwashsa-ux.github.io/darwash-dte/egreso.html?remate='+encodeURIComponent(codigo)+'&t='+encodeURIComponent(tok);}
+// Clave de carga válida para ese remate, o '' (y ya avisó por qué). Si no hay guardada, la pide.
+// Se valida contra la base cada vez: una de lectura o una vencida no pasa y se borra.
+async function claveCargaPara(codigo){
+  let tok=leerCargaToken();
+  if(!tok){
+    tok=(prompt(PEDIR_CARGA)||'').trim();
+    if(!tok) return '';
+    guardarCargaToken(tok);
+  }
+  let r;
+  try{
+    const res=await fetch(SB_URL+'/rest/v1/rpc/cargadores_para_egreso',{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_token:tok})
+    });
+    r=await res.json();
+    if(!res.ok) r={ok:false,error:'http_'+res.status};
+  }catch(e){ r={ok:false,error:'red'}; }
+  if(r&&r.ok===true){
+    if(r.remate&&r.remate!==codigo){ alert('La clave de carga guardada es del remate '+r.remate+', no de '+codigo+'. Pedí la clave de este remate.'); return ''; }
+    return tok;
+  }
+  if(r&&r.error==='token_invalido'){ guardarCargaToken(''); alert('La clave de carga venció o no es válida (¿pegaste la de lectura?). Volvé a intentar para pegar la correcta.'); return ''; }
+  alert('No se pudo verificar la clave de carga ('+((r&&r.error)||'error')+'). Reintentá.');
+  return '';
+}
+// Botones "Registrar primer egreso" / "Nuevo egreso". La pestaña se abre dentro del clic (si no,
+// el navegador la bloquea) y recién después se valida la clave; si no sirve, se cierra.
+async function abrirEgreso(ev,codigo){
+  if(ev) ev.preventDefault();
+  if(!leerCargaToken()){ const v=(prompt(PEDIR_CARGA)||'').trim(); if(!v) return; guardarCargaToken(v); }
+  const w=window.open('about:blank','_blank');
+  const tok=await claveCargaPara(codigo);
+  if(!tok){ if(w) w.close(); return; }
+  if(w) w.location.href=linkEgreso(codigo,tok); else location.href=linkEgreso(codigo,tok);
+}
 
 // ── WhatsApp desde modal Ver Ingresos ────────────────────
 function compartirWhatsAppReg(reg){
@@ -1342,7 +1394,7 @@ async function verEgresos(codigoRemate){
     if(!rows.length){
       modal.innerHTML=headerHtml()
         +'<div class="modal-body" style="text-align:center;color:var(--muted);padding:32px">Sin egresos registrados.<br><br>'
-        +'<a href="egreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" style="color:#D63B47">→ Registrar primer egreso</a>'
+        +'<a href="#" data-remate="'+esc(codigoRemate)+'" onclick="abrirEgreso(event,this.dataset.remate)" style="color:#D63B47">→ Registrar primer egreso</a>'
         +'</div>';
       document.getElementById('closeModal').onclick=closeDetalle;
       return;
@@ -1377,7 +1429,7 @@ async function verEgresos(codigoRemate){
         +'<div class="modal-summary-kpi"><span class="label">Total egresado</span><span class="value is-egreso">'+totalCab+' <span style="font-size:13px;color:var(--muted);font-weight:400">cab.</span></span></div>'
         +'<div class="modal-summary-kpi"><span class="label">Registros</span><span class="value">'+rows.length+'</span></div>'
         +'<div class="modal-summary-chips">'+catChips+'</div>'
-        +'<a href="egreso.html?remate='+encodeURIComponent(codigoRemate)+'" target="_blank" class="btn-secondary" style="margin-left:auto;text-decoration:none">⬆ Nuevo egreso</a>'
+        +'<a href="#" data-remate="'+esc(codigoRemate)+'" onclick="abrirEgreso(event,this.dataset.remate)" class="btn-secondary" style="margin-left:auto;text-decoration:none">⬆ Nuevo egreso</a>'
       +'</div>'
       +'<div class="modal-body" style="padding-top:0">'
         +'<div class="modal-table-wrap" style="margin-top:8px"><table class="modal-table">'
