@@ -155,6 +155,12 @@
   </div>
   <input type="hidden" id="sel-remate" value=""/>
 
+  <!-- QUIÉN CARGA — lista servida por cargadores_para_egreso(token) -->
+  <div class="lf-field">
+    <label class="lf-field-label">Quién carga</label>
+    <select class="lf-input" id="sel-cargador" disabled><option value="">Cargando…</option></select>
+  </div>
+
   <!-- DATOS DEL EGRESO -->
   <div class="lf-section-label">Datos del egreso</div>
 
@@ -261,6 +267,39 @@
 // ══════════════════════════════════════════
 const SUPABASE_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SUPABASE_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+// Token del link (egreso.html?remate=…&t=…). Sin token válido no se carga nada.
+const TOKEN=new URLSearchParams(location.search).get('t')||'';
+
+// Llama a una función de Supabase. Devuelve siempre {ok:…}: un error HTTP
+// o de red NUNCA se muestra como "guardado".
+async function rpc(fn,args){
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+fn,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
+      body:JSON.stringify(args)
+    });
+    let data=null; try{data=await res.json();}catch(_){}
+    if(!res.ok) return {ok:false,error:'http_'+res.status};
+    return (data&&typeof data==='object')?data:{ok:false,error:'respuesta_vacia'};
+  }catch(e){ return {ok:false,error:'red'}; }
+}
+const MSG_ERROR={
+  token_invalido:'Este link venció o no es válido. Pedí un link nuevo a Darwash.',
+  token_otro_remate:'Este link es de otro remate. Pedí el link de este remate a Darwash.',
+  limite:'Se alcanzó el máximo de remitos por hora para este link. Avisá a Darwash.',
+  remate_invalido:'El remate del link no es válido. Pedí un link nuevo.',
+  cargador_invalido:'Elegí quién carga.',
+  tropa_requerida:'Ingresá el nombre de la tropa.',
+  fecha_invalida:'La fecha no es válida (hasta 30 días atrás o 2 adelante).',
+  categorias_invalidas:'Revisá las cantidades por categoría.',
+  sin_cabezas:'Ingresá al menos una categoría con cantidad.',
+  cabezas_excesivas:'Más de 400 cabezas en un remito: revisá las cantidades.',
+  dte_formato:'El N° de DTE no tiene el formato correcto (ej. 032561004-2).',
+  texto_largo:'Algún campo es demasiado largo.',
+  red:'Sin conexión. No se guardó: reintentá.',
+};
+function msgError(r){return MSG_ERROR[r&&r.error]||('No se pudo guardar ('+((r&&r.error)||'error')+'). Reintentá o avisá a Darwash.');}
 
 const CATS=[
   {id:'novillo',label:'Novillo',code:'NOV'},
@@ -335,12 +374,19 @@ async function cargarRemate(){
     cont.innerHTML='<div class="remate-empty">'+msg+'</div>';
     sel.value='';
     btnSave.disabled=true;
+    const selC=document.getElementById('sel-cargador');
+    selC.innerHTML='<option value="">—</option>';
+    selC.disabled=true;
   };
 
   // 1. Leer ?remate=CODIGO de la URL
   const codigo=new URLSearchParams(location.search).get('remate');
   if(!codigo){
     showError('⚠ Link inválido. Pedí un link nuevo a Darwash.');
+    return;
+  }
+  if(!TOKEN){
+    showError('⚠ Este link no tiene clave de carga. Pedí un link nuevo a Darwash.');
     return;
   }
 
@@ -389,6 +435,15 @@ async function cargarRemate(){
       titulo+
       '<div class="remate-single-meta">'+esc(info.Inicio||'')+' → '+esc(info.Fin||'')+' · '+esc(info['Predio ferial']||'')+'</div>'+
     '</div>';
+
+  // 6. Validar el token y traer la lista de quién carga
+  const rc=await rpc('cargadores_para_egreso',{p_token:TOKEN});
+  if(!rc.ok){ showError('⚠ '+msgError(rc)); return; }
+  if(rc.remate && rc.remate!==codigo){ showError('⚠ '+MSG_ERROR.token_otro_remate); return; }
+  const selC=document.getElementById('sel-cargador');
+  selC.innerHTML='<option value="">Elegí tu nombre…</option>'+
+    (rc.cargadores||[]).map(c=>'<option value="'+c.id+'">'+esc(c.nombre)+'</option>').join('');
+  selC.disabled=false;
 
   sel.value=codigo;
   btnSave.disabled=false;
@@ -499,7 +554,9 @@ async function guardar(){
   const categorias=getCats();
   const total=Object.values(categorias).reduce((a,b)=>a+b,0);
 
+  const cargadorId=Number(document.getElementById('sel-cargador').value)||null;
   if(!remate){alert('Seleccioná un remate.');return;}
+  if(!cargadorId){alert('Elegí quién carga.');return;}
   if(!tropa){alert('Ingresá el nombre de la tropa.');return;}
   if(total===0){alert('Ingresá al menos una categoría con cantidad.');return;}
 
@@ -515,19 +572,14 @@ async function guardar(){
       observaciones:obs,
       firma:firmaDataURL?'si':'no'
     };
-    const res=await fetch(SUPABASE_URL+'/rest/v1/egresos_hacienda',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'apikey':SUPABASE_KEY,
-        'Authorization':'Bearer '+SUPABASE_KEY,
-        'Prefer':'return=representation'
-      },
-      body:JSON.stringify(body)
+    const r=await rpc('registrar_egreso',{
+      p_token:TOKEN,p_remate:remate,p_cargador_id:cargadorId,p_fecha:fecha,
+      p_tropa:tropa,p_nro_dte:dte,p_destino:destino,p_transportista:transportista,
+      p_patente:patente,p_categorias:categorias,p_observaciones:obs,p_firma:!!firmaDataURL
     });
-    const data=await res.json();
-    ultimoRegistro={...body,...(Array.isArray(data)?data[0]:data)};
-    nroRemito=ultimoRegistro.id||Date.now();
+    if(!r.ok){ alert('⚠ '+msgError(r)); return; }
+    ultimoRegistro={...body,id:r.id,nro_dte:r.nro_dte??body.nro_dte};
+    nroRemito=r.id;
 
     // Subir fotos
     const nFotos=Object.keys(fotoFiles).length;
@@ -535,11 +587,8 @@ async function guardar(){
     if(nFotos>0){
       fotosUrls=await subirFotos(nroRemito);
       if(ultimoRegistro.id){
-        await fetch(SUPABASE_URL+'/rest/v1/egresos_hacienda?id=eq.'+ultimoRegistro.id,{
-          method:'PATCH',
-          headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
-          body:JSON.stringify({fotos:fotosUrls})
-        });
+        const ra=await rpc('adjuntar_egreso',{p_token:TOKEN,p_id:ultimoRegistro.id,p_fotos:fotosUrls,p_pdf_url:null});
+        if(!ra.ok) console.error('adjuntar fotos:',ra.error);
       }
       ultimoRegistro.fotos=fotosUrls;
     }
@@ -779,11 +828,8 @@ async function generarPDF(soloSubir=false){
     if(btn&&!soloSubir){btn.textContent='📤 Subiendo...';}
     const pdfUrl=await subirPDFStorage(pdfBlob,filename);
     if(pdfUrl&&ultimoRegistro&&ultimoRegistro.id){
-      await fetch(SUPABASE_URL+'/rest/v1/egresos_hacienda?id=eq.'+ultimoRegistro.id,{
-        method:'PATCH',
-        headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
-        body:JSON.stringify({pdf_url:pdfUrl})
-      });
+      const ra=await rpc('adjuntar_egreso',{p_token:TOKEN,p_id:ultimoRegistro.id,p_fotos:null,p_pdf_url:pdfUrl});
+      if(!ra.ok) console.error('adjuntar pdf:',ra.error);
       ultimoRegistro.pdf_url=pdfUrl;
       if(btn&&!soloSubir){btn.textContent='✅ PDF guardado';setTimeout(()=>{btn.textContent='📄 Remito PDF';},3000);}
     }else{if(btn&&!soloSubir){btn.textContent='📄 Remito PDF';}}

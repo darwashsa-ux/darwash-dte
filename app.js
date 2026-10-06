@@ -912,6 +912,13 @@ function renderDtes(){
 }
 const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+// Clave de lectura de remitos (token con alcance lectura_egresos). NUNCA va escrita en el
+// código (el repo es público): llega una vez por ?t=… en el link que pasa Darwash, o se pega
+// cuando el dashboard la pide, y queda guardada en este navegador. El ?t= se saca de la barra.
+const LECTURA_KEY='dw_lectura_egresos';
+function leerLecturaToken(){try{return localStorage.getItem(LECTURA_KEY)||'';}catch(e){return '';}}
+function guardarLecturaToken(v){try{if(v)localStorage.setItem(LECTURA_KEY,v);else localStorage.removeItem(LECTURA_KEY);}catch(e){}}
+(function(){try{const u=new URL(location.href);const q=(u.searchParams.get('t')||'').trim();if(q){guardarLecturaToken(q);u.searchParams.delete('t');history.replaceState(null,'',u.pathname+u.search+u.hash);}}catch(e){}})();
 
 // ── WhatsApp desde modal Ver Ingresos ────────────────────
 function compartirWhatsAppReg(reg){
@@ -1303,10 +1310,22 @@ async function verEgresos(codigoRemate){
   document.getElementById('closeModal').onclick=closeDetalle;
 
   try{
-    const res=await fetch(SB_URL+'/rest/v1/egresos_hacienda?remate=eq.'+encodeURIComponent(codigoRemate)+'&order=ts.desc',{
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+    // Lectura por función con token: la key pública ya no lee la tabla (03_cerrar_egresos.sql).
+    let lecturaToken=leerLecturaToken();
+    if(!lecturaToken){
+      const v=prompt('Clave de lectura de remitos (te la pasa Darwash). Se guarda en este navegador.');
+      if(v&&v.trim()){ lecturaToken=v.trim(); guardarLecturaToken(lecturaToken); }
+    }
+    const res=await fetch(SB_URL+'/rest/v1/rpc/egresos_de_remate',{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_token:lecturaToken,p_remate:codigoRemate})
     });
-    const rows=await res.json();
+    const resp=await res.json();
+    if(resp&&resp.error==='token_invalido') guardarLecturaToken('');   // vencida: la próxima vez se vuelve a pedir
+    const rows=(resp&&resp.ok===true)?resp.filas
+      :(resp&&resp.error==='token_invalido')?{message:'Falta o venció la clave de lectura de remitos. Abrí el link de lectura que te pasó Darwash, o cerrá y volvé a abrir este detalle para pegarla.'}
+      :resp;
     // Error de Supabase (objeto, no array) NO es lo mismo que "sin egresos".
     if(!res.ok || !Array.isArray(rows)){
       const det = (rows && (rows.message||rows.details||rows.hint))
