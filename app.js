@@ -1400,9 +1400,12 @@ async function verEgresos(codigoRemate){
       return;
     }
 
-    const totalCab=rows.reduce((a,r)=>a+(r.total_cabezas||0),0);
+    // los remitos anulados (v2) se listan, pero no suman
+    const vivos=rows.filter(r=>!r.anulado_at);
+    const sinDte=vivos.filter(r=>!r.dte_normalizado).length;
+    const totalCab=vivos.reduce((a,r)=>a+(r.total_cabezas||0),0);
     const catTotals={};
-    rows.forEach(r=>{Object.entries(agruparCategoriasReg(r.categorias)).forEach(([k,v])=>{catTotals[k]=(catTotals[k]||0)+v;});});
+    vivos.forEach(r=>{Object.entries(agruparCategoriasReg(r.categorias)).forEach(([k,v])=>{catTotals[k]=(catTotals[k]||0)+v;});});
     const catChips=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span class="chip chip-egreso">'+esc(k)+': '+v+'</span>').join('');
 
     const filas=rows.map(r=>{
@@ -1412,10 +1415,16 @@ async function verEgresos(codigoRemate){
         ?'<td><a href="'+esc(r.pdf_url)+'" target="_blank" style="color:var(--cyan);font-size:12px;white-space:nowrap">📄 PDF</a></td>'
         :'<td style="color:var(--muted);font-size:12px">—</td>';
       const ts=r.ts?new Date(r.ts).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
-      return '<tr>'
-        +'<td style="font-family:var(--mono);font-size:12px;white-space:nowrap">'+esc(ts)+'</td>'
+      // DTE: el atado (validado) manda; lo tipeado sin validar se ve aparte
+      const ORIG={cargado:'cargado',atado_auto:'atado auto',atado_manual:'atado a mano'};
+      const dteCell=r.dte_normalizado
+        ?esc(r.dte_normalizado)+'<br><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">'+esc(ORIG[r.dte_origen]||r.dte_origen||'')+'</span>'
+        :r.nro_dte?'<span style="color:var(--muted)">'+esc(r.nro_dte)+'</span><br><span style="font-family:var(--sans);font-size:11px;color:var(--amber)">sin validar</span>'
+        :'<span style="font-family:var(--sans);font-size:11px;color:var(--amber)">sin DTE</span>';
+      return '<tr'+(r.anulado_at?' style="opacity:.45"':'')+'>'
+        +'<td style="font-family:var(--mono);font-size:12px;white-space:nowrap">'+esc(ts)+(r.version===2?' <span style="font-size:10px;color:var(--cyan)">v2</span>':'')+(r.anulado_at?'<br><span style="font-size:11px;color:#D63B47">anulado</span>':'')+'</td>'
         +'<td style="font-weight:600">'+esc(r.tropa||'—')+'</td>'
-        +'<td style="font-family:var(--mono);font-size:12px;color:var(--cyan)">'+esc(r.nro_dte||'—')+'</td>'
+        +'<td style="font-family:var(--mono);font-size:12px;color:var(--cyan)">'+dteCell+'</td>'
         +'<td>'+esc(r.destino||'—')+'</td>'
         +'<td>'+esc(r.transportista||'—')+'</td>'
         +'<td class="num" style="font-weight:600;color:#D63B47">'+(r.total_cabezas||0)+'</td>'
@@ -1427,9 +1436,11 @@ async function verEgresos(codigoRemate){
     modal.innerHTML=headerHtml()
       +'<div class="modal-summary">'
         +'<div class="modal-summary-kpi"><span class="label">Total egresado</span><span class="value is-egreso">'+totalCab+' <span style="font-size:13px;color:var(--muted);font-weight:400">cab.</span></span></div>'
-        +'<div class="modal-summary-kpi"><span class="label">Registros</span><span class="value">'+rows.length+'</span></div>'
+        +'<div class="modal-summary-kpi"><span class="label">Registros</span><span class="value">'+vivos.length+'</span></div>'
+        +'<div class="modal-summary-kpi"><span class="label">Sin DTE</span><span class="value"'+(sinDte?' style="color:var(--amber)"':'')+'>'+sinDte+'</span></div>'
         +'<div class="modal-summary-chips">'+catChips+'</div>'
-        +'<a href="#" data-remate="'+esc(codigoRemate)+'" onclick="abrirEgreso(event,this.dataset.remate)" class="btn-secondary" style="margin-left:auto;text-decoration:none">⬆ Nuevo egreso</a>'
+        +'<button id="egr-atar" class="btn-secondary" style="margin-left:auto">🔗 Atar DTE</button>'
+        +'<a href="#" data-remate="'+esc(codigoRemate)+'" onclick="abrirEgreso(event,this.dataset.remate)" class="btn-secondary" style="text-decoration:none">⬆ Nuevo egreso</a>'
       +'</div>'
       +'<div class="modal-body" style="padding-top:0">'
         +'<div class="modal-table-wrap" style="margin-top:8px"><table class="modal-table">'
@@ -1445,6 +1456,7 @@ async function verEgresos(codigoRemate){
 
     document.getElementById('closeModal').onclick=closeDetalle;
     document.getElementById('egr-export').onclick=()=>exportarEgresosExcel(rows, codigoRemate);
+    document.getElementById('egr-atar').onclick=()=>verAtadoDte(codigoRemate, rows);
   }catch(e){
     modal.innerHTML=headerHtml()
       +'<div class="modal-body"><div class="modal-feedback error">'+esc(e.message)+'</div></div>';
@@ -1473,6 +1485,264 @@ function exportarEgresosExcel(rows, codigoRemate){
   const filename='egresos_'+safe;
   const cols=Object.keys(data[0]).map(k=>[k,k]);
   exportToExcel(data, cols, filename);
+}
+
+// ══════════════════════════════════════════════════════════════
+// ATADO DE DTE POSTERIOR (remito v2 · V6b)
+// Cruza los remitos de un remate con los DTE de feria de dtes_maestro.json y propone el DTE de cada
+// remito sin DTE. La base no sabe qué DTE existen: la sugerencia se arma acá; atar_dte_egreso solo
+// aplica las reglas (1 a 1, no pisa, no ata anulados).
+// Niveles (los mismos de la simulación del diseño):
+//   cargado  · el remito trae un nro_dte tipeado que es un DTE válido de esta feria
+//   seguro   · fecha ±1 día, cabezas exactas y (mismo destino, nombre parecido o mismas categorías), único en las dos direcciones
+//   probable · fecha ±2 días, cabezas ±2 y (mismo destino o nombre parecido), único en las dos direcciones
+// Cargado y seguro se atan como 'atado_auto' (la misma regla que va a usar el script); probable y
+// elegido a mano, como 'atado_manual'.
+// ══════════════════════════════════════════════════════════════
+// Clave de ATADO (token con alcance atado_dte). Como las otras: no va en el código; llega una vez
+// por ?ta=… o se pega cuando se pide, queda en este navegador y se borra si la base la rechaza.
+const ATADO_KEY='dw_atado_dte';
+const PEDIR_ATADO='Clave de ATADO de DTE (no la de lectura ni la de carga). Se guarda en este navegador.';
+function leerAtadoToken(){try{return localStorage.getItem(ATADO_KEY)||'';}catch(e){return '';}}
+function guardarAtadoToken(v){try{if(v)localStorage.setItem(ATADO_KEY,v);else localStorage.removeItem(ATADO_KEY);}catch(e){}}
+(function(){try{const u=new URL(location.href);const q=(u.searchParams.get('ta')||'').trim();if(q){guardarAtadoToken(q);u.searchParams.delete('ta');history.replaceState(null,'',u.pathname+u.search+u.hash);}}catch(e){}})();
+
+function normDte(s){
+  s=String(s||'').replace(/\s+/g,'');
+  if(/^\d{9}\.\d$/.test(s)) s=s.replace('.','-');
+  if(/^\d{10}$/.test(s)) s=s.slice(0,9)+'-'+s.slice(9);
+  return /^\d{9}-\d$/.test(s)?s:null;
+}
+function diaIso(s){const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(s||''));return m?Date.UTC(+m[1],+m[2]-1,+m[3])/864e5:null;}
+function diaDmy(s){const m=/^(\d{2})\/(\d{2})\/(\d{4})/.exec(String(s||''));return m?Date.UTC(+m[3],+m[2]-1,+m[1])/864e5:null;}
+const ATADO_STOP=new Set(('SA SAS SRL SOCIEDAD ANONIMA CIA Y DE LA EL LOS LAS DEL ESTABLECIMIENTO EST FRIGORIFICO FRIG PLANTA VAQ VACA VACAS NOV NOVILLO NOVILLOS TOROS TORO '+
+  'TERNERO TERNEROS TERNERA TERNERAS VAQUILLONA VAQUILLONAS HEMBRAS MACHOS INV INVERNADA CONSUMO FAENA MIX OK TROPA CAMPO JUNTO CON SAN SANTA').split(' '));
+function atadoToks(...xs){
+  const out=new Set();
+  for(const x of xs){
+    const t=String(x||'').normalize('NFKD').replace(/[̀-ͯ]/g,'').toUpperCase();
+    for(const w of (t.match(/[A-Z]{3,}/g)||[])) if(!ATADO_STOP.has(w)) out.add(w);
+  }
+  return out;
+}
+// ratio de difflib.SequenceMatcher (sin "junk"; las palabras son cortas)
+function seqRatio(a,b){
+  const bloques=(alo,ahi,blo,bhi)=>{
+    let bi=alo,bj=blo,bk=0,prev={};
+    for(let i=alo;i<ahi;i++){
+      const cur={};
+      for(let j=blo;j<bhi;j++) if(a[i]===b[j]){const k=(prev[j-1]||0)+1;cur[j]=k;if(k>bk){bi=i-k+1;bj=j-k+1;bk=k;}}
+      prev=cur;
+    }
+    return bk?bk+bloques(alo,bi,blo,bj)+bloques(bi+bk,ahi,bj+bk,bhi):0;
+  };
+  const t=a.length+b.length; return t?2*bloques(0,a.length,0,b.length)/t:1;
+}
+function nombreCoincide(A,B){
+  for(const x of A) for(const y of B) if(x===y||(x.length>=5&&y.length>=5&&seqRatio(x,y)>=0.8)) return true;
+  return false;
+}
+const ATADO_GRUESA={novillo:'N',novillito:'N',toro:'T',torito:'T','torito/mej':'T',mej:'T',vaca:'VA',vaquillona:'VQ',ternero:'TE',ternera:'TE'};
+function catsGruesa(pares){
+  const m={};
+  for(const [k,n] of pares){const g=ATADO_GRUESA[String(k).toLowerCase()]||k; m[g]=(m[g]||0)+(+n||0);}
+  return Object.fromEntries(Object.entries(m).filter(([,v])=>v).sort());
+}
+const mismasCats=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+function dtesDeFeria(codigo){
+  return (DATOS_DTES.dtes||[]).filter(d=>d.renspa_origen===codigo&&!/^(ANULADO|ELIMINADO)/.test(d.estado||'')).map(d=>{
+    const an=d.animales_detalle||[];
+    return {nro:d.nro_dte,dia:diaDmy(d.fecha_emision),fecha:d.fecha_emision,
+      total:+(d.total_despachados??d.cantidad_enviados??an.reduce((s,a)=>s+(+a.despachados||0),0))||0,
+      cats:catsGruesa(an.map(a=>[a.categoria,a.despachados])),
+      est:String(d.renspa_destino||'').toUpperCase().replace(/[^0-9A-Z]/g,'').slice(0,11),
+      receptor:d.receptor_nombre||d.usuario_faena_nombre||'',
+      nombres:atadoToks(d.receptor_nombre,d.usuario_faena_nombre)};
+  });
+}
+// Devuelve {porId:{id→{nivel,dte,cands}}, dtes, libres}.
+// nivel: atado | cargado | seguro | probable | ambiguo | sin_candidato | repetido | anulado
+// repetido = tipeó un DTE válido que ya tiene otro remito (¿remito cargado dos veces?)
+function calcularAtado(codigo,rows){
+  const dtes=dtesDeFeria(codigo), dset=new Map(dtes.map(d=>[d.nro,d]));
+  const porId={}, usados=new Set(), usadoPor=new Map();
+  const rs=[];
+  for(const r of rows){
+    if(r.anulado_at){porId[r.id]={nivel:'anulado'};continue;}
+    if(r.dte_normalizado){porId[r.id]={nivel:'atado',dte:r.dte_normalizado,origen:r.dte_origen};usados.add(r.dte_normalizado);usadoPor.set(r.dte_normalizado,r.id);continue;}
+    rs.push({id:r.id,dia:diaIso(r.fecha),total:+r.total_cabezas||0,est:r.destino_establecimiento||null,
+      cats:catsGruesa(Object.entries(r.categorias||{})),nombres:atadoToks(r.destino,r.tropa),tipeado:normDte(r.nro_dte)});
+  }
+  for(const r of rs){
+    if(!r.tipeado||!dset.has(r.tipeado)) continue;
+    if(usados.has(r.tipeado)){porId[r.id]={nivel:'repetido',otro:usadoPor.get(r.tipeado),tipeado:r.tipeado};continue;}
+    porId[r.id]={nivel:'cargado',dte:r.tipeado};usados.add(r.tipeado);usadoPor.set(r.tipeado,r.id);
+  }
+  const destino=(r,d)=>!!r.est&&r.est===d.est;
+  const estricto=(r,d)=>r.dia!=null&&d.dia!=null&&Math.abs(d.dia-r.dia)<=1&&d.total===r.total&&(destino(r,d)||nombreCoincide(r.nombres,d.nombres)||mismasCats(d.cats,r.cats));
+  const tolerante=(r,d)=>r.dia!=null&&d.dia!=null&&Math.abs(d.dia-r.dia)<=2&&Math.abs(d.total-r.total)<=2&&(destino(r,d)||nombreCoincide(r.nombres,d.nombres));
+  const pendientes=()=>rs.filter(r=>!porId[r.id]);
+  const nivel=(nombre,pred)=>{
+    const cand=new Map(pendientes().map(r=>[r.id,dtes.filter(d=>!usados.has(d.nro)&&pred(r,d))]));
+    const inv=new Map();
+    for(const [id,ds] of cand) for(const d of ds){if(!inv.has(d.nro))inv.set(d.nro,[]);inv.get(d.nro).push(id);}
+    for(const [id,ds] of cand) if(ds.length===1&&inv.get(ds[0].nro).length===1){porId[id]={nivel:nombre,dte:ds[0].nro};usados.add(ds[0].nro);}
+  };
+  nivel('seguro',estricto);
+  nivel('probable',tolerante);
+  for(const r of pendientes()){
+    // varios posibles: los que pasan alguna de las dos reglas pero no quedaron únicos
+    const cands=dtes.filter(d=>!usados.has(d.nro)&&(estricto(r,d)||tolerante(r,d))).map(d=>d.nro);
+    porId[r.id]={nivel:cands.length?'ambiguo':'sin_candidato',cands};
+  }
+  // DTE libres para elegir a mano, del más parecido al menos parecido (por remito)
+  const libres=dtes.filter(d=>!usados.has(d.nro));
+  for(const r of rs){
+    const p=porId[r.id]; if(!['ambiguo','sin_candidato','repetido'].includes(p.nivel)) continue;
+    p.opciones=libres.map(d=>({d,score:(r.dia!=null&&d.dia!=null?Math.abs(d.dia-r.dia):99)*10+Math.abs(d.total-r.total)}))
+      .sort((x,y)=>x.score-y.score).map(x=>x.d.nro);
+  }
+  return {porId,dtes:dset,libres};
+}
+function resumenAtado(calc){
+  const c={atado:0,cargado:0,seguro:0,probable:0,ambiguo:0,sin_candidato:0,repetido:0,anulado:0};
+  for(const p of Object.values(calc.porId)) c[p.nivel]=(c[p.nivel]||0)+1;
+  return c;
+}
+
+const ATADO_MSG={
+  token_invalido:'La clave de atado venció o no es válida. Volvé a intentar para pegar la correcta.',
+  token_otro_remate:'La clave de atado es de otro remate.',
+  dte_ya_atado:'Ese remito ya tiene otro DTE atado.',
+  dte_en_otro_remito:'Ese DTE ya está atado a otro remito',
+  remito_anulado:'El remito está anulado.',
+  remito_invalido:'El remito no existe.',
+  dte_formato:'El número de DTE no tiene el formato correcto.',
+  dte_cargado:'El DTE se cargó en el camión: no se desata desde acá.',
+  motivo_requerido:'Falta el motivo.',
+  sin_dte:'El remito no tiene DTE.'
+};
+function msgAtado(r){return (ATADO_MSG[r&&r.error]||('Error: '+((r&&r.error)||'desconocido')))+(r&&r.otro_id?' (N° '+r.otro_id+').':'');}
+async function rpcAtado(fn,args){
+  try{
+    const res=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(args)});
+    let d=null; try{d=await res.json();}catch(_){}
+    if(!res.ok) return {ok:false,error:'http_'+res.status};
+    return d&&typeof d==='object'?d:{ok:false,error:'respuesta_vacia'};
+  }catch(e){return {ok:false,error:'red'};}
+}
+function claveAtado(){
+  let t=leerAtadoToken();
+  if(!t){t=(prompt(PEDIR_ATADO)||'').trim(); if(t) guardarAtadoToken(t);}
+  return t;
+}
+async function atarUno(id,dte,origen){
+  const tok=claveAtado(); if(!tok) return {ok:false,error:'cancelado'};
+  const r=await rpcAtado('atar_dte_egreso',{p_token:tok,p_id:id,p_nro_dte:dte,p_origen:origen});
+  if(r.error==='token_invalido') guardarAtadoToken('');
+  return r;
+}
+async function cargarEgresosRemate(codigo){
+  const tok=leerLecturaToken();
+  const r=await rpcAtado('egresos_de_remate',{p_token:tok,p_remate:codigo});
+  if(r.ok===true&&Array.isArray(r.filas)) return r.filas;
+  throw new Error(r.error==='token_invalido'?'Falta o venció la clave de lectura de remitos.':'No se pudieron cargar los remitos ('+(r.error||'error')+').');
+}
+
+// Pantalla "Atar DTE" dentro del modal de egresos
+async function verAtadoDte(codigoRemate,rowsIniciales){
+  const modal=document.getElementById('modal');
+  let rows=rowsIniciales, ocupado=false;
+  const fmtDia=s=>String(s||'').split('-').reverse().join('/');
+  const head=()=>'<div class="modal-head"><div><div class="modal-title-top">Atar DTE a los remitos</div><div class="modal-title is-code">'+esc(codigoRemate)+'</div></div>'
+    +'<button id="closeModal" class="modal-close" aria-label="Cerrar">×</button></div>';
+  const badge=(t,c)=>'<span style="display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:9px;border:1px solid '+c+';color:'+c+';white-space:nowrap">'+esc(t)+'</span>';
+  const NIVEL={cargado:['tipeado en el remito','var(--cyan)'],seguro:['seguro','var(--green)'],probable:['probable','var(--amber)'],
+    ambiguo:['varios posibles','var(--amber)'],sin_candidato:['sin candidato','var(--muted)'],repetido:['¿remito repetido?','#D63B47']};
+  const ORIGEN={cargado:'cargado en el camión',atado_auto:'atado automático',atado_manual:'atado a mano'};
+  const dteTxt=(calc,nro)=>{const d=calc.dtes.get(nro); return d?esc(nro)+' · '+esc(d.fecha)+' · '+d.total+' cab · '+esc(d.receptor||'—'):esc(nro)+' <span style="color:var(--muted)">(no está en el maestro)</span>';};
+  const pl=(n,uno,varios)=>n+' '+(n===1?uno:varios);
+  function render(msg){
+    const calc=calcularAtado(codigoRemate,rows), c=resumenAtado(calc);
+    const sinDte=rows.filter(r=>!r.anulado_at&&!r.dte_normalizado);
+    const autos=sinDte.filter(r=>['cargado','seguro'].includes(calc.porId[r.id].nivel));
+    const filaRem=r=>'<td style="font-family:var(--mono);font-size:12px;white-space:nowrap">N° '+r.id+'<br>'+esc(fmtDia(r.fecha))+(r.version===2?' '+badge('v2','var(--cyan)'):'')+'</td>'
+      +'<td>'+esc(r.destino||'—')+(r.nro_dte?'<br><span style="font-size:11px;color:var(--muted)">tipeó: '+esc(r.nro_dte)+'</span>':'')+'</td>'
+      +'<td class="num" style="font-weight:600">'+(r.total_cabezas||0)+'</td>';
+    const filasSin=sinDte.map(r=>{
+      const p=calc.porId[r.id], [t,col]=NIVEL[p.nivel];
+      let sug, acc;
+      if(p.dte){
+        sug=badge(t,col)+'<br><span style="font-family:var(--mono);font-size:12px">'+dteTxt(calc,p.dte)+'</span>';
+        acc='<button class="btn-secondary atd-atar" data-id="'+r.id+'" data-dte="'+esc(p.dte)+'" data-origen="'+(p.nivel==='probable'?'atado_manual':'atado_auto')+'">Atar</button>';
+      }else{
+        sug=badge(t,col)+(p.nivel==='repetido'?'<br><span style="font-size:12px;color:var(--muted)">El DTE '+esc(p.tipeado)+' que tipeó ya es del remito N° '+esc(p.otro)+'. Si es el mismo camión, anulá uno.</span>'
+          :p.cands&&p.cands.length?'<br><span style="font-size:12px;color:var(--muted)">'+p.cands.map(esc).join(' · ')+'</span>':'');
+        acc='<select class="atd-sel" data-id="'+r.id+'" style="max-width:260px;font-size:12px"><option value="">Elegir DTE…</option>'
+          +(p.opciones||[]).map(n=>{const d=calc.dtes.get(n);return '<option value="'+esc(n)+'">'+esc(n)+' · '+esc(d.fecha)+' · '+d.total+' cab · '+esc((d.receptor||'').slice(0,24))+'</option>';}).join('')
+          +'</select> <button class="btn-secondary atd-atar-sel" data-id="'+r.id+'">Atar</button>';
+      }
+      return '<tr>'+filaRem(r)+'<td>'+sug+'</td><td style="white-space:nowrap">'+acc+'</td></tr>';
+    }).join('');
+    const atados=rows.filter(r=>!r.anulado_at&&r.dte_normalizado);
+    const filasAt=atados.map(r=>'<tr>'+filaRem(r)+'<td><span style="font-family:var(--mono);font-size:12px">'+dteTxt(calc,r.dte_normalizado)+'</span><br>'
+      +badge(ORIGEN[r.dte_origen]||r.dte_origen,r.dte_origen==='cargado'?'var(--cyan)':'var(--green)')+'</td>'
+      +'<td>'+(r.dte_origen==='cargado'?'':'<a href="#" class="atd-desatar" data-id="'+r.id+'" style="font-size:12px;color:var(--muted)">desatar</a>')+'</td></tr>').join('');
+    const th='<thead><tr><th>Remito</th><th>Destino</th><th class="num">Cab.</th><th>DTE</th><th></th></tr></thead>';
+    modal.innerHTML=head()
+      +'<div class="modal-summary">'
+        +'<div class="modal-summary-kpi"><span class="label">Sin DTE</span><span class="value">'+sinDte.length+'</span></div>'
+        +'<div class="modal-summary-kpi"><span class="label">Con DTE</span><span class="value">'+atados.length+'</span></div>'
+        +'<div class="modal-summary-chips" style="font-size:12px;color:var(--muted)">'
+          +[c.cargado?pl(c.cargado,'tipeado','tipeados'):'',pl(c.seguro,'seguro','seguros'),pl(c.probable,'probable','probables'),
+            pl(c.ambiguo,'con varios posibles','con varios posibles'),pl(c.sin_candidato,'sin candidato','sin candidato'),
+            c.repetido?pl(c.repetido,'¿repetido?','¿repetidos?'):'',pl(calc.libres.length,'DTE de la feria sin remito','DTE de la feria sin remito')].filter(Boolean).join(' · ')+'</div>'
+        +(autos.length?'<button id="atd-todos" class="btn-secondary" style="margin-left:auto">'+(autos.length===1?'Atar el seguro':'Atar los '+autos.length+' seguros')+'</button>':'')
+      +'</div>'
+      +'<div class="modal-body" style="padding-top:0">'
+        +(msg?'<div class="modal-feedback '+(msg.error?'error':'')+'" style="margin:8px 0">'+esc(msg.texto)+'</div>':'')
+        +(DATOS_DTES.fecha_extraccion?'<div style="font-size:12px;color:var(--muted);margin:6px 0">DTE al '+esc(new Date(DATOS_DTES.fecha_extraccion).toLocaleString('es-AR'))+'. Un DTE más nuevo aparece cuando corre el scraper.</div>':'')
+        +'<div class="modal-table-wrap" style="margin-top:8px"><table class="modal-table">'+th+'<tbody>'
+          +(filasSin||'<tr><td colspan="5" style="text-align:center;color:var(--muted)">Todos los remitos tienen DTE.</td></tr>')+'</tbody></table></div>'
+        +(atados.length?'<details style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Remitos con DTE ('+atados.length+')</summary>'
+          +'<div class="modal-table-wrap" style="margin-top:8px"><table class="modal-table">'+th+'<tbody>'+filasAt+'</tbody></table></div></details>':'')
+      +'</div>'
+      +'<div class="modal-footer"><button id="atd-volver" class="btn-secondary">← Volver a los remitos</button><div></div></div>';
+    document.getElementById('closeModal').onclick=closeDetalle;
+    document.getElementById('atd-volver').onclick=()=>verEgresos(codigoRemate);
+    modal.querySelectorAll('.atd-atar').forEach(b=>b.onclick=()=>accion(()=>atarUno(+b.dataset.id,b.dataset.dte,b.dataset.origen),'N° '+b.dataset.id+' atado a '+b.dataset.dte+'.'));
+    modal.querySelectorAll('.atd-atar-sel').forEach(b=>b.onclick=()=>{
+      const s=modal.querySelector('.atd-sel[data-id="'+b.dataset.id+'"]'); if(!s||!s.value){alert('Elegí un DTE de la lista.');return;}
+      accion(()=>atarUno(+b.dataset.id,s.value,'atado_manual'),'N° '+b.dataset.id+' atado a '+s.value+'.');
+    });
+    modal.querySelectorAll('.atd-desatar').forEach(a=>a.onclick=e=>{
+      e.preventDefault(); const m=(prompt('¿Por qué se desata el DTE del remito N° '+a.dataset.id+'?')||'').trim(); if(!m) return;
+      accion(async()=>{const tok=claveAtado(); if(!tok) return {ok:false,error:'cancelado'};
+        const r=await rpcAtado('desatar_dte_egreso',{p_token:tok,p_id:+a.dataset.id,p_motivo:m}); if(r.error==='token_invalido') guardarAtadoToken(''); return r;},
+        'N° '+a.dataset.id+': DTE desatado.');
+    });
+    const bt=document.getElementById('atd-todos');
+    if(bt) bt.onclick=()=>{
+      if(!confirm('Se van a atar '+autos.length+' remitos con su DTE seguro o tipeado. ¿Seguir?')) return;
+      accion(async()=>{
+        let ok=0; const errs=[];
+        for(const r of autos){const p=calc.porId[r.id]; const x=await atarUno(r.id,p.dte,'atado_auto');
+          if(x.ok) ok++; else {errs.push('N° '+r.id+': '+msgAtado(x)); if(x.error==='token_invalido'||x.error==='cancelado') break;}}
+        return errs.length?{ok:false,error:'varios',texto:ok+' atados. No se pudieron: '+errs.join(' · ')}:{ok:true,texto:ok+' remitos atados.'};
+      });
+    };
+  }
+  async function accion(fn,okTxt){
+    if(ocupado) return; ocupado=true;
+    modal.querySelectorAll('button,select').forEach(x=>x.disabled=true);
+    let r; try{ r=await fn(); }catch(e){ r={ok:false,error:'red'}; }
+    if(r&&r.error==='cancelado'){ocupado=false;render();return;}
+    let msg=r&&r.ok?{texto:r.texto||(r.sin_cambio?'Ya estaba atado.':okTxt)}:{error:true,texto:(r&&r.texto)||msgAtado(r)};
+    try{ rows=await cargarEgresosRemate(codigoRemate); }catch(e){ msg={error:true,texto:msg.texto+' · '+e.message}; }
+    ocupado=false; render(msg);
+  }
+  render();
 }
 
 function renderApp(){

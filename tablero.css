@@ -785,6 +785,12 @@ input.remate-name:focus {
   border-bottom: none;
 }
 
+/* styles.css trae del tema oscuro viejo un rayado global (tbody tr:nth-child(even), gris oscuro al 40%)
+   que en los modales claros tapa el texto. Acá el rayado es apenas visible. */
+.modal table.modal-table tbody tr:nth-child(even) {
+  background: var(--bg);
+}
+
 .modal table.modal-table tbody tr:hover {
   background: var(--surface-2);
 }
