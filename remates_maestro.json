@@ -76046,7 +76046,7 @@
     },
     {
       "codigo": "03.014.3.00015/0G-2026",
-      "fecha_extraccion": "2026-10-12T13:02:31.341618",
+      "fecha_extraccion": "2026-10-12T14:33:39.998000",
       "info": {
         "Inicio": "23/09/2026",
         "Fin": "24/09/2026",
@@ -79174,7 +79174,7 @@
     },
     {
       "codigo": "03.014.1.00008/0E-2026",
-      "fecha_extraccion": "2026-10-12T13:02:30.836764",
+      "fecha_extraccion": "2026-10-12T14:33:39.412130",
       "info": {
         "Inicio": "26/09/2026",
         "Fin": "29/09/2026",
@@ -80204,7 +80204,7 @@
     },
     {
       "codigo": "03.014.3.00015/0H-2026",
-      "fecha_extraccion": "2026-10-12T13:02:30.386570",
+      "fecha_extraccion": "2026-10-12T14:33:38.950764",
       "info": {
         "Inicio": "14/10/2026",
         "Fin": "15/10/2026",
@@ -80213,10 +80213,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 11,
+      "total_dtes": 12,
       "total_dtes_salida": 0,
-      "total_filas": 20,
-      "total_animales": 430,
+      "total_filas": 22,
+      "total_animales": 443,
       "totales_categoria": {},
       "filas": [
         {
@@ -80658,9 +80658,53 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": true,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032770583-0",
+          "origen": "03.014.3.12046/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "12/10/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "30/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 4,
+          "recibido": 0,
+          "emisor_nombre": "ARMANDO HUGO",
+          "emisor_cuit": "20-11049261-9",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032770583-0",
+          "origen": "03.014.3.12046/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "12/10/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "30/06/26",
+          "especie": "Bovinos",
+          "categoria": "Novillo",
+          "enviado": 9,
+          "recibido": 0,
+          "emisor_nombre": "ARMANDO HUGO",
+          "emisor_cuit": "20-11049261-9",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-10-12T13:02:30.386570"
+  "fecha_extraccion": "2026-10-12T14:33:38.950764"
 }
