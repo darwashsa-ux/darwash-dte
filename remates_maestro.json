@@ -76046,7 +76046,7 @@
     },
     {
       "codigo": "03.014.3.00015/0G-2026",
-      "fecha_extraccion": "2026-10-13T17:07:22.503488",
+      "fecha_extraccion": "2026-10-13T18:37:53.120229",
       "info": {
         "Inicio": "23/09/2026",
         "Fin": "24/09/2026",
@@ -79174,7 +79174,7 @@
     },
     {
       "codigo": "03.014.1.00008/0E-2026",
-      "fecha_extraccion": "2026-10-13T17:07:21.645729",
+      "fecha_extraccion": "2026-10-13T18:37:52.139887",
       "info": {
         "Inicio": "26/09/2026",
         "Fin": "29/09/2026",
@@ -80204,7 +80204,7 @@
     },
     {
       "codigo": "03.014.3.00015/0H-2026",
-      "fecha_extraccion": "2026-10-13T17:07:21.138472",
+      "fecha_extraccion": "2026-10-13T18:37:51.409376",
       "info": {
         "Inicio": "14/10/2026",
         "Fin": "15/10/2026",
@@ -80213,10 +80213,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 57,
+      "total_dtes": 58,
       "total_dtes_salida": 0,
-      "total_filas": 105,
-      "total_animales": 1543,
+      "total_filas": 107,
+      "total_animales": 1546,
       "totales_categoria": {},
       "filas": [
         {
@@ -82528,9 +82528,53 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": true,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032781064-2",
+          "origen": "03.014.3.15652/03",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "13/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "23/06/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
+          "emisor_cuit": "30-71606908-3",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032781064-2",
+          "origen": "03.014.3.15652/03",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "13/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "23/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "TERRA SOSTENIBILE S.A.S.",
+          "emisor_cuit": "30-71606908-3",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-10-13T17:07:21.138472"
+  "fecha_extraccion": "2026-10-13T18:37:51.409376"
 }
