@@ -76046,7 +76046,7 @@
     },
     {
       "codigo": "03.014.3.00015/0G-2026",
-      "fecha_extraccion": "2026-10-13T14:07:29.654395",
+      "fecha_extraccion": "2026-10-13T15:36:26.222532",
       "info": {
         "Inicio": "23/09/2026",
         "Fin": "24/09/2026",
@@ -79174,7 +79174,7 @@
     },
     {
       "codigo": "03.014.1.00008/0E-2026",
-      "fecha_extraccion": "2026-10-13T14:07:29.001522",
+      "fecha_extraccion": "2026-10-13T15:36:25.332667",
       "info": {
         "Inicio": "26/09/2026",
         "Fin": "29/09/2026",
@@ -80204,7 +80204,7 @@
     },
     {
       "codigo": "03.014.3.00015/0H-2026",
-      "fecha_extraccion": "2026-10-13T14:07:28.546487",
+      "fecha_extraccion": "2026-10-13T15:36:24.813192",
       "info": {
         "Inicio": "14/10/2026",
         "Fin": "15/10/2026",
@@ -80213,10 +80213,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 51,
+      "total_dtes": 53,
       "total_dtes_salida": 0,
-      "total_filas": 94,
-      "total_animales": 1419,
+      "total_filas": 97,
+      "total_animales": 1449,
       "totales_categoria": {},
       "filas": [
         {
@@ -82286,9 +82286,75 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": true,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032780335-2",
+          "origen": "03.014.3.00204/19",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "13/10/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "02/12/25",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 19,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032780335-2",
+          "origen": "03.014.3.00204/19",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "13/10/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "02/12/25",
+          "especie": "Bovinos",
+          "categoria": "Novillo",
+          "enviado": 9,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032780354-9",
+          "origen": "03.014.3.00518/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "13/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "10/07/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         }
       ]
     }
   ],
-  "fecha_extraccion": "2026-10-13T14:07:28.546487"
+  "fecha_extraccion": "2026-10-13T15:36:24.813192"
 }
