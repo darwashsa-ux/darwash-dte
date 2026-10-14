@@ -1,10 +1,10 @@
 {
   "empresa": "Darwash SA",
   "cuit": "20366041142",
-  "fecha_extraccion": "2026-10-14T10:20:15.251200",
+  "fecha_extraccion": "2026-10-14T11:36:00.046921",
   "periodo_desde": "01/02/2026",
   "periodo_hasta": "23/09/2026",
-  "total_dtes": 3364,
+  "total_dtes": 3365,
   "periodos": [
     {
       "desde": "01/02/2026",
@@ -176616,7 +176616,7 @@
       "fecha_anteultima_aftosa": "FS 24/03/2026",
       "fecha_ultima_brucelosis": "25/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:19:10"
+      "detalle_actualizado_ts": "2026-10-09T08:59:45"
     },
     {
       "nro_dte": "032680226-3",
@@ -176891,7 +176891,7 @@
       "fecha_anteultima_aftosa": "FS 23/03/2026",
       "fecha_ultima_brucelosis": "24/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:19:06"
+      "detalle_actualizado_ts": "2026-10-09T08:59:44"
     },
     {
       "nro_dte": "032680708-7",
@@ -177019,7 +177019,7 @@
       "fecha_anteultima_aftosa": "FS 24/03/2026",
       "fecha_ultima_brucelosis": "25/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:17:56"
+      "detalle_actualizado_ts": "2026-10-10T07:01:05"
     },
     {
       "nro_dte": "032685029-2",
@@ -177141,7 +177141,7 @@
       "fecha_anteultima_aftosa": "FS 24/03/2026",
       "fecha_ultima_brucelosis": "25/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:18:00"
+      "detalle_actualizado_ts": "2026-10-10T07:01:06"
     },
     {
       "nro_dte": "032684895-6",
@@ -177330,7 +177330,7 @@
       "fecha_anteultima_aftosa": "FS 24/03/2026",
       "fecha_ultima_brucelosis": "25/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:19:03"
+      "detalle_actualizado_ts": "2026-10-10T07:01:06"
     },
     {
       "nro_dte": "032684002-5",
@@ -177886,7 +177886,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-08T19:24:45",
+      "ts_scrape": "2026-10-08T20:18:41",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -178051,7 +178051,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-08T19:22:32",
+      "ts_scrape": "2026-10-12T22:00:49",
       "tipo_movimiento_detalle": "EST - EST",
       "motivo_detalle": "Invernada UE",
       "estado_detalle": "CERRADO",
@@ -178106,7 +178106,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-08T19:22:32",
+      "ts_scrape": "2026-10-08T20:17:43",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -178216,7 +178216,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-08T19:22:32",
+      "ts_scrape": "2026-10-08T20:17:43",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -178270,7 +178270,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:20:15",
+      "ts_scrape": "2026-10-14T11:35:59",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -178306,7 +178306,7 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:35"
+      "detalle_actualizado_ts": "2026-10-08T20:01:14"
     },
     {
       "nro_dte": "032757173-7",
@@ -178330,7 +178330,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:20:15",
+      "ts_scrape": "2026-10-14T11:35:59",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "ANULADO",
@@ -178390,7 +178390,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -178420,7 +178420,7 @@
       "fecha_anteultima_aftosa": "FS 20/03/2026",
       "fecha_ultima_brucelosis": "11/05/2021",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:37"
+      "detalle_actualizado_ts": "2026-10-09T08:59:25"
     },
     {
       "nro_dte": "032756687-3",
@@ -178444,7 +178444,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:20:15",
+      "ts_scrape": "2026-10-14T11:35:59",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -178474,7 +178474,7 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:12:40"
+      "detalle_actualizado_ts": "2026-10-09T08:59:26"
     },
     {
       "nro_dte": "032756423-4",
@@ -178498,7 +178498,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:20:15",
+      "ts_scrape": "2026-10-14T11:35:59",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -178528,7 +178528,7 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:12:43"
+      "detalle_actualizado_ts": "2026-10-09T08:59:29"
     },
     {
       "nro_dte": "032756308-4",
@@ -178552,7 +178552,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:20:15",
+      "ts_scrape": "2026-10-14T11:35:59",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -178582,7 +178582,7 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:12:46"
+      "detalle_actualizado_ts": "2026-10-09T08:59:30"
     },
     {
       "nro_dte": "032756038-7",
@@ -178606,7 +178606,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:20:15",
+      "ts_scrape": "2026-10-14T11:35:59",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -178636,7 +178636,7 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:12:49"
+      "detalle_actualizado_ts": "2026-10-09T08:59:33"
     },
     {
       "nro_dte": "032755965-6",
@@ -178660,7 +178660,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:20:15",
+      "ts_scrape": "2026-10-14T11:35:59",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -178690,7 +178690,7 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:12:52"
+      "detalle_actualizado_ts": "2026-10-09T08:59:34"
     },
     {
       "nro_dte": "032753643-5",
@@ -178714,7 +178714,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -178744,7 +178744,7 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "07/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:12:55"
+      "detalle_actualizado_ts": "2026-10-09T08:59:35"
     },
     {
       "nro_dte": "032753503-5",
@@ -178768,7 +178768,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena UE - NO HILTON",
       "estado_detalle": "CERRADO",
@@ -178798,7 +178798,7 @@
       "fecha_anteultima_aftosa": "FS 07/04/2026",
       "fecha_ultima_brucelosis": "15/09/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:12:58"
+      "detalle_actualizado_ts": "2026-10-09T08:59:37"
     },
     {
       "nro_dte": "032753097-6",
@@ -178822,7 +178822,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -178852,7 +178852,7 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "07/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:13:02"
+      "detalle_actualizado_ts": "2026-10-09T08:59:38"
     },
     {
       "nro_dte": "032760346-9",
@@ -178876,7 +178876,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -178906,7 +178906,7 @@
       "fecha_anteultima_aftosa": "FS 16/04/2026",
       "fecha_ultima_brucelosis": "23/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:24"
+      "detalle_actualizado_ts": "2026-10-13T07:01:03"
     },
     {
       "nro_dte": "032760322-1",
@@ -178930,7 +178930,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -178960,7 +178960,7 @@
       "fecha_anteultima_aftosa": "FS 23/06/2026",
       "fecha_ultima_brucelosis": "30/04/2021",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:27"
+      "detalle_actualizado_ts": "2026-10-13T07:01:04"
     },
     {
       "nro_dte": "032760188-1",
@@ -178984,7 +178984,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Reproducción",
       "estado_detalle": "VIGENTE",
@@ -179014,7 +179014,7 @@
       "fecha_anteultima_aftosa": "FS 03/11/2025",
       "fecha_ultima_brucelosis": "12/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:29"
+      "detalle_actualizado_ts": "2026-10-12T07:01:01"
     },
     {
       "nro_dte": "032760158-5",
@@ -179038,7 +179038,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Reproducción",
       "estado_detalle": "VIGENTE",
@@ -179068,7 +179068,7 @@
       "fecha_anteultima_aftosa": "FS 03/11/2025",
       "fecha_ultima_brucelosis": "12/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:32"
+      "detalle_actualizado_ts": "2026-10-12T07:01:02"
     },
     {
       "nro_dte": "032763635-9",
@@ -179092,7 +179092,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179134,7 +179134,7 @@
       "fecha_anteultima_aftosa": "FS 09/03/2026",
       "fecha_ultima_brucelosis": "09/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:12"
+      "detalle_actualizado_ts": "2026-10-09T15:29:06"
     },
     {
       "nro_dte": "032762911-5",
@@ -179158,7 +179158,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179188,7 +179188,7 @@
       "fecha_anteultima_aftosa": "FS 09/03/2026",
       "fecha_ultima_brucelosis": "09/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:14"
+      "detalle_actualizado_ts": "2026-10-12T07:00:59"
     },
     {
       "nro_dte": "032762789-9",
@@ -179212,7 +179212,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179254,7 +179254,7 @@
       "fecha_anteultima_aftosa": "FS 09/03/2026",
       "fecha_ultima_brucelosis": "09/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:17"
+      "detalle_actualizado_ts": "2026-10-12T07:00:59"
     },
     {
       "nro_dte": "032761378-2",
@@ -179278,7 +179278,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179320,7 +179320,7 @@
       "fecha_anteultima_aftosa": "FS 24/04/2026",
       "fecha_ultima_brucelosis": "08/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:20"
+      "detalle_actualizado_ts": "2026-10-12T07:01:00"
     },
     {
       "nro_dte": "032761325-1",
@@ -179344,7 +179344,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "ELIMINADO",
@@ -179386,7 +179386,7 @@
       "fecha_anteultima_aftosa": "FS 24/04/2026",
       "fecha_ultima_brucelosis": "08/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:22"
+      "detalle_actualizado_ts": "2026-10-09T15:29:10"
     },
     {
       "nro_dte": "032765293-1",
@@ -179410,7 +179410,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -179440,7 +179440,7 @@
       "fecha_anteultima_aftosa": "FS 20/03/2026",
       "fecha_ultima_brucelosis": "04/04/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:09"
+      "detalle_actualizado_ts": "2026-10-13T07:01:02"
     },
     {
       "nro_dte": "032769515-0",
@@ -179464,7 +179464,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179500,7 +179500,7 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:01"
+      "detalle_actualizado_ts": "2026-10-12T11:30:50"
     },
     {
       "nro_dte": "032769488-5",
@@ -179524,7 +179524,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -179554,7 +179554,7 @@
       "fecha_anteultima_aftosa": "FS 20/03/2026",
       "fecha_ultima_brucelosis": "11/05/2021",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:04"
+      "detalle_actualizado_ts": "2026-10-13T07:01:00"
     },
     {
       "nro_dte": "032769414-6",
@@ -179578,7 +179578,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena Exportación UE",
       "estado_detalle": "CERRADO",
@@ -179608,7 +179608,7 @@
       "fecha_anteultima_aftosa": "FS 20/03/2026",
       "fecha_ultima_brucelosis": "11/05/2021",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:11:06"
+      "detalle_actualizado_ts": "2026-10-13T07:01:01"
     },
     {
       "nro_dte": "032770583-0",
@@ -179632,7 +179632,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179668,7 +179668,7 @@
       "fecha_anteultima_aftosa": "FS 19/03/2026",
       "fecha_ultima_brucelosis": "19/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:58"
+      "detalle_actualizado_ts": "2026-10-12T14:30:48"
     },
     {
       "nro_dte": "032770719-1",
@@ -179692,7 +179692,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179728,7 +179728,7 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:55"
+      "detalle_actualizado_ts": "2026-10-12T16:00:53"
     },
     {
       "nro_dte": "032770715-9",
@@ -179752,7 +179752,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179782,7 +179782,7 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:57"
+      "detalle_actualizado_ts": "2026-10-12T16:00:54"
     },
     {
       "nro_dte": "032771171-7",
@@ -179806,7 +179806,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:20:15",
+      "ts_scrape": "2026-10-14T11:35:59",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -179842,7 +179842,7 @@
       "fecha_anteultima_aftosa": "FS 15/10/2025",
       "fecha_ultima_brucelosis": "16/08/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:53"
+      "detalle_actualizado_ts": "2026-10-13T07:00:59"
     },
     {
       "nro_dte": "032771572-0",
@@ -179866,7 +179866,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -179896,7 +179896,7 @@
       "fecha_anteultima_aftosa": "FS 20/03/2025",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:48"
+      "detalle_actualizado_ts": "2026-10-12T20:30:49"
     },
     {
       "nro_dte": "032771850-9",
@@ -179920,7 +179920,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -179968,7 +179968,7 @@
       "fecha_anteultima_aftosa": "FS 27/04/2026",
       "fecha_ultima_brucelosis": "08/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:41"
+      "detalle_actualizado_ts": "2026-10-13T07:00:59"
     },
     {
       "nro_dte": "032771647-6",
@@ -179992,7 +179992,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180022,7 +180022,7 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:43"
+      "detalle_actualizado_ts": "2026-10-12T22:00:50"
     },
     {
       "nro_dte": "032771633-6",
@@ -180046,7 +180046,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180076,7 +180076,7 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:46"
+      "detalle_actualizado_ts": "2026-10-12T22:00:51"
     },
     {
       "nro_dte": "032771911-4",
@@ -180100,7 +180100,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -180148,7 +180148,7 @@
       "fecha_anteultima_aftosa": "FS 30/04/2026",
       "fecha_ultima_brucelosis": "30/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:36"
+      "detalle_actualizado_ts": "2026-10-13T07:00:57"
     },
     {
       "nro_dte": "032771898-3",
@@ -180172,7 +180172,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -180214,7 +180214,7 @@
       "fecha_anteultima_aftosa": "FS 24/04/2026",
       "fecha_ultima_brucelosis": "24/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:10:39"
+      "detalle_actualizado_ts": "2026-10-13T07:00:58"
     },
     {
       "nro_dte": "032772860-1",
@@ -180238,7 +180238,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180268,7 +180268,7 @@
       "fecha_anteultima_aftosa": "FS 20/04/2026",
       "fecha_ultima_brucelosis": "10/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:32"
+      "detalle_actualizado_ts": "2026-10-13T08:30:50"
     },
     {
       "nro_dte": "032772840-7",
@@ -180292,7 +180292,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180322,7 +180322,7 @@
       "fecha_anteultima_aftosa": "FS 22/04/2026",
       "fecha_ultima_brucelosis": "10/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:34"
+      "detalle_actualizado_ts": "2026-10-13T08:30:51"
     },
     {
       "nro_dte": "032774976-5",
@@ -180346,7 +180346,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180376,7 +180376,7 @@
       "fecha_anteultima_aftosa": "FS 27/03/2026",
       "fecha_ultima_brucelosis": "08/09/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:08"
+      "detalle_actualizado_ts": "2026-10-13T10:00:53"
     },
     {
       "nro_dte": "032774849-1",
@@ -180400,7 +180400,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180430,7 +180430,7 @@
       "fecha_anteultima_aftosa": "FS 30/10/2025",
       "fecha_ultima_brucelosis": "09/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:11"
+      "detalle_actualizado_ts": "2026-10-13T10:00:54"
     },
     {
       "nro_dte": "032774829-7",
@@ -180454,7 +180454,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180496,7 +180496,7 @@
       "fecha_anteultima_aftosa": "FS 26/03/2026",
       "fecha_ultima_brucelosis": "26/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:13"
+      "detalle_actualizado_ts": "2026-10-13T10:00:56"
     },
     {
       "nro_dte": "032774714-2",
@@ -180520,7 +180520,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180550,7 +180550,7 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "24/04/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:16"
+      "detalle_actualizado_ts": "2026-10-13T10:00:57"
     },
     {
       "nro_dte": "032774331-7",
@@ -180574,7 +180574,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180604,7 +180604,7 @@
       "fecha_anteultima_aftosa": "FS 27/04/2026",
       "fecha_ultima_brucelosis": "29/11/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:18"
+      "detalle_actualizado_ts": "2026-10-13T10:00:59"
     },
     {
       "nro_dte": "032773991-3",
@@ -180628,7 +180628,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -180658,7 +180658,7 @@
       "fecha_anteultima_aftosa": "FS 29/04/2026",
       "fecha_ultima_brucelosis": "24/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:20"
+      "detalle_actualizado_ts": "2026-10-13T10:01:00"
     },
     {
       "nro_dte": "032773939-5",
@@ -180682,7 +180682,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180724,7 +180724,7 @@
       "fecha_anteultima_aftosa": "FS 06/03/2026",
       "fecha_ultima_brucelosis": "06/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:23"
+      "detalle_actualizado_ts": "2026-10-13T10:01:01"
     },
     {
       "nro_dte": "032773919-0",
@@ -180748,7 +180748,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180784,7 +180784,7 @@
       "fecha_anteultima_aftosa": "FS 25/03/2026",
       "fecha_ultima_brucelosis": "27/04/2023",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:24"
+      "detalle_actualizado_ts": "2026-10-13T10:01:03"
     },
     {
       "nro_dte": "032773464-4",
@@ -180808,7 +180808,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "ELIMINADO",
@@ -180838,7 +180838,7 @@
       "fecha_anteultima_aftosa": "FS 21/10/2025",
       "fecha_ultima_brucelosis": "21/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:26"
+      "detalle_actualizado_ts": "2026-10-13T11:32:03"
     },
     {
       "nro_dte": "032773402-4",
@@ -180862,7 +180862,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180898,7 +180898,7 @@
       "fecha_anteultima_aftosa": "FS 13/03/2026",
       "fecha_ultima_brucelosis": "08/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:29"
+      "detalle_actualizado_ts": "2026-10-13T10:01:06"
     },
     {
       "nro_dte": "032773327-3",
@@ -180922,7 +180922,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -180952,7 +180952,7 @@
       "fecha_anteultima_aftosa": "FS 09/06/2026",
       "fecha_ultima_brucelosis": "22/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:30"
+      "detalle_actualizado_ts": "2026-10-13T10:01:07"
     },
     {
       "nro_dte": "032777247-3",
@@ -180976,7 +180976,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181006,7 +181006,7 @@
       "fecha_anteultima_aftosa": "FS 16/10/2025",
       "fecha_ultima_brucelosis": "16/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:49"
+      "detalle_actualizado_ts": "2026-10-13T11:31:01"
     },
     {
       "nro_dte": "032776847-6",
@@ -181030,7 +181030,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181066,7 +181066,7 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "24/09/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:51"
+      "detalle_actualizado_ts": "2026-10-13T11:31:07"
     },
     {
       "nro_dte": "032776583-3",
@@ -181090,7 +181090,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181126,7 +181126,7 @@
       "fecha_anteultima_aftosa": "FS 17/06/2026",
       "fecha_ultima_brucelosis": "20/11/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:53"
+      "detalle_actualizado_ts": "2026-10-13T11:31:12"
     },
     {
       "nro_dte": "032776440-3",
@@ -181150,7 +181150,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -181186,7 +181186,7 @@
       "fecha_anteultima_aftosa": "FS 17/03/2026",
       "fecha_ultima_brucelosis": "17/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:55"
+      "detalle_actualizado_ts": "2026-10-13T11:31:18"
     },
     {
       "nro_dte": "032776323-7",
@@ -181210,7 +181210,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "ELIMINADO",
@@ -181240,7 +181240,7 @@
       "fecha_anteultima_aftosa": "FS 21/10/2025",
       "fecha_ultima_brucelosis": "21/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:57"
+      "detalle_actualizado_ts": "2026-10-13T11:31:29"
     },
     {
       "nro_dte": "032776188-9",
@@ -181264,7 +181264,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -181294,7 +181294,7 @@
       "fecha_anteultima_aftosa": "FS 22/04/2026",
       "fecha_ultima_brucelosis": "29/10/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:59"
+      "detalle_actualizado_ts": "2026-10-13T11:31:38"
     },
     {
       "nro_dte": "032776173-0",
@@ -181318,7 +181318,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181354,7 +181354,7 @@
       "fecha_anteultima_aftosa": "FS 04/06/2025",
       "fecha_ultima_brucelosis": "23/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:02"
+      "detalle_actualizado_ts": "2026-10-13T11:31:46"
     },
     {
       "nro_dte": "032775924-8",
@@ -181378,7 +181378,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181420,7 +181420,7 @@
       "fecha_anteultima_aftosa": "FS 02/03/2026",
       "fecha_ultima_brucelosis": "02/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:04"
+      "detalle_actualizado_ts": "2026-10-13T11:31:54"
     },
     {
       "nro_dte": "032775546-3",
@@ -181444,7 +181444,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181480,7 +181480,7 @@
       "fecha_anteultima_aftosa": "FS 10/04/2026",
       "fecha_ultima_brucelosis": "10/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:09:06"
+      "detalle_actualizado_ts": "2026-10-13T11:31:59"
     },
     {
       "nro_dte": "032777898-6",
@@ -181504,7 +181504,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181534,13 +181534,13 @@
       "total_despachados": 20,
       "total_recibidos": 0,
       "nro_tri": null,
-      "nro_guia": "3320762",
+      "nro_guia": null,
       "nro_certificado_faena": null,
       "fecha_ultima_aftosa": "FE 10/10/2026",
       "fecha_anteultima_aftosa": "FS 21/10/2025",
       "fecha_ultima_brucelosis": "13/04/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:44"
+      "detalle_actualizado_ts": "2026-10-13T12:00:55"
     },
     {
       "nro_dte": "032777669-5",
@@ -181564,7 +181564,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181606,7 +181606,7 @@
       "fecha_anteultima_aftosa": "FS 11/03/2026",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:45"
+      "detalle_actualizado_ts": "2026-10-13T12:00:57"
     },
     {
       "nro_dte": "032777534-0",
@@ -181630,7 +181630,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -181672,7 +181672,7 @@
       "fecha_anteultima_aftosa": "FS 13/03/2026",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:08:47"
+      "detalle_actualizado_ts": "2026-10-13T12:01:00"
     },
     {
       "nro_dte": "032778252-5",
@@ -181696,7 +181696,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181726,7 +181726,7 @@
       "fecha_anteultima_aftosa": "FS 17/04/2026",
       "fecha_ultima_brucelosis": "17/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:40"
+      "detalle_actualizado_ts": "2026-10-13T14:00:59"
     },
     {
       "nro_dte": "032778239-8",
@@ -181750,7 +181750,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -181792,7 +181792,7 @@
       "fecha_anteultima_aftosa": "FS 31/03/2026",
       "fecha_ultima_brucelosis": "31/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:42"
+      "detalle_actualizado_ts": "2026-10-13T12:32:35"
     },
     {
       "nro_dte": "032778659-8",
@@ -181816,7 +181816,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181846,7 +181846,7 @@
       "fecha_anteultima_aftosa": "FS 18/03/2026",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:31"
+      "detalle_actualizado_ts": "2026-10-13T14:00:54"
     },
     {
       "nro_dte": "032778620-2",
@@ -181870,7 +181870,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181918,7 +181918,7 @@
       "fecha_anteultima_aftosa": "FS 03/07/2026",
       "fecha_ultima_brucelosis": "28/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:33"
+      "detalle_actualizado_ts": "2026-10-13T14:00:56"
     },
     {
       "nro_dte": "032778610-5",
@@ -181942,7 +181942,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -181978,7 +181978,7 @@
       "fecha_anteultima_aftosa": "FS 18/03/2026",
       "fecha_ultima_brucelosis": "18/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:35"
+      "detalle_actualizado_ts": "2026-10-13T14:00:57"
     },
     {
       "nro_dte": "032778493-5",
@@ -182002,7 +182002,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182032,7 +182032,7 @@
       "fecha_anteultima_aftosa": "FS 23/03/2026",
       "fecha_ultima_brucelosis": "24/06/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:37"
+      "detalle_actualizado_ts": "2026-10-13T14:00:58"
     },
     {
       "nro_dte": "032780896-6",
@@ -182056,7 +182056,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182092,7 +182092,7 @@
       "fecha_anteultima_aftosa": "FS 19/03/2025",
       "fecha_ultima_brucelosis": "28/10/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:17"
+      "detalle_actualizado_ts": "2026-10-13T17:00:53"
     },
     {
       "nro_dte": "032780871-0",
@@ -182116,7 +182116,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182152,7 +182152,7 @@
       "fecha_anteultima_aftosa": "FS 19/03/2025",
       "fecha_ultima_brucelosis": "28/10/2024",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:20"
+      "detalle_actualizado_ts": "2026-10-13T17:00:54"
     },
     {
       "nro_dte": "032780707-2",
@@ -182176,7 +182176,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182212,7 +182212,7 @@
       "fecha_anteultima_aftosa": "FS 23/03/2026",
       "fecha_ultima_brucelosis": "08/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:22"
+      "detalle_actualizado_ts": "2026-10-13T17:00:55"
     },
     {
       "nro_dte": "032780463-4",
@@ -182236,7 +182236,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182272,7 +182272,7 @@
       "fecha_anteultima_aftosa": "FS 20/03/2026",
       "fecha_ultima_brucelosis": "08/05/2014",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:24"
+      "detalle_actualizado_ts": "2026-10-13T17:00:55"
     },
     {
       "nro_dte": "032780354-9",
@@ -182296,7 +182296,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182326,7 +182326,7 @@
       "fecha_anteultima_aftosa": "FS 22/04/2026",
       "fecha_ultima_brucelosis": "10/07/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:26"
+      "detalle_actualizado_ts": "2026-10-13T17:00:56"
     },
     {
       "nro_dte": "032780335-2",
@@ -182350,7 +182350,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -182386,7 +182386,7 @@
       "fecha_anteultima_aftosa": "FS 30/10/2025",
       "fecha_ultima_brucelosis": "03/12/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:28"
+      "detalle_actualizado_ts": "2026-10-13T17:00:57"
     },
     {
       "nro_dte": "032781376-5",
@@ -182410,7 +182410,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -182440,7 +182440,7 @@
       "fecha_anteultima_aftosa": "FS 26/06/2026",
       "fecha_ultima_brucelosis": "05/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:11"
+      "detalle_actualizado_ts": "2026-10-14T09:59:04"
     },
     {
       "nro_dte": "032781361-7",
@@ -182464,7 +182464,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "CERRADO",
@@ -182494,7 +182494,7 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "07/05/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:13"
+      "detalle_actualizado_ts": "2026-10-14T09:59:05"
     },
     {
       "nro_dte": "032781064-2",
@@ -182518,7 +182518,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182554,7 +182554,7 @@
       "fecha_anteultima_aftosa": "FS 23/03/2026",
       "fecha_ultima_brucelosis": "23/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:15"
+      "detalle_actualizado_ts": "2026-10-13T18:30:55"
     },
     {
       "nro_dte": "032781930-5",
@@ -182578,7 +182578,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182620,7 +182620,7 @@
       "fecha_anteultima_aftosa": "FS 09/04/2026",
       "fecha_ultima_brucelosis": "09/04/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:08"
+      "detalle_actualizado_ts": "2026-10-13T20:00:52"
     },
     {
       "nro_dte": "032782308-6",
@@ -182644,7 +182644,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182680,7 +182680,7 @@
       "fecha_anteultima_aftosa": "FS 24/04/2026",
       "fecha_ultima_brucelosis": "28/03/2025",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:06"
+      "detalle_actualizado_ts": "2026-10-13T21:30:50"
     },
     {
       "nro_dte": "032782507-0",
@@ -182704,7 +182704,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182740,7 +182740,7 @@
       "fecha_anteultima_aftosa": "FS 16/03/2026",
       "fecha_ultima_brucelosis": "16/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:04"
+      "detalle_actualizado_ts": "2026-10-14T07:00:59"
     },
     {
       "nro_dte": "032784819-4",
@@ -182764,7 +182764,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -182794,7 +182794,7 @@
       "fecha_anteultima_aftosa": "FS 31/03/2026",
       "fecha_ultima_brucelosis": "31/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:06:54"
+      "detalle_actualizado_ts": "2026-10-14T09:58:54"
     },
     {
       "nro_dte": "032784359-1",
@@ -182818,7 +182818,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -182848,7 +182848,7 @@
       "fecha_anteultima_aftosa": "FS 28/10/2025",
       "fecha_ultima_brucelosis": "30/09/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:06:55"
+      "detalle_actualizado_ts": "2026-10-14T09:58:55"
     },
     {
       "nro_dte": "032784331-1",
@@ -182872,7 +182872,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Faena",
       "estado_detalle": "VIGENTE",
@@ -182902,7 +182902,7 @@
       "fecha_anteultima_aftosa": "FS 17/03/2025",
       "fecha_ultima_brucelosis": "15/06/2022",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:06:57"
+      "detalle_actualizado_ts": "2026-10-14T09:58:57"
     },
     {
       "nro_dte": "032784280-3",
@@ -182926,7 +182926,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -182956,7 +182956,7 @@
       "fecha_anteultima_aftosa": "FS 11/03/2026",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:06:59"
+      "detalle_actualizado_ts": "2026-10-14T09:58:59"
     },
     {
       "nro_dte": "032784264-1",
@@ -182980,7 +182980,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -183010,7 +183010,7 @@
       "fecha_anteultima_aftosa": "FS 11/03/2026",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:01"
+      "detalle_actualizado_ts": "2026-10-14T09:59:00"
     },
     {
       "nro_dte": "032784243-9",
@@ -183034,7 +183034,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - REF",
       "motivo_detalle": "Invernada",
       "estado_detalle": "VIGENTE",
@@ -183064,7 +183064,7 @@
       "fecha_anteultima_aftosa": "FS 11/03/2026",
       "fecha_ultima_brucelosis": "11/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:07:02"
+      "detalle_actualizado_ts": "2026-10-14T09:59:02"
     },
     {
       "nro_dte": "032785632-4",
@@ -183088,7 +183088,7 @@
       "categoria": "-",
       "enviado": 1,
       "recibido": 0,
-      "ts_scrape": "2026-10-14T10:06:49",
+      "ts_scrape": "2026-10-14T11:30:50",
       "tipo_movimiento_detalle": "EST - FRI",
       "motivo_detalle": "Faena",
       "estado_detalle": "EMITIDO",
@@ -183118,7 +183118,61 @@
       "fecha_anteultima_aftosa": "FS 30/03/2026",
       "fecha_ultima_brucelosis": "30/03/2026",
       "detalle_cargado": true,
-      "detalle_actualizado_ts": "2026-10-14T10:06:52"
+      "detalle_actualizado_ts": "2026-10-14T11:30:56"
+    },
+    {
+      "nro_dte": "032786556-0",
+      "codigo": "32720217",
+      "id_movimiento": 32720217,
+      "consignataria": "DARWASH SA",
+      "tipo_movimiento": "",
+      "emisor_nombre": "PALACIOS GERARDO ENRIQUE",
+      "emisor_cuit": "20-06640126-0",
+      "receptor_nombre": "MEATEX S. A.",
+      "receptor_cuit": "33-62636566-9",
+      "renspa_origen": "03.005.2.06118/01",
+      "renspa_destino": "20.017.0.00371/00",
+      "tipo": "EST-FRI",
+      "estado": "VIGENTE",
+      "fecha_emision": "14/10/2026",
+      "fecha_carga": "14/10/2026",
+      "fecha_vencimiento": "16/10/2026",
+      "fecha_arribo": "-",
+      "autogestion": "SI",
+      "categoria": "-",
+      "enviado": 1,
+      "recibido": 0,
+      "ts_scrape": "2026-10-14T11:30:50",
+      "tipo_movimiento_detalle": "EST - FRI",
+      "motivo_detalle": "Faena UE - NO HILTON",
+      "estado_detalle": "VIGENTE",
+      "consignatario_nombre": "DARWASH S A (30-51163433-0)",
+      "usuario_faena_nombre": "",
+      "destino_es_frigorifico": true,
+      "destino_es_feria": false,
+      "fecha_emision_detalle": "14/10/2026 10:43",
+      "fecha_vencimiento_detalle": "16/10/2026",
+      "fecha_caduca": "23/10/2026",
+      "cantidad_enviados": 33,
+      "categoria_detalle": "Vaca",
+      "animales_detalle": [
+        {
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "despachados": 33,
+          "recibidos": 0
+        }
+      ],
+      "total_despachados": 33,
+      "total_recibidos": 0,
+      "nro_tri": "005116156",
+      "nro_guia": "3323326",
+      "nro_certificado_faena": "005116156",
+      "fecha_ultima_aftosa": "FS 18/06/2026",
+      "fecha_anteultima_aftosa": "FS 31/03/2026",
+      "fecha_ultima_brucelosis": "31/03/2026",
+      "detalle_cargado": true,
+      "detalle_actualizado_ts": "2026-10-14T11:30:54"
     }
   ]
 }
