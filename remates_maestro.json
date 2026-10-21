@@ -80429,7 +80429,7 @@
     },
     {
       "codigo": "03.014.3.00015/0H-2026",
-      "fecha_extraccion": "2026-10-21T13:06:42.221709",
+      "fecha_extraccion": "2026-10-21T14:35:11.120278",
       "info": {
         "Inicio": "14/10/2026",
         "Fin": "16/10/2026",
@@ -85198,7 +85198,7 @@
     },
     {
       "codigo": "01.019.0.00001/0A-2026",
-      "fecha_extraccion": "2026-10-21T13:06:39.481469",
+      "fecha_extraccion": "2026-10-21T14:35:08.521066",
       "info": {
         "Inicio": "22/10/2026",
         "Fin": "26/10/2026",
@@ -86755,7 +86755,7 @@
     },
     {
       "codigo": "01.054.0.00001/0E-2026",
-      "fecha_extraccion": "2026-10-21T13:06:40.633562",
+      "fecha_extraccion": "2026-10-21T14:35:09.609573",
       "info": {
         "Inicio": "21/10/2026",
         "Fin": "23/10/2026",
@@ -86794,7 +86794,7 @@
           "recibido": 0
         },
         "Novillito": {
-          "enviado": 229,
+          "enviado": 329,
           "recibido": 0
         },
         "Ternera": {
@@ -89937,28 +89937,6 @@
           "apto_china": "NO",
           "fecha_aftosa": "23/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 9,
-          "recibido": 9,
-          "emisor_nombre": "SHANAHAN MARCOS DAVID",
-          "emisor_cuit": "20-24085651-5",
-          "receptor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
-          "receptor_cuit": "30-55794772-4",
-          "usuario_faena_nombre": "",
-          "destino_es_frigorifico": false,
-          "destino_es_feria": true,
-          "comprador": ""
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "032841831-2",
-          "origen": "01.128.0.00427/05",
-          "motivo": "Invernada",
-          "estado": "CERRADO",
-          "fecha_movimiento": "21/10/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "23/06/26",
-          "especie": "Bovinos",
           "categoria": "Ternera",
           "enviado": 2,
           "recibido": 2,
@@ -89995,17 +89973,39 @@
         },
         {
           "tipo_movimiento": "ENTRADA",
+          "documento": "032841831-2",
+          "origen": "01.128.0.00427/05",
+          "motivo": "Invernada",
+          "estado": "CERRADO",
+          "fecha_movimiento": "21/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "23/06/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 9,
+          "recibido": 9,
+          "emisor_nombre": "SHANAHAN MARCOS DAVID",
+          "emisor_cuit": "20-24085651-5",
+          "receptor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
+          "receptor_cuit": "30-55794772-4",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
           "documento": "032843030-4",
           "origen": "01.054.0.00172/02",
           "motivo": "Invernada",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "21/10/2026",
           "apto_china": "SI",
           "fecha_aftosa": "17/06/26",
           "especie": "Bovinos",
           "categoria": "Novillito",
           "enviado": 50,
-          "recibido": 0,
+          "recibido": 50,
           "emisor_nombre": "RUIZ RICARDO GUILLERMO",
           "emisor_cuit": "20-07824725-9",
           "receptor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
@@ -90020,14 +90020,14 @@
           "documento": "032843275-7",
           "origen": "01.054.0.00172/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "21/10/2026",
           "apto_china": "SI",
           "fecha_aftosa": "17/06/26",
           "especie": "Bovinos",
           "categoria": "Novillito",
           "enviado": 50,
-          "recibido": 0,
+          "recibido": 50,
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
           "receptor_nombre": "SOCIEDAD RURAL DEL PARTIDO DE GENERAL VILLEGAS",
@@ -90047,8 +90047,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "07/07/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 7,
+          "categoria": "Novillito",
+          "enviado": 1,
           "recibido": 0,
           "emisor_nombre": "PIÑEYRUA ARREDONDO GUSTAVO CARLOS",
           "emisor_cuit": "24-93688107-2",
@@ -90069,8 +90069,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "07/07/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 1,
+          "categoria": "Vaca",
+          "enviado": 7,
           "recibido": 0,
           "emisor_nombre": "PIÑEYRUA ARREDONDO GUSTAVO CARLOS",
           "emisor_cuit": "24-93688107-2",
@@ -90116,7 +90116,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-10-21T13:06:43.504877",
+      "fecha_extraccion": "2026-10-21T14:35:12.443057",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "25/10/2026",
@@ -93324,5 +93324,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-10-21T13:06:43.504877"
+  "fecha_extraccion": "2026-10-21T14:35:12.443057"
 }
