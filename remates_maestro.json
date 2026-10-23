@@ -85198,7 +85198,7 @@
     },
     {
       "codigo": "01.019.0.00001/0A-2026",
-      "fecha_extraccion": "2026-10-23T14:36:50.301859",
+      "fecha_extraccion": "2026-10-23T16:06:32.413460",
       "info": {
         "Inicio": "22/10/2026",
         "Fin": "26/10/2026",
@@ -85228,13 +85228,13 @@
           "enviado": 2,
           "recibido": 2
         },
-        "Toro": {
-          "enviado": 30,
-          "recibido": 30
-        },
         "Novillo": {
           "enviado": 33,
           "recibido": 15
+        },
+        "Toro": {
+          "enviado": 30,
+          "recibido": 30
         },
         "Novillito": {
           "enviado": 118,
@@ -88977,7 +88977,7 @@
     },
     {
       "codigo": "01.054.0.00001/0E-2026",
-      "fecha_extraccion": "2026-10-23T14:36:51.448771",
+      "fecha_extraccion": "2026-10-23T16:06:33.729667",
       "info": {
         "Inicio": "21/10/2026",
         "Fin": "23/10/2026",
@@ -92998,7 +92998,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-10-23T14:36:52.657018",
+      "fecha_extraccion": "2026-10-23T16:06:35.849787",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "25/10/2026",
@@ -93008,8 +93008,8 @@
         "Predio ferial": "SOCIEDAD RURAL DE RIO CUARTO"
       },
       "total_dtes": 111,
-      "total_dtes_salida": 41,
-      "total_filas": 195,
+      "total_dtes_salida": 47,
+      "total_filas": 201,
       "total_animales": 941,
       "totales_categoria": {
         "Vaquillona": {
@@ -97343,6 +97343,138 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": false,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032859225-8",
+          "origen": "18.007.0.90497/00",
+          "motivo": "Reproducción",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "06/04/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 6,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032859231-2",
+          "origen": "03.009.0.02963/00",
+          "motivo": "Reproducción",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "06/04/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032859245-2",
+          "origen": "03.008.0.00081/00",
+          "motivo": "Reproducción",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "06/04/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 4,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032859262-2",
+          "origen": "18.005.0.00584/02",
+          "motivo": "Invernada UE",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "06/04/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032859275-4",
+          "origen": "03.008.0.04007/02",
+          "motivo": "Reproducción",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "06/04/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032859281-9",
+          "origen": "03.014.1.39051/01",
+          "motivo": "Reproducción",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "23/10/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "06/04/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         }
       ],
       "compartido": true,
@@ -97367,7 +97499,7 @@
     },
     {
       "codigo": "03.014.3.00015/0I-2026",
-      "fecha_extraccion": "2026-10-23T14:36:48.809247",
+      "fecha_extraccion": "2026-10-23T16:06:31.024560",
       "info": {
         "Inicio": "28/10/2026",
         "Fin": "29/10/2026",
@@ -97393,5 +97525,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-10-23T14:36:48.809247"
+  "fecha_extraccion": "2026-10-23T16:06:31.024560"
 }
