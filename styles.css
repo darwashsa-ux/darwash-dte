@@ -36,6 +36,9 @@
   --red:         #D63B47;
   --red-soft:    #FCE8EA;
 
+  /* VIOLET — solo la UT DARWASH - SILVIO R. FERNANDEZ (consignataria) */
+  --violet:      #7C5CC4;
+
   /* ---------- TYPOGRAPHY ---------- */
   --serif: 'Lora', Georgia, serif;                              /* títulos editoriales */
   --sans:  'Inter', -apple-system, 'Segoe UI', sans-serif;     /* UI body */
@@ -454,6 +457,10 @@ td.col-fecha {
 
 .dot.bull {
   background:var(--amber)
+}
+
+.dot.ut {
+  background:var(--violet)
 }
 
 .badge {

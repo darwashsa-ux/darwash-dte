@@ -19,8 +19,11 @@ function normalizarEstado(s){
 }
 function badgeClass(s){const n=normalizarEstado(s).toLowerCase(); if(n==='vigente') return 'vigente'; if(n==='cerrado') return 'cerrado'; if(n==='anulado') return 'anulado'; if(n==='eliminado') return 'anulado'; if(n==='caducado') return 'vencido'; if(n==='vencido') return 'vencido'; if(n==='emitido') return 'vigente'; return '';}
 function cleanEstado(estado){return (estado||'').replace(/\s*\([^)]*\)\s*/g,'').trim();}
-function consClass(v){const s=(v||'').toUpperCase(); if(s.includes('DARWASH')) return 'dar'; if(s.includes('BULLTRADE')) return 'bull'; return 'other';}
-function prettyCons(v){return '<span class="cons-chip"><span class="dot '+(consClass(v)==='dar'?'dar':consClass(v)==='bull'?'bull':'')+'"></span>'+esc(v||'-')+'</span>'}
+// Consignatarias que asigna el scraper por CUIT del consignatario (dtes_maestro.json → consignataria)
+const CONSIGNATARIAS=['DARWASH SA','BULLTRADE','UT DW-FERNANDEZ'];
+// La UT va primero: su nombre completo también contiene "DARWASH"
+function consClass(v){const s=(v||'').toUpperCase(); if(s.startsWith('UT ')||s.includes('FERNANDEZ')) return 'ut'; if(s.includes('DARWASH')) return 'dar'; if(s.includes('BULLTRADE')) return 'bull'; return 'other';}
+function prettyCons(v){const c=consClass(v); return '<span class="cons-chip"><span class="dot '+(c==='other'?'':c)+'"></span>'+esc(v||'-')+'</span>'}
 // === Taxonomía canónica de categorías — única fuente de verdad ===
 // 7 categorías unificadas. NOVILLO absorbe Novillo+Novillito; MEJ absorbe Torito/MEJ.
 // "Mamón" legacy NO se canoniza: se preserva literal en su call site para no perder el dato.
@@ -792,7 +795,7 @@ function renderDtes(){
       });
     }
 
-    const consOpts=['todas',...Array.from(new Set(all.map(x=>x.consignataria).filter(Boolean)))];
+    const consOpts=['todas',...CONSIGNATARIAS,...Array.from(new Set(all.map(x=>x.consignataria).filter(v=>v&&!CONSIGNATARIAS.includes(v))))];
     const estOpts=['todos',...Array.from(new Set(all.map(x=>normalizarEstado(x.estado)).filter(Boolean))).values()].sort();
     const total=all.length,vig=all.filter(x=>/vigente/i.test(x.estado||'')).length,venc=all.filter(x=>/vencido/i.test(x.estado||'')).length,anu=all.filter(x=>/anulado/i.test(x.estado||'')).length;
 
