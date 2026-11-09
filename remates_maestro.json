@@ -85198,7 +85198,7 @@
     },
     {
       "codigo": "01.019.0.00001/0A-2026",
-      "fecha_extraccion": "2026-11-09T17:35:09.128982",
+      "fecha_extraccion": "2026-11-09T19:05:22.407365",
       "info": {
         "Inicio": "22/10/2026",
         "Fin": "28/10/2026",
@@ -85228,13 +85228,13 @@
           "enviado": 2,
           "recibido": 2
         },
-        "Novillo": {
-          "enviado": 33,
-          "recibido": 33
-        },
         "Toro": {
           "enviado": 30,
           "recibido": 30
+        },
+        "Novillo": {
+          "enviado": 33,
+          "recibido": 33
         },
         "Novillito": {
           "enviado": 118,
@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-09T17:35:10.394399",
+      "fecha_extraccion": "2026-11-09T19:05:24.499946",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -100865,7 +100865,7 @@
     },
     {
       "codigo": "03.014.3.00015/0I-2026",
-      "fecha_extraccion": "2026-11-09T17:35:08.097489",
+      "fecha_extraccion": "2026-11-09T19:05:21.247035",
       "info": {
         "Inicio": "29/10/2026",
         "Fin": "30/10/2026",
@@ -106382,7 +106382,7 @@
     },
     {
       "codigo": "03.014.3.00015/0J-2026",
-      "fecha_extraccion": "2026-11-09T17:35:07.024242",
+      "fecha_extraccion": "2026-11-09T19:05:20.053483",
       "info": {
         "Inicio": "11/11/2026",
         "Fin": "12/11/2026",
@@ -106391,10 +106391,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 10,
+      "total_dtes": 11,
       "total_dtes_salida": 0,
-      "total_filas": 16,
-      "total_animales": 254,
+      "total_filas": 17,
+      "total_animales": 269,
       "totales_categoria": {},
       "filas": [
         {
@@ -106539,28 +106539,6 @@
           "apto_china": "SI",
           "fecha_aftosa": "06/07/26",
           "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 23,
-          "recibido": 0,
-          "emisor_nombre": "MENDEZ FEDERICO FERMIN",
-          "emisor_cuit": "20-14602906-0",
-          "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0",
-          "usuario_faena_nombre": "",
-          "destino_es_frigorifico": false,
-          "destino_es_feria": true,
-          "comprador": ""
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "032951321-1",
-          "origen": "03.008.0.02023/02",
-          "motivo": "Invernada",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "10/11/2026",
-          "apto_china": "SI",
-          "fecha_aftosa": "06/07/26",
-          "especie": "Bovinos",
           "categoria": "Vaca",
           "enviado": 2,
           "recibido": 0,
@@ -106585,6 +106563,28 @@
           "especie": "Bovinos",
           "categoria": "Novillito",
           "enviado": 13,
+          "recibido": 0,
+          "emisor_nombre": "MENDEZ FEDERICO FERMIN",
+          "emisor_cuit": "20-14602906-0",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032951321-1",
+          "origen": "03.008.0.02023/02",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "10/11/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "06/07/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 23,
           "recibido": 0,
           "emisor_nombre": "MENDEZ FEDERICO FERMIN",
           "emisor_cuit": "20-14602906-0",
@@ -106748,6 +106748,28 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": true,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032959730-5",
+          "origen": "18.005.0.00664/03",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "10/11/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "03/07/26",
+          "especie": "Bovinos",
+          "categoria": "Novillo",
+          "enviado": 15,
+          "recibido": 0,
+          "emisor_nombre": "EL YULTO S.A.S.",
+          "emisor_cuit": "30-71599051-9",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         }
       ],
       "compartido": false,
@@ -106761,5 +106783,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-09T17:35:07.024242"
+  "fecha_extraccion": "2026-11-09T19:05:20.053483"
 }
