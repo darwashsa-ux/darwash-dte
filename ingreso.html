@@ -302,7 +302,8 @@
     <div class="st-list" id="ok-st"></div>
     <div style="flex:1"></div>
     <div style="display:flex;flex-direction:column;gap:10px">
-      <button type="button" class="btn-wa" id="btn-wa"><b id="wa-t">Mandar por WhatsApp</b><small id="wa-s"></small></button>
+      <button type="button" class="btn-wa" id="btn-grupo"><b>Compartir en el grupo de descargas</b><small>Abre WhatsApp para elegir el grupo</small></button>
+      <button type="button" class="btn-out" id="btn-wa" style="height:auto;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 12px;border-color:var(--green);color:var(--green-text)"><b id="wa-t" style="font-size:16px">Mandar remito al transportista</b><small id="wa-s" style="font-size:12px;font-weight:500"></small></button>
       <button type="button" class="btn-out" id="btn-pdf">Descargar PDF</button>
       <button type="button" class="btn-main" id="btn-new" disabled>+ Nuevo ingreso</button>
       <div class="ok-note" id="new-note">«Nuevo ingreso» se habilita cuando el PDF quedó guardado</div>
@@ -790,8 +791,9 @@ function mostrarExito(r){
     '<div class="full" style="flex-direction:row;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px"><b>Total cabezas</b><b style="font-family:var(--mono);font-size:34px;color:var(--green-text)">'+r.total_cabezas+'</b></div>';
   setSt({pdf:'run',fotos:r.fotosData.length?'run':null,ticket:'ok'});
   const quien=r.transportista&&r.transportista!=='Propio'?r.transportista:'';
-  $('wa-t').textContent=r.telefono?'Mandar remito a '+quien:'Mandar por WhatsApp';
-  $('wa-s').textContent=r.telefono?'Abre su chat de WhatsApp con el link al PDF':'Elegís el contacto en WhatsApp';
+  $('btn-wa').classList.toggle('hidden',!r.telefono);
+  $('wa-t').textContent='Mandar remito a '+quien;
+  $('wa-s').textContent='Abre su chat de WhatsApp con el link al PDF';
   $('btn-new').disabled=true;$('new-note').classList.remove('hidden');
   $('ok').classList.remove('hidden');window.scrollTo(0,0);
 }
@@ -829,22 +831,30 @@ async function postGuardado(r,fotos){
   if(ULT===r){$('btn-new').disabled=false;$('new-note').classList.add('hidden');}
 }
 function mensajeWA(r){
+  const L='━━━━━━━━━━━━━━━━━━';
   const cats=Object.entries(r.categorias).map(([k,v])=>'  • '+k+': '+v).join('\n');
-  return '*REMITO DE INGRESO — DARWASH SA*\n'+
-    'Remito N° '+nroRemito(r.id)+'\n'+
-    r.fecha+' · '+r.hora_descarga+' hs\n'+
-    'DTE: '+(r.nro_dte?dteFmt(r.nro_dte):'SIN DTE')+'\n'+
-    'Productor: '+r.productor+'\n'+
-    (r.transportista?'Transporte: '+r.transportista+(r.patente?' ('+r.patente+')':'')+'\n':'')+
-    '\n*Hacienda*\n'+cats+'\n*Total: '+r.total_cabezas+' cabezas*\n'+
-    (r.observaciones?'\nObs: '+r.observaciones+'\n':'')+
-    (r.pdf_url?'\nRemito PDF: '+r.pdf_url:'');
+  return '🐄 *REMITO DE INGRESO — DARWASH SA*\n'+L+'\n'+
+    '🧾 Remito N° '+nroRemito(r.id)+'\n'+
+    '📅 '+r.fecha+'  🕐 '+r.hora_descarga+' hs\n'+
+    '📋 Remate: '+(r.remateAlias||r.remate)+'\n'+
+    '📄 DTE: '+(r.nro_dte?dteFmt(r.nro_dte):'⚠️ SIN DTE')+'\n'+
+    '👤 Productor: '+r.productor+'\n'+
+    (r.transportista?'🚛 Transporte: '+r.transportista+(r.patente?' ('+r.patente+')':'')+'\n':'')+
+    L+'\n*HACIENDA:*\n'+cats+'\n'+L+'\n'+
+    '✅ *TOTAL: '+r.total_cabezas+' cabezas*\n'+
+    (r.observaciones?'\n💬 _'+r.observaciones+'_\n':'')+
+    (r.pdf_url?'\n📎 Remito PDF: '+r.pdf_url+'\n':'')+
+    '\n_Registrado en Darwash DTE_';
 }
 function initExito(){
   $('btn-wa').addEventListener('click',()=>{
     if(!ULT)return;
     const txt=encodeURIComponent(mensajeWA(ULT));
     window.open(ULT.telefono?'https://wa.me/'+ULT.telefono+'?text='+txt:'https://wa.me/?text='+txt,'_blank');
+  });
+  $('btn-grupo').addEventListener('click',()=>{
+    if(!ULT)return;
+    window.open('https://wa.me/?text='+encodeURIComponent(mensajeWA(ULT)),'_blank');
   });
   $('btn-pdf').addEventListener('click',async()=>{
     if(!ULT)return;
