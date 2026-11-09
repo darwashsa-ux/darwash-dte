@@ -1,288 +1,397 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-<title>Darwash · Egresos</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-  /* Tokens — Darwash Operaciones (light) */
-  :root{
-    --bg:#FCF7F7;--surface:#FFFFFF;--surface-2:#F5F4EE;
-    --border:#E5E5E0;--border-strong:#D4D2C8;
-    --text:#1A1A1A;--text-2:#4A4A48;--muted:#8A8880;
-    --cyan:#00B5B6;--cyan-soft:#E6F8F8;
-    --green:#00A86B;--green-soft:#E6F7EF;
-    --amber:#B8881F;--amber-soft:#FBF3DC;
-    --red:#D63B47;--red-soft:#FCE8EA;
-    --blue:#2E7AC7;--blue-soft:#E8F0FA;
-    --serif:'Lora',Georgia,serif;
-    --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
-    --mono:'JetBrains Mono',Consolas,Monaco,monospace;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;min-height:100vh;overscroll-behavior:none;}
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Darwash · Egreso de hacienda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root{
+      --bg:#F4F3EE;--surface:#FFFFFF;--surface-2:#FAFAF7;
+      --border:#DEDCD3;--border-strong:#C9C7BD;
+      --text:#161616;--text-2:#45443F;--muted:#5C5A53;--faint:#A9A79E;
+      --teal:#007475;--teal-text:#005E5F;--teal-soft:#E3F4F4;
+      --green:#0B7A4B;--green-text:#0B6B42;--green-soft:#E5F4EC;--green-bg:#F3FAF6;
+      --amber:#8A5A00;--amber-text:#6B4600;--amber-soft:#FDF3D9;
+      --red:#B42318;--red-soft:#FEF3F2;
+      --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
+      --mono:'JetBrains Mono',Consolas,Monaco,monospace;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;min-height:100vh;overscroll-behavior:none;}
+    button{font-family:var(--sans);cursor:pointer;}
+    button:disabled{cursor:not-allowed;}
+    input,textarea{font-family:var(--sans);}
 
-  /* HEADER */
-  .lf-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
-  .lf-logo{width:36px;height:36px;border-radius:8px;background:var(--cyan);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-weight:700;font-size:13px;letter-spacing:.5px;flex-shrink:0;}
-  .lf-wordmark-wrap{display:flex;align-items:baseline;gap:6px;flex:1;min-width:0;}
-  .lf-wordmark{font-family:var(--serif);font-weight:700;font-size:14px;letter-spacing:1.2px;color:var(--text);}
-  .lf-wordmark-sub{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
-  .lf-badge{font-family:var(--mono);font-weight:600;font-size:10px;letter-spacing:1.5px;padding:4px 10px;border-radius:4px;border:1px solid;text-transform:uppercase;flex-shrink:0;}
-  .lf-badge.salida{color:var(--red);border-color:var(--red);background:var(--red-soft);}
+    /* HEADER */
+    .hd{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;flex-direction:column;gap:12px;}
+    .hd-top{display:flex;align-items:center;gap:12px;}
+    .hd-logo{height:30px;width:auto;display:block;}
+    .hd-title{display:flex;flex-direction:column;flex:1;border-left:1px solid var(--border);padding-left:12px;min-width:0;}
+    .hd-title b{font-weight:700;font-size:18px;letter-spacing:-.2px;}
+    .hd-title span{font-size:13px;color:var(--muted);}
+    .badge-in{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:1px;color:var(--green-text);background:var(--green-soft);border:1px solid var(--green);border-radius:6px;padding:5px 9px;}
+    .remate{background:var(--teal-soft);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;}
+    .remate-tag{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:1px;color:var(--teal-text);}
+    .remate-alias{font-weight:600;font-size:15px;}
+    .remate-code{font-family:var(--mono);font-size:12px;color:var(--text-2);}
+    .remate-meta{font-size:12px;color:var(--muted);}
+    .remate-loading{font-size:13px;color:var(--muted);text-align:center;padding:4px;}
+    .remate-error{background:var(--red-soft);border:1px solid var(--red);color:var(--red);border-radius:10px;padding:14px;font-size:14px;font-weight:600;text-align:center;line-height:1.5;}
+    .meta-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+    .meta-btn{height:44px;border:1px solid var(--border);background:var(--surface);border-radius:10px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;position:relative;overflow:hidden;}
+    .meta-btn span{font-size:12px;color:var(--muted);}
+    .meta-btn b{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--text);}
+    .meta-btn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;}
 
-  /* MAIN */
-  .lf-main{padding:16px 16px 100px;max-width:520px;margin:0 auto;}
+    /* LAYOUT */
+    .main{padding:16px 16px 150px;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;}
+    .card-h{display:flex;align-items:center;gap:8px;}
+    .num{width:24px;height:24px;border-radius:12px;background:var(--text);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .card-h label,.card-h .h{font-weight:700;font-size:16px;flex:1;}
+    .sub-label{font-size:13px;font-weight:600;color:var(--text-2);margin-top:4px;}
+    .inp{height:52px;width:100%;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);padding:0 14px;font-size:16px;font-weight:600;color:var(--text);outline:none;-webkit-appearance:none;}
+    .inp:focus{border-color:var(--teal);}
+    .inp::placeholder,textarea::placeholder{color:var(--faint);font-weight:500;}
+    .inp.mono{font-family:var(--mono);letter-spacing:1px;}
+    .inp.ok{border:2px solid var(--green);}
+    .inp.warn{border:2px solid var(--amber);}
+    .inp.err{border:2px solid var(--red);background:var(--red-soft);}
+    .msg{display:flex;align-items:flex-start;gap:6px;font-size:13px;font-weight:600;line-height:1.35;}
+    .msg svg{flex-shrink:0;margin-top:1px;}
+    .msg.ok{color:var(--green-text);}
+    .msg.err{color:var(--red);}
+    .msg.warn{color:var(--amber-text);}
+    .msg.hint{color:var(--muted);font-weight:500;}
+    .hidden{display:none !important;}
 
-  /* SECTION LABEL con línea */
-  .lf-section-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin:24px 0 10px;display:flex;align-items:center;gap:8px;}
-  .lf-section-label::after{content:"";flex:1;height:1px;background:var(--border);}
-  .lf-section-label:first-of-type{margin-top:8px;}
+    /* DTE */
+    #dte{height:56px;font-family:var(--mono);font-weight:600;font-size:22px;letter-spacing:1px;}
+    #dte.ok{background:var(--green-bg);}
+    #dte:disabled{background:#EFEEE8;border:2px solid var(--border);color:var(--muted);}
+    .check{min-height:52px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:8px 12px;cursor:pointer;}
+    .check input{width:22px;height:22px;accent-color:var(--amber);margin:0;flex-shrink:0;}
+    .check b{display:block;font-weight:600;font-size:15px;}
+    .check small{display:block;font-size:12px;color:var(--muted);}
+    .check.on{border-color:var(--amber);background:var(--amber-soft);}
+    .dup{background:var(--amber-soft);border:1px solid var(--amber);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;}
+    .dup b{font-size:14px;color:var(--amber-text);}
+    .dup span{font-size:13px;color:var(--text-2);}
+    .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+    .btn-sec{height:44px;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);font-weight:600;font-size:14px;color:var(--text);}
+    .btn-sec.amber{border-color:var(--amber);color:var(--amber-text);}
+    .btn-sm{height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);font-weight:600;font-size:13px;flex-shrink:0;}
 
-  /* REMATE — Card con header fijo */
-  .remate-bar{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:6px;overflow:hidden;}
-  .remate-loading{padding:14px 18px;font-family:var(--sans);font-size:13px;color:var(--muted);text-align:center;}
-  .remate-empty{padding:16px 20px;font-family:var(--sans);font-size:13px;color:var(--red);text-align:center;background:var(--red-soft);border:1px solid var(--red);border-radius:6px;font-weight:500;line-height:1.5;}
-  .remate-single{padding:14px 16px;}
-  .remate-single-tag{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
-  .remate-single-alias{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--text);line-height:1.3;}
-  .remate-single-code{font-family:var(--mono);font-weight:500;font-size:14px;letter-spacing:0.5px;color:var(--text);}
-  .remate-single-sub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:0.5px;color:var(--muted);margin-top:3px;}
-  .remate-single-meta{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:6px;}
+    /* AUTOCOMPLETE */
+    .ac{position:relative;}
+    .ac-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.10);max-height:300px;overflow-y:auto;z-index:30;}
+    .ac-item{min-height:52px;width:100%;border:none;border-bottom:1px solid var(--border);background:var(--surface);padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;}
+    .ac-item:last-child{border-bottom:none;}
+    .ac-item:hover,.ac-item:focus{background:var(--teal-soft);outline:none;}
+    .ac-item b{font-weight:600;font-size:15px;color:var(--text);display:block;}
+    .ac-item small{font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin-top:2px;}
+    .ac-item .cnt{font-family:var(--mono);font-size:12px;color:var(--muted);flex-shrink:0;}
+    .ac-item.new{background:var(--teal-soft);justify-content:flex-start;color:var(--teal-text);font-weight:600;font-size:15px;}
 
-  /* INPUT FIELD */
-  .lf-field{margin-bottom:10px;}
-  .lf-field-label{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;display:block;}
-  .lf-input,.lf-textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 12px;color:var(--text);font-family:var(--sans);font-size:15px;outline:none;transition:border-color 150ms,background 150ms;-webkit-appearance:none;}
-  .lf-input:focus,.lf-textarea:focus{border-color:var(--cyan);background:#FCFCFA;}
-  .lf-input::placeholder,.lf-textarea::placeholder{color:var(--border-strong);}
-  .lf-textarea{resize:none;min-height:80px;}
-  .lf-input.uppercase{text-transform:uppercase;}
+    /* HACIENDA */
+    .cat{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:10px;}
+    .cat.on{background:var(--teal-soft);}
+    .cat-n{display:flex;flex-direction:column;flex:1;min-width:0;}
+    .cat-n b{font-weight:600;font-size:16px;}
+    .cat-n small{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);}
+    .step{width:48px;height:48px;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);font-size:24px;font-weight:600;color:var(--text);flex-shrink:0;}
+    .step.plus{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-text);}
+    .cat-v{width:56px;height:48px;border:none;background:transparent;text-align:center;font-family:var(--mono);font-weight:700;font-size:24px;color:var(--faint);outline:none;-moz-appearance:textfield;appearance:textfield;}
+    .cat-v::-webkit-outer-spin-button,.cat-v::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+    .cat.on .cat-v{color:var(--teal-text);}
+    .total{margin-top:6px;border-top:1px solid var(--border);padding-top:12px;display:flex;align-items:center;justify-content:space-between;}
+    .total b{font-weight:700;font-size:15px;}
+    .total span{font-family:var(--mono);font-weight:700;font-size:40px;line-height:1;color:var(--green-text);}
 
-  /* ROW de 2 columnas */
-  .lf-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-  .lf-row-2 .lf-field{margin-bottom:0;}
+    /* TRANSPORTE */
+    .tel-box{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:10px;padding:10px 12px;}
+    .tel-box .t{display:flex;flex-direction:column;flex:1;min-width:0;}
+    .tel-box small{font-size:12px;color:var(--muted);}
+    .tel-box b{font-family:var(--mono);font-weight:600;font-size:15px;}
+    .tel-in{display:flex;gap:8px;}
+    .tel-pre{height:52px;border-radius:10px;border:1px solid var(--border-strong);background:var(--bg);padding:0 12px;display:flex;align-items:center;font-family:var(--mono);font-weight:600;font-size:16px;color:var(--text-2);flex-shrink:0;}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+    .chips span{font-size:12px;color:var(--muted);}
+    .chip{height:36px;padding:0 12px;border-radius:18px;border:1px solid var(--teal);background:var(--teal-soft);color:var(--teal-text);font-family:var(--mono);font-weight:600;font-size:13px;}
 
-  /* CATEGORIAS GRID 4x2 */
-  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-  .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 4px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;transition:border-color 150ms,background 150ms;}
-  .cat-card.active{border-color:var(--red);background:var(--red-soft);}
-  .cat-code{font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:1.5px;color:var(--text-2);text-transform:uppercase;}
-  .cat-card.active .cat-code{color:var(--red);}
-  .cat-name{font-family:var(--sans);font-size:8px;color:var(--muted);}
-  .cat-input{width:100%;background:transparent;border:none;border-radius:0;padding:2px 0 0;font-family:var(--mono);font-weight:600;font-size:20px;text-align:center;color:var(--text-2);outline:none;font-variant-numeric:tabular-nums;-webkit-appearance:none;-moz-appearance:textfield;appearance:textfield;}
-  .cat-input::-webkit-outer-spin-button,.cat-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-  .cat-input::placeholder{color:var(--border-strong);}
-  .cat-card.active .cat-input{color:var(--red);font-weight:700;}
+    /* FIRMA / FOTOS */
+    .firma{display:block;width:100%;height:150px;border-radius:10px;border:1.5px dashed var(--border-strong);background:var(--surface-2);touch-action:none;cursor:crosshair;}
+    .firma-st{font-size:12px;color:var(--muted);text-align:center;}
+    .fotos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+    .foto{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#E7E5DD;}
+    .foto img{width:100%;height:100%;object-fit:cover;display:block;}
+    .foto button{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:14px;border:none;background:var(--red);color:#fff;font-size:14px;font-weight:700;}
+    .foto-add{aspect-ratio:1;border-radius:10px;border:1.5px dashed var(--teal);background:var(--surface);color:var(--teal-text);font-weight:600;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+    textarea.inp{height:auto;min-height:84px;padding:12px 14px;font-weight:500;font-size:15px;resize:none;}
 
-  /* TOTAL CARD */
-  .total-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:6px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
-  .total-info{display:flex;flex-direction:column;}
-  .total-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
-  .total-sub{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:2px;}
-  .total-num{font-family:var(--mono);font-weight:700;font-size:34px;color:var(--red);font-variant-numeric:tabular-nums;line-height:1;}
+    /* BARRA */
+    .bar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--border);box-shadow:0 -6px 18px rgba(0,0,0,.06);padding:10px 16px calc(14px + env(safe-area-inset-bottom));z-index:40;}
+    .bar-in{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:6px;}
+    .bar-falta{font-size:13px;color:var(--red);font-weight:600;text-align:center;}
+    .btn-main{height:56px;width:100%;border-radius:12px;border:none;background:var(--teal);color:#fff;font-weight:700;font-size:17px;}
+    .btn-main:disabled{background:var(--faint);}
+    body.kb .bar{display:none;}
+    body.kb .main{padding-bottom:40vh;}
 
-  /* FOTOS */
-  .foto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px;}
-  .foto-slot{position:relative;aspect-ratio:1;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:border-color 150ms;overflow:hidden;}
-  .foto-slot:hover{border-color:var(--cyan);}
-  .foto-slot.filled{border-style:solid;border-color:var(--cyan);}
-  .foto-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-  .foto-slot .slot-icon{font-size:18px;}
-  .foto-slot .slot-label{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-top:4px;}
-  .foto-slot .slot-del{position:absolute;top:4px;right:4px;background:var(--red);border:none;color:#fff;border-radius:50%;width:22px;height:22px;font-size:11px;font-weight:700;cursor:pointer;display:none;align-items:center;justify-content:center;}
-  .foto-slot.filled .slot-del{display:flex;}
-  .foto-counter{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:0.5px;color:var(--muted);text-align:center;margin-top:4px;}
+    /* HISTORIAL */
+    .sec-t{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:1px;color:var(--text-2);margin-top:10px;}
+    .hist{display:flex;flex-direction:column;gap:8px;}
+    .h-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;}
+    .h-top{display:flex;justify-content:space-between;gap:8px;}
+    .h-top b{font-weight:600;font-size:14px;}
+    .h-top span{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--green-text);flex-shrink:0;}
+    .h-meta{font-size:12px;color:var(--muted);line-height:1.5;}
+    .tag-sd{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--amber-text);background:var(--amber-soft);border:1px solid var(--amber);border-radius:4px;padding:1px 6px;}
+    .empty{font-size:13px;color:var(--muted);text-align:center;padding:14px 0;}
 
-  /* BOTONES */
-  .lf-btn{width:100%;border:1px solid transparent;border-radius:6px;padding:14px 16px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 150ms;}
-  .lf-btn:active{opacity:0.85;}
-  .lf-btn:disabled{opacity:0.5;cursor:not-allowed;}
-  .btn-save{background:var(--cyan);color:#fff;border-color:var(--cyan);margin-top:24px;}
-  .btn-pdf{background:transparent;border-color:var(--amber);color:var(--amber);}
-  .btn-wsp{background:transparent;border-color:var(--green);color:var(--green);}
-  .btn-nuevo{background:transparent;border-color:var(--blue);color:var(--blue);}
-  .lf-actions-secondary{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+    /* EXITO */
+    .ok-ov{position:fixed;inset:0;background:var(--bg);z-index:100;overflow-y:auto;}
+    .ok-in{max-width:560px;margin:0 auto;min-height:100%;padding:32px 20px 28px;display:flex;flex-direction:column;gap:18px;}
+    .ok-logo{height:64px;width:auto;align-self:center;display:block;}
+    .ok-head{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;}
+    .ok-ic{width:64px;height:64px;border-radius:32px;background:var(--green-soft);color:var(--green-text);display:flex;align-items:center;justify-content:center;}
+    .ok-head b{font-weight:700;font-size:24px;}
+    .ok-head span{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--text-2);}
+    .sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+    .sum div{display:flex;flex-direction:column;gap:2px;min-width:0;}
+    .sum small{font-size:12px;color:var(--muted);}
+    .sum b{font-weight:600;font-size:15px;overflow-wrap:anywhere;}
+    .sum .full{grid-column:1/-1;}
+    .st-list{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:4px 16px;}
+    .st{min-height:48px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);font-size:14px;}
+    .st:last-child{border-bottom:none;}
+    .st .ic{width:18px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+    .spin{width:16px;height:16px;border-radius:8px;border:2px solid var(--border-strong);border-top-color:var(--teal);animation:sp 0.8s linear infinite;}
+    @keyframes sp{to{transform:rotate(360deg);}}
+    .btn-wa{min-height:60px;width:100%;border-radius:12px;border:none;background:var(--green-text);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 12px;}
+    .btn-wa b{font-weight:700;font-size:16px;}
+    .btn-wa small{font-size:12px;opacity:.92;}
+    .btn-out{height:52px;width:100%;border-radius:12px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-weight:600;font-size:16px;}
+    .ok-note{font-size:12px;color:var(--muted);text-align:center;}
+  
 
-  /* SUCCESS OVERLAY */
-  .success-overlay{display:none;position:fixed;inset:0;background:rgba(250,250,247,0.96);z-index:100;align-items:center;justify-content:center;padding:32px 24px;}
-  .success-overlay.show{display:flex;}
-  .success-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:6px;padding:32px 24px;text-align:center;max-width:380px;width:100%;}
-  .success-icon{width:56px;height:56px;border-radius:50%;background:var(--green-soft);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:28px;margin:0 auto 14px;}
-  .success-title{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--text);margin-bottom:6px;}
-  .success-sub{font-family:var(--sans);font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.5;white-space:pre-line;}
-  .btn-group{display:flex;flex-direction:column;gap:8px;}
-
-  /* HISTORIAL */
-  .historial{margin-top:8px;display:flex;flex-direction:column;gap:8px;}
-  .hist-item{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 14px;}
-  .hist-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
-  .hist-tropa{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--text);}
-  .hist-total{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--green);font-variant-numeric:tabular-nums;}
-  .hist-meta{font-family:var(--sans);font-size:11px;color:var(--muted);line-height:1.5;}
-  .hist-cats{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
-  .hist-cat-chip{background:var(--cyan-soft);border:1px solid var(--cyan);border-radius:4px;padding:2px 8px;font-family:var(--mono);font-weight:500;font-size:10px;color:var(--cyan);letter-spacing:0.5px;}
-    /* FIRMA */
-    .firma-wrap{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
-    .firma-canvas{display:block;width:100%;height:160px;cursor:crosshair;touch-action:none;background:repeating-linear-gradient(0deg,#FCFCFA 0,#FCFCFA 23px,#F0EFE9 23px,#F0EFE9 24px);}
-    .firma-toolbar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--surface-2);border-top:1px solid var(--border);}
-    .firma-status{font-family:var(--mono);font-weight:500;font-size:10px;color:var(--muted);letter-spacing:0.5px;}
-    .btn-limpiar{background:transparent;border:1px solid var(--red);color:var(--red);border-radius:4px;padding:5px 10px;font-family:var(--sans);font-size:11px;font-weight:500;cursor:pointer;}
-</style>
+    /* ===== EGRESO (acento rojo de salida) ===== */
+    :root{--out:#B42318;--out-text:#912018;--out-soft:#FEF3F2;}
+    .hd{border-top:4px solid var(--out);}
+    .badge-out{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:1px;color:var(--out-text);background:var(--out-soft);border:1px solid var(--out);border-radius:6px;padding:5px 9px;}
+    .total span{color:var(--out-text);}
+    .meta-btn select{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;font-size:16px;}
+    .meta-btn.falta{border-color:var(--amber);background:var(--amber-soft);}
+    .meta-btn b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62%;}
+    .tr-list{max-height:330px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;-webkit-overflow-scrolling:touch;}
+    .tr-item{min-height:60px;width:100%;border:none;border-bottom:1px solid var(--border);background:var(--surface);padding:10px 12px;display:flex;align-items:center;gap:10px;text-align:left;}
+    .tr-item:last-child{border-bottom:none;}
+    .tr-item:active{background:var(--teal-soft);}
+    .tr-item .t{flex:1;min-width:0;}
+    .tr-item b{font-weight:600;font-size:15px;color:var(--text);display:block;overflow-wrap:anywhere;}
+    .tr-item small{font-size:12px;color:var(--muted);display:block;margin-top:2px;line-height:1.35;}
+    .tr-item .pend{font-family:var(--mono);font-weight:700;font-size:17px;color:var(--text);flex-shrink:0;text-align:right;}
+    .tr-item .pend small{font-family:var(--sans);font-weight:500;font-size:11px;margin-top:0;}
+    .tr-item.cero{background:var(--surface-2);}
+    .tr-item.cero b,.tr-item.cero .pend{color:var(--muted);}
+    .ren{border:1px solid var(--border-strong);border-radius:12px;padding:12px 8px 8px;display:flex;flex-direction:column;gap:4px;background:var(--surface-2);}
+    .ren.exc{border-color:var(--amber);background:var(--amber-soft);}
+    .ren-h{display:flex;align-items:flex-start;gap:8px;padding:0 4px 4px;}
+    .ren-h .t{flex:1;min-width:0;}
+    .ren-h b{font-weight:700;font-size:15px;display:block;overflow-wrap:anywhere;}
+    .ren-h small{font-size:12px;color:var(--muted);display:block;line-height:1.35;margin-top:2px;}
+    .ren-tot{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--out-text);padding:2px 6px 0;text-align:right;}
+    .cat-n small.over{color:var(--amber-text);font-weight:700;letter-spacing:0;}
+    .ren .inp{height:46px;font-size:15px;}
+    .tag-exc{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--amber-text);background:var(--surface);border:1px solid var(--amber);border-radius:4px;padding:1px 6px;margin-bottom:4px;}
+    .btn-link{height:44px;border-radius:10px;border:1.5px dashed var(--teal);background:var(--surface);color:var(--teal-text);font-weight:600;font-size:14px;width:100%;}
+    .btn-link.exc{border-color:var(--border-strong);color:var(--muted);font-weight:500;font-size:13px;height:40px;}
+    .ac-t{font-family:var(--mono);font-weight:600;font-size:10px;letter-spacing:1px;color:var(--muted);padding:8px 14px 4px;background:var(--surface-2);border-bottom:1px solid var(--border);}
+    .aviso{background:var(--amber-soft);border:1px solid var(--amber);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;}
+    .aviso b{font-size:14px;color:var(--amber-text);}
+    .aviso span{font-size:13px;color:var(--text-2);line-height:1.4;}
+    .h-top span{color:var(--out-text);}
+    .tag-v1{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--muted);border:1px solid var(--border-strong);border-radius:4px;padding:1px 6px;}
+    .modal{position:fixed;inset:0;background:rgba(22,22,22,.55);z-index:90;display:flex;align-items:flex-end;justify-content:center;}
+    .modal-in{background:var(--surface);border-radius:16px 16px 0 0;padding:20px 16px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:560px;display:flex;flex-direction:column;gap:12px;max-height:85vh;overflow-y:auto;}
+    .modal-in h3{font-size:18px;font-weight:700;}
+    .modal-in p{font-size:14px;color:var(--text-2);line-height:1.45;}
+    .btn-amber{height:52px;width:100%;border-radius:12px;border:none;background:var(--amber);color:#fff;font-weight:700;font-size:16px;}
+    .ok-ren{border-top:1px solid var(--border);padding-top:10px;}
+    .blk{border:1.5px solid var(--border-strong);border-radius:14px;padding:12px 8px 10px;display:flex;flex-direction:column;gap:8px;background:var(--surface-2);}
+    .blk.exc{border-color:var(--amber);background:var(--amber-soft);}
+    .blk>.ren-h b{font-size:17px;}
+    .blk .inp{height:48px;font-size:15px;}
+    .blk-tr{display:flex;flex-direction:column;gap:6px;}
+    .blk-f{display:flex;flex-direction:column;gap:6px;padding:8px 4px 0;border-top:1px solid var(--border);margin-top:2px;}
+    .tp{border:1px solid var(--border);border-radius:10px;background:var(--surface);overflow:hidden;}
+    .tp.on{border-color:var(--teal);}
+    .tp-h{min-height:54px;width:100%;border:none;background:transparent;padding:8px 10px;display:flex;align-items:center;gap:10px;text-align:left;}
+    .tp-h .chk{width:26px;height:26px;border-radius:7px;border:2px solid var(--border-strong);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;background:var(--surface);}
+    .tp.on .tp-h .chk{background:var(--teal);border-color:var(--teal);}
+    .tp-h .t{flex:1;min-width:0;}
+    .tp-h b{font-weight:700;font-size:15px;display:block;overflow-wrap:anywhere;color:var(--text);}
+    .tp-h small{font-size:12px;color:var(--muted);display:block;}
+    .tp-h .pend{font-family:var(--mono);font-weight:700;font-size:15px;text-align:right;flex-shrink:0;color:var(--text);}
+    .tp-h .pend small{font-family:var(--sans);font-weight:500;font-size:11px;}
+    .tp.on .tp-h{border-bottom:1px solid var(--border);}
+    .tp .cat{margin:2px 4px;}
+    .blk .tp .cat-n small{font-family:var(--sans);letter-spacing:0;font-size:12px;line-height:1.3;}
+    .ok-ren small{font-size:12px;color:var(--muted);display:block;}
+  </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="lf-header">
-  <div class="lf-logo">DRW</div>
-  <div class="lf-wordmark-wrap">
-    <span class="lf-wordmark">DARWASH</span>
-    <span class="lf-wordmark-sub">EGRESOS</span>
+<header class="hd">
+  <div class="hd-top">
+    <img class="hd-logo" src="drw-icon.png" alt="Darwash"/>
+    <div class="hd-title"><b>Egreso de hacienda</b><span>Remito de salida</span></div>
+    <span class="badge-out">SALIDA</span>
   </div>
-  <span class="lf-badge salida">Salida</span>
+  <div id="remate-bar"><div class="remate-loading">Cargando remate…</div></div>
+  <div class="meta-row">
+    <label class="meta-btn"><span>Fecha</span><b id="fecha-txt">--/--/----</b><input type="date" id="fecha" aria-label="Fecha de salida"/></label>
+    <label class="meta-btn falta" id="carg-wrap"><span>Quién carga</span><b id="carg-txt">Elegí</b><select id="cargador" aria-label="Quién carga" disabled><option value="">Elegí tu nombre…</option></select></label>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- 1 COMPRADORES Y TROPAS -->
+  <section class="card">
+    <div class="card-h"><span class="num">1</span><label for="cp-q">Compradores y tropas</label></div>
+    <div id="bloques" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div id="cp-box" style="display:flex;flex-direction:column;gap:8px">
+      <input class="inp" id="cp-q" type="search" placeholder="Buscá el comprador (o tropa, o corral)" autocomplete="off" autocorrect="off"/>
+      <div class="msg hint" id="cp-msg">Cargando compradores…</div>
+      <div class="tr-list hidden" id="cp-list"></div>
+    </div>
+    <button type="button" class="btn-link hidden" id="cp-mas">+ Agregar otro comprador al mismo camión</button>
+    <button type="button" class="btn-link exc" id="cp-exc">Sale hacienda que no está en el remate (excepción)</button>
+    <div class="total"><b>Total cabezas</b><span id="total">0</span></div>
+  </section>
+
+  <!-- 2 TRANSPORTE -->
+  <section class="card">
+    <div class="card-h"><span class="num">2</span><label for="transp">Transporte</label></div>
+    <label class="check" id="propio-wrap">
+      <input type="checkbox" id="propio"/>
+      <span><b>Retira el comprador</b><small>Transporte propio, sin fletero</small></span>
+    </label>
+    <div id="transp-box" style="display:flex;flex-direction:column;gap:10px">
+      <div class="ac">
+        <input class="inp" id="transp" type="text" placeholder="Buscá el transportista" autocomplete="off" autocorrect="off"/>
+        <div class="ac-list hidden" id="transp-list"></div>
+      </div>
+      <div class="msg hint" id="transp-msg">Si no está, lo das de alta desde la lista</div>
+      <div class="tel-box hidden" id="tel-show">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B6B42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg>
+        <span class="t"><small>WhatsApp del transportista</small><b id="tel-txt"></b></span>
+        <button type="button" class="btn-sm" id="tel-edit">Cambiar</button>
+      </div>
+      <div class="hidden" id="tel-form" style="display:flex;flex-direction:column;gap:6px">
+        <label class="sub-label" for="tel">WhatsApp del transportista (opcional)</label>
+        <div class="tel-in"><span class="tel-pre">+54 9</span><input class="inp mono" id="tel" type="tel" inputmode="numeric" placeholder="358 4123456"/></div>
+        <div class="msg hint" id="tel-msg">Código de área sin 0 y número sin 15. Queda guardado para los próximos viajes.</div>
+      </div>
+      <label class="sub-label" for="patente">Patente</label>
+      <input class="inp mono" id="patente" type="text" placeholder="AE874LP" autocomplete="off" autocorrect="off" style="text-transform:uppercase"/>
+      <div class="chips hidden" id="pat-chips"></div>
+    </div>
+  </section>
+
+  <!-- 3 FIRMA -->
+  <section class="card">
+    <div class="card-h"><span class="num">3</span><span class="h">Firma del transportista</span><button type="button" class="btn-sm" id="firma-clear">Limpiar</button></div>
+    <canvas class="firma" id="firma" aria-label="Área para firmar"></canvas>
+    <div class="firma-st" id="firma-st">Firmá con el dedo</div>
+  </section>
+
+  <!-- 4 FOTOS + OBS -->
+  <section class="card">
+    <div class="card-h"><span class="num">4</span><span class="h">Fotos y observaciones</span></div>
+    <div class="fotos" id="fotos"></div>
+    <div class="msg hint">Se achican antes de subir: cargan rápido aunque haya poca señal.</div>
+    <input type="file" id="foto-in" accept="image/*" capture="environment" class="hidden"/>
+    <label class="sub-label" for="obs">Observaciones</label>
+    <textarea class="inp" id="obs" placeholder="Estado de la hacienda, incidencias…"></textarea>
+  </section>
+
+  <div class="sec-t">SALIDAS DEL REMATE</div>
+  <div class="hist" id="hist"><div class="empty">Cargando…</div></div>
+</main>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="bar-falta" id="falta"></div>
+    <button type="button" class="btn-main" id="btn-save" disabled>Guardar egreso · 0 cab</button>
+  </div>
 </div>
 
-<!-- MAIN -->
-<div class="lf-main" id="main-form">
 
-  <!-- REMATE — header fijo desde URL (lo carga cargarRemate) -->
-  <div class="remate-bar" id="remate-bar">
-    <div class="remate-loading">Cargando remate…</div>
-  </div>
-  <input type="hidden" id="sel-remate" value=""/>
 
-  <!-- QUIÉN CARGA — lista servida por cargadores_para_egreso(token) -->
-  <div class="lf-field">
-    <label class="lf-field-label">Quién carga</label>
-    <select class="lf-input" id="sel-cargador" disabled><option value="">Cargando…</option></select>
-  </div>
-
-  <!-- DATOS DEL EGRESO -->
-  <div class="lf-section-label">Datos del egreso</div>
-
-  <div class="lf-row-2">
-    <div class="lf-field">
-      <label class="lf-field-label">Fecha</label>
-      <input class="lf-input" id="inp-fecha" type="date"/>
+<!-- EXITO -->
+<div class="ok-ov hidden" id="ok">
+  <div class="ok-in">
+    <img class="ok-logo" src="drw-logo-full.png" alt="Darwash, negocios ganaderos"/>
+    <div class="ok-head">
+      <div class="ok-ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></div>
+      <b>Egreso registrado</b>
+      <span id="ok-nro"></span>
     </div>
-    <div class="lf-field">
-      <label class="lf-field-label">N° tropa</label>
-      <input class="lf-input" id="inp-tropa" type="text" placeholder="Tropa" autocorrect="off"/>
-    </div>
-  </div>
 
-  <div class="lf-field">
-    <label class="lf-field-label">N° DTE / Guía</label>
-    <input class="lf-input" id="inp-dte" type="text" placeholder="031889" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocorrect="off" spellcheck="false"/>
-  </div>
 
-  <div class="lf-field">
-    <label class="lf-field-label">Destino</label>
-    <input class="lf-input" id="inp-destino" type="text" placeholder="Establecimiento o frigorífico de destino" autocorrect="off"/>
-  </div>
-
-  <!-- TRANSPORTE -->
-  <div class="lf-section-label">Transporte</div>
-
-  <div class="lf-field">
-    <label class="lf-field-label">Transportista</label>
-    <input class="lf-input" id="inp-transportista" type="text" placeholder="Nombre del transportista" autocorrect="off"/>
-  </div>
-
-  <div class="lf-field">
-    <label class="lf-field-label">Patente camión</label>
-    <input class="lf-input uppercase" id="inp-patente" type="text" placeholder="AE874LP" autocomplete="off" autocorrect="off"/>
-  </div>
-
-  <!-- DETALLE POR CATEGORÍA -->
-  <div class="lf-section-label">Detalle por categoría</div>
-  <div class="cat-grid" id="cat-grid"></div>
-
-  <!-- TOTAL -->
-  <div class="total-card">
-    <div class="total-info">
-      <div class="total-label">Total cabezas</div>
-      <div class="total-sub">Sumatoria de categorías</div>
-    </div>
-    <div class="total-num" id="total-num">0</div>
-  </div>
-
-  <!-- FIRMA -->
-  <div class="lf-section-label">Firma del transportista</div>
-  <div class="firma-wrap">
-    <canvas id="firma-canvas" class="firma-canvas"></canvas>
-    <div class="firma-toolbar">
-      <span class="firma-status" id="firma-status">Firmá con el dedo</span>
-      <button class="btn-limpiar" onclick="limpiarFirma()">Limpiar</button>
-    </div>
-  </div>
-
-  <!-- FOTOS -->
-  <div class="lf-section-label">Fotos de respaldo</div>
-  <div class="foto-grid" id="foto-grid"></div>
-  <div class="foto-counter" id="foto-counter">0 fotos seleccionadas</div>
-  <input type="file" id="foto-input" accept="image/*" capture="environment" style="display:none" onchange="onFotoSeleccionada(this)"/>
-
-  <!-- OBSERVACIONES -->
-  <div class="lf-section-label">Observaciones</div>
-  <div class="lf-field">
-    <textarea class="lf-textarea" id="inp-obs" placeholder="Observaciones (opcional)…"></textarea>
-  </div>
-
-  <!-- ACCIONES -->
-  <button class="lf-btn btn-save btn-guardar" onclick="guardar()">Guardar egreso</button>
-
-  <div class="lf-actions-secondary">
-    <button class="lf-btn btn-pdf" id="btn-pdf" onclick="generarPDF()" disabled>Remito PDF</button>
-    <button class="lf-btn btn-wsp" id="btn-wa" onclick="compartirWA()" disabled>Compartir por WhatsApp</button>
-    <button class="lf-btn btn-nuevo" onclick="nuevoRegistro()">+ Nuevo egreso</button>
-  </div>
-
-  <!-- HISTORIAL -->
-  <div class="lf-section-label">Registros de esta sesión</div>
-  <div class="historial" id="historial"></div>
-</div>
-
-<!-- SUCCESS OVERLAY -->
-<div class="success-overlay" id="success-overlay">
-  <div class="success-card">
-    <div class="success-icon">✓</div>
-    <div class="success-title">¡Egreso registrado!</div>
-    <div class="success-sub" id="success-sub"></div>
-    <div class="btn-group">
-      <button class="lf-btn btn-pdf" id="suc-pdf" onclick="generarPDF()">Remito PDF</button>
-      <button class="lf-btn btn-wsp" id="suc-wa" onclick="compartirWA()">Compartir por WhatsApp</button>
-      <button class="lf-btn btn-nuevo" onclick="nuevoRegistro()">+ Nuevo egreso</button>
+    <div class="card"><div class="sum" id="ok-sum"></div></div>
+    <div class="st-list" id="ok-st"></div>
+    <div style="flex:1"></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button type="button" class="btn-wa" id="btn-grupo"><b>Compartir en el grupo de descargas</b><small>Abre WhatsApp para elegir el grupo</small></button>
+      <button type="button" class="btn-out" id="btn-wa" style="height:auto;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 12px;border-color:var(--green);color:var(--green-text)"><b id="wa-t" style="font-size:16px">Mandar remito al transportista</b><small id="wa-s" style="font-size:12px;font-weight:500"></small></button>
+      <button type="button" class="btn-out" id="btn-pdf">Descargar PDF</button>
+      <button type="button" class="btn-main" id="btn-new" disabled>+ Nuevo egreso</button>
+      <div class="ok-note" id="new-note">«Nuevo egreso» se habilita cuando el PDF quedó guardado</div>
     </div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// CONFIG
-// ══════════════════════════════════════════
-const SUPABASE_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
-const SUPABASE_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
+const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+const GH_USER='darwashsa-ux';
+const GH_REPO='darwash-dte';
 // Token del link (egreso.html?remate=…&t=…). Sin token válido no se carga nada.
 const TOKEN=new URLSearchParams(location.search).get('t')||'';
+const SIG=[['NOV','Novillo'],['VQ','Vaquillona'],['VA','Vaca'],['TORO','Toro'],['MEJ','Torito/MEJ'],['TM','Ternero'],['TH','Ternera']];
+const SIGN=Object.fromEntries(SIG);
+const H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
+const ICON={
+  ok:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>',
+  err:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5"></path><path d="M12 16.5v.5"></path></svg>',
+  warn:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 20h20z"></path><path d="M12 10v4"></path><path d="M12 17v.5"></path></svg>'
+};
 
-// Llama a una función de Supabase. Devuelve siempre {ok:…}: un error HTTP
-// o de red NUNCA se muestra como "guardado".
+const S={remate:'',remateAlias:'',tokenOk:false,comps:[],destComp:{},tropasErr:'',tropasListas:false,sal:[],verLista:true,
+  destMas:[],transps:[],viajes:{},transp:null,transpNuevo:null,telEditando:false,
+  fotos:[],firmaVacia:true,guardando:false,err:''};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
+const pad=n=>String(n).padStart(2,'0');
+function setMsg(el,tipo,txt){const k=[...el.classList].filter(c=>c.indexOf('b-')===0).join(' ');el.className='msg '+tipo+(k?' '+k:'');el.innerHTML=(ICON[tipo]||'')+'<span>'+esc(txt)+'</span>';}
+
+/* ---------- RPC ---------- */
+// Devuelve siempre {ok:…}: un error HTTP o de red NUNCA se muestra como "guardado".
 async function rpc(fn,args){
   try{
-    const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+fn,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
-      body:JSON.stringify(args)
-    });
-    let data=null; try{data=await res.json();}catch(_){}
+    const res=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify(args)});
+    let data=null;try{data=await res.json();}catch(_){}
     if(!res.ok) return {ok:false,error:'http_'+res.status};
     return (data&&typeof data==='object')?data:{ok:false,error:'respuesta_vacia'};
-  }catch(e){ return {ok:false,error:'red'}; }
+  }catch(e){return {ok:false,error:'red'};}
 }
 const MSG_ERROR={
   token_invalido:'Este link venció o no es válido. Pedí un link nuevo a Darwash.',
@@ -290,641 +399,881 @@ const MSG_ERROR={
   limite:'Se alcanzó el máximo de remitos por hora para este link. Avisá a Darwash.',
   remate_invalido:'El remate del link no es válido. Pedí un link nuevo.',
   cargador_invalido:'Elegí quién carga.',
-  tropa_requerida:'Ingresá el nombre de la tropa.',
   fecha_invalida:'La fecha no es válida (hasta 30 días atrás o 2 adelante).',
   categorias_invalidas:'Revisá las cantidades por categoría.',
-  sin_cabezas:'Ingresá al menos una categoría con cantidad.',
-  cabezas_excesivas:'Más de 400 cabezas en un remito: revisá las cantidades.',
-  dte_formato:'El N° de DTE no tiene el formato correcto (ej. 032561004-2).',
+  sin_cabezas:'Hay una tropa sin cabezas cargadas: completala o destildala.',
+  salidas_invalidas:'Hay un problema con los compradores cargados. Quitalos y volvé a elegirlos.',
+  dte_repetido:'El mismo DTE está en dos compradores: cada comprador tiene el suyo.',
+  cabezas_excesivas:'Más de 400 cabezas para un comprador: revisá las cantidades o partilo en dos remitos.',
+  dte_formato:'El N° de DTE no tiene el formato correcto (ej. 032838707-7).',
+  dte_verificador:'El dígito verificador del DTE no coincide. Revisá el número o dejalo vacío.',
   texto_largo:'Algún campo es demasiado largo.',
-  red:'Sin conexión. No se guardó: reintentá.',
+  destino_requerido:'Falta el destino: elegilo de la lista o cargalo como «Otro destino».',
+  destino_invalido:'Ese destino ya no está en la lista. Buscalo de nuevo o cargalo como «Otro destino».',
+  renglones_invalidos:'Hay un problema con las tropas cargadas. Quitalas y volvé a elegirlas.',
+  lotes_invalidos:'Una tropa cambió en el remate mientras cargabas (lote anulado o movido). Quitala y volvé a elegirla.',
+  categoria_no_esta:'Esa tropa no tiene esa categoría.',
+  sin_lote_descripcion:'Describí la hacienda que sale fuera del remate.',
+  transportista_invalido:'Ese transportista ya no está en la base. Elegilo de nuevo.',
+  red:'Sin conexión. No se guardó: reintentá.'
 };
-function msgError(r){return MSG_ERROR[r&&r.error]||('No se pudo guardar ('+((r&&r.error)||'error')+'). Reintentá o avisá a Darwash.');}
-
-const CATS=[
-  {id:'novillo',label:'Novillo',code:'NOV'},
-  {id:'vaquillona',label:'Vaquillona',code:'VQ'},
-  {id:'vaca',label:'Vaca',code:'VA'},
-  {id:'ternero',label:'Ternero',code:'TER'},
-  {id:'ternera',label:'Ternera',code:'TRA'},
-  {id:'toro',label:'Toro',code:'TORO'},
-  {id:'torito',label:'Torito/MEJ',code:'MEJ'},
-];
-
-const FOTO_SLOTS=[
-  {id:'hacienda',icon:'🐄',label:'Hacienda'},
-  {id:'dte',icon:'📄',label:'DTE / Doc.'},
-  {id:'camion',icon:'🚛',label:'Camión'},
-];
-
-let ultimoRegistro=null;
-let nroRemito=Date.now();
-let sesionRegistros=[];
-let firmaDataURL=null;
-let fotoFiles={};
-let slotActivo=null;
-
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
-async function init(){
-  renderCatGrid();
-  initFotos();
-  initFirma();
-  await cargarRemate();
-  // Fecha hoy
-  const hoy=new Date();
-  document.getElementById('inp-fecha').value=hoy.toISOString().split('T')[0];
-  renderHistorial();
+function msgError(r){
+  let m=MSG_ERROR[r&&r.error]||('No se pudo guardar ('+((r&&r.error)||'error')+'). Reintentá o avisá a Darwash.');
+  if(r&&r.error==='categoria_no_esta'&&r.sigla) m='La tropa no tiene '+(SIGN[r.sigla]||r.sigla)+'. Quitá esa categoría.';
+  const x=r&&r.salida?S.sal[r.salida-1]:null;
+  if(x) m+=' ('+nombreSal(x)+')';
+  return m;
 }
 
-// ══════════════════════════════════════════
-// CATEGORIAS
-// ══════════════════════════════════════════
-function renderCatGrid(){
-  const g=document.getElementById('cat-grid');
-  g.innerHTML=CATS.map(c=>`
-    <div class="cat-card">
-      <div class="cat-code">${c.code||c.id.toUpperCase().slice(0,3)}</div>
-      <div class="cat-name">${c.label}</div>
-      <input class="cat-input" type="number" inputmode="numeric" pattern="[0-9]*" min="0" id="cat-${c.id}" value="" placeholder="0" oninput="this.closest('.cat-card').classList.toggle('active',Number(this.value)>0);recalcTotal()"/>
-    </div>`).join('');
+/* ---------- DTE (opcional) ---------- */
+function dteDigits(v){return String(v||'').replace(/\D/g,'').slice(0,10);}
+function dteFmt(d){return d.length>9?d.slice(0,9)+'-'+d.slice(9):d;}
+function validarDTE(d){
+  if(!d.length) return {st:'vacio',msg:'Si todavía no lo tenés, dejalo vacío: se ata después.'};
+  if(d.length<10){const f=10-d.length;return {st:'corto',msg:'Falta'+(f>1?'n ':' ')+f+' dígito'+(f>1?'s':'')+' (o borralo para cargar sin DTE)'};}
+  const w=[2,3,4,5,6,7];let s=0;
+  for(let i=0;i<9;i++) s+=Number(d[8-i])*w[i%6];
+  let r=11-(s%11); if(r===11) r=0; else if(r===10) r=5;
+  if(r!==Number(d[9])) return {st:'dv',msg:'Dígito verificador incorrecto, revisá el número'};
+  return {st:'ok',msg:'DTE válido'};
 }
 
-function recalcTotal(){
-  let t=0;
-  CATS.forEach(c=>{const v=parseInt(document.getElementById('cat-'+c.id).value)||0;t+=v;});
-  document.getElementById('total-num').textContent=t;
-}
 
-function getCats(){
-  const obj={};
-  CATS.forEach(c=>{const v=parseInt(document.getElementById('cat-'+c.id).value)||0;if(v>0)obj[c.id]=v;});
-  return obj;
-}
-
-// ══════════════════════════════════════════
-// REMATES
-// ══════════════════════════════════════════
-async function cargarRemate(){
-  const cont=document.getElementById('remate-bar');
-  const sel=document.getElementById('sel-remate');
-  const btnSave=document.querySelector('.btn-guardar');
-  const showError=(msg)=>{
-    cont.innerHTML='<div class="remate-empty">'+msg+'</div>';
-    sel.value='';
-    btnSave.disabled=true;
-    const selC=document.getElementById('sel-cargador');
-    selC.innerHTML='<option value="">—</option>';
-    selC.disabled=true;
+/* ---------- AUTOCOMPLETE genérico ---------- */
+function autocomplete(inp,list,{buscar,render,elegir,extra}){
+  let items=[];
+  const cerrar=()=>{list.classList.add('hidden');list.innerHTML='';};
+  const abrir=()=>{
+    const q=norm(inp.value);
+    items=q.length<2?[]:buscar(q);
+    const ex=extra?extra(inp.value.trim(),items):null;
+    if(!items.length&&!ex){cerrar();return;}
+    list.innerHTML=items.map((it,i)=>'<button type="button" class="ac-item" data-i="'+i+'">'+render(it)+'</button>').join('')+(ex?'<button type="button" class="ac-item new" data-new="1">'+ex+'</button>':'');
+    list.classList.remove('hidden');
   };
+  inp.addEventListener('input',abrir);
+  inp.addEventListener('focus',abrir);
+  inp.addEventListener('blur',()=>setTimeout(cerrar,180));
+  inp.addEventListener('keydown',e=>{if(e.key==='Escape')cerrar();});
+  list.addEventListener('mousedown',e=>e.preventDefault());
+  list.addEventListener('click',e=>{
+    const b=e.target.closest('.ac-item');if(!b)return;
+    if(b.dataset.new) elegir(null,inp.value.trim()); else elegir(items[Number(b.dataset.i)]);
+    cerrar();
+  });
+}
 
-  // 1. Leer ?remate=CODIGO de la URL
-  const codigo=new URLSearchParams(location.search).get('remate');
-  if(!codigo){
-    showError('⚠ Link inválido. Pedí un link nuevo a Darwash.');
-    return;
+/* ---------- COMPRADORES Y TROPAS ---------- */
+let UID=0;
+function corralesTxt(t){
+  const c=t.corrales||[];if(!c.length) return '';
+  return (c.length>1?'Corrales ':'Corral ')+c.slice(0,6).join(', ')+(c.length>6?' +'+(c.length-6):'');
+}
+function conNombre(t){return !!(t.tropa&&t.tropa!=='Sin nombre');}
+function nombreTropa(t,comp){return conNombre(t)?t.tropa:(comp.tropas.length>1?'Sin nombre de tropa':'Tropa única');}
+function etiqueta(t){return ((conNombre(t)?t.tropa+' · ':'')+(t.comprador||'Sin comprador')).slice(0,120);}
+function nombreSal(x){return x.exc?(x.desc.trim()||'Fuera del remate'):x.comp.nombre;}
+function cabDe(c){return Object.values(c||{}).reduce((a,b)=>a+(b||0),0);}
+function cabSal(x){return x.exc?cabDe(x.cats):Object.values(x.sel).reduce((a,c)=>a+cabDe(c),0);}
+function totalCab(){return S.sal.reduce((a,x)=>a+cabSal(x),0);}
+function sigsDe(t){return SIG.map(s=>s[0]).filter(s=>t.cabezas&&t.cabezas[s]!=null);}
+// La referencia es una alerta: nunca frena la carga. Con seres vivos puede pasar cualquier cosa.
+function refTxt(s,n,p){
+  if(p==null) return {txt:s,over:false};
+  if(p<=0) return {txt:'Ya salió todo'+(n>0?' · '+n+' de más':''),over:n>0};
+  const d=n-p;
+  return {txt:'Deberían ser '+p+(n>0&&d!==0?' · '+Math.abs(d)+(d<0?' de menos':' de más'):''),over:n>0&&d!==0};
+}
+function filaCat(s,n,p,attrs){
+  const r=refTxt(s,n,p);
+  return '<div class="cat'+(n>0?' on':'')+'">'+
+    '<div class="cat-n"><b>'+SIGN[s]+'</b><small'+(r.over?' class="over"':'')+'>'+esc(r.txt)+'</small></div>'+
+    '<button type="button" class="step" '+attrs+' data-s="'+s+'" data-d="-1" aria-label="Restar '+SIGN[s]+'">−</button>'+
+    '<input class="cat-v" type="number" inputmode="numeric" min="0" '+attrs+' data-s="'+s+'" value="'+(n||'')+'" placeholder="0" aria-label="Cabezas de '+SIGN[s]+'"/>'+
+    '<button type="button" class="step plus" '+attrs+' data-s="'+s+'" data-d="1" aria-label="Sumar '+SIGN[s]+'">+</button>'+
+  '</div>';
+}
+async function cargarTropas(){
+  const r=await rpc('tropas_para_egreso',{p_token:TOKEN,p_remate:S.remate,p_q:null});
+  S.tropasListas=true;
+  if(!r.ok){
+    S.comps=[];
+    S.tropasErr=r.error==='token_invalido'?'Este link no tiene permiso para ver las tropas del remate. Avisá a Darwash.':(r.error==='red'?'Sin conexión: no se pudieron traer los compradores.':msgError(r));
+  }else{
+    S.tropasErr='';S.destComp=r.destinos_comprador||{};
+    const m=new Map();
+    (r.tropas||[]).filter(t=>t&&Array.isArray(t.lotes)&&t.lotes.length).forEach(t=>{
+      const g=t.grupo||('C:'+(t.cuenta||'')+'|'+(t.comprador||''));
+      if(!m.has(g)) m.set(g,{g,nombre:t.comprador||'Sin comprador',cuenta:t.cuenta||null,tropas:[],pend:0});
+      const c=m.get(g);c.tropas.push({...t,key:t.lotes[0]+':'+t.lotes.length});c.pend+=Math.max(0,Number(t.total_pendiente)||0);
+    });
+    S.comps=[...m.values()].map(c=>{
+      const ferias=[...new Set(c.tropas.map(t=>t.comprador_feria).filter(f=>f&&norm(f)!==norm(c.nombre)))];
+      c.tropas.sort((a,b)=>(conNombre(b)-conNombre(a))||String(a.tropa).localeCompare(String(b.tropa),'es',{numeric:true}));
+      return {...c,ferias,_n:norm([c.nombre,ferias.join(' '),c.tropas.map(t=>t.tropa+' '+(t.corrales||[]).map(x=>'corral '+x).join(' ')).join(' ')].join(' '))};
+    }).sort((a,b)=>((b.pend>0)-(a.pend>0))||a.nombre.localeCompare(b.nombre,'es'));
   }
-  if(!TOKEN){
-    showError('⚠ Este link no tiene clave de carga. Pedí un link nuevo a Darwash.');
-    return;
-  }
+  renderComps();
+}
+function renderLista(){
+  const list=$('cp-list'),m=$('cp-msg'),q=norm($('cp-q').value);
+  if(!S.tropasListas){setMsg(m,'hint','Cargando compradores…');list.classList.add('hidden');return;}
+  if(S.tropasErr){m.className='msg err';m.innerHTML=ICON.err+'<span>'+esc(S.tropasErr)+' <button type="button" class="btn-sm" id="cp-retry" style="margin-left:6px">Reintentar</button></span>';list.classList.add('hidden');return;}
+  if(!S.comps.length){setMsg(m,'warn','Este remate todavía no tiene lotes con comprador. Si igual sale hacienda, usá la excepción de abajo.');list.classList.add('hidden');return;}
+  const usados=new Set(S.sal.filter(x=>!x.exc).map(x=>x.comp.g));
+  const libres=S.comps.filter(c=>!usados.has(c.g));
+  const items=q?libres.filter(c=>q.split(' ').every(p=>c._n.includes(p))):libres;
+  if(!items.length){setMsg(m,'warn',q?'Ningún comprador coincide con «'+$('cp-q').value.trim()+'»':'Ya agregaste todos los compradores del remate');list.classList.add('hidden');return;}
+  setMsg(m,'hint',items.length+' comprador'+(items.length>1?'es':'')+' · '+items.filter(c=>c.pend>0).length+' con hacienda pendiente');
+  list.innerHTML=items.map(c=>{
+    const cero=!(c.pend>0),nom=c.tropas.filter(conNombre).map(t=>t.tropa);
+    const sub=[c.tropas.length>1?c.tropas.length+' tropas'+(nom.length?': '+nom.slice(0,4).join(', ')+(nom.length>4?'…':''):''):(nom.length?'Tropa '+nom[0]:'1 tropa'),c.ferias.slice(0,2).join(', ')].filter(Boolean).join(' · ');
+    return '<button type="button" class="tr-item'+(cero?' cero':'')+'" data-g="'+esc(c.g)+'"><span class="t"><b>'+esc(c.nombre)+'</b><small>'+esc(sub)+'</small></span>'+
+      '<span class="pend">'+(cero?'0':esc(c.pend))+'<small>'+(cero?'ya salió':'pendientes')+'</small></span></button>';
+  }).join('');
+  list.classList.remove('hidden');
+}
+function pintaTotales(){
+  S.sal.forEach(x=>{const e=x.el.querySelector('.ren-tot');if(e)e.textContent=cabSal(x)+' cab';});
+  $('total').textContent=totalCab();renderBar();
+}
+function pintarTropas(x){
+  const box=x.el.querySelector('.blk-tr');
+  if(x.exc){box.innerHTML=SIG.map(([s])=>filaCat(s,x.cats[s]||0,null,'data-k=""')).join('');return;}
+  box.innerHTML=x.comp.tropas.map(t=>{
+    const on=!!x.sel[t.key],cero=!(t.total_pendiente>0);
+    return '<div class="tp'+(on?' on':'')+'"><button type="button" class="tp-h" data-tk="'+esc(t.key)+'" aria-pressed="'+on+'">'+
+      '<span class="chk" aria-hidden="true">'+(on?ICON.ok:'')+'</span>'+
+      '<span class="t"><b>'+esc(nombreTropa(t,x.comp))+'</b><small>'+esc([corralesTxt(t),conNombre(t)?'':t.comprador_feria&&x.comp.ferias.length>1?t.comprador_feria:''].filter(Boolean).join(' · ')||'—')+'</small></span>'+
+      '<span class="pend">'+(cero?'0':esc(t.total_pendiente))+'<small>'+(cero?'ya salió':'pendientes')+'</small></span></button>'+
+      (on?sigsDe(t).map(s=>filaCat(s,x.sel[t.key][s]||0,Number((t.pendiente||{})[s]||0),'data-k="'+esc(t.key)+'"')).join(''):'')+'</div>';
+  }).join('');
+}
+function catsDe(x,k){return x.exc?x.cats:x.sel[k];}
+function pendDe(x,k,s){if(x.exc)return null;const t=x.comp.tropas.find(z=>z.key===k);return t?Number((t.pendiente||{})[s]||0):null;}
+function renderDestBlk(x){
+  const inp=x.el.querySelector('.b-dest'),m=x.el.querySelector('.b-dest-msg');
+  inp.classList.remove('ok','warn');
+  if(x.dest){inp.classList.add('ok');setMsg(m,'ok',[x.dest.tipo==='frigorifico'?'Frigorífico':'Campo',x.dest.renspa,x.dest.localidad].filter(Boolean).join(' · '));}
+  else if(x.destOtro){inp.classList.add('warn');setMsg(m,'warn','Otro destino: queda como texto, sin RENSPA. Si está en la lista, elegilo.');}
+  else if(inp.value.trim().length>=2) setMsg(m,'warn','Elegilo de la lista o tocá «Otro destino»');
+  else setMsg(m,'hint','Elegilo de la lista para que quede con RENSPA');
+  renderBar();
+}
+function renderDteBlk(x){
+  const inp=x.el.querySelector('.b-dte'),m=x.el.querySelector('.b-dte-msg'),v=validarDTE(dteDigits(x.dte));
+  inp.classList.remove('ok','err');
+  if(v.st==='ok'){
+    const rep=S.sal.some(o=>o!==x&&dteDigits(o.dte)===dteDigits(x.dte));
+    if(rep){inp.classList.add('err');setMsg(m,'err','Ese DTE ya está en otro comprador de este remito: cada comprador tiene el suyo');}
+    else{inp.classList.add('ok');setMsg(m,'ok',v.msg);}
+  }else if(v.st==='vacio') setMsg(m,'hint',v.msg);
+  else{inp.classList.add('err');setMsg(m,'err',v.msg);}
+  renderBar();
+}
+function bindDestino(x){
+  const inp=x.el.querySelector('.b-dest'),list=x.el.querySelector('.b-dest-list');
+  let items=[],tmr=null,seq=0;
+  const item=(d,i)=>'<button type="button" class="ac-item" data-i="'+i+'"><span><b>'+esc(d.nombre)+'</b><small>'+esc([d.renspa,d.localidad].filter(Boolean).join(' · ')||'—')+'</small></span><span class="cnt">'+(d.tipo==='frigorifico'?'Frigorífico':'Campo')+'</span></button>';
+  const cerrar=()=>{list.classList.add('hidden');list.innerHTML='';};
+  const pintar=grupos=>{
+    if(document.activeElement!==inp) return;
+    items=[];let h='';
+    grupos.forEach(([tit,arr])=>{if(!arr.length)return;if(tit)h+='<div class="ac-t">'+tit+'</div>';arr.forEach(d=>{h+=item(d,items.length);items.push(d);});});
+    const txt=inp.value.trim();
+    if(txt.length>=3) h+='<button type="button" class="ac-item new" data-new="1">Otro destino: guardar «'+esc(txt)+'» como texto</button>';
+    if(!h){cerrar();return;}
+    list.innerHTML=h;list.classList.remove('hidden');
+  };
+  const propios=()=>{
+    const seen=new Set();
+    return (x.exc||!x.comp.cuenta?[]:(S.destComp[x.comp.cuenta]||[])).filter(d=>d&&d.establecimiento&&!seen.has(d.establecimiento)&&seen.add(d.establecimiento)).slice(0,8);
+  };
+  const abrir=()=>{
+    const q=inp.value.trim();const my=++seq;clearTimeout(tmr);
+    if(q.length<2){const p=propios(),ids=new Set(p.map(d=>d.establecimiento));pintar([['A NOMBRE DE ESTE COMPRADOR',p],['MÁS USADOS',S.destMas.filter(d=>!ids.has(d.establecimiento))]]);return;}
+    tmr=setTimeout(async()=>{
+      const r=await rpc('destinos_para_egreso',{p_token:TOKEN,p_q:q});
+      if(my!==seq) return;
+      const nq=norm(q),p=propios().filter(d=>norm(d.nombre+' '+(d.localidad||'')).includes(nq)),ids=new Set(p.map(d=>d.establecimiento));
+      pintar([[p.length?'A NOMBRE DE ESTE COMPRADOR':'',p],[p.length?'OTROS':'',(r.ok?(r.resultados||[]):[]).filter(d=>!ids.has(d.establecimiento))]]);
+    },250);
+  };
+  inp.addEventListener('input',()=>{
+    if(x.dest&&inp.value!==x.dest.nombre) x.dest=null;
+    if(x.destOtro&&inp.value.trim()!==x.destOtro) x.destOtro=null;
+    renderDestBlk(x);abrir();
+  });
+  inp.addEventListener('focus',abrir);
+  inp.addEventListener('blur',()=>setTimeout(()=>{seq++;cerrar();},180));
+  inp.addEventListener('keydown',e=>{if(e.key==='Escape')cerrar();});
+  list.addEventListener('mousedown',e=>e.preventDefault());
+  list.addEventListener('click',e=>{
+    const b=e.target.closest('.ac-item');if(!b)return;
+    if(b.dataset.new){x.dest=null;x.destOtro=inp.value.trim();}
+    else{x.dest=items[Number(b.dataset.i)];x.destOtro=null;inp.value=x.dest.nombre;}
+    seq++;cerrar();inp.blur();renderDestBlk(x);
+  });
+}
+function crearBloque(x){
+  const el=document.createElement('div');x.el=el;x.id=++UID;
+  el.className='blk'+(x.exc?' exc':'');
+  const head=x.exc
+    ?'<div class="t"><span class="tag-exc">EXCEPCIÓN · FUERA DEL REMATE</span><input class="inp b-desc" type="text" maxlength="120" placeholder="¿Qué sale y de quién? Ej.: devolución de Pérez" aria-label="Descripción de la hacienda fuera del remate"/></div>'
+    :'<div class="t"><b>'+esc(x.comp.nombre)+'</b>'+(x.comp.ferias.length?'<small>'+esc(x.comp.ferias.slice(0,3).join(', '))+'</small>':'')+'</div>';
+  el.innerHTML='<div class="ren-h">'+head+'<button type="button" class="btn-sm b-quitar">Quitar</button></div>'+
+    (x.exc?'':'<div class="sub-label" style="margin:0 4px">'+(x.comp.tropas.length>1?'Tildá las tropas que suben al camión':'Hacienda que sube al camión')+'</div>')+
+    '<div class="blk-tr"></div>'+
+    '<div class="blk-f"><label class="sub-label" for="bd'+x.id+'">Destino'+(x.exc?'':' de '+esc(x.comp.nombre))+'</label>'+
+    '<div class="ac"><input class="inp b-dest" id="bd'+x.id+'" type="text" placeholder="Buscá por nombre, localidad o RENSPA" autocomplete="off" autocorrect="off"/><div class="ac-list b-dest-list hidden"></div></div>'+
+    '<div class="msg hint b-dest-msg"></div>'+
+    '<label class="sub-label" for="bt'+x.id+'">N° de DTE <span style="font-weight:500;color:var(--muted)">(opcional)</span></label>'+
+    '<input class="inp mono b-dte" id="bt'+x.id+'" type="text" inputmode="numeric" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="032838707-7"/>'+
+    '<div class="msg hint b-dte-msg"></div></div>'+
+    '<div class="ren-tot">0 cab</div>';
+  el.querySelector('.b-quitar').setAttribute('aria-label','Quitar '+nombreSal(x));
+  el.querySelector('.b-quitar').addEventListener('click',()=>{S.sal=S.sal.filter(o=>o!==x);el.remove();S.sal.forEach(renderDteBlk);renderComps();});
+  if(x.exc) el.querySelector('.b-desc').addEventListener('input',e=>{x.desc=e.target.value;renderBar();});
+  const tr=el.querySelector('.blk-tr');
+  tr.addEventListener('click',e=>{
+    const h=e.target.closest('.tp-h');
+    if(h){const k=h.dataset.tk;if(x.sel[k])delete x.sel[k];else x.sel[k]={};pintarTropas(x);pintaTotales();return;}
+    const b=e.target.closest('.step');if(!b)return;
+    const c=catsDe(x,b.dataset.k);if(!c)return;
+    c[b.dataset.s]=Math.max(0,(c[b.dataset.s]||0)+Number(b.dataset.d));pintarTropas(x);pintaTotales();
+  });
+  tr.addEventListener('input',e=>{
+    const i=e.target.closest('.cat-v');if(!i)return;
+    const c=catsDe(x,i.dataset.k);if(!c)return;
+    const s=i.dataset.s,n=Math.max(0,parseInt(i.value||'0',10)||0);c[s]=n;
+    const row=i.closest('.cat'),r=refTxt(s,n,pendDe(x,i.dataset.k,s)),sm=row.querySelector('small');
+    row.classList.toggle('on',n>0);sm.textContent=r.txt;sm.classList.toggle('over',r.over);
+    pintaTotales();
+  });
+  // Al salir del campo solo se normaliza el número: re-dibujar acá le sacaría el foco al campo que se acaba de tocar
+  tr.addEventListener('change',e=>{const i=e.target.closest('.cat-v');if(!i)return;const c=catsDe(x,i.dataset.k);if(c)i.value=c[i.dataset.s]||'';});
+  const dte=el.querySelector('.b-dte');
+  dte.addEventListener('input',()=>{dte.value=dteFmt(dteDigits(dte.value));x.dte=dte.value;S.sal.forEach(renderDteBlk);});
+  bindDestino(x);
+  $('bloques').appendChild(el);
+  pintarTropas(x);renderDestBlk(x);renderDteBlk(x);
+  return el;
+}
+function renderComps(){
+  const ver=S.verLista||!S.sal.length;
+  $('cp-box').style.display=ver?'flex':'none';
+  $('cp-mas').classList.toggle('hidden',ver);
+  if(ver) renderLista();
+  pintaTotales();
+}
+function initComps(){
+  $('cp-q').addEventListener('input',renderLista);
+  $('cp-box').addEventListener('click',e=>{
+    if(e.target.closest('#cp-retry')){S.tropasListas=false;renderLista();cargarTropas();return;}
+    const b=e.target.closest('.tr-item');if(!b)return;
+    const comp=S.comps.find(c=>c.g===b.dataset.g);if(!comp)return;
+    const x={exc:false,comp,sel:{},dest:null,destOtro:null,dte:''};
+    if(comp.tropas.length===1) x.sel[comp.tropas[0].key]={};   // una sola tropa: ya viene tildada
+    S.sal.push(x);S.verLista=false;$('cp-q').value='';$('cp-q').blur();
+    const el=crearBloque(x);renderComps();
+    if(el.scrollIntoView) el.scrollIntoView({block:'start',behavior:'smooth'});
+  });
+  $('cp-mas').addEventListener('click',()=>{S.verLista=true;renderComps();$('cp-q').focus();});
+  $('cp-exc').addEventListener('click',()=>{
+    const x={exc:true,desc:'',cats:{},sel:{},dest:null,destOtro:null,dte:''};
+    S.sal.push(x);S.verLista=false;const el=crearBloque(x);renderComps();el.querySelector('.b-desc').focus();
+  });
+}
+async function cargarDestinosMas(){
+  const r=await rpc('destinos_para_egreso',{p_token:TOKEN,p_q:null});
+  if(r.ok) S.destMas=r.mas_usados||[];
+}
 
-  // 2. Fetch del maestro y los aliases en paralelo (alias es opcional)
-  const baseUrl='https://raw.githubusercontent.com/darwashsa-ux/darwash-dte/main';
-  const t=Date.now();
-  let data, aliases={};
+/* ---------- TRANSPORTE ---------- */
+async function cargarTransportistas(){
   try{
-    const [rMaestro,rAlias]=await Promise.all([
-      fetch(`${baseUrl}/remates_maestro.json?t=${t}`),
-      fetch(`${baseUrl}/remates_alias.json?t=${t}`).catch(()=>null),
+    const [rT,rV]=await Promise.all([
+      fetch(SB_URL+'/rest/v1/transportistas?select=id,nombre,telefono,patentes&activo=eq.true&limit=5000',{headers:H}),
+      fetch(SB_URL+'/rest/v1/ingresos_hacienda?select=transportista_id,patente&transportista_id=not.is.null&limit=20000',{headers:H})
     ]);
-    if(!rMaestro.ok) throw new Error('HTTP '+rMaestro.status);
-    data=await rMaestro.json();
-    if(rAlias && rAlias.ok){
-      try{
-        const a=await rAlias.json();
-        if(a && typeof a==='object' && !Array.isArray(a)) aliases=a;
-      }catch(_){ /* alias inválido — fallback {} silencioso */ }
+    if(rT.ok) S.transps=(await rT.json()).map(t=>({...t,_n:norm(t.nombre)}));
+    if(rV.ok){
+      const pf={};
+      (await rV.json()).forEach(r=>{
+        S.viajes[r.transportista_id]=(S.viajes[r.transportista_id]||0)+1;
+        const p=String(r.patente||'').toUpperCase().replace(/\s/g,'');
+        if(p){pf[r.transportista_id]=pf[r.transportista_id]||{};pf[r.transportista_id][p]=(pf[r.transportista_id][p]||0)+1;}
+      });
+      S.patFreq=pf;
     }
-  }catch(e){
-    showError('Sin conexión — no se pudo verificar el remate. Reintentá en un rato.');
-    return;
-  }
-
-  // 3. Buscar el remate por código en el maestro
-  const remate=(data.remates||[]).find(r=>r && r.codigo===codigo);
-  if(!remate){
-    showError('⚠ Remate no encontrado. Pedí un link nuevo.');
-    return;
-  }
-
-  // 4. EGRESO acepta PENDIENTE y CERRADA. El estado del remate es asunto
-  //    administrativo de Darwash con SENASA, no se le muestra al transportista
-  //    — el header se ve idéntico en ambos casos.
-
-  // 5. Render header fijo (sin distinción de estado)
-  const info=remate.info||{};
-  const alias=aliases[codigo];
-  const titulo=alias
-    ? '<div class="remate-single-alias">'+esc(alias)+'</div><div class="remate-single-sub">'+esc(codigo)+'</div>'
-    : '<div class="remate-single-code">'+esc(codigo)+'</div>';
-  cont.innerHTML=
-    '<div class="remate-single">'+
-      '<div class="remate-single-tag">Remate activo</div>'+
-      titulo+
-      '<div class="remate-single-meta">'+esc(info.Inicio||'')+' → '+esc(info.Fin||'')+' · '+esc(info['Predio ferial']||'')+'</div>'+
-    '</div>';
-
-  // 6. Validar el token y traer la lista de quién carga
-  const rc=await rpc('cargadores_para_egreso',{p_token:TOKEN});
-  if(!rc.ok){ showError('⚠ '+msgError(rc)); return; }
-  if(rc.remate && rc.remate!==codigo){ showError('⚠ '+MSG_ERROR.token_otro_remate); return; }
-  const selC=document.getElementById('sel-cargador');
-  selC.innerHTML='<option value="">Elegí tu nombre…</option>'+
-    (rc.cargadores||[]).map(c=>'<option value="'+c.id+'">'+esc(c.nombre)+'</option>').join('');
-  selC.disabled=false;
-
-  sel.value=codigo;
-  btnSave.disabled=false;
+  }catch(e){console.warn('[TRANSPORTISTAS]',e);}
 }
-
-// ══════════════════════════════════════════
-// FIRMA
-// ══════════════════════════════════════════
-function initFirma(){
-  const canvas=document.getElementById('firma-canvas');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  canvas.width=canvas.offsetWidth*window.devicePixelRatio||700;
-  canvas.height=canvas.offsetHeight*window.devicePixelRatio||300;
-  ctx.scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
-  ctx.strokeStyle='#1a1a2e';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
-  let drawing=false,lx=0,ly=0;
-  function pos(e){const r=canvas.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left),y:(t.clientY-r.top)};}
-  canvas.addEventListener('mousedown',e=>{drawing=true;const p=pos(e);lx=p.x;ly=p.y;});
-  canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;document.getElementById('firma-status').textContent='Firma registrada ✓';firmaDataURL=canvas.toDataURL();});
-  canvas.addEventListener('mouseup',()=>{drawing=false;});
-  canvas.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const p=pos(e);lx=p.x;ly=p.y;},{passive:false});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;document.getElementById('firma-status').textContent='Firma registrada ✓';firmaDataURL=canvas.toDataURL();},{passive:false});
-  canvas.addEventListener('touchend',()=>{drawing=false;});
-}
-
-function limpiarFirma(){
-  const canvas=document.getElementById('firma-canvas');
-  if(!canvas){firmaDataURL=null;return;} // sin sección de firma en egreso — no-op
-  const ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  firmaDataURL=null;
-  document.getElementById('firma-status').textContent='Firmá con el dedo';
-}
-
-// ══════════════════════════════════════════
-// FOTOS
-// ══════════════════════════════════════════
-function initFotos(){
-  const g=document.getElementById('foto-grid');
-  g.innerHTML=FOTO_SLOTS.map(s=>`
-    <div class="foto-slot" id="slot-${s.id}" onclick="abrirFoto('${s.id}')">
-      <span class="slot-icon">${s.icon}</span>
-      <span class="slot-label">${s.label}</span>
-      <button class="slot-del" onclick="borrarFoto(event,'${s.id}')">✕</button>
-    </div>`).join('');
-  actualizarContadorFotos();
-}
-
-function abrirFoto(slotId){
-  slotActivo=slotId;
-  document.getElementById('foto-input').value='';
-  document.getElementById('foto-input').click();
-}
-
-function onFotoSeleccionada(input){
-  if(!input.files||!input.files[0]||!slotActivo)return;
-  const file=input.files[0];
-  fotoFiles[slotActivo]=file;
-  const url=URL.createObjectURL(file);
-  const slot=document.getElementById('slot-'+slotActivo);
-  slot.classList.add('filled');
-  let img=slot.querySelector('img');
-  if(!img){img=document.createElement('img');slot.prepend(img);}
-  img.src=url;
-  actualizarContadorFotos();
-}
-
-function borrarFoto(e,slotId){
-  e.stopPropagation();
-  delete fotoFiles[slotId];
-  const slot=document.getElementById('slot-'+slotId);
-  slot.classList.remove('filled');
-  const img=slot.querySelector('img');
-  if(img)img.remove();
-  actualizarContadorFotos();
-}
-
-function actualizarContadorFotos(){
-  const n=Object.keys(fotoFiles).length;
-  document.getElementById('foto-counter').textContent=n===0?'0 fotos seleccionadas':`${n} foto${n>1?'s':''} seleccionada${n>1?'s':''}`;
-}
-
-function limpiarFotos(){
-  fotoFiles={};
-  FOTO_SLOTS.forEach(s=>{
-    const slot=document.getElementById('slot-'+s.id);
-    if(!slot)return;
-    slot.classList.remove('filled');
-    const img=slot.querySelector('img');
-    if(img)img.remove();
-  });
-  actualizarContadorFotos();
-}
-
-// ══════════════════════════════════════════
-// GUARDAR
-// ══════════════════════════════════════════
-async function guardar(){
-  const remate=document.getElementById('sel-remate').value;
-  const fecha=document.getElementById('inp-fecha').value;
-  const tropa=document.getElementById('inp-tropa').value.trim();
-  const dte=document.getElementById('inp-dte').value.trim();
-  const destino=document.getElementById('inp-destino').value.trim();
-  const transportista=document.getElementById('inp-transportista').value.trim();
-  const patente=document.getElementById('inp-patente').value.trim().toUpperCase();
-  const obs=document.getElementById('inp-obs').value.trim();
-  const categorias=getCats();
-  const total=Object.values(categorias).reduce((a,b)=>a+b,0);
-
-  const cargadorId=Number(document.getElementById('sel-cargador').value)||null;
-  if(!remate){alert('Seleccioná un remate.');return;}
-  if(!cargadorId){alert('Elegí quién carga.');return;}
-  if(!tropa){alert('Ingresá el nombre de la tropa.');return;}
-  if(total===0){alert('Ingresá al menos una categoría con cantidad.');return;}
-
-  const btn=document.querySelector('.btn-guardar');
-  btn.textContent='Guardando...';btn.disabled=true;
-
-  try{
-    // Guardar en Supabase
-    const body={
-      remate,fecha,tropa,nro_dte:dte,destino,
-      transportista,patente,
-      categorias,total_cabezas:total,
-      observaciones:obs,
-      firma:firmaDataURL?'si':'no'
-    };
-    const r=await rpc('registrar_egreso',{
-      p_token:TOKEN,p_remate:remate,p_cargador_id:cargadorId,p_fecha:fecha,
-      p_tropa:tropa,p_nro_dte:dte,p_destino:destino,p_transportista:transportista,
-      p_patente:patente,p_categorias:categorias,p_observaciones:obs,p_firma:!!firmaDataURL
-    });
-    if(!r.ok){ alert('⚠ '+msgError(r)); return; }
-    ultimoRegistro={...body,id:r.id,nro_dte:r.nro_dte??body.nro_dte};
-    nroRemito=r.id;
-
-    // Subir fotos
-    const nFotos=Object.keys(fotoFiles).length;
-    let fotosUrls={};
-    if(nFotos>0){
-      fotosUrls=await subirFotos(nroRemito);
-      if(ultimoRegistro.id){
-        const ra=await rpc('adjuntar_egreso',{p_token:TOKEN,p_id:ultimoRegistro.id,p_fotos:fotosUrls,p_pdf_url:null});
-        if(!ra.ok) console.error('adjuntar fotos:',ra.error);
-      }
-      ultimoRegistro.fotos=fotosUrls;
-    }
-
-    // Subir PDF en background
-    generarPDF(true);
-
-    sesionRegistros.unshift({...ultimoRegistro});
-    renderHistorial();
-
-    document.getElementById('success-sub').textContent=
-      `${total} cabezas · ${dte?'DTE '+dte+' · ':''}${destino||''}${nFotos>0?' · '+nFotos+' foto'+(nFotos>1?'s':''):''}`;
-    document.getElementById('success-overlay').classList.add('show');
-    document.getElementById('btn-pdf').disabled=false;
-    document.getElementById('btn-wa').disabled=false;
-
-  }catch(e){
-    alert('Error al guardar: '+e.message);
-  }finally{
-    btn.textContent='💾 Guardar Egreso';btn.disabled=false;
-  }
-}
-
-// ══════════════════════════════════════════
-// SUBIR FOTOS
-// ══════════════════════════════════════════
-async function subirFotos(remitoId){
-  const urls={};
-  for(const [slotId,file] of Object.entries(fotoFiles)){
-    const ext=file.name.split('.').pop()||'jpg';
-    const path=`egresos/${remitoId}_${slotId}.${ext}`;
-    const res=await fetch(SUPABASE_URL+'/storage/v1/object/remitos/'+path,{
-      method:'POST',
-      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':file.type||'image/jpeg'},
-      body:file
-    });
-    if(res.ok){
-      urls[slotId]=SUPABASE_URL+'/storage/v1/object/public/remitos/'+path;
-    }
-  }
-  return urls;
-}
-
-// ══════════════════════════════════════════
-// PDF
-// ══════════════════════════════════════════
-async function generarPDF(soloSubir=false){
-  if(!ultimoRegistro)return;
-  const{jsPDF}=window.jspdf;
-  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-  const W=210,H=297,M=24,MR=18;
-
-  // Cargar logo desde URL (no base64)
-  let logoImg=null;
-  try{
-    logoImg=new Image();
-    logoImg.src='drw-icon.png';
-    await new Promise((resolve,reject)=>{
-      logoImg.onload=resolve;
-      logoImg.onerror=()=>reject(new Error('logo'));
-      setTimeout(()=>reject(new Error('timeout')),5000);
-    });
-  }catch(e){ console.warn('Logo no cargado:',e); logoImg=null; }
-
-  // Paleta hex
-  const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
-  const Cf=h=>doc.setFillColor(...hex(h));
-  const Cd=h=>doc.setDrawColor(...hex(h));
-  const Ct=h=>doc.setTextColor(...hex(h));
-  const C={cyan:'#00B5B6',cyanSoft:'#E6F8F8',green:'#00A86B',greenSoft:'#E0F5EB',
-           amber:'#B8881F',amberSoft:'#F7EFD9',red:'#D63B47',redSoft:'#FBE4E6',
-           text:'#1A1A1A',muted:'#8A8780',border:'#E5E2D9',bg:'#FAFAF7',white:'#FFFFFF'};
-  const ACCENT=C.red, ACCENT_SOFT=C.redSoft;
-
-  const r=ultimoRegistro;
-
-  // Fondo
-  Cf(C.bg); doc.rect(0,0,W,H,'F');
-
-  // Banda lateral izquierda 8×120mm rojo
-  Cf(ACCENT); doc.rect(0,16,8,120,'F');
-
-  // Header — logo
-  if(logoImg){ try{ doc.addImage(logoImg,'PNG',M,16,30,10); }catch(e){} }
-
-  // Wordmark
-  doc.setFont('helvetica','bold'); doc.setFontSize(11); Ct(C.text);
-  doc.text('DARWASH',M+34,22);
-  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
-  doc.text('SOCIEDAD ANÓNIMA · Vicuña Mackenna, Córdoba',M+34,26);
-
-  // Título
-  doc.setFont('times','bold'); doc.setFontSize(20); Ct(C.text);
-  doc.text('Remito de Egreso',M,42);
-
-  // Badge tipo
-  Cf(ACCENT_SOFT); Cd(ACCENT); doc.setLineWidth(0.4);
-  doc.roundedRect(W-MR-26,18,26,7,1.5,1.5,'FD');
-  doc.setFont('helvetica','bold'); doc.setFontSize(7); Ct(ACCENT);
-  doc.text('EGRESO',W-MR-13,22.8,{align:'center'});
-
-  // Badge N°
-  Cf(C.cyanSoft); Cd(C.cyan); doc.setLineWidth(0.4);
-  doc.roundedRect(W-MR-40,28,40,7,1.5,1.5,'FD');
-  doc.setFont('courier','bold'); doc.setFontSize(8.5); Ct(C.cyan);
-  doc.text('N° '+String(nroRemito).slice(-6).padStart(6,'0'),W-MR-20,32.8,{align:'center'});
-
-  let y=54;
-
-  // Strip de remate
-  Cf(C.cyanSoft); doc.rect(M,y,W-M-MR,14,'F');
-  Cf(C.cyan); doc.rect(M,y,3,14,'F');
-  doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
-  doc.text('REMATE / EVENTO',M+8,y+4.5);
-  doc.setFont('times','bold'); doc.setFontSize(11); Ct(C.text);
-  doc.text(r.remate||'—',M+8,y+11);
-  doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
-  doc.text('FECHA',W-MR-3,y+4.5,{align:'right'});
-  doc.setFont('courier','bold'); doc.setFontSize(10); Ct(C.text);
-  doc.text(r.fecha?r.fecha.split('-').reverse().join('/'):'—',W-MR-3,y+11,{align:'right'});
-  y+=20;
-
-  function seccion(label){
-    doc.setFont('helvetica','bold'); doc.setFontSize(6.5); Ct(C.cyan);
-    const t='— '+label;
-    doc.text(t,M,y);
-    Cd(C.border); doc.setLineWidth(0.2);
-    const lblW=doc.getTextWidth(t);
-    doc.line(M+lblW+3,y-1,W-MR,y-1);
-    y+=4;
-  }
-  function campo(label,valor,x,w){
-    doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
-    doc.text(label,x,y+3);
-    doc.setFont('times','bold'); doc.setFontSize(10); Ct(C.text);
-    const txt=String(valor||'—');
-    const truncated=txt.length>34?txt.substring(0,32)+'…':txt;
-    doc.text(truncated,x,y+9);
-    Cd(C.border); doc.setLineWidth(0.15);
-    doc.line(x,y+11,x+w,y+11);
-  }
-
-  // Identificación
-  seccion('IDENTIFICACIÓN');
-  const colW=(W-M-MR-6)/2;
-  campo('NRO. DTE',r.nro_dte,M,colW);
-  campo('TROPA',r.tropa,M+colW+6,colW);
-  y+=14;
-
-  // Destino + Transporte
-  seccion('TRANSPORTE / DESTINO');
-  campo('DESTINO',r.destino,M,colW);
-  campo('TRANSPORTISTA',(r.transportista||'—')+(r.patente?' · '+r.patente:''),M+colW+6,colW);
-  y+=14;
-
-  // Detalle hacienda — grilla 4×2 fija
-  seccion('DETALLE DE HACIENDA');
-  const cats4x2=[['novillo','NOV'],['vaquillona','VQ'],['vaca','VA'],['ternero','TER'],
-                 ['ternera','TRA'],['toro','TORO'],['torito','MEJ']];
-  const cellW=(W-M-MR-3)/4, cellH=18;
-  cats4x2.forEach(([key,code],i)=>{
-    const col=i%4, row=Math.floor(i/4);
-    const cx=M+col*(cellW+1), cy=y+row*(cellH+1);
-    const valor=(r.categorias||{})[key]||0;
-    const tieneValor=valor>0;
-    Cf(C.white); Cd(C.border); doc.setLineWidth(0.2);
-    doc.rect(cx,cy,cellW,cellH,'FD');
-    doc.setFont('helvetica','bold'); doc.setFontSize(6.5);
-    Ct(tieneValor?C.cyan:C.muted);
-    doc.text(code,cx+cellW/2,cy+5,{align:'center'});
-    doc.setFont('courier','bold'); doc.setFontSize(15);
-    if(tieneValor){
-      Ct(C.cyan);
-      doc.text(String(valor),cx+cellW/2,cy+14.5,{align:'center'});
-    }else{
-      Ct(C.muted);
-      doc.text('—',cx+cellW/2,cy+14.5,{align:'center'});
-    }
-  });
-  y+=cellH*2+1+6;
-
-  // Total
-  Cf(C.white); Cd(ACCENT); doc.setLineWidth(0.5);
-  doc.rect(M,y,W-M-MR,22,'FD');
-  Cf(ACCENT); doc.rect(M,y,3,22,'F');
-  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
-  doc.text('TOTAL CABEZAS EGRESADAS',M+8,y+7);
-  doc.setFont('helvetica','italic'); doc.setFontSize(5.8); Ct(C.muted);
-  doc.text('Animales salidos en este movimiento',M+8,y+12);
-  doc.setFont('courier','bold'); doc.setFontSize(28); Ct(ACCENT);
-  doc.text(String(r.total_cabezas||0),W-MR-4,y+17,{align:'right'});
-  y+=28;
-
-  // Observaciones
-  if(r.observaciones){
-    if(y>H-50){ doc.addPage(); y=20; }
-    seccion('OBSERVACIONES');
-    Cf(C.amberSoft); Cd(C.amber); doc.setLineWidth(0.2);
-    doc.rect(M,y,W-M-MR,14,'FD');
-    Cf(C.amber); doc.rect(M,y,3,14,'F');
-    doc.setFont('times','italic'); doc.setFontSize(9); Ct(C.text);
-    const ls=doc.splitTextToSize(r.observaciones,W-M-MR-12);
-    doc.text(ls.slice(0,2),M+8,y+6);
-    y+=20;
-  }
-
-  // Firma del transportista — estampa la firma digital si firmó en pantalla; recuadro+línea siempre presente
-  if(y>H-48){ doc.addPage(); y=20; }
-  seccion('FIRMA DEL TRANSPORTISTA');
-  y+=2;
-  Cf(C.white); Cd(C.border); doc.setLineWidth(0.2);
-  doc.rect(M,y,W-M-MR,24,'FD');
-  if(firmaDataURL){ try{ doc.addImage(firmaDataURL,'PNG',M+10,y+1,W-M-MR-20,20); }catch(e){} }
-  Cd(C.muted); doc.setLineWidth(0.3);
-  doc.line(M+10,y+19,W-MR-10,y+19);
-  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
-  doc.text(r.transportista||'Transportista',(M+W-MR)/2,y+23,{align:'center'});
-  y+=30;
-
-  // Footer
-  const fy=H-14;
-  Cf(C.cyan); doc.rect(M,fy-3,W-M-MR,0.5,'F');
-  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
-  doc.text('DARWASH SA · Vicuña Mackenna, Córdoba',M,fy+1);
-  doc.text('Generado: '+new Date().toLocaleString('es-AR'),W-MR,fy+1,{align:'right'});
-  doc.setFont('courier','bold'); doc.setFontSize(7); Ct(C.cyan);
-  doc.text('Egreso N° '+String(nroRemito).slice(-6).padStart(6,'0'),(M+W-MR)/2,fy+1,{align:'center'});
-  doc.setFont('helvetica','italic'); doc.setFontSize(5.5); Ct(C.muted);
-  doc.text('Documento interno · Darwash SA · SIGSA / SENASA',(M+W-MR)/2,fy+5,{align:'center'});
-
-  const filename='Egreso_Darwash_'+String(nroRemito).slice(-6).padStart(6,'0')+'.pdf';
-  if(!soloSubir) doc.save(filename);
-
-  try{
-    const pdfBlob=doc.output('blob');
-    const btn=document.getElementById('btn-pdf');
-    if(btn&&!soloSubir){btn.textContent='📤 Subiendo...';}
-    const pdfUrl=await subirPDFStorage(pdfBlob,filename);
-    if(pdfUrl&&ultimoRegistro&&ultimoRegistro.id){
-      const ra=await rpc('adjuntar_egreso',{p_token:TOKEN,p_id:ultimoRegistro.id,p_fotos:null,p_pdf_url:pdfUrl});
-      if(!ra.ok) console.error('adjuntar pdf:',ra.error);
-      ultimoRegistro.pdf_url=pdfUrl;
-      if(btn&&!soloSubir){btn.textContent='✅ PDF guardado';setTimeout(()=>{btn.textContent='📄 Remito PDF';},3000);}
-    }else{if(btn&&!soloSubir){btn.textContent='📄 Remito PDF';}}
-  }catch(e){console.error('Error subiendo PDF:',e);}
-}
-
-async function subirPDFStorage(blob,filename){
-  const path='egresos/'+filename;
-  const res=await fetch(SUPABASE_URL+'/storage/v1/object/remitos/'+path,{
-    method:'POST',
-    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/pdf'},
-    body:blob
-  });
-  if(res.ok){return SUPABASE_URL+'/storage/v1/object/public/remitos/'+path;}
+function telNorm(v){
+  let d=String(v||'').replace(/\D/g,'');
+  if(d.startsWith('549')&&d.length===13) return d;
+  if(d.startsWith('54')&&d.length===12) return '549'+d.slice(2);
+  if(d.startsWith('0')) d=d.slice(1);
+  if(d.length===10) return '549'+d;
   return null;
 }
-
-// ══════════════════════════════════════════
-// WHATSAPP
-// ══════════════════════════════════════════
-function compartirWA(){
-  if(!ultimoRegistro)return;
-  const r=ultimoRegistro;
-  const fecha=r.fecha?r.fecha.split('-').reverse().join('/'):'';
-  const cats=Object.entries(r.categorias||{}).filter(([,v])=>v>0)
-    .map(([k,v])=>`  • ${CATS.find(c=>c.id===k)?.label||k}: ${v}`).join('\n');
-  const msg=
-    `🐄 *EGRESO DE HACIENDA — DARWASH SA*\n`+
-    `━━━━━━━━━━━━━━━━━━━━━━\n`+
-    `📅 Fecha: ${fecha}\n`+
-    `🏷 Tropa: ${r.tropa||'—'}\n`+
-    `📄 DTE: ${r.nro_dte||'—'}\n`+
-    `📍 Destino: ${r.destino||'—'}\n`+
-    `🚛 Transportista: ${r.transportista||'—'} · ${r.patente||'—'}\n`+
-    `━━━━━━━━━━━━━━━━━━━━━━\n`+
-    `${cats}\n`+
-    `━━━━━━━━━━━━━━━━━━━━━━\n`+
-    `✅ *TOTAL: ${r.total_cabezas||0} cabezas*\n`+
-    (r.observaciones?`📝 ${r.observaciones}\n`:'')+
-    (r.pdf_url?`\n📎 PDF: ${r.pdf_url}\n`:'')+
-    `\n_Registrado en Darwash DTE Dashboard_`;
-  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+function telFmt(t){return t?('+54 9 '+t.slice(3,6)+' '+t.slice(6)):'';}
+function patentesSugeridas(t){
+  if(!t) return [];
+  const f=(S.patFreq||{})[t.id]||{};
+  const valid=p=>/^([A-Z]{2}\d{3}[A-Z]{2}|[A-Z]{3}\d{3})$/.test(p);
+  const all=new Set([...(t.patentes||[]),...Object.keys(f)].filter(valid));
+  return [...all].sort((a,b)=>(f[b]||0)-(f[a]||0)).slice(0,3);
+}
+function renderTransp(){
+  const propio=$('propio').checked;
+  $('propio-wrap').classList.toggle('on',propio);
+  $('transp-box').style.display=propio?'none':'flex';
+  const inp=$('transp'),m=$('transp-msg'),t=S.transp;
+  inp.classList.remove('ok','warn');
+  if(t){inp.classList.add('ok');const v=S.viajes[t.id]||0;setMsg(m,'ok','En la base de transportistas'+(v?' · '+v+' viaje'+(v>1?'s':''):''));}
+  else if(S.transpNuevo){inp.classList.add('ok');setMsg(m,'ok','Transportista nuevo: se da de alta al guardar');}
+  else if(inp.value.trim().length>=2){inp.classList.add('warn');setMsg(m,'warn','Elegilo de la lista o tocá «Agregar como nuevo»');}
+  else setMsg(m,'hint','Si no está, lo das de alta desde la lista');
+  const tieneTel=t&&t.telefono&&!S.telEditando;
+  $('tel-show').classList.toggle('hidden',!tieneTel);
+  $('tel-txt').textContent=tieneTel?telFmt(t.telefono):'';
+  $('tel-form').classList.toggle('hidden',!(t||S.transpNuevo)||tieneTel);
+  const chips=patentesSugeridas(t);
+  $('pat-chips').classList.toggle('hidden',!chips.length);
+  $('pat-chips').innerHTML=chips.length?'<span>Usadas antes:</span>'+chips.map(p=>'<button type="button" class="chip" data-p="'+p+'">'+p+'</button>').join(''):'';
+  renderBar();
+}
+function renderTel(){
+  const v=$('tel').value.trim(),m=$('tel-msg');
+  $('tel').classList.remove('ok','err');
+  if(!v){setMsg(m,'hint','Código de área sin 0 y número sin 15. Queda guardado para los próximos viajes.');}
+  else if(telNorm(v)){$('tel').classList.add('ok');setMsg(m,'ok','Se guarda como '+telFmt(telNorm(v)));}
+  else{$('tel').classList.add('err');setMsg(m,'err','Tiene que tener 10 dígitos: código de área sin 0 + número sin 15');}
+  renderBar();
+}
+function initTransp(){
+  const inp=$('transp');
+  inp.addEventListener('input',()=>{
+    if(S.transp&&inp.value!==S.transp.nombre){S.transp=null;S.telEditando=false;}
+    if(S.transpNuevo&&inp.value.trim()!==S.transpNuevo){S.transpNuevo=null;}
+    renderTransp();
+  });
+  autocomplete(inp,$('transp-list'),{
+    buscar:q=>S.transps.filter(t=>t._n.includes(q)).sort((a,b)=>(S.viajes[b.id]||0)-(S.viajes[a.id]||0)).slice(0,6),
+    render:t=>{const v=S.viajes[t.id]||0;return '<span><b>'+esc(t.nombre)+'</b>'+(t.telefono?'<small>'+esc(telFmt(t.telefono))+'</small>':'')+'</span><span class="cnt">'+(v?v+' viaje'+(v>1?'s':''):'')+'</span>';},
+    extra:(txt,items)=>{
+      if(txt.length<2) return null;
+      if(S.transps.some(t=>t._n===norm(txt))) return null;
+      return '+ Agregar «'+esc(txt)+'» como transportista nuevo';
+    },
+    elegir:(t,txt)=>{
+      S.telEditando=false;$('tel').value='';
+      if(t){S.transp=t;S.transpNuevo=null;inp.value=t.nombre;}
+      else{S.transp=null;S.transpNuevo=txt;inp.value=txt;}
+      renderTransp();renderTel();
+      const sug=patentesSugeridas(S.transp);
+      if(sug.length===1&&!$('patente').value) $('patente').value=sug[0];
+    }
+  });
+  $('propio').addEventListener('change',renderTransp);
+  $('tel').addEventListener('input',renderTel);
+  $('tel-edit').addEventListener('click',()=>{S.telEditando=true;$('tel').value=S.transp&&S.transp.telefono?S.transp.telefono.slice(3):'';renderTransp();renderTel();$('tel').focus();});
+  $('pat-chips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(c)$('patente').value=c.dataset.p;});
 }
 
-// ══════════════════════════════════════════
-// HISTORIAL
-// ══════════════════════════════════════════
-function renderHistorial(){
-  const c=document.getElementById('historial');
-  if(!sesionRegistros.length){c.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px">Sin registros en esta sesión</div>';return;}
-  c.innerHTML=sesionRegistros.map(r=>{
-    const cats=Object.entries(r.categorias||{}).filter(([,v])=>v>0)
-      .map(([k,v])=>`<span class="hist-cat-chip">${CATS.find(c=>c.id===k)?.label||k}: ${v}</span>`).join('');
-    return `<div class="hist-item">
-      <div class="hist-top">
-        <div><div class="hist-tropa">${esc(r.tropa||'—')}</div><div class="hist-meta">${r.fecha?r.fecha.split('-').reverse().join('/'):''}${r.destino?' → '+esc(r.destino):''}</div></div>
-        <div class="hist-total">${r.total_cabezas||0} cab.</div>
-      </div>
-      <div class="hist-cats">${cats}</div>
-    </div>`;
+/* ---------- FIRMA ---------- */
+let fctx;
+function initFirma(){
+  const cv=$('firma');
+  const setup=()=>{
+    const dpr=window.devicePixelRatio||1,r=cv.getBoundingClientRect();
+    cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);
+    fctx=cv.getContext('2d');fctx.setTransform(dpr,0,0,dpr,0,0);
+    fctx.strokeStyle='#0a2a15';fctx.lineWidth=2.5;fctx.lineCap='round';fctx.lineJoin='round';
+  };
+  setup();
+  let drawing=false;
+  const pos=e=>{const r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};};
+  cv.addEventListener('pointerdown',e=>{drawing=true;cv.setPointerCapture(e.pointerId);const p=pos(e);fctx.beginPath();fctx.moveTo(p.x,p.y);});
+  cv.addEventListener('pointermove',e=>{if(!drawing)return;const p=pos(e);fctx.lineTo(p.x,p.y);fctx.stroke();if(S.firmaVacia){S.firmaVacia=false;$('firma-st').textContent='Firma registrada ✓';}});
+  const fin=()=>{drawing=false;};
+  cv.addEventListener('pointerup',fin);cv.addEventListener('pointercancel',fin);
+  $('firma-clear').addEventListener('click',limpiarFirma);
+}
+function limpiarFirma(){const cv=$('firma');fctx.save();fctx.setTransform(1,0,0,1,0,0);fctx.clearRect(0,0,cv.width,cv.height);fctx.restore();S.firmaVacia=true;$('firma-st').textContent='Firmá con el dedo';}
+function firmaURL(){
+  if(S.firmaVacia) return null;
+  const cv=$('firma'),ctx=cv.getContext('2d'),w=cv.width,h=cv.height,d=ctx.getImageData(0,0,w,h).data;
+  let x0=w,y0=h,x1=0,y1=0;
+  for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){if(d[(y*w+x)*4+3]>0){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}}
+  if(x1<=x0||y1<=y0) return null;
+  const m=12;x0=Math.max(0,x0-m);y0=Math.max(0,y0-m);x1=Math.min(w,x1+m);y1=Math.min(h,y1+m);
+  const cw=x1-x0,ch=y1-y0,k=Math.min(1,700/cw);
+  const o=document.createElement('canvas');o.width=Math.round(cw*k);o.height=Math.round(ch*k);
+  const oc=o.getContext('2d');oc.fillStyle='#fff';oc.fillRect(0,0,o.width,o.height);
+  oc.drawImage(cv,x0,y0,cw,ch,0,0,o.width,o.height);
+  return {url:o.toDataURL('image/jpeg',0.8),w:o.width,h:o.height};
+}
+
+/* ---------- FOTOS (comprimidas) ---------- */
+function comprimir(file,max=1600,q=0.72){
+  return new Promise((res,rej)=>{
+    const url=URL.createObjectURL(file),img=new Image();
+    img.onload=()=>{
+      const k=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement('canvas');c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);
+      c.toBlob(b=>b?res({blob:b,dataUrl:c.toDataURL('image/jpeg',q)}):rej(new Error('blob')),'image/jpeg',q);
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('img'));};
+    img.src=url;
+  });
+}
+function renderFotos(){
+  $('fotos').innerHTML=S.fotos.map((f,i)=>'<div class="foto"><img src="'+f.dataUrl+'" alt="Foto '+(i+1)+'"/><button type="button" data-del="'+i+'" aria-label="Borrar foto '+(i+1)+'">✕</button></div>').join('')+
+    '<button type="button" class="foto-add" id="foto-add"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg><span>Agregar</span></button>';
+}
+function initFotos(){
+  $('fotos').addEventListener('click',e=>{
+    if(e.target.closest('#foto-add')){$('foto-in').click();return;}
+    const d=e.target.closest('[data-del]');if(d){S.fotos.splice(Number(d.dataset.del),1);renderFotos();}
+  });
+  $('foto-in').addEventListener('change',async e=>{
+    for(const f of Array.from(e.target.files||[])){
+      try{S.fotos.push(await comprimir(f));}catch(err){console.warn('[FOTO]',err);}
+    }
+    e.target.value='';renderFotos();
+  });
+  renderFotos();
+}
+
+/* ---------- FECHA / QUIÉN CARGA ---------- */
+function hoyISO(){const n=new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate());}
+function fechaDDMM(){const [y,m,d]=($('fecha').value||'').split('-');return d?d+'/'+m+'/'+y:'';}
+function pintaFecha(){$('fecha-txt').textContent=fechaDDMM()||'--/--/----';}
+function initFecha(){$('fecha').value=hoyISO();$('fecha').addEventListener('change',()=>{pintaFecha();renderBar();});pintaFecha();}
+function pintaCargador(){
+  const s=$('cargador'),o=s.options[s.selectedIndex];
+  $('carg-txt').textContent=s.value&&o?o.textContent:'Elegí';
+  $('carg-wrap').classList.toggle('falta',!s.value);
+}
+function initCargador(){
+  $('cargador').addEventListener('change',()=>{
+    try{localStorage.setItem('dw_egreso_cargador',$('cargador').value);}catch(_){}
+    pintaCargador();renderBar();
+  });
+}
+
+/* ---------- BARRA / VALIDACIÓN ---------- */
+function faltantes(){
+  const f=[];
+  if(!S.remate||!S.tokenOk) return ['un link de carga válido'];
+  if(!$('cargador').value) f.push('elegir quién carga (arriba)');
+  if(!S.sal.length) f.push('elegir al menos un comprador');
+  if(S.sal.length>12) f.push('partir el remito: máximo 12 compradores por camión');
+  const dtes=[];
+  S.sal.forEach(x=>{
+    const nom=nombreSal(x);
+    if(x.exc){
+      if(x.desc.trim().length<3) f.push('describir la hacienda fuera del remate');
+      if(cabSal(x)===0) f.push('cargar cabezas en la excepción o quitarla');
+    }else{
+      const ks=Object.keys(x.sel);
+      if(!ks.length) f.push('tildar una tropa de '+nom+' o quitarlo');
+      ks.forEach(k=>{if(cabDe(x.sel[k])===0){const t=x.comp.tropas.find(z=>z.key===k);f.push('cargar cabezas en «'+(t?nombreTropa(t,x.comp):'la tropa')+'» de '+nom+' o destildarla');}});
+      if(ks.length>20) f.push('partir la carga de '+nom+': máximo 20 tropas');
+    }
+    if(cabSal(x)>400) f.push('partir la carga de '+nom+': máximo 400 cabezas por comprador');
+    if(!x.dest&&!x.destOtro) f.push('el destino de '+nom);
+    const d=dteDigits(x.dte),v=validarDTE(d);
+    if(v.st==='corto'||v.st==='dv') f.push('corregir el DTE de '+nom+' o dejarlo vacío');
+    else if(v.st==='ok'){if(dtes.includes(d)) f.push('un DTE distinto por comprador');dtes.push(d);}
+  });
+  if(!$('propio').checked){
+    if(!S.transp&&!S.transpNuevo) f.push('el transportista');
+    const tv=$('tel').value.trim();
+    if(tv&&!telNorm(tv)&&!$('tel-form').classList.contains('hidden')) f.push('un WhatsApp válido (o dejalo vacío)');
+  }
+  if(!$('fecha').value) f.push('la fecha');
+  return f;
+}
+function renderBar(keepErr){
+  if(!keepErr) S.err='';
+  const f=faltantes(),b=$('btn-save');
+  $('falta').textContent=S.err?S.err:(f.length?('Falta '+f[0]+(f.length>1?' (y '+(f.length-1)+' más)':'')):'');
+  b.disabled=!!f.length||S.guardando;
+  b.textContent=S.guardando?'Guardando…':'Guardar egreso · '+totalCab()+' cab';
+}
+
+/* ---------- REMATE ---------- */
+async function cargarRemate(){
+  const cont=$('remate-bar');
+  const error=msg=>{cont.innerHTML='<div class="remate-error">'+esc(msg)+'</div>';S.remate='';S.tokenOk=false;S.tropasListas=true;S.tropasErr='Sin link válido no se pueden traer los compradores.';renderComps();$('hist').innerHTML='<div class="empty">Sin remate</div>';};
+  const codigo=new URLSearchParams(location.search).get('remate');
+  if(!codigo) return error('⚠ Link inválido. Pedí un link nuevo a Darwash.');
+  if(!TOKEN) return error('⚠ Este link no tiene clave de carga. Pedí un link nuevo a Darwash.');
+  const base='https://raw.githubusercontent.com/'+GH_USER+'/'+GH_REPO+'/main',t=Date.now();
+  let data,aliases={};
+  try{
+    const [rM,rA]=await Promise.all([fetch(base+'/remates_maestro.json?t='+t),fetch(base+'/remates_alias.json?t='+t).catch(()=>null)]);
+    if(!rM.ok) throw new Error('HTTP '+rM.status);
+    data=await rM.json();
+    if(rA&&rA.ok){try{const a=await rA.json();if(a&&typeof a==='object'&&!Array.isArray(a))aliases=a;}catch(_){}}
+  }catch(e){return error('Sin conexión — no se pudo verificar el remate. Reintentá en un rato.');}
+  const rem=(data.remates||[]).find(r=>r&&r.codigo===codigo);
+  if(!rem) return error('⚠ Remate no encontrado. Pedí un link nuevo.');
+  // Valida el token y trae la lista de quién carga
+  const rc=await rpc('cargadores_para_egreso',{p_token:TOKEN});
+  if(!rc.ok) return error('⚠ '+msgError(rc));
+  if(rc.remate&&rc.remate!==codigo) return error('⚠ '+MSG_ERROR.token_otro_remate);
+  const info=rem.info||{},alias=aliases[codigo];
+  cont.innerHTML='<div class="remate"><span class="remate-tag">REMATE ACTIVO</span>'+
+    (alias?'<span class="remate-alias">'+esc(alias)+'</span>':'')+
+    '<span class="remate-code">'+esc(codigo)+'</span>'+
+    '<span class="remate-meta">'+esc((info.Inicio||'')+' → '+(info.Fin||'')+(info['Predio ferial']?' · '+info['Predio ferial']:''))+'</span></div>';
+  const sel=$('cargador');
+  sel.innerHTML='<option value="">Elegí tu nombre…</option>'+(rc.cargadores||[]).map(c=>'<option value="'+esc(c.id)+'">'+esc(c.nombre)+'</option>').join('');
+  sel.disabled=false;
+  try{const g=localStorage.getItem('dw_egreso_cargador');if(g&&[...sel.options].some(o=>o.value===g))sel.value=g;}catch(_){}
+  pintaCargador();
+  S.remate=codigo;S.remateAlias=alias||'';S.tokenOk=true;
+  renderBar();
+  cargarDestinosMas();
+  await Promise.all([cargarTropas(),renderHist()]);
+}
+
+/* ---------- HISTORIAL ---------- */
+async function renderHist(){
+  const c=$('hist');
+  if(!S.remate){c.innerHTML='<div class="empty">Sin remate</div>';return;}
+  let regs=[];
+  try{
+    const r=await fetch(SB_URL+'/rest/v1/egresos_hacienda?remate=eq.'+encodeURIComponent(S.remate)+'&anulado_at=is.null&order=ts.desc&limit=150&select=id,fecha,tropa,destino,transportista,patente,total_cabezas,nro_dte,version',{headers:H});
+    regs=r.ok?await r.json():[];
+  }catch(e){regs=[];}
+  if(!regs.length){c.innerHTML='<div class="empty">Todavía no hay salidas cargadas en este remate</div>';return;}
+  c.innerHTML=regs.map(r=>{
+    const d=dteDigits(r.nro_dte);
+    return '<div class="h-item"><div class="h-top"><b>'+esc(r.destino||'Sin destino')+'</b><span>'+esc(r.total_cabezas||0)+' cab</span></div>'+
+      '<div class="h-meta">#'+esc(r.id)+' · '+esc(String(r.fecha||'').split('-').reverse().join('/'))+' · '+(d.length===10?'DTE '+esc(dteFmt(d)):'sin DTE')+(r.version===2?'':' · <span class="tag-v1">V1</span>')+
+      '<br>'+esc(r.tropa||'—')+(r.transportista?'<br>'+esc(r.transportista)+(r.patente?' · '+esc(r.patente):''):'')+'</div></div>';
   }).join('');
 }
 
-// ══════════════════════════════════════════
-// NUEVO REGISTRO
-// ══════════════════════════════════════════
-function nuevoRegistro(){
-  document.getElementById('success-overlay').classList.remove('show');
-  ultimoRegistro=null;
-  document.getElementById('inp-tropa').value='';
-  document.getElementById('inp-dte').value='';
-  document.getElementById('inp-destino').value='';
-  document.getElementById('inp-transportista').value='';
-  document.getElementById('inp-patente').value='';
-  document.getElementById('inp-obs').value='';
-  document.getElementById('hora-wrap')?document.getElementById('hora-wrap').style.display='none':null;
-  CATS.forEach(c=>{const el=document.getElementById('cat-'+c.id);if(el)el.value='';});
-  recalcTotal();
-  limpiarFirma();
-  limpiarFotos();
-  document.getElementById('btn-pdf').disabled=true;
-  document.getElementById('btn-wa').disabled=true;
-  const hoy=new Date();
-  document.getElementById('inp-fecha').value=hoy.toISOString().split('T')[0];
-  window.scrollTo({top:0,behavior:'smooth'});
+/* ---------- GUARDAR ---------- */
+async function sb(method,path,body,prefer){
+  const r=await fetch(SB_URL+'/rest/v1/'+path,{method,headers:{...H,'Content-Type':'application/json','Prefer':prefer||'return=representation'},body:body?JSON.stringify(body):undefined});
+  const txt=await r.text();
+  if(!r.ok) throw new Error(method+' '+path.split('?')[0]+' '+r.status+' '+txt.slice(0,160));
+  return txt?JSON.parse(txt):null;
+}
+async function subirArchivo(nombre,blob,tipo){
+  const r=await fetch(SB_URL+'/storage/v1/object/remitos/egresos/'+nombre,{method:'POST',headers:{...H,'Content-Type':tipo},body:blob});
+  if(!r.ok) throw new Error('upload '+r.status);
+  return SB_URL+'/storage/v1/object/public/remitos/egresos/'+nombre;
+}
+async function guardar(){
+  if(faltantes().length||S.guardando) return;
+  S.guardando=true;renderBar();
+  const propio=$('propio').checked;
+  const pat=$('patente').value.trim().toUpperCase().replace(/\s/g,'');
+  const telIn=$('tel').value.trim(),tel=telIn?telNorm(telIn):null;
+  try{
+    // 1. Transportista (alta o actualización de teléfono/patentes), igual que en ingreso
+    let tr=null;
+    if(!propio){
+      if(S.transp) tr=S.transp;
+      else if(S.transpNuevo){
+        try{
+          const rows=await sb('POST','transportistas',{nombre:S.transpNuevo,telefono:tel,patentes:pat?[pat]:[]});
+          tr=rows[0];
+        }catch(err){
+          const lista=await sb('GET','transportistas?select=id,nombre,telefono,patentes');
+          tr=lista.find(t=>norm(t.nombre)===norm(S.transpNuevo))||null;
+          if(!tr) throw err;
+        }
+        S.transps.push({...tr,_n:norm(tr.nombre)});
+        S.transp=tr;S.transpNuevo=null;
+      }
+      if(tr&&tr.id){
+        const upd={};
+        if(tel&&tel!==tr.telefono) upd.telefono=tel;
+        if(pat&&/^([A-Z]{2}\d{3}[A-Z]{2}|[A-Z]{3}\d{3})$/.test(pat)&&!(tr.patentes||[]).includes(pat)) upd.patentes=[...(tr.patentes||[]),pat];
+        if(Object.keys(upd).length){
+          try{await sb('PATCH','transportistas?id=eq.'+tr.id,upd,'return=minimal');Object.assign(tr,upd);}catch(err){console.warn('[TRANSP upd]',err);}
+        }
+      }
+    }
+    // 2. Una carga (camión) con una salida por comprador: cada una con su destino y su DTE
+    const limpio=c=>{const o={};SIG.forEach(([s])=>{if((c[s]||0)>0)o[s]=c[s];});return o;};
+    const tropasDe=x=>x.exc?[]:x.comp.tropas.filter(t=>x.sel[t.key]);
+    const salidas=S.sal.map(x=>{
+      const d=dteDigits(x.dte);
+      return {destino_establecimiento:x.dest?x.dest.establecimiento:null,destino_texto:x.dest?null:x.destOtro,nro_dte:d.length===10?d:null,
+        renglones:x.exc?[{tropa:x.desc.trim(),sin_lote:true,categorias:limpio(x.cats)}]:tropasDe(x).map(t=>({tropa:etiqueta(t),lotes:t.lotes,categorias:limpio(x.sel[t.key])}))};
+    });
+    const sel=$('cargador');
+    const r=await rpc('registrar_carga_egreso',{
+      p_token:TOKEN,p_remate:S.remate,p_cargador_id:Number(sel.value),p_fecha:$('fecha').value,
+      p_transportista:propio?'Propio':(tr?tr.nombre:null),p_patente:pat||null,p_transportista_id:tr?tr.id:null,
+      p_observaciones:$('obs').value.trim()||null,p_firma:!S.firmaVacia,p_salidas:salidas});
+    if(!r.ok){S.guardando=false;S.err=msgError(r);renderBar(true);return;}
+    // Copia propia del registro: lo que pase en el formulario ya no la toca.
+    // Las diferencias contra lo vendido NO van acá: son control interno, no salen en remito ni WhatsApp.
+    const rs=Array.isArray(r.salidas)?r.salidas:[];
+    const snap={id:r.carga_id,ids:rs.map(z=>z.id),remate:S.remate,remateAlias:S.remateAlias,fecha:fechaDDMM(),
+      transportista:propio?'Propio':(tr?tr.nombre:null),patente:pat||null,telefono:tr?tr.telefono:null,
+      cargador:sel.options[sel.selectedIndex].textContent,
+      salidas:S.sal.map((x,i)=>({nombre:nombreSal(x),exc:x.exc,
+        destino:(rs[i]&&rs[i].destino)||(x.dest?x.dest.nombre:x.destOtro),
+        destinoSub:x.dest?[x.dest.renspa,x.dest.localidad].filter(Boolean).join(' · '):'Otro destino (sin RENSPA)',
+        dte:(rs[i]&&rs[i].nro_dte)||null,
+        tropas:x.exc?[{nombre:'',sub:'Fuera del remate',cats:limpio(x.cats),cab:cabDe(x.cats)}]
+          :tropasDe(x).map(t=>({nombre:conNombre(t)?t.tropa:'',sub:corralesTxt(t),cats:limpio(x.sel[t.key]),cab:cabDe(x.sel[t.key])})),
+        cab:cabSal(x)})),
+      total:r.total_cabezas,observaciones:$('obs').value.trim()||null,firma:firmaURL(),fotosData:S.fotos.map(f=>f.dataUrl)};
+    S.guardando=false;
+    mostrarExito(snap);
+    postGuardado(snap,S.fotos.slice());
+  }catch(err){
+    console.error(err);
+    S.guardando=false;S.err='No se pudo guardar. Revisá la señal y probá de nuevo.';renderBar(true);
+  }
 }
 
-// ══════════════════════════════════════════
-// UTIL
-// ══════════════════════════════════════════
-function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+/* ---------- EXITO ---------- */
+let ULT=null,EST={};
+function nroRemito(id){return String(id).slice(-6).padStart(6,'0');}
+function catsTxt(c){return SIG.filter(([s])=>c[s]>0).map(([s,n])=>c[s]+' '+n).join(', ');}
+function mostrarExito(r){
+  ULT=r;EST={};
+  $('ok-nro').textContent='Remito de salida #'+nroRemito(r.id)+(r.salidas.length>1?' · '+r.salidas.length+' compradores':'');
+  $('ok-sum').innerHTML=
+    '<div><small>Fecha</small><b style="font-family:var(--mono)">'+esc(r.fecha)+'</b></div>'+
+    '<div><small>Cargó</small><b>'+esc(r.cargador)+'</b></div>'+
+    '<div class="full"><small>Transporte</small><b>'+esc((r.transportista||'—')+(r.patente?' · '+r.patente:''))+'</b></div>'+
+    r.salidas.map(s=>'<div class="full ok-ren"><b>'+esc(s.nombre)+(s.exc?' <span class="tag-exc">EXCEPCIÓN</span>':'')+'</b>'+
+      '<small>Destino: '+esc(s.destino)+'</small><small>DTE: '+esc(s.dte||'se ata después')+'</small>'+
+      s.tropas.map(t=>'<b style="font-weight:500">'+(t.nombre?esc(t.nombre)+': ':'')+esc(catsTxt(t.cats))+'</b>').join('')+'</div>').join('')+
+    '<div class="full" style="flex-direction:row;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px"><b>Total cabezas</b><b style="font-family:var(--mono);font-size:34px;color:var(--out-text)">'+esc(r.total)+'</b></div>';
+  setSt({pdf:'run',fotos:r.fotosData.length?'run':null});
+  const quien=r.transportista&&r.transportista!=='Propio'?r.transportista:'';
+  $('btn-wa').classList.toggle('hidden',!r.telefono);
+  $('wa-t').textContent='Mandar remito a '+quien;
+  $('wa-s').textContent='Abre su chat de WhatsApp con el link al PDF';
+  $('btn-new').disabled=true;$('new-note').classList.remove('hidden');
+  $('ok').classList.remove('hidden');$('ok').scrollTop=0;window.scrollTo(0,0);
+}
+function setSt(upd){
+  Object.assign(EST,upd);
+  const ico=s=>s==='run'?'<span class="spin" aria-hidden="true"></span>':(s==='ok'?'<span style="color:var(--green-text)">'+ICON.ok+'</span>':'<span style="color:var(--red)">'+ICON.err+'</span>');
+  const rows=[],n=ULT?ULT.fotosData.length:0;
+  rows.push('<div class="st"><span class="ic">'+ico('ok')+'</span><span>Egreso guardado en la base</span></div>');
+  if(EST.pdf) rows.push('<div class="st"><span class="ic">'+ico(EST.pdf)+'</span><span>'+(EST.pdf==='run'?'Guardando PDF…':EST.pdf==='ok'?'Remito PDF guardado':'No se pudo guardar el PDF (el egreso sí quedó guardado)')+'</span></div>');
+  if(EST.fotos) rows.push('<div class="st"><span class="ic">'+ico(EST.fotos)+'</span><span>'+(EST.fotos==='run'?'Subiendo fotos…':EST.fotos==='ok'?(n+' foto'+(n>1?'s':'')+' subida'+(n>1?'s':'')):'No se pudieron subir todas las fotos')+'</span></div>');
+  $('ok-st').innerHTML=rows.join('');
+}
+// El PDF y las fotos son del camión: se adjuntan a cada salida (una por comprador) de la carga
+async function adjuntar(r,fotos,pdf){
+  let ok=true;
+  for(const id of r.ids){
+    const ra=await rpc('adjuntar_egreso',{p_token:TOKEN,p_id:id,p_fotos:fotos,p_pdf_url:pdf});
+    if(!ra.ok){console.warn('[adjuntar]',id,ra.error);ok=false;}
+  }
+  return ok;
+}
+async function postGuardado(r,fotos){
+  if(fotos.length){
+    const urls={};
+    for(let i=0;i<fotos.length;i++){
+      try{urls['foto'+(i+1)]=await subirArchivo('C'+r.id+'_foto'+(i+1)+'.jpg',fotos[i].blob,'image/jpeg');}catch(e){console.warn('[FOTO]',e);}
+    }
+    let ok=Object.keys(urls).length===fotos.length;
+    if(Object.keys(urls).length&&!(await adjuntar(r,urls,null))) ok=false;
+    setSt({fotos:ok?'ok':'err'});
+  }
+  try{
+    const doc=await armarPDF(r);
+    r.pdfDoc=doc;
+    const url=await subirArchivo('Remito_Egreso_Darwash_'+nroRemito(r.id)+'.pdf',doc.output('blob'),'application/pdf');
+    if(!(await adjuntar(r,null,url))) throw new Error('adjuntar');
+    r.pdf_url=url;setSt({pdf:'ok'});
+  }catch(e){console.warn('[PDF]',e);setSt({pdf:'err'});}
+  if(ULT===r){$('btn-new').disabled=false;$('new-note').classList.add('hidden');}
+}
+function mensajeWA(r){
+  const L='━━━━━━━━━━━━━━━━━━━━━━';
+  const lin=s=>{const n=s.tropas.map(t=>t.nombre).filter(Boolean).join(' + ');return n?'🏷 Tropa: '+n+'\n':'';};
+  const detalle=s=>s.tropas.map(t=>(s.tropas.length>1&&t.nombre?'  _'+t.nombre+'_\n':'')+SIG.filter(([k])=>t.cats[k]>0).map(([k,n])=>'  • '+n+': '+t.cats[k]).join('\n')).join('\n');
+  const transp='🚛 Transportista: '+(r.transportista||'—')+' · '+(r.patente||'—')+'\n';
+  let m='🐄 *EGRESO DE HACIENDA — DARWASH SA*\n'+L+'\n📅 Fecha: '+r.fecha+'\n';
+  if(r.salidas.length===1){
+    const s=r.salidas[0];
+    m+='👤 Comprador: '+s.nombre+'\n'+lin(s)+'📄 DTE: '+(s.dte||'—')+'\n📍 Destino: '+(s.destino||'—')+'\n'+transp+L+'\n'+detalle(s)+'\n';
+  }else{
+    m+=transp;
+    r.salidas.forEach(s=>{m+=L+'\n👤 *'+s.nombre+'* — '+s.cab+' cab\n'+lin(s)+'📄 DTE: '+(s.dte||'—')+'\n📍 Destino: '+(s.destino||'—')+'\n'+detalle(s)+'\n';});
+  }
+  return m+L+'\n✅ *TOTAL: '+r.total+' cabezas*\n'+
+    (r.observaciones?'📝 '+r.observaciones+'\n':'')+
+    (r.pdf_url?'\n📎 PDF: '+r.pdf_url+'\n':'')+
+    '\n_Registrado en Darwash DTE Dashboard_';
+}
+function initExito(){
+  $('btn-wa').addEventListener('click',()=>{
+    if(!ULT)return;
+    const txt=encodeURIComponent(mensajeWA(ULT));
+    window.open(ULT.telefono?'https://wa.me/'+ULT.telefono+'?text='+txt:'https://wa.me/?text='+txt,'_blank');
+  });
+  $('btn-grupo').addEventListener('click',()=>{if(ULT)window.open('https://wa.me/?text='+encodeURIComponent(mensajeWA(ULT)),'_blank');});
+  $('btn-pdf').addEventListener('click',async()=>{
+    if(!ULT)return;
+    try{const doc=ULT.pdfDoc||await armarPDF(ULT);doc.save('Remito_Egreso_Darwash_'+nroRemito(ULT.id)+'.pdf');}catch(e){$('btn-pdf').textContent='No se pudo generar el PDF';}
+  });
+  $('btn-new').addEventListener('click',nuevo);
+}
+function nuevo(){
+  ['transp','patente','obs','tel','cp-q'].forEach(id=>$(id).value='');
+  $('propio').checked=false;
+  $('bloques').innerHTML='';
+  Object.assign(S,{sal:[],verLista:true,transp:null,transpNuevo:null,telEditando:false,fotos:[],err:'',tropasListas:false});
+  EST={};ULT=null;
+  limpiarFirma();renderFotos();renderTransp();renderTel();
+  $('fecha').value=hoyISO();pintaFecha();
+  $('btn-pdf').textContent='Descargar PDF';
+  $('ok').classList.add('hidden');window.scrollTo(0,0);
+  renderComps();cargarTropas();renderHist();cargarDestinosMas();
+}
 
-const CATS_REF=CATS; // needed inside PDF scope
+/* ---------- PDF ---------- */
+function cargarImg(src){return new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);setTimeout(()=>res(null),5000);i.src=src;});}
+async function armarPDF(r){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
+  const W=210,PH=297,M=18,CW=W-2*M;
+  const logo=await cargarImg('drw-logo-full.png');
+  const rgb=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const fill=h=>doc.setFillColor(...rgb(h)),draw=h=>doc.setDrawColor(...rgb(h)),col=h=>doc.setTextColor(...rgb(h));
+  const C={out:'#B42318',outD:'#912018',outS:'#FEF3F2',amber:'#8A5A00',amberS:'#FDF3D9',
+           text:'#161616',t2:'#45443F',muted:'#6B6960',line:'#DEDCD3',zebra:'#F7F6F2',band:'#EFEEE8'};
+  const font=(f,st,sz,c)=>{doc.setFont(f,st);doc.setFontSize(sz);col(c||C.text);};
+  const pie=()=>{
+    const fy=PH-12;draw(C.line);doc.setLineWidth(0.2);doc.line(M,fy-4,W-M,fy-4);
+    font('helvetica','normal',7,C.muted);
+    doc.text('DARWASH SA · Documento interno de salida de hacienda',M,fy);
+    doc.text('Generado '+new Date().toLocaleString('es-AR'),W-M,fy,{align:'right'});
+  };
+  const salto=h=>{if(y+h>PH-18){pie();doc.addPage();y=20;return true;}return false;};
+  let y=12;
 
-document.addEventListener('DOMContentLoaded',init);
+  // Encabezado
+  if(logo){try{doc.addImage(logo,'PNG',M,y,28,20);}catch(e){}}
+  font('helvetica','bold',16,C.text);doc.text('REMITO DE SALIDA',W-M,y+7,{align:'right'});
+  font('courier','bold',12,C.outD);doc.text('N° '+nroRemito(r.id),W-M,y+13.5,{align:'right'});
+  font('helvetica','normal',8.5,C.muted);doc.text('Feria Washington · Vicuña Mackenna, Córdoba',W-M,y+19,{align:'right'});
+  y+=26;fill(C.out);doc.rect(M,y,CW,0.8,'F');y+=6;
+
+  // Remate
+  fill(C.outS);doc.roundedRect(M,y,CW,15,2,2,'F');
+  font('helvetica','bold',7,C.outD);doc.text('REMATE',M+5,y+5.5);
+  font('helvetica','bold',11,C.text);doc.text(r.remateAlias||r.remate,M+5,y+11.5);
+  if(r.remateAlias){font('courier','normal',8.5,C.t2);doc.text(r.remate,W-M-5,y+11.5,{align:'right'});}
+  y+=21;
+
+  // Datos del camión
+  const dato=(lab,val,x,w,mono)=>{
+    font('helvetica','bold',7,C.muted);doc.text(lab,x,y);
+    font(mono?'courier':'helvetica','bold',11,C.text);doc.text(doc.splitTextToSize(String(val||'—'),w).slice(0,2),x,y+7);
+  };
+  const c3=(CW-10)/3;
+  dato('FECHA DE SALIDA',r.fecha,M,c3,true);
+  dato('TRANSPORTISTA',r.transportista,M+c3+5,c3);
+  dato('PATENTE',r.patente||'—',M+2*c3+10,c3,true);
+  y+=17;
+
+  // Hacienda por comprador
+  font('helvetica','bold',7,C.muted);doc.text(r.salidas.length>1?'DETALLE POR COMPRADOR':'DETALLE DE HACIENDA',M,y);y+=3;
+  const rh=8.5,bh2=19;
+  const cabecera=()=>{
+    fill(C.text);doc.rect(M,y,CW,rh,'F');
+    font('helvetica','bold',8.5,'#FFFFFF');doc.text('COMPRADOR / TROPA / CATEGORÍA',M+5,y+5.8);doc.text('CABEZAS',W-M-5,y+5.8,{align:'right'});
+    y+=rh;
+  };
+  cabecera();
+  r.salidas.forEach(s=>{
+    const filas=[];
+    s.tropas.forEach(t=>SIG.filter(([k])=>t.cats[k]>0).forEach(([k,n])=>filas.push({t,k,n})));
+    if(salto(bh2+filas.length*rh)) cabecera();
+    fill(s.exc?C.amberS:C.band);doc.rect(M,y,CW,bh2,'F');
+    font('helvetica','bold',11,C.text);doc.text(doc.splitTextToSize(s.nombre+(s.exc?'  (fuera del remate)':''),CW-34)[0],M+5,y+5.5);
+    font('helvetica','bold',7,C.muted);doc.text('DESTINO',M+5,y+10.3);doc.text('N° DTE',M+5,y+15.3);
+    font('helvetica','normal',9,C.text);doc.text(doc.splitTextToSize(String(s.destino||'—')+(s.destinoSub&&s.destinoSub.indexOf('Otro')===0?'  ·  sin RENSPA':''),CW-50)[0],M+20,y+10.3);
+    if(s.dte){font('courier','bold',9.5,C.text);doc.text(s.dte,M+20,y+15.3);}
+    else{font('helvetica','bold',8,C.amber);doc.text('A CONFIRMAR',M+20,y+15.3);}
+    font('courier','bold',12,C.t2);doc.text(String(s.cab),W-M-5,y+7,{align:'right'});
+    y+=bh2;
+    filas.forEach((f,i)=>{
+      if(i%2){fill(C.zebra);doc.rect(M,y,CW,rh,'F');}
+      let x=M+10;
+      if(f.t.nombre){font('helvetica','bold',9,C.t2);doc.text(f.t.nombre,x,y+5.8);x+=doc.getTextWidth(f.t.nombre)+4;}
+      font('helvetica','normal',10,C.text);doc.text(f.n,x,y+5.8);
+      font('courier','normal',8,C.muted);doc.text(f.k,x+doc.getTextWidth(f.n)+3,y+5.8);
+      font('courier','bold',11.5,C.text);doc.text(String(f.t.cats[f.k]),W-M-5,y+6,{align:'right'});
+      y+=rh;
+    });
+  });
+  salto(22);
+  fill(C.outS);doc.rect(M,y,CW,13,'F');fill(C.out);doc.rect(M,y,CW,0.6,'F');
+  font('helvetica','bold',11,C.outD);doc.text('TOTAL CABEZAS',M+5,y+8.5);
+  font('courier','bold',18,C.outD);doc.text(String(r.total),W-M-5,y+9.5,{align:'right'});
+  y+=21;
+
+  // Observaciones
+  if(r.observaciones){
+    font('helvetica','normal',10,C.text);const ls=doc.splitTextToSize(r.observaciones,CW-10).slice(0,4);
+    const hb=ls.length*5+6;salto(hb+12);
+    font('helvetica','bold',7,C.muted);doc.text('OBSERVACIONES',M,y);y+=3;
+    fill(C.amberS);doc.roundedRect(M,y,CW,hb,1.5,1.5,'F');font('helvetica','normal',10,C.text);doc.text(ls,M+5,y+6.5);y+=hb+6;
+  }
+
+  // Fotos
+  if(r.fotosData.length){
+    const FW=(CW-12)/5,FH=FW*0.75;
+    salto(FH+12);
+    font('helvetica','bold',7,C.muted);doc.text('FOTOS DE RESPALDO',M,y);y+=3;
+    r.fotosData.slice(0,5).forEach((d,i)=>{try{doc.addImage(d,'JPEG',M+i*(FW+3),y,FW,FH);}catch(e){}});
+    y+=FH+4;
+  }
+
+  // Firma (respeta la proporción del trazo)
+  const bw=80,bh=28;
+  if(y+bh+6>PH-17){pie();doc.addPage();y=20;}
+  font('helvetica','bold',7,C.muted);doc.text('FIRMA DEL TRANSPORTISTA',M,y);y+=3;
+  if(r.firma&&r.firma.url){
+    const k=Math.min(bw/r.firma.w,(bh-4)/r.firma.h),fw=r.firma.w*k,fh=r.firma.h*k;
+    try{doc.addImage(r.firma.url,'JPEG',M+(bw-fw)/2,y+(bh-4-fh),fw,fh);}catch(e){}
+  }
+  draw(C.t2);doc.setLineWidth(0.3);doc.line(M,y+bh-2,M+bw,y+bh-2);
+  font('helvetica','normal',8.5,C.t2);doc.text((r.transportista&&r.transportista!=='Propio')?r.transportista:'Transportista',M,y+bh+3);
+  font('helvetica','normal',7.5,C.muted);
+  doc.text(['Retirado de Feria Washington','el '+r.fecha+'. Cargó: '+r.cargador+'.'],W-M,y+bh-6,{align:'right'});
+  pie();
+  return doc;
+}
+
+/* ---------- INIT ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  initFecha();initCargador();initComps();initTransp();initFirma();initFotos();initExito();
+  $('btn-save').addEventListener('click',()=>guardar());
+  // Con el teclado abierto la barra fija tapa media pantalla: se oculta mientras se escribe
+  const esCampo=el=>el&&el.matches&&el.matches('.main input:not([type=checkbox]):not([type=file]), .main textarea');
+  document.addEventListener('focusin',e=>{if(esCampo(e.target)){document.body.classList.add('kb');
+    if(e.target.classList.contains('cat-v')) setTimeout(()=>e.target.isConnected&&e.target.closest('.cat').scrollIntoView({block:'center',behavior:'smooth'}),250);}});
+  document.addEventListener('focusout',()=>setTimeout(()=>{if(!esCampo(document.activeElement))document.body.classList.remove('kb');},120));
+  renderTransp();renderComps();
+  cargarTransportistas().then(renderTransp);
+  cargarRemate();
+});
 </script>
 </body>
 </html>

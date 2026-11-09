@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>Darwash · Egresos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  /* Tokens — Darwash Operaciones (light) */
+  :root{
+    --bg:#FCF7F7;--surface:#FFFFFF;--surface-2:#F5F4EE;
+    --border:#E5E5E0;--border-strong:#D4D2C8;
+    --text:#1A1A1A;--text-2:#4A4A48;--muted:#8A8880;
+    --cyan:#00B5B6;--cyan-soft:#E6F8F8;
+    --green:#00A86B;--green-soft:#E6F7EF;
+    --amber:#B8881F;--amber-soft:#FBF3DC;
+    --red:#D63B47;--red-soft:#FCE8EA;
+    --blue:#2E7AC7;--blue-soft:#E8F0FA;
+    --serif:'Lora',Georgia,serif;
+    --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
+    --mono:'JetBrains Mono',Consolas,Monaco,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;min-height:100vh;overscroll-behavior:none;}
+
+  /* HEADER */
+  .lf-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
+  .lf-logo{width:36px;height:36px;border-radius:8px;background:var(--cyan);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-weight:700;font-size:13px;letter-spacing:.5px;flex-shrink:0;}
+  .lf-wordmark-wrap{display:flex;align-items:baseline;gap:6px;flex:1;min-width:0;}
+  .lf-wordmark{font-family:var(--serif);font-weight:700;font-size:14px;letter-spacing:1.2px;color:var(--text);}
+  .lf-wordmark-sub{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+  .lf-badge{font-family:var(--mono);font-weight:600;font-size:10px;letter-spacing:1.5px;padding:4px 10px;border-radius:4px;border:1px solid;text-transform:uppercase;flex-shrink:0;}
+  .lf-badge.salida{color:var(--red);border-color:var(--red);background:var(--red-soft);}
+
+  /* MAIN */
+  .lf-main{padding:16px 16px 100px;max-width:520px;margin:0 auto;}
+
+  /* SECTION LABEL con línea */
+  .lf-section-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin:24px 0 10px;display:flex;align-items:center;gap:8px;}
+  .lf-section-label::after{content:"";flex:1;height:1px;background:var(--border);}
+  .lf-section-label:first-of-type{margin-top:8px;}
+
+  /* REMATE — Card con header fijo */
+  .remate-bar{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:6px;overflow:hidden;}
+  .remate-loading{padding:14px 18px;font-family:var(--sans);font-size:13px;color:var(--muted);text-align:center;}
+  .remate-empty{padding:16px 20px;font-family:var(--sans);font-size:13px;color:var(--red);text-align:center;background:var(--red-soft);border:1px solid var(--red);border-radius:6px;font-weight:500;line-height:1.5;}
+  .remate-single{padding:14px 16px;}
+  .remate-single-tag{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
+  .remate-single-alias{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--text);line-height:1.3;}
+  .remate-single-code{font-family:var(--mono);font-weight:500;font-size:14px;letter-spacing:0.5px;color:var(--text);}
+  .remate-single-sub{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:0.5px;color:var(--muted);margin-top:3px;}
+  .remate-single-meta{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:6px;}
+
+  /* INPUT FIELD */
+  .lf-field{margin-bottom:10px;}
+  .lf-field-label{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;display:block;}
+  .lf-input,.lf-textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 12px;color:var(--text);font-family:var(--sans);font-size:15px;outline:none;transition:border-color 150ms,background 150ms;-webkit-appearance:none;}
+  .lf-input:focus,.lf-textarea:focus{border-color:var(--cyan);background:#FCFCFA;}
+  .lf-input::placeholder,.lf-textarea::placeholder{color:var(--border-strong);}
+  .lf-textarea{resize:none;min-height:80px;}
+  .lf-input.uppercase{text-transform:uppercase;}
+
+  /* ROW de 2 columnas */
+  .lf-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+  .lf-row-2 .lf-field{margin-bottom:0;}
+
+  /* CATEGORIAS GRID 4x2 */
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 4px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;transition:border-color 150ms,background 150ms;}
+  .cat-card.active{border-color:var(--red);background:var(--red-soft);}
+  .cat-code{font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:1.5px;color:var(--text-2);text-transform:uppercase;}
+  .cat-card.active .cat-code{color:var(--red);}
+  .cat-name{font-family:var(--sans);font-size:8px;color:var(--muted);}
+  .cat-input{width:100%;background:transparent;border:none;border-radius:0;padding:2px 0 0;font-family:var(--mono);font-weight:600;font-size:20px;text-align:center;color:var(--text-2);outline:none;font-variant-numeric:tabular-nums;-webkit-appearance:none;-moz-appearance:textfield;appearance:textfield;}
+  .cat-input::-webkit-outer-spin-button,.cat-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  .cat-input::placeholder{color:var(--border-strong);}
+  .cat-card.active .cat-input{color:var(--red);font-weight:700;}
+
+  /* TOTAL CARD */
+  .total-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:6px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
+  .total-info{display:flex;flex-direction:column;}
+  .total-label{font-family:var(--mono);font-weight:600;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+  .total-sub{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:2px;}
+  .total-num{font-family:var(--mono);font-weight:700;font-size:34px;color:var(--red);font-variant-numeric:tabular-nums;line-height:1;}
+
+  /* FOTOS */
+  .foto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px;}
+  .foto-slot{position:relative;aspect-ratio:1;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:border-color 150ms;overflow:hidden;}
+  .foto-slot:hover{border-color:var(--cyan);}
+  .foto-slot.filled{border-style:solid;border-color:var(--cyan);}
+  .foto-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+  .foto-slot .slot-icon{font-size:18px;}
+  .foto-slot .slot-label{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-top:4px;}
+  .foto-slot .slot-del{position:absolute;top:4px;right:4px;background:var(--red);border:none;color:#fff;border-radius:50%;width:22px;height:22px;font-size:11px;font-weight:700;cursor:pointer;display:none;align-items:center;justify-content:center;}
+  .foto-slot.filled .slot-del{display:flex;}
+  .foto-counter{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:0.5px;color:var(--muted);text-align:center;margin-top:4px;}
+
+  /* BOTONES */
+  .lf-btn{width:100%;border:1px solid transparent;border-radius:6px;padding:14px 16px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 150ms;}
+  .lf-btn:active{opacity:0.85;}
+  .lf-btn:disabled{opacity:0.5;cursor:not-allowed;}
+  .btn-save{background:var(--cyan);color:#fff;border-color:var(--cyan);margin-top:24px;}
+  .btn-pdf{background:transparent;border-color:var(--amber);color:var(--amber);}
+  .btn-wsp{background:transparent;border-color:var(--green);color:var(--green);}
+  .btn-nuevo{background:transparent;border-color:var(--blue);color:var(--blue);}
+  .lf-actions-secondary{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+
+  /* SUCCESS OVERLAY */
+  .success-overlay{display:none;position:fixed;inset:0;background:rgba(250,250,247,0.96);z-index:100;align-items:center;justify-content:center;padding:32px 24px;}
+  .success-overlay.show{display:flex;}
+  .success-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:6px;padding:32px 24px;text-align:center;max-width:380px;width:100%;}
+  .success-icon{width:56px;height:56px;border-radius:50%;background:var(--green-soft);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:28px;margin:0 auto 14px;}
+  .success-title{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--text);margin-bottom:6px;}
+  .success-sub{font-family:var(--sans);font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.5;white-space:pre-line;}
+  .btn-group{display:flex;flex-direction:column;gap:8px;}
+
+  /* HISTORIAL */
+  .historial{margin-top:8px;display:flex;flex-direction:column;gap:8px;}
+  .hist-item{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 14px;}
+  .hist-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+  .hist-tropa{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--text);}
+  .hist-total{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--green);font-variant-numeric:tabular-nums;}
+  .hist-meta{font-family:var(--sans);font-size:11px;color:var(--muted);line-height:1.5;}
+  .hist-cats{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+  .hist-cat-chip{background:var(--cyan-soft);border:1px solid var(--cyan);border-radius:4px;padding:2px 8px;font-family:var(--mono);font-weight:500;font-size:10px;color:var(--cyan);letter-spacing:0.5px;}
+    /* FIRMA */
+    .firma-wrap{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+    .firma-canvas{display:block;width:100%;height:160px;cursor:crosshair;touch-action:none;background:repeating-linear-gradient(0deg,#FCFCFA 0,#FCFCFA 23px,#F0EFE9 23px,#F0EFE9 24px);}
+    .firma-toolbar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--surface-2);border-top:1px solid var(--border);}
+    .firma-status{font-family:var(--mono);font-weight:500;font-size:10px;color:var(--muted);letter-spacing:0.5px;}
+    .btn-limpiar{background:transparent;border:1px solid var(--red);color:var(--red);border-radius:4px;padding:5px 10px;font-family:var(--sans);font-size:11px;font-weight:500;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="lf-header">
+  <div class="lf-logo">DRW</div>
+  <div class="lf-wordmark-wrap">
+    <span class="lf-wordmark">DARWASH</span>
+    <span class="lf-wordmark-sub">EGRESOS</span>
+  </div>
+  <span class="lf-badge salida">Salida</span>
+</div>
+
+<!-- MAIN -->
+<div class="lf-main" id="main-form">
+
+  <!-- REMATE — header fijo desde URL (lo carga cargarRemate) -->
+  <div class="remate-bar" id="remate-bar">
+    <div class="remate-loading">Cargando remate…</div>
+  </div>
+  <input type="hidden" id="sel-remate" value=""/>
+
+  <!-- QUIÉN CARGA — lista servida por cargadores_para_egreso(token) -->
+  <div class="lf-field">
+    <label class="lf-field-label">Quién carga</label>
+    <select class="lf-input" id="sel-cargador" disabled><option value="">Cargando…</option></select>
+  </div>
+
+  <!-- DATOS DEL EGRESO -->
+  <div class="lf-section-label">Datos del egreso</div>
+
+  <div class="lf-row-2">
+    <div class="lf-field">
+      <label class="lf-field-label">Fecha</label>
+      <input class="lf-input" id="inp-fecha" type="date"/>
+    </div>
+    <div class="lf-field">
+      <label class="lf-field-label">N° tropa</label>
+      <input class="lf-input" id="inp-tropa" type="text" placeholder="Tropa" autocorrect="off"/>
+    </div>
+  </div>
+
+  <div class="lf-field">
+    <label class="lf-field-label">N° DTE / Guía</label>
+    <input class="lf-input" id="inp-dte" type="text" placeholder="031889" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocorrect="off" spellcheck="false"/>
+  </div>
+
+  <div class="lf-field">
+    <label class="lf-field-label">Destino</label>
+    <input class="lf-input" id="inp-destino" type="text" placeholder="Establecimiento o frigorífico de destino" autocorrect="off"/>
+  </div>
+
+  <!-- TRANSPORTE -->
+  <div class="lf-section-label">Transporte</div>
+
+  <div class="lf-field">
+    <label class="lf-field-label">Transportista</label>
+    <input class="lf-input" id="inp-transportista" type="text" placeholder="Nombre del transportista" autocorrect="off"/>
+  </div>
+
+  <div class="lf-field">
+    <label class="lf-field-label">Patente camión</label>
+    <input class="lf-input uppercase" id="inp-patente" type="text" placeholder="AE874LP" autocomplete="off" autocorrect="off"/>
+  </div>
+
+  <!-- DETALLE POR CATEGORÍA -->
+  <div class="lf-section-label">Detalle por categoría</div>
+  <div class="cat-grid" id="cat-grid"></div>
+
+  <!-- TOTAL -->
+  <div class="total-card">
+    <div class="total-info">
+      <div class="total-label">Total cabezas</div>
+      <div class="total-sub">Sumatoria de categorías</div>
+    </div>
+    <div class="total-num" id="total-num">0</div>
+  </div>
+
+  <!-- FIRMA -->
+  <div class="lf-section-label">Firma del transportista</div>
+  <div class="firma-wrap">
+    <canvas id="firma-canvas" class="firma-canvas"></canvas>
+    <div class="firma-toolbar">
+      <span class="firma-status" id="firma-status">Firmá con el dedo</span>
+      <button class="btn-limpiar" onclick="limpiarFirma()">Limpiar</button>
+    </div>
+  </div>
+
+  <!-- FOTOS -->
+  <div class="lf-section-label">Fotos de respaldo</div>
+  <div class="foto-grid" id="foto-grid"></div>
+  <div class="foto-counter" id="foto-counter">0 fotos seleccionadas</div>
+  <input type="file" id="foto-input" accept="image/*" capture="environment" style="display:none" onchange="onFotoSeleccionada(this)"/>
+
+  <!-- OBSERVACIONES -->
+  <div class="lf-section-label">Observaciones</div>
+  <div class="lf-field">
+    <textarea class="lf-textarea" id="inp-obs" placeholder="Observaciones (opcional)…"></textarea>
+  </div>
+
+  <!-- ACCIONES -->
+  <button class="lf-btn btn-save btn-guardar" onclick="guardar()">Guardar egreso</button>
+
+  <div class="lf-actions-secondary">
+    <button class="lf-btn btn-pdf" id="btn-pdf" onclick="generarPDF()" disabled>Remito PDF</button>
+    <button class="lf-btn btn-wsp" id="btn-wa" onclick="compartirWA()" disabled>Compartir por WhatsApp</button>
+    <button class="lf-btn btn-nuevo" onclick="nuevoRegistro()">+ Nuevo egreso</button>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="lf-section-label">Registros de esta sesión</div>
+  <div class="historial" id="historial"></div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <div class="success-title">¡Egreso registrado!</div>
+    <div class="success-sub" id="success-sub"></div>
+    <div class="btn-group">
+      <button class="lf-btn btn-pdf" id="suc-pdf" onclick="generarPDF()">Remito PDF</button>
+      <button class="lf-btn btn-wsp" id="suc-wa" onclick="compartirWA()">Compartir por WhatsApp</button>
+      <button class="lf-btn btn-nuevo" onclick="nuevoRegistro()">+ Nuevo egreso</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
+const SUPABASE_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
+const SUPABASE_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
+// Token del link (egreso.html?remate=…&t=…). Sin token válido no se carga nada.
+const TOKEN=new URLSearchParams(location.search).get('t')||'';
+
+// Llama a una función de Supabase. Devuelve siempre {ok:…}: un error HTTP
+// o de red NUNCA se muestra como "guardado".
+async function rpc(fn,args){
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+fn,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
+      body:JSON.stringify(args)
+    });
+    let data=null; try{data=await res.json();}catch(_){}
+    if(!res.ok) return {ok:false,error:'http_'+res.status};
+    return (data&&typeof data==='object')?data:{ok:false,error:'respuesta_vacia'};
+  }catch(e){ return {ok:false,error:'red'}; }
+}
+const MSG_ERROR={
+  token_invalido:'Este link venció o no es válido. Pedí un link nuevo a Darwash.',
+  token_otro_remate:'Este link es de otro remate. Pedí el link de este remate a Darwash.',
+  limite:'Se alcanzó el máximo de remitos por hora para este link. Avisá a Darwash.',
+  remate_invalido:'El remate del link no es válido. Pedí un link nuevo.',
+  cargador_invalido:'Elegí quién carga.',
+  tropa_requerida:'Ingresá el nombre de la tropa.',
+  fecha_invalida:'La fecha no es válida (hasta 30 días atrás o 2 adelante).',
+  categorias_invalidas:'Revisá las cantidades por categoría.',
+  sin_cabezas:'Ingresá al menos una categoría con cantidad.',
+  cabezas_excesivas:'Más de 400 cabezas en un remito: revisá las cantidades.',
+  dte_formato:'El N° de DTE no tiene el formato correcto (ej. 032561004-2).',
+  texto_largo:'Algún campo es demasiado largo.',
+  red:'Sin conexión. No se guardó: reintentá.',
+};
+function msgError(r){return MSG_ERROR[r&&r.error]||('No se pudo guardar ('+((r&&r.error)||'error')+'). Reintentá o avisá a Darwash.');}
+
+const CATS=[
+  {id:'novillo',label:'Novillo',code:'NOV'},
+  {id:'vaquillona',label:'Vaquillona',code:'VQ'},
+  {id:'vaca',label:'Vaca',code:'VA'},
+  {id:'ternero',label:'Ternero',code:'TER'},
+  {id:'ternera',label:'Ternera',code:'TRA'},
+  {id:'toro',label:'Toro',code:'TORO'},
+  {id:'torito',label:'Torito/MEJ',code:'MEJ'},
+];
+
+const FOTO_SLOTS=[
+  {id:'hacienda',icon:'🐄',label:'Hacienda'},
+  {id:'dte',icon:'📄',label:'DTE / Doc.'},
+  {id:'camion',icon:'🚛',label:'Camión'},
+];
+
+let ultimoRegistro=null;
+let nroRemito=Date.now();
+let sesionRegistros=[];
+let firmaDataURL=null;
+let fotoFiles={};
+let slotActivo=null;
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+async function init(){
+  renderCatGrid();
+  initFotos();
+  initFirma();
+  await cargarRemate();
+  // Fecha hoy
+  const hoy=new Date();
+  document.getElementById('inp-fecha').value=hoy.toISOString().split('T')[0];
+  renderHistorial();
+}
+
+// ══════════════════════════════════════════
+// CATEGORIAS
+// ══════════════════════════════════════════
+function renderCatGrid(){
+  const g=document.getElementById('cat-grid');
+  g.innerHTML=CATS.map(c=>`
+    <div class="cat-card">
+      <div class="cat-code">${c.code||c.id.toUpperCase().slice(0,3)}</div>
+      <div class="cat-name">${c.label}</div>
+      <input class="cat-input" type="number" inputmode="numeric" pattern="[0-9]*" min="0" id="cat-${c.id}" value="" placeholder="0" oninput="this.closest('.cat-card').classList.toggle('active',Number(this.value)>0);recalcTotal()"/>
+    </div>`).join('');
+}
+
+function recalcTotal(){
+  let t=0;
+  CATS.forEach(c=>{const v=parseInt(document.getElementById('cat-'+c.id).value)||0;t+=v;});
+  document.getElementById('total-num').textContent=t;
+}
+
+function getCats(){
+  const obj={};
+  CATS.forEach(c=>{const v=parseInt(document.getElementById('cat-'+c.id).value)||0;if(v>0)obj[c.id]=v;});
+  return obj;
+}
+
+// ══════════════════════════════════════════
+// REMATES
+// ══════════════════════════════════════════
+async function cargarRemate(){
+  const cont=document.getElementById('remate-bar');
+  const sel=document.getElementById('sel-remate');
+  const btnSave=document.querySelector('.btn-guardar');
+  const showError=(msg)=>{
+    cont.innerHTML='<div class="remate-empty">'+msg+'</div>';
+    sel.value='';
+    btnSave.disabled=true;
+    const selC=document.getElementById('sel-cargador');
+    selC.innerHTML='<option value="">—</option>';
+    selC.disabled=true;
+  };
+
+  // 1. Leer ?remate=CODIGO de la URL
+  const codigo=new URLSearchParams(location.search).get('remate');
+  if(!codigo){
+    showError('⚠ Link inválido. Pedí un link nuevo a Darwash.');
+    return;
+  }
+  if(!TOKEN){
+    showError('⚠ Este link no tiene clave de carga. Pedí un link nuevo a Darwash.');
+    return;
+  }
+
+  // 2. Fetch del maestro y los aliases en paralelo (alias es opcional)
+  const baseUrl='https://raw.githubusercontent.com/darwashsa-ux/darwash-dte/main';
+  const t=Date.now();
+  let data, aliases={};
+  try{
+    const [rMaestro,rAlias]=await Promise.all([
+      fetch(`${baseUrl}/remates_maestro.json?t=${t}`),
+      fetch(`${baseUrl}/remates_alias.json?t=${t}`).catch(()=>null),
+    ]);
+    if(!rMaestro.ok) throw new Error('HTTP '+rMaestro.status);
+    data=await rMaestro.json();
+    if(rAlias && rAlias.ok){
+      try{
+        const a=await rAlias.json();
+        if(a && typeof a==='object' && !Array.isArray(a)) aliases=a;
+      }catch(_){ /* alias inválido — fallback {} silencioso */ }
+    }
+  }catch(e){
+    showError('Sin conexión — no se pudo verificar el remate. Reintentá en un rato.');
+    return;
+  }
+
+  // 3. Buscar el remate por código en el maestro
+  const remate=(data.remates||[]).find(r=>r && r.codigo===codigo);
+  if(!remate){
+    showError('⚠ Remate no encontrado. Pedí un link nuevo.');
+    return;
+  }
+
+  // 4. EGRESO acepta PENDIENTE y CERRADA. El estado del remate es asunto
+  //    administrativo de Darwash con SENASA, no se le muestra al transportista
+  //    — el header se ve idéntico en ambos casos.
+
+  // 5. Render header fijo (sin distinción de estado)
+  const info=remate.info||{};
+  const alias=aliases[codigo];
+  const titulo=alias
+    ? '<div class="remate-single-alias">'+esc(alias)+'</div><div class="remate-single-sub">'+esc(codigo)+'</div>'
+    : '<div class="remate-single-code">'+esc(codigo)+'</div>';
+  cont.innerHTML=
+    '<div class="remate-single">'+
+      '<div class="remate-single-tag">Remate activo</div>'+
+      titulo+
+      '<div class="remate-single-meta">'+esc(info.Inicio||'')+' → '+esc(info.Fin||'')+' · '+esc(info['Predio ferial']||'')+'</div>'+
+    '</div>';
+
+  // 6. Validar el token y traer la lista de quién carga
+  const rc=await rpc('cargadores_para_egreso',{p_token:TOKEN});
+  if(!rc.ok){ showError('⚠ '+msgError(rc)); return; }
+  if(rc.remate && rc.remate!==codigo){ showError('⚠ '+MSG_ERROR.token_otro_remate); return; }
+  const selC=document.getElementById('sel-cargador');
+  selC.innerHTML='<option value="">Elegí tu nombre…</option>'+
+    (rc.cargadores||[]).map(c=>'<option value="'+c.id+'">'+esc(c.nombre)+'</option>').join('');
+  selC.disabled=false;
+
+  sel.value=codigo;
+  btnSave.disabled=false;
+}
+
+// ══════════════════════════════════════════
+// FIRMA
+// ══════════════════════════════════════════
+function initFirma(){
+  const canvas=document.getElementById('firma-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  canvas.width=canvas.offsetWidth*window.devicePixelRatio||700;
+  canvas.height=canvas.offsetHeight*window.devicePixelRatio||300;
+  ctx.scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
+  ctx.strokeStyle='#1a1a2e';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
+  let drawing=false,lx=0,ly=0;
+  function pos(e){const r=canvas.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left),y:(t.clientY-r.top)};}
+  canvas.addEventListener('mousedown',e=>{drawing=true;const p=pos(e);lx=p.x;ly=p.y;});
+  canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;document.getElementById('firma-status').textContent='Firma registrada ✓';firmaDataURL=canvas.toDataURL();});
+  canvas.addEventListener('mouseup',()=>{drawing=false;});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const p=pos(e);lx=p.x;ly=p.y;},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;document.getElementById('firma-status').textContent='Firma registrada ✓';firmaDataURL=canvas.toDataURL();},{passive:false});
+  canvas.addEventListener('touchend',()=>{drawing=false;});
+}
+
+function limpiarFirma(){
+  const canvas=document.getElementById('firma-canvas');
+  if(!canvas){firmaDataURL=null;return;} // sin sección de firma en egreso — no-op
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  firmaDataURL=null;
+  document.getElementById('firma-status').textContent='Firmá con el dedo';
+}
+
+// ══════════════════════════════════════════
+// FOTOS
+// ══════════════════════════════════════════
+function initFotos(){
+  const g=document.getElementById('foto-grid');
+  g.innerHTML=FOTO_SLOTS.map(s=>`
+    <div class="foto-slot" id="slot-${s.id}" onclick="abrirFoto('${s.id}')">
+      <span class="slot-icon">${s.icon}</span>
+      <span class="slot-label">${s.label}</span>
+      <button class="slot-del" onclick="borrarFoto(event,'${s.id}')">✕</button>
+    </div>`).join('');
+  actualizarContadorFotos();
+}
+
+function abrirFoto(slotId){
+  slotActivo=slotId;
+  document.getElementById('foto-input').value='';
+  document.getElementById('foto-input').click();
+}
+
+function onFotoSeleccionada(input){
+  if(!input.files||!input.files[0]||!slotActivo)return;
+  const file=input.files[0];
+  fotoFiles[slotActivo]=file;
+  const url=URL.createObjectURL(file);
+  const slot=document.getElementById('slot-'+slotActivo);
+  slot.classList.add('filled');
+  let img=slot.querySelector('img');
+  if(!img){img=document.createElement('img');slot.prepend(img);}
+  img.src=url;
+  actualizarContadorFotos();
+}
+
+function borrarFoto(e,slotId){
+  e.stopPropagation();
+  delete fotoFiles[slotId];
+  const slot=document.getElementById('slot-'+slotId);
+  slot.classList.remove('filled');
+  const img=slot.querySelector('img');
+  if(img)img.remove();
+  actualizarContadorFotos();
+}
+
+function actualizarContadorFotos(){
+  const n=Object.keys(fotoFiles).length;
+  document.getElementById('foto-counter').textContent=n===0?'0 fotos seleccionadas':`${n} foto${n>1?'s':''} seleccionada${n>1?'s':''}`;
+}
+
+function limpiarFotos(){
+  fotoFiles={};
+  FOTO_SLOTS.forEach(s=>{
+    const slot=document.getElementById('slot-'+s.id);
+    if(!slot)return;
+    slot.classList.remove('filled');
+    const img=slot.querySelector('img');
+    if(img)img.remove();
+  });
+  actualizarContadorFotos();
+}
+
+// ══════════════════════════════════════════
+// GUARDAR
+// ══════════════════════════════════════════
+async function guardar(){
+  const remate=document.getElementById('sel-remate').value;
+  const fecha=document.getElementById('inp-fecha').value;
+  const tropa=document.getElementById('inp-tropa').value.trim();
+  const dte=document.getElementById('inp-dte').value.trim();
+  const destino=document.getElementById('inp-destino').value.trim();
+  const transportista=document.getElementById('inp-transportista').value.trim();
+  const patente=document.getElementById('inp-patente').value.trim().toUpperCase();
+  const obs=document.getElementById('inp-obs').value.trim();
+  const categorias=getCats();
+  const total=Object.values(categorias).reduce((a,b)=>a+b,0);
+
+  const cargadorId=Number(document.getElementById('sel-cargador').value)||null;
+  if(!remate){alert('Seleccioná un remate.');return;}
+  if(!cargadorId){alert('Elegí quién carga.');return;}
+  if(!tropa){alert('Ingresá el nombre de la tropa.');return;}
+  if(total===0){alert('Ingresá al menos una categoría con cantidad.');return;}
+
+  const btn=document.querySelector('.btn-guardar');
+  btn.textContent='Guardando...';btn.disabled=true;
+
+  try{
+    // Guardar en Supabase
+    const body={
+      remate,fecha,tropa,nro_dte:dte,destino,
+      transportista,patente,
+      categorias,total_cabezas:total,
+      observaciones:obs,
+      firma:firmaDataURL?'si':'no'
+    };
+    const r=await rpc('registrar_egreso',{
+      p_token:TOKEN,p_remate:remate,p_cargador_id:cargadorId,p_fecha:fecha,
+      p_tropa:tropa,p_nro_dte:dte,p_destino:destino,p_transportista:transportista,
+      p_patente:patente,p_categorias:categorias,p_observaciones:obs,p_firma:!!firmaDataURL
+    });
+    if(!r.ok){ alert('⚠ '+msgError(r)); return; }
+    ultimoRegistro={...body,id:r.id,nro_dte:r.nro_dte??body.nro_dte};
+    nroRemito=r.id;
+
+    // Subir fotos
+    const nFotos=Object.keys(fotoFiles).length;
+    let fotosUrls={};
+    if(nFotos>0){
+      fotosUrls=await subirFotos(nroRemito);
+      if(ultimoRegistro.id){
+        const ra=await rpc('adjuntar_egreso',{p_token:TOKEN,p_id:ultimoRegistro.id,p_fotos:fotosUrls,p_pdf_url:null});
+        if(!ra.ok) console.error('adjuntar fotos:',ra.error);
+      }
+      ultimoRegistro.fotos=fotosUrls;
+    }
+
+    // Subir PDF en background
+    generarPDF(true);
+
+    sesionRegistros.unshift({...ultimoRegistro});
+    renderHistorial();
+
+    document.getElementById('success-sub').textContent=
+      `${total} cabezas · ${dte?'DTE '+dte+' · ':''}${destino||''}${nFotos>0?' · '+nFotos+' foto'+(nFotos>1?'s':''):''}`;
+    document.getElementById('success-overlay').classList.add('show');
+    document.getElementById('btn-pdf').disabled=false;
+    document.getElementById('btn-wa').disabled=false;
+
+  }catch(e){
+    alert('Error al guardar: '+e.message);
+  }finally{
+    btn.textContent='💾 Guardar Egreso';btn.disabled=false;
+  }
+}
+
+// ══════════════════════════════════════════
+// SUBIR FOTOS
+// ══════════════════════════════════════════
+async function subirFotos(remitoId){
+  const urls={};
+  for(const [slotId,file] of Object.entries(fotoFiles)){
+    const ext=file.name.split('.').pop()||'jpg';
+    const path=`egresos/${remitoId}_${slotId}.${ext}`;
+    const res=await fetch(SUPABASE_URL+'/storage/v1/object/remitos/'+path,{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':file.type||'image/jpeg'},
+      body:file
+    });
+    if(res.ok){
+      urls[slotId]=SUPABASE_URL+'/storage/v1/object/public/remitos/'+path;
+    }
+  }
+  return urls;
+}
+
+// ══════════════════════════════════════════
+// PDF
+// ══════════════════════════════════════════
+async function generarPDF(soloSubir=false){
+  if(!ultimoRegistro)return;
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W=210,H=297,M=24,MR=18;
+
+  // Cargar logo desde URL (no base64)
+  let logoImg=null;
+  try{
+    logoImg=new Image();
+    logoImg.src='drw-icon.png';
+    await new Promise((resolve,reject)=>{
+      logoImg.onload=resolve;
+      logoImg.onerror=()=>reject(new Error('logo'));
+      setTimeout(()=>reject(new Error('timeout')),5000);
+    });
+  }catch(e){ console.warn('Logo no cargado:',e); logoImg=null; }
+
+  // Paleta hex
+  const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const Cf=h=>doc.setFillColor(...hex(h));
+  const Cd=h=>doc.setDrawColor(...hex(h));
+  const Ct=h=>doc.setTextColor(...hex(h));
+  const C={cyan:'#00B5B6',cyanSoft:'#E6F8F8',green:'#00A86B',greenSoft:'#E0F5EB',
+           amber:'#B8881F',amberSoft:'#F7EFD9',red:'#D63B47',redSoft:'#FBE4E6',
+           text:'#1A1A1A',muted:'#8A8780',border:'#E5E2D9',bg:'#FAFAF7',white:'#FFFFFF'};
+  const ACCENT=C.red, ACCENT_SOFT=C.redSoft;
+
+  const r=ultimoRegistro;
+
+  // Fondo
+  Cf(C.bg); doc.rect(0,0,W,H,'F');
+
+  // Banda lateral izquierda 8×120mm rojo
+  Cf(ACCENT); doc.rect(0,16,8,120,'F');
+
+  // Header — logo
+  if(logoImg){ try{ doc.addImage(logoImg,'PNG',M,16,30,10); }catch(e){} }
+
+  // Wordmark
+  doc.setFont('helvetica','bold'); doc.setFontSize(11); Ct(C.text);
+  doc.text('DARWASH',M+34,22);
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
+  doc.text('SOCIEDAD ANÓNIMA · Vicuña Mackenna, Córdoba',M+34,26);
+
+  // Título
+  doc.setFont('times','bold'); doc.setFontSize(20); Ct(C.text);
+  doc.text('Remito de Egreso',M,42);
+
+  // Badge tipo
+  Cf(ACCENT_SOFT); Cd(ACCENT); doc.setLineWidth(0.4);
+  doc.roundedRect(W-MR-26,18,26,7,1.5,1.5,'FD');
+  doc.setFont('helvetica','bold'); doc.setFontSize(7); Ct(ACCENT);
+  doc.text('EGRESO',W-MR-13,22.8,{align:'center'});
+
+  // Badge N°
+  Cf(C.cyanSoft); Cd(C.cyan); doc.setLineWidth(0.4);
+  doc.roundedRect(W-MR-40,28,40,7,1.5,1.5,'FD');
+  doc.setFont('courier','bold'); doc.setFontSize(8.5); Ct(C.cyan);
+  doc.text('N° '+String(nroRemito).slice(-6).padStart(6,'0'),W-MR-20,32.8,{align:'center'});
+
+  let y=54;
+
+  // Strip de remate
+  Cf(C.cyanSoft); doc.rect(M,y,W-M-MR,14,'F');
+  Cf(C.cyan); doc.rect(M,y,3,14,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
+  doc.text('REMATE / EVENTO',M+8,y+4.5);
+  doc.setFont('times','bold'); doc.setFontSize(11); Ct(C.text);
+  doc.text(r.remate||'—',M+8,y+11);
+  doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
+  doc.text('FECHA',W-MR-3,y+4.5,{align:'right'});
+  doc.setFont('courier','bold'); doc.setFontSize(10); Ct(C.text);
+  doc.text(r.fecha?r.fecha.split('-').reverse().join('/'):'—',W-MR-3,y+11,{align:'right'});
+  y+=20;
+
+  function seccion(label){
+    doc.setFont('helvetica','bold'); doc.setFontSize(6.5); Ct(C.cyan);
+    const t='— '+label;
+    doc.text(t,M,y);
+    Cd(C.border); doc.setLineWidth(0.2);
+    const lblW=doc.getTextWidth(t);
+    doc.line(M+lblW+3,y-1,W-MR,y-1);
+    y+=4;
+  }
+  function campo(label,valor,x,w){
+    doc.setFont('helvetica','normal'); doc.setFontSize(5.8); Ct(C.muted);
+    doc.text(label,x,y+3);
+    doc.setFont('times','bold'); doc.setFontSize(10); Ct(C.text);
+    const txt=String(valor||'—');
+    const truncated=txt.length>34?txt.substring(0,32)+'…':txt;
+    doc.text(truncated,x,y+9);
+    Cd(C.border); doc.setLineWidth(0.15);
+    doc.line(x,y+11,x+w,y+11);
+  }
+
+  // Identificación
+  seccion('IDENTIFICACIÓN');
+  const colW=(W-M-MR-6)/2;
+  campo('NRO. DTE',r.nro_dte,M,colW);
+  campo('TROPA',r.tropa,M+colW+6,colW);
+  y+=14;
+
+  // Destino + Transporte
+  seccion('TRANSPORTE / DESTINO');
+  campo('DESTINO',r.destino,M,colW);
+  campo('TRANSPORTISTA',(r.transportista||'—')+(r.patente?' · '+r.patente:''),M+colW+6,colW);
+  y+=14;
+
+  // Detalle hacienda — grilla 4×2 fija
+  seccion('DETALLE DE HACIENDA');
+  const cats4x2=[['novillo','NOV'],['vaquillona','VQ'],['vaca','VA'],['ternero','TER'],
+                 ['ternera','TRA'],['toro','TORO'],['torito','MEJ']];
+  const cellW=(W-M-MR-3)/4, cellH=18;
+  cats4x2.forEach(([key,code],i)=>{
+    const col=i%4, row=Math.floor(i/4);
+    const cx=M+col*(cellW+1), cy=y+row*(cellH+1);
+    const valor=(r.categorias||{})[key]||0;
+    const tieneValor=valor>0;
+    Cf(C.white); Cd(C.border); doc.setLineWidth(0.2);
+    doc.rect(cx,cy,cellW,cellH,'FD');
+    doc.setFont('helvetica','bold'); doc.setFontSize(6.5);
+    Ct(tieneValor?C.cyan:C.muted);
+    doc.text(code,cx+cellW/2,cy+5,{align:'center'});
+    doc.setFont('courier','bold'); doc.setFontSize(15);
+    if(tieneValor){
+      Ct(C.cyan);
+      doc.text(String(valor),cx+cellW/2,cy+14.5,{align:'center'});
+    }else{
+      Ct(C.muted);
+      doc.text('—',cx+cellW/2,cy+14.5,{align:'center'});
+    }
+  });
+  y+=cellH*2+1+6;
+
+  // Total
+  Cf(C.white); Cd(ACCENT); doc.setLineWidth(0.5);
+  doc.rect(M,y,W-M-MR,22,'FD');
+  Cf(ACCENT); doc.rect(M,y,3,22,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
+  doc.text('TOTAL CABEZAS EGRESADAS',M+8,y+7);
+  doc.setFont('helvetica','italic'); doc.setFontSize(5.8); Ct(C.muted);
+  doc.text('Animales salidos en este movimiento',M+8,y+12);
+  doc.setFont('courier','bold'); doc.setFontSize(28); Ct(ACCENT);
+  doc.text(String(r.total_cabezas||0),W-MR-4,y+17,{align:'right'});
+  y+=28;
+
+  // Observaciones
+  if(r.observaciones){
+    if(y>H-50){ doc.addPage(); y=20; }
+    seccion('OBSERVACIONES');
+    Cf(C.amberSoft); Cd(C.amber); doc.setLineWidth(0.2);
+    doc.rect(M,y,W-M-MR,14,'FD');
+    Cf(C.amber); doc.rect(M,y,3,14,'F');
+    doc.setFont('times','italic'); doc.setFontSize(9); Ct(C.text);
+    const ls=doc.splitTextToSize(r.observaciones,W-M-MR-12);
+    doc.text(ls.slice(0,2),M+8,y+6);
+    y+=20;
+  }
+
+  // Firma del transportista — estampa la firma digital si firmó en pantalla; recuadro+línea siempre presente
+  if(y>H-48){ doc.addPage(); y=20; }
+  seccion('FIRMA DEL TRANSPORTISTA');
+  y+=2;
+  Cf(C.white); Cd(C.border); doc.setLineWidth(0.2);
+  doc.rect(M,y,W-M-MR,24,'FD');
+  if(firmaDataURL){ try{ doc.addImage(firmaDataURL,'PNG',M+10,y+1,W-M-MR-20,20); }catch(e){} }
+  Cd(C.muted); doc.setLineWidth(0.3);
+  doc.line(M+10,y+19,W-MR-10,y+19);
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
+  doc.text(r.transportista||'Transportista',(M+W-MR)/2,y+23,{align:'center'});
+  y+=30;
+
+  // Footer
+  const fy=H-14;
+  Cf(C.cyan); doc.rect(M,fy-3,W-M-MR,0.5,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); Ct(C.muted);
+  doc.text('DARWASH SA · Vicuña Mackenna, Córdoba',M,fy+1);
+  doc.text('Generado: '+new Date().toLocaleString('es-AR'),W-MR,fy+1,{align:'right'});
+  doc.setFont('courier','bold'); doc.setFontSize(7); Ct(C.cyan);
+  doc.text('Egreso N° '+String(nroRemito).slice(-6).padStart(6,'0'),(M+W-MR)/2,fy+1,{align:'center'});
+  doc.setFont('helvetica','italic'); doc.setFontSize(5.5); Ct(C.muted);
+  doc.text('Documento interno · Darwash SA · SIGSA / SENASA',(M+W-MR)/2,fy+5,{align:'center'});
+
+  const filename='Egreso_Darwash_'+String(nroRemito).slice(-6).padStart(6,'0')+'.pdf';
+  if(!soloSubir) doc.save(filename);
+
+  try{
+    const pdfBlob=doc.output('blob');
+    const btn=document.getElementById('btn-pdf');
+    if(btn&&!soloSubir){btn.textContent='📤 Subiendo...';}
+    const pdfUrl=await subirPDFStorage(pdfBlob,filename);
+    if(pdfUrl&&ultimoRegistro&&ultimoRegistro.id){
+      const ra=await rpc('adjuntar_egreso',{p_token:TOKEN,p_id:ultimoRegistro.id,p_fotos:null,p_pdf_url:pdfUrl});
+      if(!ra.ok) console.error('adjuntar pdf:',ra.error);
+      ultimoRegistro.pdf_url=pdfUrl;
+      if(btn&&!soloSubir){btn.textContent='✅ PDF guardado';setTimeout(()=>{btn.textContent='📄 Remito PDF';},3000);}
+    }else{if(btn&&!soloSubir){btn.textContent='📄 Remito PDF';}}
+  }catch(e){console.error('Error subiendo PDF:',e);}
+}
+
+async function subirPDFStorage(blob,filename){
+  const path='egresos/'+filename;
+  const res=await fetch(SUPABASE_URL+'/storage/v1/object/remitos/'+path,{
+    method:'POST',
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/pdf'},
+    body:blob
+  });
+  if(res.ok){return SUPABASE_URL+'/storage/v1/object/public/remitos/'+path;}
+  return null;
+}
+
+// ══════════════════════════════════════════
+// WHATSAPP
+// ══════════════════════════════════════════
+function compartirWA(){
+  if(!ultimoRegistro)return;
+  const r=ultimoRegistro;
+  const fecha=r.fecha?r.fecha.split('-').reverse().join('/'):'';
+  const cats=Object.entries(r.categorias||{}).filter(([,v])=>v>0)
+    .map(([k,v])=>`  • ${CATS.find(c=>c.id===k)?.label||k}: ${v}`).join('\n');
+  const msg=
+    `🐄 *EGRESO DE HACIENDA — DARWASH SA*\n`+
+    `━━━━━━━━━━━━━━━━━━━━━━\n`+
+    `📅 Fecha: ${fecha}\n`+
+    `🏷 Tropa: ${r.tropa||'—'}\n`+
+    `📄 DTE: ${r.nro_dte||'—'}\n`+
+    `📍 Destino: ${r.destino||'—'}\n`+
+    `🚛 Transportista: ${r.transportista||'—'} · ${r.patente||'—'}\n`+
+    `━━━━━━━━━━━━━━━━━━━━━━\n`+
+    `${cats}\n`+
+    `━━━━━━━━━━━━━━━━━━━━━━\n`+
+    `✅ *TOTAL: ${r.total_cabezas||0} cabezas*\n`+
+    (r.observaciones?`📝 ${r.observaciones}\n`:'')+
+    (r.pdf_url?`\n📎 PDF: ${r.pdf_url}\n`:'')+
+    `\n_Registrado en Darwash DTE Dashboard_`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+// ══════════════════════════════════════════
+// HISTORIAL
+// ══════════════════════════════════════════
+function renderHistorial(){
+  const c=document.getElementById('historial');
+  if(!sesionRegistros.length){c.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px">Sin registros en esta sesión</div>';return;}
+  c.innerHTML=sesionRegistros.map(r=>{
+    const cats=Object.entries(r.categorias||{}).filter(([,v])=>v>0)
+      .map(([k,v])=>`<span class="hist-cat-chip">${CATS.find(c=>c.id===k)?.label||k}: ${v}</span>`).join('');
+    return `<div class="hist-item">
+      <div class="hist-top">
+        <div><div class="hist-tropa">${esc(r.tropa||'—')}</div><div class="hist-meta">${r.fecha?r.fecha.split('-').reverse().join('/'):''}${r.destino?' → '+esc(r.destino):''}</div></div>
+        <div class="hist-total">${r.total_cabezas||0} cab.</div>
+      </div>
+      <div class="hist-cats">${cats}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// NUEVO REGISTRO
+// ══════════════════════════════════════════
+function nuevoRegistro(){
+  document.getElementById('success-overlay').classList.remove('show');
+  ultimoRegistro=null;
+  document.getElementById('inp-tropa').value='';
+  document.getElementById('inp-dte').value='';
+  document.getElementById('inp-destino').value='';
+  document.getElementById('inp-transportista').value='';
+  document.getElementById('inp-patente').value='';
+  document.getElementById('inp-obs').value='';
+  document.getElementById('hora-wrap')?document.getElementById('hora-wrap').style.display='none':null;
+  CATS.forEach(c=>{const el=document.getElementById('cat-'+c.id);if(el)el.value='';});
+  recalcTotal();
+  limpiarFirma();
+  limpiarFotos();
+  document.getElementById('btn-pdf').disabled=true;
+  document.getElementById('btn-wa').disabled=true;
+  const hoy=new Date();
+  document.getElementById('inp-fecha').value=hoy.toISOString().split('T')[0];
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════
+// UTIL
+// ══════════════════════════════════════════
+function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+const CATS_REF=CATS; // needed inside PDF scope
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
