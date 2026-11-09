@@ -139,6 +139,8 @@
     .bar-falta{font-size:13px;color:var(--red);font-weight:600;text-align:center;}
     .btn-main{height:56px;width:100%;border-radius:12px;border:none;background:var(--teal);color:#fff;font-weight:700;font-size:17px;}
     .btn-main:disabled{background:var(--faint);}
+    body.kb .bar{display:none;}
+    body.kb .main{padding-bottom:40vh;}
 
     /* HISTORIAL */
     .sec-t{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:1px;color:var(--text-2);margin-top:10px;}
@@ -564,7 +566,19 @@ function initFirma(){
   $('firma-clear').addEventListener('click',limpiarFirma);
 }
 function limpiarFirma(){const cv=$('firma');fctx.save();fctx.setTransform(1,0,0,1,0,0);fctx.clearRect(0,0,cv.width,cv.height);fctx.restore();S.firmaVacia=true;$('firma-st').textContent='Firmá con el dedo';}
-function firmaURL(){return S.firmaVacia?null:$('firma').toDataURL('image/png');}
+function firmaURL(){
+  if(S.firmaVacia) return null;
+  const cv=$('firma'),ctx=cv.getContext('2d'),w=cv.width,h=cv.height,d=ctx.getImageData(0,0,w,h).data;
+  let x0=w,y0=h,x1=0,y1=0;
+  for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){if(d[(y*w+x)*4+3]>0){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}}
+  if(x1<=x0||y1<=y0) return null;
+  const m=12;x0=Math.max(0,x0-m);y0=Math.max(0,y0-m);x1=Math.min(w,x1+m);y1=Math.min(h,y1+m);
+  const cw=x1-x0,ch=y1-y0,k=Math.min(1,700/cw);
+  const o=document.createElement('canvas');o.width=Math.round(cw*k);o.height=Math.round(ch*k);
+  const oc=o.getContext('2d');oc.fillStyle='#fff';oc.fillRect(0,0,o.width,o.height);
+  oc.drawImage(cv,x0,y0,cw,ch,0,0,o.width,o.height);
+  return {url:o.toDataURL('image/jpeg',0.8),w:o.width,h:o.height};
+}
 
 /* ---------- FOTOS (comprimidas) ---------- */
 function comprimir(file,max=1600,q=0.72){
@@ -854,71 +868,104 @@ function nuevo(){
 function cargarImg(src){return new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);setTimeout(()=>res(null),5000);i.src=src;});}
 async function armarPDF(r){
   const {jsPDF}=window.jspdf;
-  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-  const W=210,Hh=297,M=24,MR=18;
-  const logo=await cargarImg('drw-icon.png');
-  const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
-  const Cf=h=>doc.setFillColor(...hex(h)),Cd=h=>doc.setDrawColor(...hex(h)),Ct=h=>doc.setTextColor(...hex(h));
-  const C={teal:'#008A93',tealSoft:'#E3F4F4',green:'#0B7A4B',greenSoft:'#E5F4EC',amber:'#8A5A00',amberSoft:'#FDF3D9',text:'#161616',muted:'#5C5A53',border:'#DEDCD3',bg:'#FAFAF7',white:'#FFFFFF'};
-  Cf(C.bg);doc.rect(0,0,W,Hh,'F');
-  Cf(C.green);doc.rect(0,16,8,120,'F');
-  if(logo){try{doc.addImage(logo,'PNG',M,15,31,10);}catch(e){}}
-  doc.setFont('helvetica','bold');doc.setFontSize(11);Ct(C.text);doc.text('DARWASH',M+36,21);
-  doc.setFont('helvetica','normal');doc.setFontSize(6.5);Ct(C.muted);doc.text('SOCIEDAD ANÓNIMA · Vicuña Mackenna, Córdoba',M+36,25);
-  doc.setFont('times','bold');doc.setFontSize(20);Ct(C.text);doc.text('Remito de Ingreso',M,42);
-  Cf(C.greenSoft);Cd(C.green);doc.setLineWidth(0.4);doc.roundedRect(W-MR-26,18,26,7,1.5,1.5,'FD');
-  doc.setFont('helvetica','bold');doc.setFontSize(7);Ct(C.green);doc.text('INGRESO',W-MR-13,22.8,{align:'center'});
-  Cf(C.tealSoft);Cd(C.teal);doc.roundedRect(W-MR-40,28,40,7,1.5,1.5,'FD');
-  doc.setFont('courier','bold');doc.setFontSize(8.5);Ct(C.teal);doc.text('N° '+nroRemito(r.id),W-MR-20,32.8,{align:'center'});
-  let y=54;
-  Cf(C.tealSoft);doc.rect(M,y,W-M-MR,14,'F');Cf(C.teal);doc.rect(M,y,3,14,'F');
-  doc.setFont('helvetica','normal');doc.setFontSize(5.8);Ct(C.muted);doc.text('REMATE / EVENTO',M+8,y+4.5);
-  doc.setFont('times','bold');doc.setFontSize(11);Ct(C.text);doc.text(r.remate||'—',M+8,y+11);
-  doc.setFont('helvetica','normal');doc.setFontSize(5.8);Ct(C.muted);doc.text('FECHA · HORA',W-MR-3,y+4.5,{align:'right'});
-  doc.setFont('courier','bold');doc.setFontSize(10);Ct(C.text);doc.text(r.hora_descarga+' · '+r.fecha,W-MR-3,y+11,{align:'right'});
-  y+=20;
-  const seccion=l=>{doc.setFont('helvetica','bold');doc.setFontSize(6.5);Ct(C.teal);const t='— '+l;doc.text(t,M,y);Cd(C.border);doc.setLineWidth(0.2);doc.line(M+doc.getTextWidth(t)+3,y-1,W-MR,y-1);y+=4;};
-  const campo=(l,v,x,w)=>{doc.setFont('helvetica','normal');doc.setFontSize(5.8);Ct(C.muted);doc.text(l,x,y+3);doc.setFont('times','bold');doc.setFontSize(10);Ct(C.text);const t=String(v||'—');doc.text(t.length>34?t.slice(0,32)+'…':t,x,y+9);Cd(C.border);doc.setLineWidth(0.15);doc.line(x,y+11,x+w,y+11);};
-  const colW=(W-M-MR-6)/2;
-  seccion('IDENTIFICACIÓN');campo('NRO. DTE',r.nro_dte?dteFmt(r.nro_dte):'SIN DTE',M,colW);campo('PRODUCTOR / PROCEDENCIA',r.productor,M+colW+6,colW);y+=14;
-  seccion('TRANSPORTE');campo('TRANSPORTISTA',r.transportista,M,colW);campo('PATENTE',r.patente,M+colW+6,colW);y+=14;
-  seccion('DETALLE DE HACIENDA');
-  const cellW=(W-M-MR-3)/4,cellH=18;
-  CATS.forEach(([k,code],i)=>{
-    const cx=M+(i%4)*(cellW+1),cy=y+Math.floor(i/4)*(cellH+1),v=r.categorias[k]||0;
-    Cf(C.white);Cd(C.border);doc.setLineWidth(0.2);doc.rect(cx,cy,cellW,cellH,'FD');
-    doc.setFont('helvetica','bold');doc.setFontSize(6.5);Ct(v?C.teal:C.muted);doc.text(code,cx+cellW/2,cy+5,{align:'center'});
-    doc.setFont('courier','bold');doc.setFontSize(15);Ct(v?C.teal:C.muted);doc.text(v?String(v):'—',cx+cellW/2,cy+14.5,{align:'center'});
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
+  const W=210,PH=297,M=18,CW=W-2*M;
+  const logo=await cargarImg('drw-logo-full.png');
+  const rgb=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const fill=h=>doc.setFillColor(...rgb(h)),draw=h=>doc.setDrawColor(...rgb(h)),col=h=>doc.setTextColor(...rgb(h));
+  const C={teal:'#008A93',tealD:'#005E5F',tealS:'#E3F4F4',green:'#0B6B42',greenS:'#E5F4EC',amber:'#8A5A00',amberS:'#FDF3D9',
+           text:'#161616',t2:'#45443F',muted:'#6B6960',line:'#DEDCD3',zebra:'#F7F6F2'};
+  const font=(f,st,sz,c)=>{doc.setFont(f,st);doc.setFontSize(sz);col(c||C.text);};
+  let y=16;
+
+  // Encabezado
+  if(logo){try{doc.addImage(logo,'PNG',M,y,28,20);}catch(e){}}
+  font('helvetica','bold',16,C.text);doc.text('REMITO DE INGRESO',W-M,y+7,{align:'right'});
+  font('courier','bold',12,C.tealD);doc.text('N° '+nroRemito(r.id),W-M,y+13.5,{align:'right'});
+  font('helvetica','normal',8.5,C.muted);doc.text('Feria Washington · Vicuña Mackenna, Córdoba',W-M,y+19,{align:'right'});
+  y+=26;fill(C.teal);doc.rect(M,y,CW,0.8,'F');y+=6;
+
+  // Remate
+  fill(C.tealS);doc.roundedRect(M,y,CW,15,2,2,'F');
+  font('helvetica','bold',7,C.tealD);doc.text('REMATE',M+5,y+5.5);
+  font('helvetica','bold',11,C.text);doc.text(r.remateAlias||r.remate,M+5,y+11.5);
+  if(r.remateAlias){font('courier','normal',8.5,C.t2);doc.text(r.remate,W-M-5,y+11.5,{align:'right'});}
+  y+=21;
+
+  // Datos
+  const dato=(lab,val,x,w,opt={})=>{
+    font('helvetica','bold',7,C.muted);doc.text(lab,x,y);
+    if(opt.badge){
+      font('helvetica','bold',9.5,C.amber);const tw=doc.getTextWidth(val)+6;
+      fill(C.amberS);draw(C.amber);doc.setLineWidth(0.3);doc.roundedRect(x,y+2,tw,7,1.2,1.2,'FD');doc.text(val,x+3,y+7);
+    }else{
+      font(opt.mono?'courier':'helvetica','bold',opt.big?13:11,C.text);
+      const ls=doc.splitTextToSize(String(val||'—'),w);doc.text(ls.slice(0,2),x,y+7);
+    }
+  };
+  const half=(CW-10)/2;
+  dato('PRODUCTOR',r.productor,M,CW,{big:true});y+=15;
+  draw(C.line);doc.setLineWidth(0.2);doc.line(M,y-3,W-M,y-3);
+  dato('N° DTE',r.nro_dte?dteFmt(r.nro_dte):'SIN DTE',M,half,{mono:!!r.nro_dte,badge:!r.nro_dte});
+  dato('FECHA Y HORA DE DESCARGA',r.fecha+'  ·  '+r.hora_descarga+' hs',M+half+10,half,{mono:true});y+=14;
+  draw(C.line);doc.setLineWidth(0.2);doc.line(M,y-3,W-M,y-3);
+  dato('TRANSPORTISTA',r.transportista,M,half);
+  dato('PATENTE',r.patente||'—',M+half+10,half,{mono:true});y+=16;
+
+  // Hacienda
+  font('helvetica','bold',7,C.muted);doc.text('DETALLE DE HACIENDA',M,y);y+=3;
+  const filas=CATS.filter(([k])=>(r.categorias[k]||0)>0);
+  const rh=9;
+  fill(C.text);doc.rect(M,y,CW,rh,'F');
+  font('helvetica','bold',8.5,'#FFFFFF');doc.text('CATEGORÍA',M+5,y+6);doc.text('CABEZAS',W-M-5,y+6,{align:'right'});
+  y+=rh;
+  filas.forEach(([k,code],i)=>{
+    if(i%2){fill(C.zebra);doc.rect(M,y,CW,rh,'F');}
+    font('helvetica','normal',10.5,C.text);doc.text(k,M+5,y+6.2);
+    font('courier','normal',8,C.muted);doc.text(code,M+5+doc.getTextWidth(k)+3,y+6.2);
+    font('courier','bold',12,C.text);doc.text(String(r.categorias[k]),W-M-5,y+6.4,{align:'right'});
+    y+=rh;
   });
-  y+=cellH*2+7;
-  Cf(C.white);Cd(C.green);doc.setLineWidth(0.5);doc.rect(M,y,W-M-MR,22,'FD');Cf(C.green);doc.rect(M,y,3,22,'F');
-  doc.setFont('helvetica','normal');doc.setFontSize(6.5);Ct(C.muted);doc.text('TOTAL CABEZAS INGRESADAS',M+8,y+7);
-  doc.setFont('courier','bold');doc.setFontSize(28);Ct(C.green);doc.text(String(r.total_cabezas),W-MR-4,y+17,{align:'right'});
-  y+=28;
+  fill(C.greenS);doc.rect(M,y,CW,13,'F');fill(C.green);doc.rect(M,y,CW,0.6,'F');
+  font('helvetica','bold',11,C.green);doc.text('TOTAL CABEZAS',M+5,y+8.5);
+  font('courier','bold',18,C.green);doc.text(String(r.total_cabezas),W-M-5,y+9.5,{align:'right'});
+  y+=21;
+
+  // Observaciones
+  if(r.observaciones){
+    font('helvetica','bold',7,C.muted);doc.text('OBSERVACIONES',M,y);y+=3;
+    font('helvetica','normal',10,C.text);const ls=doc.splitTextToSize(r.observaciones,CW-10).slice(0,4);
+    const hb=ls.length*5+6;fill(C.amberS);doc.roundedRect(M,y,CW,hb,1.5,1.5,'F');doc.text(ls,M+5,y+6.5);y+=hb+8;
+  }
+
+  // Fotos
   if(r.fotosData.length){
-    if(y+40>Hh-30){doc.addPage();y=20;}
-    seccion('FOTOS DE RESPALDO');
-    const FW=(W-M-MR-9)/4,FH=FW*0.78;
-    r.fotosData.slice(0,4).forEach((d,i)=>{const fx=M+i*(FW+3);Cf(C.white);Cd(C.border);doc.rect(fx,y,FW,FH,'FD');try{doc.addImage(d,'JPEG',fx+0.5,y+0.5,FW-1,FH-1);}catch(e){}});
+    const FW=(CW-9)/4,FH=FW*0.75;
+    if(y+FH+10>PH-40){doc.addPage();y=20;}
+    font('helvetica','bold',7,C.muted);doc.text('FOTOS DE RESPALDO',M,y);y+=3;
+    r.fotosData.slice(0,4).forEach((d,i)=>{try{doc.addImage(d,'JPEG',M+i*(FW+3),y,FW,FH);}catch(e){}});
     y+=FH+8;
   }
-  if(r.observaciones){
-    if(y>Hh-50){doc.addPage();y=20;}
-    seccion('OBSERVACIONES');Cf(C.amberSoft);Cd(C.amber);doc.setLineWidth(0.2);doc.rect(M,y,W-M-MR,14,'FD');Cf(C.amber);doc.rect(M,y,3,14,'F');
-    doc.setFont('times','italic');doc.setFontSize(9);Ct(C.text);doc.text(doc.splitTextToSize(r.observaciones,W-M-MR-12).slice(0,2),M+8,y+6);y+=20;
+
+  // Firma (respeta la proporción del trazo)
+  if(y>PH-55){doc.addPage();y=20;}
+  const bw=80,bh=30;
+  font('helvetica','bold',7,C.muted);doc.text('FIRMA DEL TRANSPORTISTA',M,y);y+=3;
+  if(r.firma&&r.firma.url){
+    const k=Math.min(bw/r.firma.w,(bh-4)/r.firma.h),fw=r.firma.w*k,fh=r.firma.h*k;
+    try{doc.addImage(r.firma.url,'JPEG',M+(bw-fw)/2,y+(bh-4-fh),fw,fh);}catch(e){}
   }
-  if(r.firma){
-    if(y>Hh-45){doc.addPage();y=20;}
-    seccion('FIRMA DEL TRANSPORTISTA');Cf(C.white);Cd(C.border);doc.setLineWidth(0.2);doc.rect(M,y,W-M-MR,22,'FD');
-    try{doc.addImage(r.firma,'PNG',M+10,y+1,W-M-MR-20,20);}catch(e){}
-    Cd(C.muted);doc.setLineWidth(0.3);doc.line(M+10,y+19,W-MR-10,y+19);
-    doc.setFont('helvetica','normal');doc.setFontSize(6.5);Ct(C.muted);doc.text(r.transportista||'Transportista',(M+W-MR)/2,y+23,{align:'center'});
-  }
-  const fy=Hh-14;
-  Cf(C.teal);doc.rect(M,fy-3,W-M-MR,0.5,'F');
-  doc.setFont('helvetica','normal');doc.setFontSize(6.5);Ct(C.muted);doc.text('DARWASH SA · Vicuña Mackenna, Córdoba',M,fy+1);
-  doc.text('Generado: '+new Date().toLocaleString('es-AR'),W-MR,fy+1,{align:'right'});
-  doc.setFont('courier','bold');doc.setFontSize(7);Ct(C.teal);doc.text('Remito N° '+nroRemito(r.id),(M+W-MR)/2,fy+1,{align:'center'});
+  draw(C.t2);doc.setLineWidth(0.3);doc.line(M,y+bh-2,M+bw,y+bh-2);
+  font('helvetica','normal',8.5,C.t2);doc.text((r.transportista&&r.transportista!=='Propio')?r.transportista:'Transportista',M,y+bh+3);
+  font('helvetica','normal',7.5,C.muted);
+  doc.text(['Recibido en Feria Washington','el '+r.fecha+' a las '+r.hora_descarga+' hs.'],W-M,y+bh-6,{align:'right'});
+
+  // Pie
+  const fy=PH-12;
+  draw(C.line);doc.setLineWidth(0.2);doc.line(M,fy-4,W-M,fy-4);
+  font('helvetica','normal',7,C.muted);
+  doc.text('DARWASH SA · Documento interno de recepción de hacienda',M,fy);
+  doc.text('Generado '+new Date().toLocaleString('es-AR'),W-M,fy,{align:'right'});
   return doc;
 }
 
@@ -926,6 +973,11 @@ async function armarPDF(r){
 document.addEventListener('DOMContentLoaded',()=>{
   initFechaHora();initDTE();initProd();initCats();initTransp();initFirma();initFotos();initExito();
   $('btn-save').addEventListener('click',guardar);
+  // Con el teclado abierto la barra fija tapa media pantalla: se oculta mientras se escribe
+  const esCampo=el=>el&&el.matches&&el.matches('.main input:not([type=checkbox]):not([type=file]), .main textarea');
+  document.addEventListener('focusin',e=>{if(esCampo(e.target)){document.body.classList.add('kb');
+    if(e.target.classList.contains('cat-v')) setTimeout(()=>e.target.closest('.cat').scrollIntoView({block:'center',behavior:'smooth'}),250);}});
+  document.addEventListener('focusout',()=>setTimeout(()=>{if(!esCampo(document.activeElement))document.body.classList.remove('kb');},120));
   renderDTE();renderProd();renderTransp();
   cargarPadron();
   cargarTransportistas().then(renderTransp);
