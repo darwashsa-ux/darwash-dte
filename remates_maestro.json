@@ -85198,7 +85198,7 @@
     },
     {
       "codigo": "01.019.0.00001/0A-2026",
-      "fecha_extraccion": "2026-11-09T11:35:28.250363",
+      "fecha_extraccion": "2026-11-09T13:05:37.236626",
       "info": {
         "Inicio": "22/10/2026",
         "Fin": "28/10/2026",
@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-09T11:35:30.070599",
+      "fecha_extraccion": "2026-11-09T13:05:38.460214",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -100865,7 +100865,7 @@
     },
     {
       "codigo": "03.014.3.00015/0I-2026",
-      "fecha_extraccion": "2026-11-09T11:35:26.902050",
+      "fecha_extraccion": "2026-11-09T13:05:36.107890",
       "info": {
         "Inicio": "29/10/2026",
         "Fin": "30/10/2026",
@@ -106382,7 +106382,7 @@
     },
     {
       "codigo": "03.014.3.00015/0J-2026",
-      "fecha_extraccion": "2026-11-09T11:35:25.390764",
+      "fecha_extraccion": "2026-11-09T13:05:34.958957",
       "info": {
         "Inicio": "11/11/2026",
         "Fin": "12/11/2026",
@@ -106391,10 +106391,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 4,
+      "total_dtes": 7,
       "total_dtes_salida": 0,
-      "total_filas": 9,
-      "total_animales": 102,
+      "total_filas": 12,
+      "total_animales": 123,
       "totales_categoria": {},
       "filas": [
         {
@@ -106539,6 +106539,28 @@
           "apto_china": "SI",
           "fecha_aftosa": "06/07/26",
           "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 13,
+          "recibido": 0,
+          "emisor_nombre": "MENDEZ FEDERICO FERMIN",
+          "emisor_cuit": "20-14602906-0",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032951321-1",
+          "origen": "03.008.0.02023/02",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "10/11/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "06/07/26",
+          "especie": "Bovinos",
           "categoria": "Ternero",
           "enviado": 23,
           "recibido": 0,
@@ -106575,19 +106597,63 @@
         },
         {
           "tipo_movimiento": "ENTRADA",
-          "documento": "032951321-1",
-          "origen": "03.008.0.02023/02",
+          "documento": "032958629-4",
+          "origen": "03.014.3.12296/00",
+          "motivo": "Invernada",
+          "estado": "ANULADO",
+          "fecha_movimiento": "09/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "26/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "TORRES OSCARB TORRES FABIAN O TORRES MARIA P",
+          "emisor_cuit": "30-70875641-1",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032958734-7",
+          "origen": "03.014.3.12046/00",
           "motivo": "Invernada",
           "estado": "EMITIDO",
-          "fecha_movimiento": "10/11/2026",
+          "fecha_movimiento": "09/11/2026",
           "apto_china": "SI",
-          "fecha_aftosa": "06/07/26",
+          "fecha_aftosa": "30/06/26",
           "especie": "Bovinos",
           "categoria": "Novillito",
-          "enviado": 13,
+          "enviado": 15,
           "recibido": 0,
-          "emisor_nombre": "MENDEZ FEDERICO FERMIN",
-          "emisor_cuit": "20-14602906-0",
+          "emisor_nombre": "ARMANDO HUGO",
+          "emisor_cuit": "20-11049261-9",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032958765-7",
+          "origen": "03.014.3.12296/00",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "09/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "26/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "TORRES OSCARB TORRES FABIAN O TORRES MARIA P",
+          "emisor_cuit": "30-70875641-1",
           "receptor_nombre": "DARWASH S A",
           "receptor_cuit": "30-51163433-0",
           "usuario_faena_nombre": "",
@@ -106607,5 +106673,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-09T11:35:25.390764"
+  "fecha_extraccion": "2026-11-09T13:05:34.958957"
 }
