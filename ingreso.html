@@ -327,7 +327,7 @@ const ICON={
   warn:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 20h20z"></path><path d="M12 10v4"></path><path d="M12 17v.5"></path></svg>'
 };
 
-const S={remate:'',padron:[],cliente:null,transps:[],viajes:{},transp:null,transpNuevo:null,
+const S={remate:'',empresa:null,empresaFallo:false,padron:[],cliente:null,transps:[],viajes:{},transp:null,transpNuevo:null,
   telEditando:false,dupOk:false,regs:[],cats:{},fotos:[],firmaVacia:true,guardando:false};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -402,17 +402,52 @@ function autocomplete(inp,list,{buscar,render,elegir,extra}){
 }
 
 /* ---------- PRODUCTOR ---------- */
-async function cargarPadron(){
+// El padrón junta las dos empresas (DARWASH y UT_CASARES) y la misma persona
+// puede estar en las dos con cuentas distintas — y la cuenta de una es OTRA
+// persona en la otra. Por eso se lee SOLO el padrón de la empresa del remate.
+// La empresa la decide la base (empresa_de_remate, por prefijo del código):
+// acá no se hardcodea ningún prefijo.
+async function cargarEmpresa(codigo){
   try{
-    const r=await fetch(SB_URL+'/rest/v1/remate_clientes_padron?select=razon_social,cuit,id_cuenta_auxi,localidad&limit=10000',{headers:H});
+    const r=await fetch(SB_URL+'/rest/v1/rpc/empresa_de_remate',{method:'POST',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({p_codigo:codigo})});
     if(!r.ok) throw new Error('HTTP '+r.status);
-    S.padron=(await r.json()).filter(c=>c&&c.razon_social).map(c=>({...c,_n:norm(c.razon_social)}));
-  }catch(e){console.warn('[PADRÓN]',e);}
+    const e=await r.json();
+    if(typeof e!=='string'||!e) throw new Error('respuesta vacía');
+    S.empresa=e;
+  }catch(err){console.warn('[EMPRESA]',err);S.empresa=null;S.empresaFallo=true;}
+}
+async function cargarPadron(codigo){
+  if(!codigo) return;
+  await cargarEmpresa(codigo);
+  // Sin empresa no hay padrón: mejor sin código que con el de la otra empresa.
+  if(S.empresa){
+    try{
+      const r=await fetch(SB_URL+'/rest/v1/remate_clientes_padron?select=razon_social,cuit,id_cuenta_auxi,localidad,empresa&empresa=eq.'+encodeURIComponent(S.empresa)+'&limit=10000',{headers:H});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      S.padron=(await r.json()).filter(c=>c&&c.razon_social&&c.empresa===S.empresa).map(c=>({...c,_n:norm(c.razon_social)}));
+    }catch(e){console.warn('[PADRÓN]',e);}
+  }
+  renderProd();
+}
+// Guarda al guardar: la cuenta tiene que existir en el padrón de la empresa del
+// remate CON ese CUIT. Si no, se re-resuelve por CUIT dentro de la empresa: una
+// sola cuenta → esa; ninguna o varias → sin cuenta (va a «A conciliar»). Nunca
+// frena el guardado: devuelve la cuenta (o null) y, si cambió algo, un aviso.
+function resolverCuenta(c){
+  if(!c) return {cuenta:null,cuit:null,aviso:null};
+  const cuit=c.cuit||null;
+  if(!S.empresa) return {cuenta:null,cuit,aviso:'No se pudo confirmar la empresa del remate: el remito quedó sin código de cliente y se concilia en la oficina.'};
+  const dePadron=S.padron.filter(p=>p.empresa===S.empresa);
+  if(c.id_cuenta_auxi&&dePadron.some(p=>p.id_cuenta_auxi===c.id_cuenta_auxi&&(p.cuit||null)===cuit)) return {cuenta:c.id_cuenta_auxi,cuit,aviso:null};
+  const porCuit=cuit?dePadron.filter(p=>p.cuit===cuit):[];
+  if(porCuit.length===1) return {cuenta:porCuit[0].id_cuenta_auxi,cuit,aviso:null};
+  return {cuenta:null,cuit,aviso:'El cliente no tiene un código único en el padrón de este remate: el remito quedó sin código y se concilia en la oficina.'};
 }
 function renderProd(){
   const inp=$('productor'),m=$('prod-msg');
   inp.classList.remove('ok','warn');
-  if(S.cliente){inp.classList.add('ok');setMsg(m,'ok','En el padrón · se guarda con CUIT y código');}
+  if(S.empresaFallo){inp.classList.add('warn');setMsg(m,'warn','No se pudo confirmar la empresa del remate. Cargá el productor igual: se guarda sin código y se concilia en la oficina.');}
+  else if(S.cliente){inp.classList.add('ok');setMsg(m,'ok','En el padrón · se guarda con CUIT y código');}
   else if(inp.value.trim().length>=2){inp.classList.add('warn');setMsg(m,'warn','No está en el padrón. Se guarda como texto, sin CUIT ni código. Elegilo de la lista si existe.');}
   else setMsg(m,'hint','Elegilo de la lista para que quede con CUIT y código');
   renderBar();
@@ -760,16 +795,17 @@ async function guardar(){
       }
     }
     // 2. Remito
+    const cta=resolverCuenta(S.cliente);
     const reg={
       remate:S.remate,fecha:fechaDDMM(),hora_descarga:$('hora').value,
       nro_dte:e.sin?null:e.d,sin_dte:e.sin,
-      productor:$('productor').value.trim(),cuit:S.cliente?S.cliente.cuit||null:null,id_cuenta_auxi:S.cliente?S.cliente.id_cuenta_auxi||null:null,
+      productor:$('productor').value.trim(),cuit:cta.cuit,id_cuenta_auxi:cta.cuenta,
       transportista:propio?'Propio':(tr?tr.nombre:null),transportista_id:tr?tr.id:null,
       patente:pat||null,categorias:cats,total_cabezas:totalCab(),observaciones:$('obs').value.trim()||null
     };
     const res=(await sb('POST','ingresos_hacienda',reg))[0];
     // Copia propia del registro: lo que pase en el formulario ya no la toca
-    const snap={...reg,id:res.id,firma:firmaURL(),fotosData:S.fotos.map(f=>f.dataUrl),telefono:tr?tr.telefono:null,remateAlias:S.remateAlias};
+    const snap={...reg,id:res.id,firma:firmaURL(),fotosData:S.fotos.map(f=>f.dataUrl),telefono:tr?tr.telefono:null,remateAlias:S.remateAlias,avisoCuenta:cta.aviso};
     S.guardando=false;
     mostrarExito(snap);
     postGuardado(snap,S.fotos.slice());
@@ -794,7 +830,8 @@ function mostrarExito(r){
     '<div><small>Descarga</small><b style="font-family:var(--mono)">'+esc(r.fecha.slice(0,5)+' · '+r.hora_descarga)+'</b></div>'+
     '<div><small>Transporte</small><b>'+esc((r.transportista||'—')+(r.patente?' · '+r.patente:''))+'</b></div>'+
     '<div><small>Hacienda</small><b>'+esc(cats)+'</b></div>'+
-    '<div class="full" style="flex-direction:row;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px"><b>Total cabezas</b><b style="font-family:var(--mono);font-size:34px;color:var(--green-text)">'+r.total_cabezas+'</b></div>';
+    '<div class="full" style="flex-direction:row;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px"><b>Total cabezas</b><b style="font-family:var(--mono);font-size:34px;color:var(--green-text)">'+r.total_cabezas+'</b></div>'+
+    (r.avisoCuenta?'<div class="full msg warn">'+ICON.warn+'<span>'+esc(r.avisoCuenta)+'</span></div>':'');
   setSt({pdf:'run',fotos:r.fotosData.length?'run':null,ticket:'ok'});
   const quien=r.transportista&&r.transportista!=='Propio'?r.transportista:'';
   $('btn-wa').classList.toggle('hidden',!r.telefono);
@@ -1006,7 +1043,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(e.target.classList.contains('cat-v')) setTimeout(()=>e.target.closest('.cat').scrollIntoView({block:'center',behavior:'smooth'}),250);}});
   document.addEventListener('focusout',()=>setTimeout(()=>{if(!esCampo(document.activeElement))document.body.classList.remove('kb');},120));
   renderDTE();renderProd();renderTransp();
-  cargarPadron();
+  cargarPadron(new URLSearchParams(location.search).get('remate'));
   cargarTransportistas().then(renderTransp);
   cargarRemate();
 });
