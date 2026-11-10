@@ -25,7 +25,8 @@ Maneja hacienda en **153 corrales + balanza**. Dos flujos:
 - `hacienda-feria.html` — extraferia. **3 modos** en un mismo archivo: `entrada` (crea tropa), `interno` (mueve tropa entre corrales), `salida` (cierra tropa). El modo se decide por `?modo=` en la URL.
 - `egreso.html` — flujo de egreso.
 - `croquis-feria.html` — croquis interactivo de los **153 corrales** con stock por corral.
-- `app.js` — tablero Feria en Vivo, login, navegación.
+- `app.js` — app documental DTE (v1.1): vista **Eventos** (consulta por evento), **Todos los DTE**, detalle DTE, capa de datos con refresco y login. Feria en Vivo queda como heredado. Ver `NOTAS_REDISENO_DOCUMENTAL.md`.
+- `documental.css` — estilos del rediseño documental (carga último, extiende tokens de styles.css).
 
 ## Tablas Supabase (proyecto `darwash-operaciones`)
 - **`tropas`** — unidad central. Cada lote/tropa que entra a feria.
