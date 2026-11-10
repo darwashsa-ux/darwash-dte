@@ -85198,7 +85198,7 @@
     },
     {
       "codigo": "01.019.0.00001/0A-2026",
-      "fecha_extraccion": "2026-11-10T07:06:26.861515",
+      "fecha_extraccion": "2026-11-10T08:36:38.748691",
       "info": {
         "Inicio": "22/10/2026",
         "Fin": "28/10/2026",
@@ -85228,13 +85228,13 @@
           "enviado": 2,
           "recibido": 2
         },
-        "Novillo": {
-          "enviado": 33,
-          "recibido": 33
-        },
         "Toro": {
           "enviado": 30,
           "recibido": 30
+        },
+        "Novillo": {
+          "enviado": 33,
+          "recibido": 33
         },
         "Novillito": {
           "enviado": 118,
@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-10T07:06:28.085105",
+      "fecha_extraccion": "2026-11-10T08:36:40.527421",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94580,6 +94580,10 @@
           "enviado": 46,
           "recibido": 37
         },
+        "Borrego/a": {
+          "enviado": 11,
+          "recibido": 10
+        },
         "Cordero/a": {
           "enviado": 33,
           "recibido": 27
@@ -94587,10 +94591,6 @@
         "Carnero": {
           "enviado": 2,
           "recibido": 1
-        },
-        "Borrego/a": {
-          "enviado": 11,
-          "recibido": 10
         }
       },
       "filas": [
@@ -100865,7 +100865,7 @@
     },
     {
       "codigo": "03.014.3.00015/0I-2026",
-      "fecha_extraccion": "2026-11-10T07:06:25.845976",
+      "fecha_extraccion": "2026-11-10T08:36:37.299579",
       "info": {
         "Inicio": "29/10/2026",
         "Fin": "30/10/2026",
@@ -106382,7 +106382,7 @@
     },
     {
       "codigo": "03.014.3.00015/0J-2026",
-      "fecha_extraccion": "2026-11-10T07:06:24.769124",
+      "fecha_extraccion": "2026-11-10T08:36:35.797115",
       "info": {
         "Inicio": "11/11/2026",
         "Fin": "12/11/2026",
@@ -106915,5 +106915,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-10T07:06:24.769124"
+  "fecha_extraccion": "2026-11-10T08:36:35.797115"
 }
