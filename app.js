@@ -55,44 +55,6 @@ function canonizarCategoria(raw){
   if(CATEGORIA_RAW_TO_CANONICA[key]) return CATEGORIA_RAW_TO_CANONICA[key];
   return CATEGORIA_ALIASES_LC[key.toLowerCase()] || null;
 }
-// Suma ingresos del remate agrupando por categoría canónica.
-// Devuelve {TERNERO:{enviadas,recibidas}, ...} con default 0/0.
-// Categorías no canonizables (Mamón legacy) NO se cuentan acá.
-function normalizarCategoriasRemate(remate){
-  const acc=Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,{enviadas:0,recibidas:0}]));
-  if(!remate||!Array.isArray(remate.filas)) return acc;
-  for(const f of remate.filas){
-    if(!String(f.tipo_movimiento||'').toLowerCase().includes('entrada')) continue;
-    const canon=canonizarCategoria(f.categoria);
-    if(!canon) continue;
-    const env=Number(f.enviado ||0);
-    const rec=Number(f.recibido||0);
-    acc[canon].enviadas +=env;
-    // Asunción: recibido=0 significa "sin conteo manual cargado todavía", no "0 cabezas
-    // llegaron". Usamos enviado como fallback. El badge de drift solo se dispara cuando
-    // recibido está realmente poblado (>0) Y difiere de enviado. Si en el futuro el
-    // extractor backend empieza a poblar recibido siempre con el conteo real, eliminar
-    // este fallback y todos los cards van a empezar a mostrar drift verdadero.
-    acc[canon].recibidas+=rec>0?rec:env;
-  }
-  return acc;
-}
-// Suma totales sobre todas las categorías canónicas
-function totalRemate(catsNorm){
-  const t={enviadas:0,recibidas:0};
-  for(const c of CATEGORIAS_CANONICAS){
-    t.enviadas +=catsNorm[c].enviadas;
-    t.recibidas+=catsNorm[c].recibidas;
-  }
-  return t;
-}
-// Determina nivel de drift: null | 'warn' (|diff|≤5) | 'alert' (|diff|>5). diff = recibidas - enviadas.
-function driftLevel(diff){
-  const d=Math.abs(diff);
-  if(d===0) return null;
-  if(d<=5)  return 'warn';
-  return 'alert';
-}
 // Mantenida por compatibilidad. Ahora delega al mapping canónico; Mamón → fallback "MAM".
 function abreviarCategoria(cat){
   const canon=canonizarCategoria(cat);
@@ -133,98 +95,132 @@ function renderLogin(err=''){
     if(!u) return renderLogin('Email no registrado.');
     if(u.passHash!==hashStr(pass)) return renderLogin('Contraseña incorrecta.');
     setSession(email,u.nombre);
-    async function init(){
-      try{
-        const [r1,r2,r3]=await Promise.all([
-          fetch('dtes_maestro.json'),
-          fetch('remates_maestro.json'),
-          fetch('remates_alias.json').catch(()=>null)
-        ]);
-        DATOS_DTES=await r1.json();
-        DATOS_REMATES=await r2.json();
-        if(r3 && r3.ok){
-          try{
-            const a=await r3.json();
-            if(a && typeof a==='object' && !Array.isArray(a)) DATOS_ALIASES=a;
-          }catch(_){}
-        }
-      }catch(e){console.error('Error cargando datos:',e);}
-      renderApp();
-    }
-    init();
+    iniciarApp();
   };
 }
-function openDetalle(d){
-  if(!d) return;
-  modal.classList.remove('modal-wide');
+// ══════════════════════════════════════════════════════════════
+// DETALLE DTE — datos oficiales por sección. Se abre sobre la vista (modal en escritorio,
+// pantalla completa en celular) así al cerrar quedan evento, filtros y scroll como estaban.
+// Acepta el N° de DTE o el objeto del maestro (compatibilidad con llamadas viejas).
+// ══════════════════════════════════════════════════════════════
+function openDetalle(arg){
+  const nro=String(typeof arg==='object'&&arg?arg.nro_dte:arg||'');
+  if(!nro) return;
+  const m=idxDtes().get(nro)||null;
+  const evRef=idxEventos().get(nro)||null;
+  const r=evRef?remateDe(evRef.codigo):null;
+  const d=r?(modeloEvento(r).docs.find(x=>x.nro===nro)||null):null;
+  modal.classList.remove('modal-wide'); modal.classList.add('modal-dte');
 
-  // ── Sección: info general (10 boxes) ──
-  const infoItems=[
-    ['Consignatario',d.consignatario_nombre,false],
-    ['Tipo',d.tipo_movimiento_detalle,false],
-    ['Motivo',d.motivo_detalle,false],
-    ['Estado',d.estado_detalle,false],
-    ['Guía',d.nro_guia,true],
-    ['TRI',d.nro_tri,true],
-    ['Certificado faena',d.nro_certificado_faena,true],
-    ['Emisión',d.fecha_emision_detalle,true],
-    ['Vencimiento',d.fecha_vencimiento_detalle,true],
-    ['Caduca',d.fecha_caduca,true],
-  ];
-  const infoHtml='<div class="grid-4">'+infoItems.map(it=>{
-    const empty=!it[1];
-    return '<div class="box"><div class="box-label">'+esc(it[0])+'</div><div class="box-value'+(it[2]?' box-value-mono':'')+(empty?' box-value-empty':'')+'">'+esc(it[1]||'—')+'</div></div>';
-  }).join('')+'</div>';
+  const val=(v,mono)=>sinDato(v)?'<span class="dd-na">sin dato</span>':(mono?'<span class="mono">'+esc(v)+'</span>':esc(v));
+  const campo=(l,v,o)=>'<div class="dd-f'+(o&&o.full?' full':'')+'"><span class="dd-l">'+esc(l)+'</span><span class="dd-v">'+(o&&o.html?v:val(v,o&&o.mono))+'</span></div>';
+  const seccion=(t,html,extra)=>'<section class="dd-sec"><h3 class="dd-h">'+esc(t)+(extra?'<span class="dd-h-x">'+extra+'</span>':'')+'</h3><div class="dd-grid">'+html+'</div></section>';
+  const g=(k)=>m?m[k]:undefined;
 
-  // ── Sección: vacunas (3 boxes ámbar) ──
-  const vacunas=[
-    ['Última Aftosa',d.fecha_ultima_aftosa],
-    ['Anteúltima Aftosa',d.fecha_anteultima_aftosa],
-    ['Última Brucelosis',d.fecha_ultima_brucelosis],
-  ];
-  const vacHtml='<div class="section-header">Datos de vacunación</div>'
-    +'<div class="grid-3">'+vacunas.map(it=>'<div class="box box-amber"><div class="box-label">'+esc(it[0])+'</div><div class="box-value box-value-mono'+(it[1]?'':' box-value-empty')+'">'+esc(it[1]||'—')+'</div></div>').join('')+'</div>';
-
-  // ── Sección: animales movidos (tabla) ──
-  const animales=d.animales_detalle||[];
-  let animHtml='<div class="section-header">Animales movidos</div>';
-  if(animales.length>0){
-    const filas=animales.map(a=>'<tr>'
-      +'<td>'+esc(a.especie||'Bovinos')+'</td>'
-      +'<td style="color:var(--text-2)">'+esc(a.categoria||'—')+'</td>'
-      +'<td class="num" style="font-weight:600">'+esc(a.despachados||0)+'</td>'
-      +'<td class="num" style="color:'+((a.recibidos||0)>0?'var(--text)':'var(--muted)')+'">'+esc(a.recibidos||0)+'</td>'
-      +'</tr>').join('');
-    const totDesp=animales.reduce((s,a)=>s+(a.despachados||0),0);
-    const totRec=animales.reduce((s,a)=>s+(a.recibidos||0),0);
-    animHtml+='<div class="modal-table-wrap"><table class="modal-table">'
-      +'<thead><tr><th>Especie</th><th>Categoría</th><th class="num">Despachados</th><th class="num">Recibidos</th></tr></thead>'
-      +'<tbody>'+filas
-        +'<tr style="border-top:2px solid var(--border)"><td style="font-weight:600">Total</td><td></td><td class="num" style="font-weight:600">'+totDesp+'</td><td class="num" style="color:var(--muted)">'+totRec+'</td></tr>'
-      +'</tbody>'
-      +'</table></div>';
-  }else if(d.cantidad_enviados){
-    animHtml+='<div class="grid-2"><div class="box"><div class="box-label">Categoría</div><div class="box-value">'+esc(d.categoria_detalle||d.categoria||'—')+'</div></div>'
-      +'<div class="box"><div class="box-label">Cantidad enviados</div><div class="box-value" style="font-size:16px;color:var(--cyan)">'+esc(d.cantidad_enviados||0)+'</div></div></div>';
-  }else{
-    animHtml+='<div style="color:var(--muted);font-size:12px;padding:12px 0">Sin detalle cargado — corré el scraper para enriquecer este DTE.</div>';
+  if(!m&&!d){
+    modal.innerHTML='<div class="modal-head"><div><div class="modal-title-top">Detalle DTE</div><div class="modal-title is-code">'+esc(nro)+'</div></div><button id="closeModal" class="modal-close" aria-label="Cerrar">×</button></div>'
+      +'<div class="modal-body">'+estadoVacio('DTE no encontrado','El documento no está en los datos cargados (dtes_maestro.json ni eventos).')+'</div>';
+    modalBg.style.display='flex'; document.getElementById('closeModal').onclick=closeDetalle; return;
   }
+  const estado=m?normalizarEstado(m.estado):d.estado;
+  const estadoRaw=m?m.estado:(d.filas[0]||{}).estado;
+  const cerrado=estado==='CERRADO';
 
-  modal.innerHTML=
-    '<div class="modal-head">'
-      +'<div><div class="modal-title-top">Detalle DTE</div><div class="modal-title is-code">'+esc(d.nro_dte)+'</div></div>'
+  // Identificación y estado
+  const destTipo=(()=>{const fe=m&&m.destino_es_feria!=null?m.destino_es_feria:d&&d.destino_es_feria, ff=m&&m.destino_es_frigorifico!=null?m.destino_es_frigorifico:d&&d.destino_es_frigorifico;
+    if(fe==null&&ff==null) return null; return fe?'Feria':ff?'Frigorífico':'Establecimiento u otro (no feria ni frigorífico)';})();
+  const ident=campo('Estado',estadoPill(estado)+(cleanEstado(estadoRaw)!==estadoRaw?' <span class="dd-small">'+esc(estadoRaw)+'</span>':''),{html:true})
+    +(m&&!sinDato(m.estado_detalle)&&normalizarEstado(m.estado_detalle)!==estado?campo('Estado en detalle SIGSA',m.estado_detalle):'')
+    +(d&&d.difEstado?campo('Estado en listado del evento',estadoPill(d.estadoEvento)+' <span class="dd-small">el listado del evento puede venir atrasado</span>',{html:true}):'')
+    +campo('Motivo',g('motivo_detalle')||d&&d.motivo)
+    // Campos que solo existen en dtes_maestro: si el DTE no está ahí no se listan vacíos
+    +(m?campo('Tipo',g('tipo'),{mono:true})
+      +campo('Tipo (detalle)',g('tipo_movimiento_detalle'),{mono:true})
+      +campo('Autogestión',g('autogestion'))
+      +campo('Consignataria (app)',g('consignataria'))
+      +campo('Consignatario SIGSA',g('consignatario_nombre'))
+      +campo('ID movimiento',g('id_movimiento'),{mono:true})
+      +campo('Guía',g('nro_guia'),{mono:true})
+      +campo('TRI',g('nro_tri'),{mono:true})
+      +campo('Certificado de faena',g('nro_certificado_faena'),{mono:true})
+      :'<div class="dd-empty full">No está en dtes_maestro.json (DTE de otra consignataria del evento): solo hay datos del listado del evento.</div>');
+  const origen=campo('Emisor / productor',(m&&m.emisor_nombre)||d&&d.emisor,{full:true})
+    +campo('CUIT emisor',(m&&m.emisor_cuit)||d&&d.emisor_cuit,{mono:true})
+    +campo('RENSPA origen',(m&&m.renspa_origen)||d&&d.renspa_origen,{mono:true});
+  const destino=campo('Receptor',(m&&m.receptor_nombre)||d&&d.receptor,{full:true})
+    +campo('CUIT receptor',(m&&m.receptor_cuit)||d&&d.receptor_cuit,{mono:true})
+    +campo('RENSPA destino',(m&&m.renspa_destino)||d&&d.renspa_destino,{mono:true})
+    +campo('Tipo de destino',destTipo)
+    +(m?campo('Usuario de faena',g('usuario_faena_nombre')):'')
+    +(d&&d.sentido==='SALIDA'?campo('Comprador (listado del evento)',d.comprador):'');
+  let evento;
+  if(r&&d){
+    const al=aliasEvento(r.codigo), inf=r.info||{};
+    evento=campo('Evento','<button class="link-btn js-ir-evento" data-cod="'+esc(r.codigo)+'">'+esc(al||r.codigo)+'</button>'+(al?' <span class="mono dd-small">'+esc(r.codigo)+'</span>':''),{html:true,full:true})
+      +campo('Sentido en el evento',d.sentido==='ENTRADA'?'Entrada a feria':d.sentido==='SALIDA'?'Salida de feria':d.sentido)
+      +campo('Fechas del evento',(inf.Inicio||'—')+' → '+(inf.Fin||'—'),{mono:true})
+      +campo('Estado del evento (SIGSA)',inf.Estado)
+      +campo('Apto China (listado)',APTO_LBL[d.apto]);
+  }else evento='<div class="dd-empty">No figura en los eventos cargados (remates_maestro.json).</div>';
+
+  // Hacienda declarada
+  let filasH=[], fuenteH='';
+  if(m&&Array.isArray(m.animales_detalle)&&m.animales_detalle.length){
+    filasH=m.animales_detalle.map(a=>({esp:a.especie,cat:a.categoria,desp:Number(a.despachados)||0,rec:Number(a.recibidos)||0})); fuenteH='detalle SIGSA';
+  }else if(d&&Object.keys(d.catsRaw).length){
+    filasH=d.filas.map(f=>({esp:f.especie,cat:f.categoria,desp:Number(f.enviado)||0,rec:Number(f.recibido)||0})); fuenteH='listado del evento';
+  }else if(m&&m.cantidad_enviados!=null){
+    filasH=[{esp:'',cat:m.categoria_detalle,desp:Number(m.cantidad_enviados)||0,rec:null}]; fuenteH='detalle SIGSA (sin desglose)';
+  }
+  const recCell=v=>cerrado&&v!=null?fmtN(v):'<span class="dd-na">'+(ESTADOS_EXCLUIDOS.has(estado)?'—':'sin cierre')+'</span>';
+  let hacienda;
+  if(filasH.length){
+    const tD=filasH.reduce((s,x)=>s+x.desp,0), tR=filasH.reduce((s,x)=>s+(x.rec||0),0);
+    hacienda='<div class="modal-table-wrap"><table class="modal-table dd-table"><thead><tr><th>Especie</th><th>Categoría SENASA</th><th class="num">Despachadas (declaradas)</th><th class="num">Recibidas en cierre SIGSA</th></tr></thead><tbody>'
+      +filasH.map(x=>'<tr><td>'+esc(x.esp||'—')+'</td><td>'+esc(x.cat||'—')+'</td><td class="num mono">'+fmtN(x.desp)+'</td><td class="num mono">'+recCell(x.rec)+'</td></tr>').join('')
+      +'<tr class="tot"><td>Total</td><td></td><td class="num mono">'+fmtN(tD)+'</td><td class="num mono">'+recCell(filasH.some(x=>x.rec!=null)?tR:null)+'</td></tr></tbody></table></div>'
+      +'<div class="dd-note">Fuente: '+esc(fuenteH)+'. "Recibidas" es lo que registró el destino al cerrar el DTE en SIGSA; no es un conteo físico de Darwash. '
+      +(cerrado?'':'Este DTE no está cerrado: no hay recepción registrada.')
+      +(ESTADOS_EXCLUIDOS.has(estado)?' DTE '+estado.toLowerCase()+': no suma a las cabezas declaradas.':'')+'</div>';
+  }else hacienda='<div class="dd-empty">Sin detalle de hacienda cargado'+(m&&m.detalle_cargado===false?'':' para este DTE')+'. Se completa cuando el scraper enriquece el documento.</div>';
+
+  const fechas=campo('Emisión',g('fecha_emision_detalle')||g('fecha_emision'),{mono:true})
+    +campo('Carga',g('fecha_carga')||d&&d.fecha,{mono:true})
+    +campo('Vencimiento',g('fecha_vencimiento_detalle')||g('fecha_vencimiento'),{mono:true})
+    +(m?campo('Caduca',g('fecha_caduca'),{mono:true})
+      +campo('Arribo',g('fecha_arribo'),{mono:true}):'');
+  const sanidad=campo('Última aftosa',g('fecha_ultima_aftosa')||(d&&d.filas[0]&&d.filas[0].fecha_aftosa),{mono:true})
+    +(m?campo('Anteúltima aftosa',g('fecha_anteultima_aftosa'),{mono:true})
+      +campo('Última brucelosis',g('fecha_ultima_brucelosis'),{mono:true}):'');
+  const fts=v=>{const x=parseExtraccion(v);return x?fmtFH(x,true):v;};
+  const fuente=m
+    ?campo('Listado SIGSA leído',fts(m.ts_scrape),{mono:true})
+     +campo('Detalle SIGSA leído',m.detalle_cargado?fts(m.detalle_actualizado_ts):null,{mono:true})
+     +campo('Maestro DTE extraído',fmtFH(fechaExtraccion('dtes'),true),{mono:true})
+    :'<div class="dd-empty">Este DTE no está en dtes_maestro.json: los datos salen del listado del evento.</div>';
+
+  modal.innerHTML='<div class="modal-head">'
+      +'<div><div class="modal-title-top">Detalle DTE</div><div class="modal-title is-code">'+esc(nro)+'</div>'
+      +'<div class="dd-sub">'+estadoPill(estado)+'<span>'+esc((m&&m.emisor_nombre)||d&&d.emisor||'')+'</span>'+(d?'<span class="sent '+(d.sentido==='ENTRADA'?'ent':'sal')+'">'+(d.sentido==='ENTRADA'?'ENT':'SAL')+'</span>':'')+'</div></div>'
       +'<button id="closeModal" class="modal-close" aria-label="Cerrar">×</button>'
     +'</div>'
-    +'<div class="modal-body">'
-      +infoHtml
-      +vacHtml
-      +animHtml
-    +'</div>';
-
+    +'<div class="modal-body dd-body">'
+      +seccion('Identificación y estado',ident)
+      +'<div class="dd-2col">'+seccion('Origen',origen)+seccion('Destino',destino)+'</div>'
+      +seccion('Relación con el evento',evento)
+      +'<section class="dd-sec"><h3 class="dd-h">Categorías y cantidades declaradas</h3>'+hacienda+'</section>'
+      +'<div class="dd-2col">'+seccion('Fechas',fechas)+seccion('Sanidad declarada',sanidad)+'</div>'
+      +seccion('Fuente del dato',fuente)
+    +'</div>'
+    +'<div class="modal-footer"><span class="dd-small mono">'+esc(nro)+'</span><button class="btn-secondary" id="dd-cerrar">Cerrar</button></div>';
   modalBg.style.display='flex';
+  modal.scrollTop=0; const mb=modal.querySelector('.modal-body'); if(mb) mb.scrollTop=0;
   document.getElementById('closeModal').onclick=closeDetalle;
+  document.getElementById('dd-cerrar').onclick=closeDetalle;
+  modal.querySelectorAll('.js-ir-evento').forEach(b=>b.onclick=()=>{closeDetalle(); if(window.irAEvento) window.irAEvento(b.dataset.cod);});
 }
-function closeDetalle(){modalBg.style.display='none'; modal.classList.remove('modal-wide');} modalBg.onclick=function(e){if(e.target===modalBg) closeDetalle();};
+function closeDetalle(){modalBg.style.display='none'; modal.classList.remove('modal-wide','modal-dte');}
+modalBg.onclick=function(e){if(e.target===modalBg) closeDetalle();};
 document.addEventListener('keydown',function(e){if(e.key==='Escape' && modalBg.style.display==='flex')closeDetalle();});
 async function mostrarLinkRemate(codigo,tipo){
   let url='https://darwashsa-ux.github.io/darwash-dte/'+tipo+'.html?remate='+encodeURIComponent(codigo);
@@ -278,646 +274,658 @@ async function mostrarLinkRemate(codigo,tipo){
     window.open('https://wa.me/?text='+encodeURIComponent(mensaje),'_blank');
   };
 }
-function remateTipoClass(t){const s=String(t||'').toLowerCase(); if(s.includes('entrada')) return 'row-entrada'; if(s.includes('salida')) return 'row-salida'; return '';}
-function calcMovSummary(filas){
-  // ingresos/egresos.total y .categorias[CANON] devuelven {enviadas, recibidas} para exponer drift.
-  // Filas con categoría no canonizable (Mamón legacy) suman a `total` pero no al breakdown.
-  const mkAcc=()=>({total:{enviadas:0,recibidas:0},categorias:Object.fromEntries(CATEGORIAS_CANONICAS.map(c=>[c,{enviadas:0,recibidas:0}]))});
-  const ingresos=mkAcc();
-  const egresos=mkAcc();
-  const stats={faena:0,invernada:0,aptoSi:0,aptoNo:0,vacaFaenaNoApto:0};
-  (filas||[]).forEach(f=>{
-    const env=Number(f.enviado )||0;
-    const rec=Number(f.recibido)||0;
-    // Misma asunción que normalizarCategoriasRemate: recibido=0 = "sin conteo cargado",
-    // fallback a enviado para que detail panel y hero card muestren los mismos números.
-    // Drift real solo cuando rec > 0 Y rec !== env. Ver comment ahí para context completo.
-    const recAdj=rec>0?rec:env;
-    // Para SENASA stats (faena/invernada/apto) usamos el comportamiento histórico recibido||enviado
-    // que privilegia el conteo real cuando llegó a corral.
-    const cantidad=rec||env||0;
-    const cat=f.categoria||'Sin categoria';
-    const canon=canonizarCategoria(cat);
-    const t=String(f.tipo_movimiento||'').toLowerCase();
-    const motivo=String(f.motivo||'').toLowerCase();
-    const apto=String(f.apto_china||'').toLowerCase();
-    if(t.includes('entrada')){
-      ingresos.total.enviadas +=env; ingresos.total.recibidas+=recAdj;
-      if(canon){ ingresos.categorias[canon].enviadas+=env; ingresos.categorias[canon].recibidas+=recAdj; }
-    }else if(t.includes('salida')){
-      egresos.total.enviadas +=env; egresos.total.recibidas+=recAdj;
-      if(canon){ egresos.categorias[canon].enviadas+=env; egresos.categorias[canon].recibidas+=recAdj; }
-    }
-    if(motivo.includes('faena'))stats.faena+=cantidad;
-    else if(motivo.includes('invernada'))stats.invernada+=cantidad;
-    if(/^si$/i.test(apto))stats.aptoSi+=cantidad;
-    else if(/^no$/i.test(apto))stats.aptoNo+=cantidad;
-    if(/vaca/i.test(cat)&&motivo.includes('faena')&&/^no$/i.test(apto))stats.vacaFaenaNoApto+=cantidad;
+// ══════════════════════════════════════════════════════════════
+// CAPA DE DATOS — carga por fuente, refresco, errores y fechas
+// Cada fuente guarda su propio estado: si una actualización falla se conserva lo último
+// que cargó bien y se avisa. La fecha que se muestra es la de EXTRACCIÓN de SIGSA (scraper),
+// no la hora en que el navegador consultó el archivo.
+// ══════════════════════════════════════════════════════════════
+const TZ_AR='America/Argentina/Buenos_Aires';
+// El scraper corre en Argentina y escribe hora local sin zona ("2026-11-09T20:34:25.272442").
+// Se interpreta explícitamente como -03:00 para no depender de la zona del navegador.
+function parseExtraccion(v){
+  if(!v) return null;
+  let s=String(v).trim().replace(/(\.\d{3})\d+/,'$1');
+  if(!/(Z|[+-]\d{2}:?\d{2})$/i.test(s)) s+='-03:00';
+  const d=new Date(s); return isNaN(d.getTime())?null:d;
+}
+// Siempre 24 h: "es-AR" en Chrome devuelve 12 h sin a.m./p.m. (20:34 se veía 08:34).
+function fmtFH(d,conAnio){
+  if(!d) return '—';
+  const o={timeZone:TZ_AR,day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'};
+  if(conAnio) o.year='numeric';
+  return d.toLocaleString('es-AR',o);
+}
+function fmtHora(d){return d?d.toLocaleTimeString('es-AR',{timeZone:TZ_AR,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}):'—';}
+function fmtRelDesde(d){
+  if(!d) return '';
+  const m=Math.round((Date.now()-d.getTime())/60000);
+  if(m<1) return 'recién'; if(m<60) return 'hace '+m+' min';
+  const h=Math.floor(m/60); if(h<48) return 'hace '+h+' h';
+  return 'hace '+Math.floor(h/24)+' d';
+}
+function fmtN(n){return Number(n||0).toLocaleString('es-AR');}
+function ymd(dmy){const m=/^(\d{2})\/(\d{2})\/(\d{4})/.exec(String(dmy||''));return m?m[3]+m[2]+m[1]:'';}
+function sinDato(v){return v==null||v===''||v==='-'||v==='—';}
+
+const FUENTES={
+  dtes:   {url:'dtes_maestro.json',   label:'DTE',     valida:j=>j&&Array.isArray(j.dtes)},
+  remates:{url:'remates_maestro.json',label:'Eventos', valida:j=>j&&Array.isArray(j.remates)}
+};
+// estado: 'pendiente' | 'ok' | 'error'. cargado=true si alguna vez cargó bien (hay datos en memoria).
+const CARGA={
+  dtes:   {estado:'pendiente',error:'',consultado:null,cargado:false},
+  remates:{estado:'pendiente',error:'',consultado:null,cargado:false}
+};
+async function traerJson(url,forzar){
+  const ctl=typeof AbortController!=='undefined'?new AbortController():null;
+  const to=ctl?setTimeout(()=>ctl.abort(),25000):null;
+  try{
+    const res=await fetch(forzar?url+'?_='+Date.now():url,{cache:forzar?'no-store':'default',signal:ctl?ctl.signal:undefined});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    try{ return await res.json(); }catch(e){ throw new Error('JSON inválido'); }
+  }catch(e){
+    if(e&&e.name==='AbortError') throw new Error('tiempo de espera agotado');
+    if(e instanceof TypeError) throw new Error('sin conexión');
+    throw e;
+  }finally{ if(to) clearTimeout(to); }
+}
+let _idxDtes=null,_idxEventos=null; const _cacheModelos=new Map();
+async function cargarDatos(forzar){
+  const tareas=Object.entries(FUENTES).map(async([k,f])=>{
+    const st=CARGA[k];
+    try{
+      const j=await traerJson(f.url,forzar);
+      if(!f.valida(j)) throw new Error('formato inesperado');
+      if(k==='dtes') DATOS_DTES=j; else DATOS_REMATES=j;
+      st.estado='ok'; st.error=''; st.cargado=true;
+    }catch(e){
+      st.estado='error'; st.error=(e&&e.message)||String(e);
+      console.error('[datos] '+f.url+': '+st.error);
+    }finally{ st.consultado=new Date(); }
   });
-  return{ingresos,egresos,stats};
+  const alias=traerJson('remates_alias.json',forzar)
+    .then(a=>{if(a&&typeof a==='object'&&!Array.isArray(a)) DATOS_ALIASES=a;})
+    .catch(()=>{/* alias opcional */});
+  await Promise.all([...tareas,alias]);
+  _idxDtes=null; _idxEventos=null; _cacheModelos.clear();
 }
-// `total` y `categorias[k]` son objetos {enviadas, recibidas}. El número grande muestra `enviadas`;
-// el badge .drift-badge aparece cuando difieren. (Función actualmente no se invoca — se mantiene en sync con el shape nuevo.)
-function renderSummaryBox(title,total,categorias,inOut){
-  const entries=Object.entries(categorias).filter(([,v])=>v.enviadas>0||v.recibidas>0).sort((a,b)=>b[1].enviadas-a[1].enviadas);
-  const totDiff=total.recibidas-total.enviadas;
-  const totLevel=driftLevel(totDiff);
-  const totBadge=totLevel?' <span class="drift-badge '+totLevel+'">⚠ '+(totDiff>0?'+':'')+totDiff+'</span>':'';
-  const totTitle=totLevel?'title="Enviadas: '+total.enviadas+' · Recibidas: '+total.recibidas+'"':'';
-  const pills=entries.map(([cat,v])=>{
-    const d=v.recibidas-v.enviadas, lv=driftLevel(d);
-    const suffix=lv?' <span class="drift-suffix '+lv+'">'+(d>0?'+':'')+d+'</span>':'';
-    const ttl=lv?' title="Enviadas: '+v.enviadas+' · Recibidas: '+v.recibidas+'"':'';
-    return '<div class="cat-pill '+inOut+'"'+ttl+'><span class="cat-code">'+esc(abreviarCategoria(cat))+'</span><span class="cat-num">'+esc(v.enviadas)+'</span>'+suffix+'</div>';
-  }).join('');
-  return '<div class="summary-box"><div class="summary-head '+inOut+'" '+totTitle+'><div><div class="small" style="text-transform:uppercase;letter-spacing:1px">'+title+'</div><div class="summary-big">'+total.enviadas.toLocaleString()+totBadge+'</div></div></div><div class="summary-cats">'+(entries.length?pills:'<div class="small">Sin movimientos</div>')+'</div></div>';
+function fechaExtraccion(k){return CARGA[k].cargado?parseExtraccion((k==='dtes'?DATOS_DTES:DATOS_REMATES).fecha_extraccion):null;}
+
+// ── Índices ──
+function idxDtes(){
+  if(!_idxDtes) _idxDtes=new Map((DATOS_DTES.dtes||[]).map(d=>[String(d.nro_dte),d]));
+  return _idxDtes;
 }
-function renderRemates(){const rems=DATOS_REMATES.remates||[]; const host=document.createElement('div'); let selected=null,expandedCompact=null,q='',tipos=[],estados=[],categorias_f=[],motivos=[],aptoChinas=[],sortKey=null,sortDir='asc'; function aptoChinaVal(f){const v=f.apto_china||f['Apto China']||f.aptoChina; return !v?'sin':/^si$/i.test(String(v))?'si':'no';} function draw(){const rem=rems[selected]||null;
-// Nombres por evento guardados en localStorage
-const remNombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');
-
-// Principal: el más reciente por fecha de Inicio, sin importar el estado. Se renderiza
-// arriba como heroCard (siempre expandido). Los demás van a la lista compact (colapsados
-// por default, click expande/colapsa un único item a la vez via expandedCompact).
-function parseDate(s){if(!s||s==='-')return 0; const p=s.split('/'); return p.length===3?new Date(+p[2],+p[1]-1,+p[0]).getTime():0;}
-const aliases=DATOS_ALIASES||{};
-const allEntries=rems.map((r,origIdx)=>({r,origIdx,t:parseDate((r.info||{})['Inicio']||'')}));
-allEntries.sort((a,b)=>b.t-a.t);
-const mainEntry=allEntries[0]||null;
-const mainIdx=mainEntry?.origIdx ?? null;
-const otherEntries=allEntries.slice(1);
-// Inicializar selected al principal en primera pasada (null sentinel).
-if(selected===null) selected=mainIdx ?? 0;
-
-// ── HERO CARD (remate activo) — Design system: .remate-card ────
-function heroCard(r,origIdx){
-  const isBull=((r.info||{}).consignataria||'').toUpperCase().includes('BULLTRADE');
-  const dtes=new Set((r.filas||[]).map(f=>f.documento)).size;
-  const nombre=remNombres[r.codigo||'']||aliases[r.codigo||'']||'';
-  const inicio=esc((r.info||{})['Inicio']||'-');
-  const fin=esc((r.info||{})['Fin']||'-');
-  const predio=esc((r.info||{})['Predio ferial']||(r.info||{}).consignataria||'');
-  const isActive=origIdx===selected;
-  const cod=esc(r.codigo||'');
-  // Label dinámico: si el remate más reciente está CERRADA, decir "Remate activo" miente.
-  const statusLabel=String((r.info||{}).Estado||'').toUpperCase()==='CERRADA' ? 'Último remate' : 'Remate activo';
-
-  // Tags de categorías canónicas con enviadas > 0 (sin slice, sin umbral) — ordenados desc por enviadas.
-  // El número grande del tag = enviadas. Sufijo (±N) cuando recibidas !== enviadas.
-  const catsCanon=normalizarCategoriasRemate(r);
-  const tot=totalRemate(catsCanon);
-  const totDiff=tot.recibidas-tot.enviadas;
-  const totLevel=driftLevel(totDiff);
-  const tagsHtml=Object.entries(catsCanon).filter(([,v])=>v.enviadas>0||v.recibidas>0)
-    .sort((a,b)=>b[1].enviadas-a[1].enviadas)
-    .map(([k,v])=>{
-      const d=v.recibidas-v.enviadas, lv=driftLevel(d);
-      const suffix=lv?' <span class="drift-suffix '+lv+'">'+(d>0?'+':'')+d+'</span>':'';
-      const ttl=lv?' title="Enviadas: '+v.enviadas+' · Recibidas: '+v.recibidas+'"':'';
-      return '<span class="tag"'+ttl+'><span>'+esc(k)+'</span> <span class="num">'+v.enviadas+'</span>'+suffix+'</span>';
-    }).join('');
-
-  // Drift assertion en consola: lista categorías afectadas para drilldown rápido.
-  if(totLevel){
-    const catsDrift=CATEGORIAS_CANONICAS
-      .filter(c=>catsCanon[c].recibidas!==catsCanon[c].enviadas)
-      .map(c=>c+' '+(catsCanon[c].recibidas-catsCanon[c].enviadas))
-      .join(', ');
-    console.warn('[drift] Remate '+(r.codigo||'?')+': enviadas='+tot.enviadas+' recibidas='+tot.recibidas+' diff='+totDiff+' (categorías afectadas: '+catsDrift+')');
+// documento → {codigo, sentido}. Un DTE figura en un solo evento (verificado en los datos).
+function idxEventos(){
+  if(!_idxEventos){
+    _idxEventos=new Map();
+    for(const r of (DATOS_REMATES.remates||[])) for(const f of (r.filas||[])){
+      const k=String(f.documento||''); if(k&&!_idxEventos.has(k)) _idxEventos.set(k,{codigo:r.codigo,sentido:String(f.tipo_movimiento||'').toUpperCase()});
+    }
   }
-
-  // Placeholder serif italic cuando no hay nombre — handled by ::placeholder en CSS
-  return '<div class="remate-card rem-hero'+(isActive?' active':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'">'
-    +'<div class="remate-info">'
-      +'<div class="remate-status">'+statusLabel+'</div>'
-      +'<input class="remate-name rem-name-input" data-codigo="'+cod+'" placeholder="Nombre del evento…" value="'+esc(nombre)+'" onclick="event.stopPropagation()" />'
-      +'<div class="remate-code">'+esc(r.codigo||'—')+'</div>'
-      +'<div class="remate-meta">'
-        +'<span>'+inicio+' → '+fin+'</span>'
-        +(predio?'<span class="sep">·</span><span>'+predio+'</span>':'')
-      +'</div>'
-      +(tagsHtml?'<div class="remate-tags">'+tagsHtml+'</div>':'')
-    +'</div>'
-    +'<div class="remate-stats">'
-      +'<div class="stat-pill"'+(totLevel?' title="Enviadas: '+tot.enviadas+' · Recibidas: '+tot.recibidas+'"':'')+'>'
-        +'<span class="stat-pill-row">'
-          +'<span class="num">'+tot.enviadas+'</span>'
-          +(totLevel?'<span class="drift-badge '+totLevel+'">⚠ '+(totDiff>0?'+':'')+totDiff+'</span>':'')
-        +'</span>'
-        +'<span class="lbl">Animales</span>'
-      +'</div>'
-      +'<div class="stat-pill amber">'
-        +'<span class="num">'+dtes+'</span>'
-        +'<span class="lbl">DTEs</span>'
-      +'</div>'
-    +'</div>'
-    +'<div class="remate-actions">'
-      +'<button class="btn btn-ghost cyan ver-ing-btn" data-codigo="'+cod+'" onclick="event.stopPropagation()">👁 Ver ingresos</button>'
-      +'<button class="btn btn-ghost red link-rem-btn" data-codigo="'+cod+'" data-tipo="egreso" onclick="event.stopPropagation()">⬆ Registrar egreso</button>'
-      +'<button class="btn btn-ghost cyan ver-egr-btn" data-codigo="'+cod+'" onclick="event.stopPropagation()">👁 Ver egresos</button>'
-      +'<button class="btn btn-primary link-rem-btn" data-codigo="'+cod+'" data-tipo="ingreso" onclick="event.stopPropagation()">+ Registrar ingreso</button>'
-    +'</div>'
-  +'</div>';
+  return _idxEventos;
+}
+function remateDe(codigo){return (DATOS_REMATES.remates||[]).find(r=>r.codigo===codigo)||null;}
+function eventosOrdenados(){
+  return (DATOS_REMATES.remates||[]).slice().sort((a,b)=>{
+    const c=ymd((b.info||{}).Inicio).localeCompare(ymd((a.info||{}).Inicio));
+    return c||String(b.codigo).localeCompare(String(a.codigo));
+  });
+}
+function aliasEvento(codigo){
+  let loc={}; try{loc=JSON.parse(localStorage.getItem('rem_nombres')||'{}')||{};}catch(e){}
+  return loc[codigo]||(DATOS_ALIASES||{})[codigo]||'';
 }
 
-// ── COMPACT CARD (variante chiquita de .remate-card) ─────────
-// Render con .remate-actions SIEMPRE incluido — la animación CSS lo colapsa/expande
-// según la clase .expanded del padre. expandedCompact (closure de renderRemates) controla
-// qué item está expandido; un solo item a la vez.
-function compactCard(r,origIdx){
-  const isBull=((r.info||{}).consignataria||'').toUpperCase().includes('BULLTRADE');
-  const titulo=remNombres[r.codigo||'']||aliases[r.codigo||'']||'';
-  const dtes=new Set((r.filas||[]).map(f=>f.documento)).size;
-  const inicio=esc((r.info||{})['Inicio']||'-');
-  const fin=esc((r.info||{})['Fin']||'-');
-  const isActive=origIdx===selected;
-  const cod=esc(r.codigo||'');
-  const rawCod=r.codigo||'';
-  const isExpanded=expandedCompact===rawCod;
-  const tot=totalRemate(normalizarCategoriasRemate(r));
-  const totDiff=tot.recibidas-tot.enviadas, totLevel=driftLevel(totDiff);
-
-  return '<div class="remate-card compact rem-past-row'+(isActive?' active':'')+(isExpanded?' expanded':'')+(isBull?' rem-bulltrade':' rem-darwash')+'" data-i="'+origIdx+'" data-codigo="'+cod+'">'
-    +'<div class="remate-info">'
-      +'<input class="remate-name rem-name-input" data-codigo="'+cod+'" placeholder="Nombre del evento…" value="'+esc(titulo)+'" onclick="event.stopPropagation()" />'
-      +'<div class="remate-code">'+esc(r.codigo||'—')+'</div>'
-      +'<div class="remate-meta">'
-        +'<span>'+inicio+' → '+fin+'</span>'
-      +'</div>'
-    +'</div>'
-    +'<div class="remate-stats">'
-      +'<div class="stat-pill"'+(totLevel?' title="Enviadas: '+tot.enviadas+' · Recibidas: '+tot.recibidas+'"':'')+'>'
-        +'<span class="stat-pill-row">'
-          +'<span class="num">'+tot.enviadas+'</span>'
-          +(totLevel?'<span class="drift-badge '+totLevel+'">⚠ '+(totDiff>0?'+':'')+totDiff+'</span>':'')
-        +'</span>'
-        +'<span class="lbl">Animales</span>'
-      +'</div>'
-      +'<div class="stat-pill amber">'
-        +'<span class="num">'+dtes+'</span>'
-        +'<span class="lbl">DTEs</span>'
-      +'</div>'
-    +'</div>'
-    +'<div class="remate-actions">'
-      +'<button class="btn btn-ghost cyan ver-ing-btn" data-codigo="'+cod+'" onclick="event.stopPropagation()">👁 Ver ingresos</button>'
-      +'<button class="btn btn-ghost red link-rem-btn" data-codigo="'+cod+'" data-tipo="egreso" onclick="event.stopPropagation()">⬆ Registrar egreso</button>'
-      +'<button class="btn btn-ghost cyan ver-egr-btn" data-codigo="'+cod+'" onclick="event.stopPropagation()">👁 Ver egresos</button>'
-      +'<button class="btn btn-primary link-rem-btn" data-codigo="'+cod+'" data-tipo="ingreso" onclick="event.stopPropagation()">+ Registrar ingreso</button>'
-    +'</div>'
-  +'</div>';
+// ── Estados documentales (SIGSA) ──
+// ANULADO / ELIMINADO: el documento no vale → no suma cabezas.
+// VENCIDO / CADUCADO / SIN ARRIBO: documento válido sin cierre en término → suma, pero se informa aparte.
+const ESTADOS_EXCLUIDOS=new Set(['ANULADO','ELIMINADO']);
+const ESTADOS_SIN_CIERRE=new Set(['VENCIDO','CADUCADO','SIN ARRIBO']);
+const ESTADO_ORDEN=['EMITIDO','VIGENTE','CERRADO','VENCIDO','SIN ARRIBO','CADUCADO','ANULADO','ELIMINADO'];
+function ordenEstado(a,b){const ia=ESTADO_ORDEN.indexOf(a),ib=ESTADO_ORDEN.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)||String(a).localeCompare(String(b));}
+function estadoCls(e){return String(e||'').toLowerCase().replace(/\s+/g,'-');}
+function estadoPill(e,titulo){return '<span class="estado-pill '+estadoCls(e)+'"'+(titulo?' title="'+esc(titulo)+'"':'')+'>'+esc(e||'—')+'</span>';}
+function aptoVal(v){return sinDato(v)?'sin':/^si$/i.test(String(v))?'si':'no';}
+const APTO_LBL={si:'Apto',no:'No apto',sin:'Sin dato'};
+function ordenCats(keys){
+  return keys.slice().sort((a,b)=>{const ia=CATEGORIAS_CANONICAS.indexOf(a),ib=CATEGORIAS_CANONICAS.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)||String(a).localeCompare(String(b));});
+}
+// Cabezas declaradas de un DTE del maestro: lo despachado según el detalle SIGSA.
+// null = dato faltante (detalle no cargado), distinto de 0.
+function cabDte(d){
+  if(!d) return null;
+  if(d.total_despachados!=null) return Number(d.total_despachados)||0;
+  if(d.cantidad_enviados!=null) return Number(d.cantidad_enviados)||0;
+  if(Array.isArray(d.animales_detalle)&&d.animales_detalle.length) return d.animales_detalle.reduce((s,a)=>s+(Number(a.despachados)||0),0);
+  return null;
+}
+// Búsqueda: texto libre + números normalizados (CUIT/RENSPA/DTE con o sin guiones/puntos).
+function coincideBusqueda(q,campos){
+  const s=String(q||'').trim().toLowerCase(); if(!s) return true;
+  const soloNum=/^[\d\s.\-\/]+$/.test(s), dig=s.replace(/\D/g,'');
+  return campos.some(v=>{
+    const t=String(v==null?'':v).toLowerCase();
+    if(t.includes(s)) return true;
+    return soloNum&&dig.length>=4&&t.replace(/\D/g,'').includes(dig);
+  });
 }
 
-const heroHtml=mainEntry
-  ? heroCard(mainEntry.r, mainEntry.origIdx)
-  : '<div class="rem-no-active" style="padding:24px 18px;background:var(--surface);border:1px dashed var(--border);border-radius:var(--r-lg);text-align:center;color:var(--muted);font-size:13px">No hay remates cargados.</div>';
-const pastHtml=otherEntries.length>0
-  ?'<div class="rem-past-section">'
-    +'<button class="prev-toggle" id="rem-past-toggle"><span id="rem-past-label">Ver '+otherEntries.length+' remate'+(otherEntries.length>1?'s':'')+' anterior'+(otherEntries.length>1?'es':'')+'</span></button>'
-    +'<div class="rem-past-list" id="rem-past-list" style="display:none">'
-      +otherEntries.map(({r,origIdx})=>compactCard(r,origIdx)).join('')
-    +'</div>'
-  +'</div>'
-  :'';
-
-const cards=heroHtml+pastHtml; let detail=''; let exportRows=[]; if(rem){ const tiposAll=Array.from(new Set((rem.filas||[]).map(f=>f.tipo_movimiento).filter(Boolean))).sort(); const estadosAll=Array.from(new Set((rem.filas||[]).map(f=>normalizarEstado(f.estado)).filter(Boolean))).sort(); const categoriasAll=Array.from(new Set((rem.filas||[]).map(f=>canonizarCategoria(f.categoria)).filter(Boolean))).sort(); const motivosAll=Array.from(new Set((rem.filas||[]).map(f=>f.motivo).filter(Boolean))).sort(); exportRows=(rem.filas||[]).filter(f=>(!tipos.length||tipos.includes(f.tipo_movimiento))&&(!estados.length||estados.includes(normalizarEstado(f.estado)))&&(!categorias_f.length||categorias_f.includes(canonizarCategoria(f.categoria)||''))&&(!motivos.length||motivos.includes(f.motivo||''))&&(!aptoChinas.length||aptoChinas.includes(aptoChinaVal(f)))); if(q){const qq=q.toLowerCase(); exportRows=exportRows.filter(f=>Object.values(f).some(v=>String(v||'').toLowerCase().includes(qq)));} if(sortKey){ exportRows=[...exportRows].sort((a,b)=>{const av=a[sortKey]??''; const bv=b[sortKey]??''; const anum=['enviado','recibido'].includes(sortKey)?(Number(av)||0):null; const bnum=['enviado','recibido'].includes(sortKey)?(Number(bv)||0):null; const cmp=anum!==null?(anum-bnum):String(av).localeCompare(String(bv)); return sortDir==='asc'?cmp:-cmp;}); } const sums=calcMovSummary(exportRows); const s=sums.stats;
-
-// Cat mini-grid — siempre las 7 canónicas (con 0 cuando no hay datos).
-// `cats[CANON]` es {enviadas, recibidas}. La celda muestra `enviadas` como número grande;
-// si la categoría tiene drift (recibidas !== enviadas) se agrega .has-drift + sufijo (±N) y tooltip.
-function catMiniGridHtml(cats){
-  const c=cats||{};
-  return CATEGORIAS_CANONICAS.map(canon=>{
-    const v=c[canon]||{enviadas:0,recibidas:0};
-    const env=Number(v.enviadas||0), rec=Number(v.recibidas||0);
-    const has=env>0||rec>0;
-    const diff=rec-env, lv=driftLevel(diff);
-    const cls='cat-mini '+(has?'has':'empty')+(lv?' has-drift '+lv:'');
-    const suffix=lv?'<span class="drift-suffix '+lv+'">'+(diff>0?'+':'')+diff+'</span>':'';
-    const ttl=lv?' title="Enviadas: '+env+' · Recibidas: '+rec+'"':'';
-    return '<div class="'+cls+'"'+ttl+'><span class="code">'+CATEGORIA_CANONICA_ABBR[canon]+'</span><span class="num">'+env+'</span>'+suffix+'</div>';
-  }).join('');
+// ── Modelo documental de un evento: una fila por DTE ──
+// remates_maestro trae una fila por (DTE × categoría). Se agrupa por documento.
+// Estado: manda el del propio DTE (maestro). El del listado del evento puede venir atrasado
+// (157 casos al 09/11: evento EMITIDO y DTE ya CADUCADO/CERRADO); se conserva para el detalle.
+function modeloEvento(r){
+  if(!r) return null;
+  if(_cacheModelos.has(r.codigo)) return _cacheModelos.get(r.codigo);
+  const idx=idxDtes(), docs=new Map();
+  for(const f of (r.filas||[])){
+    const nro=String(f.documento||''); if(!nro) continue;
+    let d=docs.get(nro);
+    if(!d){
+      const m=idx.get(nro)||null, estEv=normalizarEstado(f.estado);
+      d={nro,m,sentido:String(f.tipo_movimiento||'').toUpperCase(),
+        estadoEvento:estEv, estado:m?normalizarEstado(m.estado):estEv,
+        emisor:f.emisor_nombre||(m&&m.emisor_nombre)||'', emisor_cuit:f.emisor_cuit||(m&&m.emisor_cuit)||'',
+        renspa_origen:f.origen||(m&&m.renspa_origen)||'',
+        receptor:f.receptor_nombre||(m&&m.receptor_nombre)||'', receptor_cuit:f.receptor_cuit||(m&&m.receptor_cuit)||'',
+        renspa_destino:(m&&m.renspa_destino)||'',
+        comprador:f.comprador||'', destino_es_feria:f.destino_es_feria, destino_es_frigorifico:f.destino_es_frigorifico,
+        motivo:f.motivo||(m&&m.motivo_detalle)||'', apto:aptoVal(f.apto_china),
+        fecha:(m&&m.fecha_carga)||f.fecha_movimiento||'', tipo:(m&&m.tipo)||'',
+        cats:{}, catsRaw:{}, cab:0, rec:0, filas:[]};
+      docs.set(nro,d);
+    }
+    const n=Number(f.enviado)||0, raw=f.categoria||'Sin categoría', key=canonizarCategoria(raw)||raw;
+    d.cats[key]=(d.cats[key]||0)+n; d.catsRaw[raw]=(d.catsRaw[raw]||0)+n;
+    d.cab+=n; d.rec+=Number(f.recibido)||0; d.filas.push(f);
+  }
+  const lista=[...docs.values()];
+  const mk=()=>({dtes:0,cab:0,cats:{},excl:{dtes:0,cab:0},sinCierre:0});
+  const tot={ENTRADA:mk(),SALIDA:mk(),OTRO:mk(),porEstado:{},dtes:lista.length};
+  for(const d of lista){
+    d.excluido=ESTADOS_EXCLUIDOS.has(d.estado);
+    d.difEstado=!!d.m&&d.estado!==d.estadoEvento;
+    const t=tot[d.sentido]||tot.OTRO;
+    t.dtes++; tot.porEstado[d.estado]=(tot.porEstado[d.estado]||0)+1;
+    if(d.excluido){t.excl.dtes++;t.excl.cab+=d.cab;continue;}
+    if(ESTADOS_SIN_CIERRE.has(d.estado)) t.sinCierre++;
+    t.cab+=d.cab;
+    for(const [k,v] of Object.entries(d.cats)) t.cats[k]=(t.cats[k]||0)+v;
+  }
+  const mod={r,docs:lista,tot};
+  _cacheModelos.set(r.codigo,mod);
+  return mod;
+}
+function composicionHtml(cats){
+  const ks=ordenCats(Object.keys(cats).filter(k=>cats[k]>0));
+  if(!ks.length) return '<span class="dd-na">sin dato</span>';
+  return ks.map(k=>'<span class="comp" title="'+esc(k)+'"><b>'+esc(abreviarCategoria(k))+'</b>'+fmtN(cats[k])+'</span>').join('');
 }
 
-// Warn row + Stats grid (Ingresos verde / Egresos rojo / SENASA 2x2)
-const warnRow=s.vacaFaenaNoApto>0
-  ? '<div class="warn-row"><strong>'+s.vacaFaenaNoApto+' vacas faena</strong> · marcadas como <strong>NO APTO CHINA</strong></div>'
-  : '';
-
-const ingTot=sums.ingresos.total;
-const egrTot=sums.egresos.total;
-const ingDiff=ingTot.recibidas-ingTot.enviadas, ingLevel=driftLevel(ingDiff);
-const egrDiff=egrTot.recibidas-egrTot.enviadas, egrLevel=driftLevel(egrDiff);
-const driftBadge=(level,diff)=>level?'<span class="drift-badge '+level+'">⚠ '+(diff>0?'+':'')+diff+'</span>':'';
-const driftTitle=(level,t)=>level?' title="Enviadas: '+t.enviadas+' · Recibidas: '+t.recibidas+'"':'';
-
-const summary=warnRow
-  +'<div class="stats-grid" style="margin-top:14px">'
-    // Ingresos (verde) — con cat-mini-grid 4x2
-    +'<div class="metric-card ingresos">'
-      +'<div class="metric-head">'
-        +'<span class="metric-label"><span class="arrow">↓</span> Ingresos</span>'
-      +'</div>'
-      +'<div class="metric-num'+(ingTot.enviadas===0?' zero':'')+'"'+driftTitle(ingLevel,ingTot)+'>'+ingTot.enviadas+driftBadge(ingLevel,ingDiff)+'</div>'
-      +'<div class="cat-mini-grid">'+catMiniGridHtml(sums.ingresos.categorias)+'</div>'
-    +'</div>'
-    // Egresos (rojo) — número + sub solo cuando es 0
-    +'<div class="metric-card egresos">'
-      +'<div class="metric-head">'
-        +'<span class="metric-label"><span class="arrow">↑</span> Egresos</span>'
-      +'</div>'
-      +'<div class="metric-num'+(egrTot.enviadas===0?' zero':'')+'"'+driftTitle(egrLevel,egrTot)+'>'+egrTot.enviadas+driftBadge(egrLevel,egrDiff)+'</div>'
-      +(egrTot.enviadas===0
-        ? '<div class="metric-sub">Sin egresos registrados en este remate</div>'
-        : '')
-    +'</div>'
-    // SENASA — sub-grilla 2x2 (Faena / Invernada / Apto / No apto)
-    +'<div class="senasa-card">'
-      +'<div class="senasa-grid">'
-        +'<div class="senasa-cell faena"><span class="lbl">Faena</span><span class="num">'+s.faena+'</span></div>'
-        +'<div class="senasa-cell invernada"><span class="lbl">Invernada</span><span class="num">'+s.invernada+'</span></div>'
-        +'<div class="senasa-cell apto"><span class="lbl">Apto China</span><span class="num">'+s.aptoSi+'</span></div>'
-        +'<div class="senasa-cell no-apto"><span class="lbl">No apto</span><span class="num">'+s.aptoNo+'</span></div>'
-      +'</div>'
-    +'</div>'
-  +'</div>';
+// ── Multi-select (patrón existente de filtros) ──
 function msDropdown(id,label,opts,sel){
   const allSel=!sel.length;
-  const lbl=allSel?label:(sel.length===1?opts.find(o=>o.v===sel[0])?.l||sel[0]:sel.length+' sel.');
-  const items=opts.map(o=>{
-    const chk=sel.includes(o.v)?'checked':'';
-    return '<label class="ms-item"><input type="checkbox" value="'+esc(o.v)+'" '+chk+'><span>'+esc(o.l)+'</span></label>';
-  }).join('');
+  const lbl=allSel?label:(sel.length===1?((opts.find(o=>o.v===sel[0])||{}).l||sel[0]):sel.length+' sel.');
+  const items=opts.map(o=>'<label class="ms-item"><input type="checkbox" value="'+esc(o.v)+'" '+(sel.includes(o.v)?'checked':'')+'><span>'+esc(o.l)+'</span></label>').join('');
   return '<div class="ms-wrap" id="'+id+'"><button class="ms-btn select '+(allSel?'':'ms-active')+'" type="button">'+esc(lbl)+' <span class="ms-arrow">▾</span></button>'
-    +'<div class="ms-panel" style="display:none">'
-    +'<label class="ms-item ms-all"><input type="checkbox" value="__all__" '+(allSel?'checked':'')+'>Todos</label>'
-    +items+'</div></div>';
+    +'<div class="ms-panel" style="display:none"><label class="ms-item ms-all"><input type="checkbox" value="__all__" '+(allSel?'checked':'')+'>Todos</label>'+items+'</div></div>';
 }
-const tiposOpts=tiposAll.map(v=>({v,l:v}));
-const estadosOpts=estadosAll.map(v=>({v,l:v}));
-const categoriasOpts=categoriasAll.map(v=>({v,l:v}));
-const motivosOpts=motivosAll.map(v=>({v,l:v}));
-const aptoOpts=[{v:'si',l:'Apto'},{v:'no',l:'No apto'},{v:'sin',l:'Sin dato'}];
-const header=''
-  +'<div class="filters-bar rem-filters-bar">'
-    +'<div class="filter-field search">'
-      +'<span class="lbl">Buscar</span>'
-      +'<input class="input" id="r-q" placeholder="Doc, emisor, receptor…" value="'+esc(q)+'"/>'
-    +'</div>'
-    +'<div class="filter-field"><span class="lbl">Tipo</span>'+msDropdown('r-tipo','Todos',tiposOpts,tipos)+'</div>'
-    +'<div class="filter-field"><span class="lbl">Estado</span>'+msDropdown('r-est','Todos',estadosOpts,estados)+'</div>'
-    +'<div class="filter-field"><span class="lbl">Categoría</span>'+msDropdown('r-cat','Todas',categoriasOpts,categorias_f)+'</div>'
-    +'<div class="filter-field"><span class="lbl">Motivo</span>'+msDropdown('r-motivo','Todos',motivosOpts,motivos)+'</div>'
-    +'<div class="filter-field"><span class="lbl">Apto China</span>'+msDropdown('r-apto','Todos',aptoOpts,aptoChinas)+'</div>'
-    +'<div class="filter-actions">'
-      +'<button class="btn btn-ghost btn-sm" id="r-clear">Limpiar</button>'
-      +'<button class="btn btn-ghost cyan btn-sm" id="r-export">⬇ Excel</button>'
-    +'</div>'
-  +'</div>';
-
-const cols=[
-  {key:'tipo_movimiento', label:'Tipo',        thClass:'col-tipo'},
-  {key:'documento',       label:'Documento',   thClass:'col-num numeric'},
-  {key:'emisor_nombre',   label:'Emisor',      thClass:'col-origen'},
-  {key:'receptor_nombre', label:'Receptor',    thClass:'col-destino'},
-  {key:'comprador',       label:'Comprador',   thClass:'col-destino'},
-  {key:'categoria',       label:'Categoría',   thClass:''},
-  {key:'fecha_movimiento',label:'Fecha Mov.',  thClass:'col-fecha'},
-  {key:'motivo',          label:'Motivo',      thClass:''},
-  {key:'estado',          label:'Estado',      thClass:''},
-  {key:'apto_china',      label:'Apto China',  thClass:''},
-  {key:'enviado',         label:'Env.',        thClass:'col-cant numeric'},
-  {key:'recibido',        label:'Rec.',        thClass:'col-cant numeric'}
-];
-const th=cols.map(c=>{
-  const icon=sortKey===c.key?(sortDir==='asc'?' ↑':' ↓'):'<span style="opacity:.35"> ↕</span>';
-  return '<th class="sorter '+c.thClass+'" data-sort="'+c.key+'" style="cursor:pointer;user-select:none">'+esc(c.label)+icon+'</th>';
-}).join('');
-
-function aptoChinaBadge(f){
-  const v=f.apto_china||f['Apto China']||f.aptoChina;
-  const lbl=!v?'Sin dato':/^si$/i.test(String(v))?'Apto':'No apto';
-  const cls=!v?'apto-sin':/^si$/i.test(String(v))?'apto-si':'apto-no';
-  return {lbl,cls};
-}
-
-const body=exportRows.map(f=>{
-  const ac=aptoChinaBadge(f);
-  const tipoLow=String(f.tipo_movimiento||'').toLowerCase();
-  const tipoTag=tipoLow.includes('entrada')?'entrada':tipoLow.includes('salida')?'salida':'';
-  const estadoCanon=normalizarEstado(f.estado).toLowerCase();
-  return '<tr'+(tipoTag?' data-tipo="'+tipoTag+'"':'')+'>'
-    +'<td class="col-tipo">'+esc(f.tipo_movimiento||'—')+'</td>'
-    +'<td class="col-num numeric dte-link" data-doc="'+esc(f.documento||'')+'">'+esc(f.documento||'—')+'</td>'
-    +'<td class="col-origen" title="'+esc(f.emisor_nombre||'')+'">'+esc(f.emisor_nombre||'—')+'</td>'
-    +'<td class="col-destino" title="'+esc(f.receptor_nombre||'')+'">'+esc(f.receptor_nombre||'—')+'</td>'
-    +'<td class="col-destino'+(f.destino_es_feria?' celda-na':'')+'" title="'+esc(f.comprador||'')+'">'+(f.destino_es_feria?'<span class="na">n/a</span>':esc(f.comprador||'—'))+'</td>'
-    +'<td>'+esc(f.categoria||'—')+'</td>'
-    +'<td class="col-fecha">'+esc(f.fecha_movimiento||'—')+'</td>'
-    +'<td>'+esc(f.motivo||'—')+'</td>'
-    +'<td><span class="estado-pill '+estadoCanon+'">'+esc(cleanEstado(f.estado)||'—')+'</span></td>'
-    +'<td><span class="apto-china-pill '+ac.cls+'">'+esc(ac.lbl)+'</span></td>'
-    +'<td class="col-cant numeric">'+esc(f.enviado||0)+'</td>'
-    +'<td class="col-cant numeric">'+esc(f.recibido||0)+'</td>'
-  +'</tr>';
-}).join('');
-
-detail='<div class="section-caption"><span>'+esc(rem.codigo||'Remate')+'</span><span class="right">'+esc((rem.info||{})['Predio ferial']||'')+'</span></div>'
-  +summary
-  +header
-  +'<div class="table-wrap">'
-    +'<div class="table-head-bar">'
-      +'<span class="table-title">Movimientos del remate</span>'
-      +'<span class="table-count">'+exportRows.length+' de '+(rem.filas||[]).length+'</span>'
-    +'</div>'
-    +'<div style="overflow-x:auto">'
-      +'<table class="dte-table"><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table>'
-    +'</div>'
-  +'</div>';
-} else { detail='<div class="small">No hay remates cargados.</div>'; } const wasSearch=document.activeElement&&document.activeElement.id==='r-q'&&host.contains(document.activeElement); const selStart=wasSearch?document.activeElement.selectionStart:0; const selEnd=wasSearch?document.activeElement.selectionEnd:0; host.innerHTML='<div class="wrap"><div class="rem-grid">'+cards+'</div>'+detail+'</div>'; // Hero card click
-    host.querySelectorAll('.rem-hero').forEach(hero=>{
-      hero.onclick=function(){const prev=selected;selected=Number(hero.dataset.i);if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}draw();};
-    });
-    // Toggle del menú "Ver…" en past rows
-    host.querySelectorAll('.ver-menu-btn').forEach(btn=>{
-      btn.onclick=function(e){
-        e.stopPropagation();
-        const panel=btn.nextElementSibling;
-        const wasOpen=panel && panel.style.display==='flex';
-        host.querySelectorAll('.ver-menu-panel').forEach(p=>p.style.display='none');
-        if(panel && !wasOpen) panel.style.display='flex';
-      };
-    });
-    // Botones "Registrar ingreso/egreso" → modal con link único
-    host.querySelectorAll('.link-rem-btn').forEach(btn=>{
-      btn.onclick=function(e){
-        e.stopPropagation();
-        mostrarLinkRemate(btn.dataset.codigo,btn.dataset.tipo);
-      };
-    });
-    // Click en compact card: alterna expanded del item + actualiza selected para el detalle.
-    // Guard contra clicks en los 4 botones de acción (ver-ing/ver-egr no llaman stopPropagation,
-    // link-rem sí pero por defensa incluimos los 3).
-    host.querySelectorAll('.rem-past-row').forEach(el=>el.onclick=function(e){
-      if(e.target.closest('.ver-ing-btn, .ver-egr-btn, .link-rem-btn')) return;
-      const codigo=el.dataset.codigo||'';
-      const prev=selected;
-      selected=Number(el.dataset.i);
-      if(prev!==selected){q='';tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];}
-      expandedCompact=(expandedCompact===codigo)?null:codigo;
-      draw();
-    });
-    // Toggle anteriores
-    const tog=host.querySelector('#rem-past-toggle');
-    if(tog){tog.onclick=function(e){e.stopPropagation();const list=host.querySelector('#rem-past-list');const lbl=host.querySelector('#rem-past-label');if(list){const open=list.style.display==='none';list.style.display=open?'block':'none';tog.classList.toggle('is-open',open);if(lbl)lbl.textContent=open?'Ocultar anteriores':'Ver '+otherEntries.length+' remate'+(otherEntries.length>1?'s':'')+' anterior'+(otherEntries.length>1?'es':'');}};}
-    // Si el selected es un remate de la lista compact, abrir el panel
-    if(otherEntries.some(p=>p.origIdx===selected)){const list=host.querySelector('#rem-past-list');const lbl=host.querySelector('#rem-past-label');if(list){list.style.display='block';if(tog)tog.classList.add('is-open');if(lbl)lbl.textContent='Ocultar anteriores';}}
-    // Name inputs
-    host.querySelectorAll('.rem-name-input').forEach(inp=>{
-      inp.onchange=function(e){e.stopPropagation();const cod=inp.dataset.codigo;const nombres=JSON.parse(localStorage.getItem('rem_nombres')||'{}');nombres[cod]=inp.value.trim();localStorage.setItem('rem_nombres',JSON.stringify(nombres));};
-      inp.onkeydown=function(e){if(e.key==='Enter'){inp.blur();}};
-    }); host.querySelectorAll('.dte-link').forEach(el=>el.onclick=function(){const d=(DATOS_DTES.dtes||[]).find(x=>String(x.nro_dte)===String(el.dataset.doc)); openDetalle(d);});
-    host.querySelectorAll('.ver-ing-btn').forEach(el=>el.onclick=function(){verIngresos(el.dataset.codigo);});
-    host.querySelectorAll('.ver-egr-btn').forEach(el=>el.onclick=function(){verEgresos(el.dataset.codigo);}); const rq=host.querySelector('#r-q'); if(rq){rq.oninput=e=>{q=e.target.value; draw();}; if(wasSearch){rq.focus(); rq.setSelectionRange(selStart,selEnd);}} 
-function bindMs(id,arr){
+function bindMs(host,id,arr,redraw){
   const wrap=host.querySelector('#'+id); if(!wrap) return;
-  const btn=wrap.querySelector('.ms-btn');
-  const panel=wrap.querySelector('.ms-panel');
-  btn.onclick=function(e){
-    e.stopPropagation();
-    // Cerrar otros
-    host.querySelectorAll('.ms-panel').forEach(p=>{if(p!==panel)p.style.display='none';});
-    panel.style.display=panel.style.display==='none'?'block':'none';
-  };
-  panel.querySelectorAll('input[type=checkbox]').forEach(chk=>{
-    chk.onchange=function(){
-      if(this.value==='__all__'){arr.length=0;}
-      else{
-        const i=arr.indexOf(this.value);
-        if(this.checked){if(i<0)arr.push(this.value);}
-        else{if(i>=0)arr.splice(i,1);}
-      }
-      draw();
-    };
+  const btn=wrap.querySelector('.ms-btn'), panel=wrap.querySelector('.ms-panel');
+  btn.onclick=function(e){e.stopPropagation();host.querySelectorAll('.ms-panel').forEach(p=>{if(p!==panel)p.style.display='none';});panel.style.display=panel.style.display==='none'?'block':'none';};
+  panel.querySelectorAll('input[type=checkbox]').forEach(chk=>chk.onchange=function(){
+    if(this.value==='__all__') arr.length=0;
+    else{const i=arr.indexOf(this.value); if(this.checked){if(i<0)arr.push(this.value);}else if(i>=0)arr.splice(i,1);}
+    redraw({keepPanel:id});
   });
 }
-bindMs('r-tipo',tipos);
-bindMs('r-est',estados);
-bindMs('r-cat',categorias_f);
-bindMs('r-motivo',motivos);
-bindMs('r-apto',aptoChinas);
-// Cerrar dropdowns al click fuera
-document.addEventListener('click',function msClose(e){
-  if(!host.contains(e.target)){host.querySelectorAll('.ms-panel').forEach(p=>p.style.display='none');}
-},true);
- host.querySelectorAll('.sorter').forEach(th=>th.onclick=function(){const k=this.dataset.sort; if(sortKey===k){sortDir=sortDir==='asc'?'desc':'asc';} else {sortKey=k; sortDir='asc';} draw();}); const rexp=host.querySelector('#r-export'); if(rexp) rexp.onclick=()=>exportRemates(exportRows); const rclr=host.querySelector('#r-clear'); if(rclr) rclr.onclick=()=>{tipos=[];estados=[];categorias_f=[];motivos=[];aptoChinas=[];draw();}; }
- draw(); return host; }
-function renderDtes(){
-  const wrap=document.createElement('div');
-  let q='',cons='todas',est='todos',periodo='7d',fechaDesde='',fechaHasta='';
-  let sortKey=null,sortDir='asc';
+function toggleIn(arr,v){const i=arr.indexOf(v); if(i<0)arr.push(v); else arr.splice(i,1);}
+// Conserva foco y cursor del input activo entre re-renders
+function capturarFoco(host){
+  const a=document.activeElement;
+  if(!a||!host.contains(a)||!a.id) return null;
+  return {id:a.id,s:a.selectionStart,e:a.selectionEnd};
+}
+function restaurarFoco(host,f){
+  if(!f) return; const el=host.querySelector('#'+f.id); if(!el) return;
+  el.focus(); try{if(f.s!=null)el.setSelectionRange(f.s,f.e);}catch(e){}
+}
+function estadoVacio(titulo,texto,accion){
+  return '<div class="empty-state"><div class="empty-title">'+esc(titulo)+'</div>'+(texto?'<div class="empty-text">'+texto+'</div>':'')+(accion||'')+'</div>';
+}
+function errorCarga(k){
+  const st=CARGA[k];
+  return '<div class="empty-state is-error"><div class="empty-title">No se pudieron cargar los '+esc(FUENTES[k].label)+'</div>'
+    +'<div class="empty-text mono">'+esc(FUENTES[k].url)+' · '+esc(st.error||'error')+'</div>'
+    +'<button class="btn btn-ghost cyan btn-sm js-reintentar">↻ Reintentar</button></div>';
+}
 
-  // Columnas: 11 finales (RENSPAs van como sub de Origen/Destino)
-  const COLS=[
-    {key:'consignataria',     label:'Consignataria',  thClass:''},
-    {key:'nro_dte',           label:'N° DTE',         thClass:'col-num numeric'},
-    {key:'tipo',              label:'Tipo',           thClass:'col-tipo'},
-    {key:'emisor_nombre',     label:'Origen',         thClass:'col-origen'},
-    {key:'emisor_cuit',       label:'CUIT Emisor',    thClass:'col-cuit'},
-    {key:'receptor_nombre',   label:'Destino',        thClass:'col-destino'},
-    {key:'receptor_cuit',     label:'CUIT Receptor',  thClass:'col-cuit'},
-    {key:'estado',            label:'Estado',         thClass:''},
-    {key:'fecha_carga',       label:'Carga',          thClass:'col-fecha'},
-    {key:'fecha_vencimiento', label:'Vencimiento',    thClass:'col-fecha'},
-    {key:null,                label:'',               thClass:'actions'}
-  ];
+// ══════════════════════════════════════════════════════════════
+// VISTA EVENTOS — consulta documental por evento
+// Evento → resumen documental → filtrar DTE → detalle.
+// Las cabezas son las DECLARADAS en los DTE (despachadas según SIGSA). No es recepción física.
+// ══════════════════════════════════════════════════════════════
+const ICO={
+  chevL:'<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3 5 8l5 5"/></svg>',
+  chevR:'<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 3 5 5-5 5"/></svg>',
+  chevD:'<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m3 6 5 5 5-5"/></svg>',
+  cal:'<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4.5" width="14" height="12" rx="1.5"/><path d="M3 8.5h14M7 2.5v4M13 2.5v4"/></svg>',
+  doc:'<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2.5h7l3.5 3.5v11.5h-10.5z"/><path d="M12 2.5V6h3.5M7.5 10h5M7.5 13h5"/></svg>',
+  grid:'<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/><rect x="3" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg>',
+  refresh:'<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3"/></svg>',
+  search:'<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>',
+  dl:'<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>',
+  x:'<svg viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m4 4 8 8M12 4l-8 8"/></svg>'
+};
 
-  function parseFecha(str){
-    if(!str) return null;
-    const p=str.split('/');
-    if(p.length===3) return new Date(p[2],p[1]-1,p[0]);
-    return null;
+function renderEventos(){
+  const host=document.createElement('div');
+  const st={codigo:null,q:'',sentidos:[],estados:[],cats:[],motivos:[],aptos:[],sortKey:'fecha',sortDir:'desc',mas:false,picker:false,pq:'',limite:200};
+  function limpiarFiltros(){st.q='';st.sentidos=[];st.estados=[];st.cats=[];st.motivos=[];st.aptos=[];st.limite=200;}
+  function hayFiltros(){return !!(st.q||st.sentidos.length||st.estados.length||st.cats.length||st.motivos.length||st.aptos.length);}
+  host.seleccionar=function(cod){ if(cod&&cod!==st.codigo){st.codigo=cod;limpiarFiltros();} st.picker=false; draw(); if(typeof setRuta==='function') setRuta('rem',st.codigo); };
+  host.codigoActual=()=>st.codigo;
+  host.refresh=()=>draw();
+  // Un solo listener para cerrar paneles (antes se sumaba uno por cada render)
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.ms-wrap')){host.querySelectorAll('.ms-panel').forEach(p=>p.style.display='none');}
+    if(st.picker&&!e.target.closest('.ev-picker')){st.picker=false;draw();}
+  },true);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&st.picker){st.picker=false;draw();}});
+
+  function filtrar(mod){
+    let rows=mod.docs.filter(d=>
+      (!st.sentidos.length||st.sentidos.includes(d.sentido))&&
+      (!st.estados.length||st.estados.includes(d.estado))&&
+      (!st.cats.length||st.cats.some(c=>(d.cats[c]||0)>0))&&
+      (!st.motivos.length||st.motivos.includes(d.motivo))&&
+      (!st.aptos.length||st.aptos.includes(d.apto))&&
+      coincideBusqueda(st.q,[d.nro,d.emisor,d.emisor_cuit,d.renspa_origen,d.receptor,d.receptor_cuit,d.renspa_destino,d.comprador]));
+    const k=st.sortKey, dir=st.sortDir==='asc'?1:-1;
+    const val=d=>k==='fecha'?ymd(d.fecha)+d.nro:k==='cab'?d.cab:k==='estado'?String(ESTADO_ORDEN.indexOf(d.estado)).padStart(2,'0'):k==='destino'?(d.comprador||d.receptor):d[k];
+    rows.sort((a,b)=>{const x=val(a),y=val(b);const c=(typeof x==='number'&&typeof y==='number')?x-y:String(x??'').localeCompare(String(y??''),'es',{numeric:true});return c*dir||a.nro.localeCompare(b.nro);});
+    return rows;
   }
 
-  function getDesdeHasta(){
-    const hoy=new Date(); hoy.setHours(23,59,59);
-    const desde=new Date();
-    if(periodo==='hoy'){desde.setHours(0,0,0); return{desde,hasta:hoy};}
-    if(periodo==='7d'){desde.setDate(desde.getDate()-7); return{desde,hasta:hoy};}
-    if(periodo==='30d'){desde.setDate(desde.getDate()-30); return{desde,hasta:hoy};}
-    if(periodo==='mes'){desde.setDate(1); desde.setHours(0,0,0); return{desde,hasta:hoy};}
-    if(periodo==='todo') return{desde:null,hasta:null};
-    if(periodo==='custom'){
-      const d=fechaDesde?new Date(fechaDesde):null;
-      const h=fechaHasta?new Date(fechaHasta):null;
-      if(h) h.setHours(23,59,59);
-      return{desde:d,hasta:h};
-    }
-    return{desde:null,hasta:null};
+  function pickerHtml(evs){
+    const q=st.pq.trim();
+    const items=evs.filter(r=>coincideBusqueda(q,[r.codigo,aliasEvento(r.codigo),(r.info||{})['Predio ferial'],r.organizador,(r.info||{}).Inicio])).map(r=>{
+      const mod=modeloEvento(r), info=r.info||{}, al=aliasEvento(r.codigo), est=String(info.Estado||'').toUpperCase();
+      return '<button class="evp-item'+(r.codigo===st.codigo?' is-on':'')+'" data-cod="'+esc(r.codigo)+'">'
+        +'<span class="evp-main"><span class="evp-name">'+esc(al||r.codigo)+'</span>'+(al?'<span class="evp-code mono">'+esc(r.codigo)+'</span>':'')+'</span>'
+        +'<span class="evp-date mono">'+esc(info.Inicio||'—')+' → '+esc(info.Fin||'—')+'</span>'
+        +'<span class="evp-num mono" title="DTE del evento">'+fmtN(mod.tot.dtes)+' DTE</span>'
+        +'<span class="evp-num mono" title="Cabezas declaradas en DTE de entrada (sin anulados)">'+fmtN(mod.tot.ENTRADA.cab)+' cab</span>'
+        +'<span class="ev-estado sm '+estadoCls(est)+'">'+esc(est||'s/d')+'</span>'
+      +'</button>';
+    }).join('');
+    return '<div class="evp-panel"><div class="evp-search">'+ICO.search+'<input id="evp-q" class="input" placeholder="Buscar evento: alias, código, fecha…" value="'+esc(st.pq)+'"/></div>'
+      +'<div class="evp-list">'+(items||'<div class="evp-empty">Ningún evento coincide.</div>')+'</div></div>';
   }
 
-  function draw(){
-    // Capturar foco y cursor ANTES de tocar el DOM
-    const activeId=document.activeElement&&wrap.contains(document.activeElement)?document.activeElement.id:null;
-    const selStart=activeId==='q'&&document.activeElement.selectionStart!=null?document.activeElement.selectionStart:0;
-    const selEnd  =activeId==='q'&&document.activeElement.selectionEnd  !=null?document.activeElement.selectionEnd  :0;
-
-    const all=DATOS_DTES.dtes||[];
-    const {desde,hasta}=getDesdeHasta();
-
-    let rows=all.filter(d=>{
-      if(cons!=='todas'&&(d.consignataria||'')!==cons) return false;
-      if(est!=='todos'&&normalizarEstado(d.estado)!==est) return false;
-      if(desde||hasta){
-        const fc=parseFecha(d.fecha_carga);
-        if(!fc) return false;
-        if(desde&&fc<desde) return false;
-        if(hasta&&fc>hasta) return false;
-      }
-      return true;
-    });
-
-    if(q){const s=q.toLowerCase(); rows=rows.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(s)));}
-
-    // Ordenar
-    if(sortKey){
-      rows=[...rows].sort((a,b)=>{
-        const av=a[sortKey]??'';
-        const bv=b[sortKey]??'';
-        const isDate=/^\d{2}\/\d{2}\/\d{4}$/.test(String(av));
-        let cmp;
-        if(isDate){
-          const toYMD=s=>s.split('/').reverse().join('');
-          cmp=toYMD(String(av)).localeCompare(toYMD(String(bv)));
-        } else {
-          cmp=String(av).localeCompare(String(bv),'es',{numeric:true});
-        }
-        return sortDir==='asc'?cmp:-cmp;
-      });
+  function draw(opt){
+    opt=opt||{};
+    const foco=capturarFoco(host);
+    const scrollPicker=(host.querySelector('.evp-list')||{}).scrollTop||0;
+    if(!CARGA.remates.cargado){
+      host.innerHTML='<div class="wrap">'+(CARGA.remates.estado==='pendiente'?estadoVacio('Cargando eventos…',''):errorCarga('remates'))+'</div>';
+      const b=host.querySelector('.js-reintentar'); if(b) b.onclick=()=>window.refrescarDatos&&window.refrescarDatos();
+      return;
     }
+    const evs=eventosOrdenados();
+    if(!evs.length){host.innerHTML='<div class="wrap">'+estadoVacio('Sin eventos','remates_maestro.json no informa eventos todavía.')+'</div>';return;}
+    if(!st.codigo||!remateDe(st.codigo)) st.codigo=evs[0].codigo;
+    const pos=evs.findIndex(r=>r.codigo===st.codigo);
+    const r=evs[pos], info=r.info||{}, mod=modeloEvento(r), T=mod.tot;
+    const alias=aliasEvento(r.codigo), estSig=String(info.Estado||'').toUpperCase();
+    const ext=parseExtraccion(r.fecha_extraccion);
+    const rows=filtrar(mod);
 
-    const consOpts=['todas',...CONSIGNATARIAS,...Array.from(new Set(all.map(x=>x.consignataria).filter(v=>v&&!CONSIGNATARIAS.includes(v))))];
-    const estOpts=['todos',...Array.from(new Set(all.map(x=>normalizarEstado(x.estado)).filter(Boolean))).values()].sort();
-    const total=all.length,vig=all.filter(x=>/vigente/i.test(x.estado||'')).length,venc=all.filter(x=>/vencido/i.test(x.estado||'')).length,anu=all.filter(x=>/anulado/i.test(x.estado||'')).length;
-
-    const periodos=[['hoy','Hoy'],['7d','7 días'],['30d','30 días'],['mes','Este mes'],['todo','Todos'],['custom','Personalizado']];
-    const periodoSelect='<select class="select" id="d-periodo">'+periodos.map(([v,l])=>'<option '+(periodo===v?'selected':'')+' value="'+v+'">'+l+'</option>').join('')+'</select>';
-    const customInputs=periodo==='custom'
-      ? '<div style="display:flex;gap:6px;margin-top:4px">'
-        +'<input type="date" class="input" id="d-desde" value="'+fechaDesde+'" title="Desde"/>'
-        +'<input type="date" class="input" id="d-hasta" value="'+fechaHasta+'" title="Hasta"/>'
-        +'</div>'
-      : '';
-
-    // Filas: 11 columnas (Consignataria / N° DTE / Tipo / Origen / CUIT Em / Destino / CUIT Rec / Estado / Carga / Venc / Acciones)
-    const rowsHtml=rows.map(d=>{
-      const estadoCanon=normalizarEstado(d.estado).toLowerCase();
-      const origenSub=d.renspa_origen?'<span class="sub">'+esc(d.renspa_origen)+'</span>':'';
-      const destinoSub=d.renspa_destino?'<span class="sub">'+esc(d.renspa_destino)+'</span>':'';
-      return '<tr>'
-        +'<td>'+prettyCons(d.consignataria)+'</td>'
-        +'<td class="col-num numeric dte-open" data-dte="'+esc(d.nro_dte)+'">'+esc(d.nro_dte)+'</td>'
-        +'<td class="col-tipo">'+esc(d.tipo||'—')+'</td>'
-        +'<td class="col-origen" title="'+esc(d.emisor_nombre||'')+'">'+esc(d.emisor_nombre||'—')+origenSub+'</td>'
-        +'<td class="col-cuit">'+esc(d.emisor_cuit||'—')+'</td>'
-        +'<td class="col-destino" title="'+esc(d.receptor_nombre||'')+'">'+esc(d.receptor_nombre||'—')+destinoSub+'</td>'
-        +'<td class="col-cuit">'+esc(d.receptor_cuit||'—')+'</td>'
-        +'<td><span class="estado-pill '+estadoCanon+'">'+esc(cleanEstado(d.estado)||'—')+'</span></td>'
-        +'<td class="col-fecha">'+esc(d.fecha_carga||'—')+'</td>'
-        +'<td class="col-fecha">'+esc(d.fecha_vencimiento||'—')+'</td>'
-        +'<td class="actions"><button class="row-action icon-only ver-btn" data-dte="'+esc(d.nro_dte)+'" title="Ver detalle">⋯</button></td>'
-      +'</tr>';
-    }).join('');
-
-    const thHtml=COLS.map(c=>{
-      if(!c.key) return '<th class="'+c.thClass+'"></th>';
-      const icon=sortKey===c.key?(sortDir==='asc'?' ↑':' ↓'):'<span style="opacity:.35"> ↕</span>';
-      return '<th class="sorter '+c.thClass+'" data-sort="'+c.key+'" style="cursor:pointer;user-select:none">'+esc(c.label)+icon+'</th>';
-    }).join('');
-
-    // KPI cards (4) — sub vacío per Q6
-    const kpiHtml=''
-      +'<div class="kpi-grid">'
-        +'<div class="kpi-card total"><span class="kpi-label">Total DTEs</span><span class="kpi-num">'+total+'</span></div>'
-        +'<div class="kpi-card vigentes"><span class="kpi-label">Vigentes</span><span class="kpi-num">'+vig+'</span></div>'
-        +'<div class="kpi-card vencidos"><span class="kpi-label">Vencidos</span><span class="kpi-num">'+venc+'</span></div>'
-        +'<div class="kpi-card anulados"><span class="kpi-label">Anulados</span><span class="kpi-num">'+anu+'</span></div>'
-      +'</div>';
-
-    // Filter bar — 4 filter-fields + filter-actions (Limpiar + Excel)
-    const filtersHtml=''
-      +'<div class="filters-bar">'
-        +'<div class="filter-field search">'
-          +'<span class="lbl">Buscar</span>'
-          +'<input class="input" id="q" placeholder="N° DTE, RENSPA, productor, consignataria…" value="'+esc(q)+'"/>'
-        +'</div>'
-        +'<div class="filter-field">'
-          +'<span class="lbl">Período</span>'
-          +periodoSelect
-          +customInputs
-        +'</div>'
-        +'<div class="filter-field">'
-          +'<span class="lbl">Consignataria</span>'
-          +'<select class="select" id="cons">'
-            +'<option '+(cons==='todas'?'selected':'')+' value="todas">Todas</option>'
-            +consOpts.filter(v=>v!=='todas').map(v=>'<option '+(v===cons?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')
-          +'</select>'
-        +'</div>'
-        +'<div class="filter-field">'
-          +'<span class="lbl">Estado</span>'
-          +'<select class="select" id="est">'
-            +'<option '+(est==='todos'?'selected':'')+' value="todos">Todos</option>'
-            +estOpts.filter(v=>v!=='todos').map(v=>'<option '+(v===est?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')
-          +'</select>'
-        +'</div>'
-        +'<div class="filter-actions">'
-          +'<button class="btn btn-ghost btn-sm" id="d-clear">Limpiar</button>'
-          +'<button class="btn btn-ghost cyan btn-sm" id="d-export">⬇ Excel</button>'
-        +'</div>'
-      +'</div>';
-
-    wrap.innerHTML='<div class="wrap">'
-      +kpiHtml
-      +filtersHtml
-      +'<div class="table-wrap">'
-        +'<div class="table-head-bar">'
-          +'<span class="table-title">Documentos de tránsito</span>'
-          +'<span class="table-count">'+rows.length+' de '+all.length+'</span>'
-        +'</div>'
-        +'<div style="overflow-x:auto">'
-          +'<table class="dte-table"><thead><tr>'+thHtml+'</tr></thead><tbody>'+rowsHtml+'</tbody></table>'
-        +'</div>'
+    // ── Barra de evento ──
+    const toolbar='<div class="ev-toolbar">'
+      +'<div class="ev-picker">'
+        +'<button class="ev-picker-btn" id="ev-picker-btn" aria-expanded="'+st.picker+'"><span class="lbl">Evento</span><span class="val">'+esc(alias||r.codigo)+'</span><span class="ev-estado sm '+estadoCls(estSig)+'">'+esc(estSig||'s/d')+'</span>'+ICO.chevD+'</button>'
+        +(st.picker?pickerHtml(evs):'')
+      +'</div>'
+      +'<div class="ev-nav">'
+        +'<button class="icon-btn" id="ev-prev" '+(pos>=evs.length-1?'disabled':'')+' title="Evento anterior">'+ICO.chevL+'</button>'
+        +'<span class="ev-pos mono">'+(pos+1)+' / '+evs.length+'</span>'
+        +'<button class="icon-btn" id="ev-next" '+(pos<=0?'disabled':'')+' title="Evento más reciente">'+ICO.chevR+'</button>'
       +'</div>'
     +'</div>';
 
-    const qq=wrap.querySelector('#q');
-    if(qq){
-      qq.oninput=e=>{q=e.target.value;draw();};
-      if(activeId==='q'){qq.focus();try{qq.setSelectionRange(selStart,selEnd);}catch(e){}}
-    }
-    wrap.querySelector('#cons').onchange=e=>{cons=e.target.value;draw();};
-    wrap.querySelector('#est').onchange=e=>{est=e.target.value;draw();};
-    wrap.querySelector('#d-periodo').onchange=e=>{periodo=e.target.value;draw();};
-    const dd=wrap.querySelector('#d-desde'); if(dd) dd.onchange=e=>{fechaDesde=e.target.value;draw();};
-    const dh=wrap.querySelector('#d-hasta'); if(dh) dh.onchange=e=>{fechaHasta=e.target.value;draw();};
-    wrap.querySelectorAll('.ver-btn,.dte-open').forEach(el=>el.onclick=function(){
-      const d=(DATOS_DTES.dtes||[]).find(x=>String(x.nro_dte)===String(el.dataset.dte));
-      openDetalle(d);
-    });
-    wrap.querySelectorAll('.sorter').forEach(th=>th.onclick=function(){
-      const k=this.dataset.sort;
-      if(sortKey===k){sortDir=sortDir==='asc'?'desc':'asc';}
-      else{sortKey=k;sortDir='asc';}
-      draw();
-    });
-    const dexp=wrap.querySelector('#d-export'); if(dexp) dexp.onclick=()=>exportDtes(rows);
-    const dclr=wrap.querySelector('#d-clear');
-    if(dclr) dclr.onclick=()=>{
-      q='';cons='todas';est='todos';periodo='7d';fechaDesde='';fechaHasta='';
-      sortKey=null;sortDir='asc';
-      draw();
+    // ── Tarjeta del evento ──
+    const chipsCat=(sent)=>{
+      const cats=T[sent].cats, ks=ordenCats(Object.keys(cats).filter(k=>cats[k]>0));
+      if(!ks.length) return '<span class="dd-na">'+(T[sent].dtes?'sin cabezas declaradas vigentes':'sin DTE de '+sent.toLowerCase())+'</span>';
+      return ks.map(k=>'<button class="tag tag-btn'+(st.cats.includes(k)?' is-on':'')+'" data-cat="'+esc(k)+'" title="Filtrar por '+esc(k)+'"><span>'+esc(k)+'</span> <span class="num">'+fmtN(cats[k])+'</span>'+(st.cats.includes(k)?'<span class="x">'+ICO.x+'</span>':'')+'</button>').join('');
     };
+    const estadosKs=Object.keys(T.porEstado).sort(ordenEstado);
+    const chipsEst=estadosKs.map(e=>'<button class="est-chip '+estadoCls(e)+(st.estados.includes(e)?' is-on':'')+'" data-est="'+esc(e)+'"><span class="dot"></span>'+esc(e)+' <b class="mono">'+T.porEstado[e]+'</b>'+(st.estados.includes(e)?'<span class="x">'+ICO.x+'</span>':'')+'</button>').join('');
+    const excl=T.ENTRADA.excl.dtes+T.SALIDA.excl.dtes+T.OTRO.excl.dtes, exclCab=T.ENTRADA.excl.cab+T.SALIDA.excl.cab+T.OTRO.excl.cab;
+    const sinC=T.ENTRADA.sinCierre+T.SALIDA.sinCierre+T.OTRO.sinCierre;
+    const criterio='Cabezas declaradas = suma de cabezas despachadas que figuran en los DTE (SIGSA). No es recepción física. '
+      +(excl?'Excluye '+excl+' DTE anulado'+(excl>1?'s':'')+'/eliminado'+(excl>1?'s':'')+' ('+fmtN(exclCab)+' cab.). ':'Sin DTE anulados ni eliminados. ')
+      +(sinC?'Incluye '+sinC+' DTE vencido'+(sinC>1?'s':'')+'/caducado'+(sinC>1?'s':'')+'/sin arribo. ':'')
+      +'Novillo agrupa Novillo y Novillito; MEJ agrupa Torito/MEJ.';
+    const cons=(r.consignatarios||[]).map(c=>c.nombre).filter(Boolean);
+    const card='<section class="ev-card">'
+      +'<div class="ev-head">'
+        +'<div class="ev-id">'
+          +'<div class="ev-status"><span class="ev-estado '+estadoCls(estSig)+'">'+esc(estSig||'Sin estado')+'</span><span class="ev-status-src">estado informado por SIGSA</span></div>'
+          +'<input class="remate-name ev-alias" data-codigo="'+esc(r.codigo)+'" placeholder="Nombrar evento…" value="'+esc(alias)+'" title="Alias local del evento (se guarda en este navegador)"/>'
+          +'<div class="ev-code mono">'+esc(r.codigo)+'</div>'
+          +'<div class="ev-meta"><span class="mono">'+esc(info.Inicio||'—')+' → '+esc(info.Fin||'—')+'</span>'
+            +(info['Predio ferial']?'<span class="sep">·</span><span>Predio '+esc(info['Predio ferial'])+'</span>':'')
+            +(r.organizador&&r.organizador!==info['Predio ferial']?'<span class="sep">·</span><span>Organiza '+esc(r.organizador)+'</span>':'')
+          +'</div>'
+          +(r.compartido&&cons.length?'<div class="ev-meta"><span class="ev-tag">Compartido</span>'+cons.map(esc).join('<span class="sep">·</span>')+'</div>':'')
+        +'</div>'
+        +'<div class="ev-stats">'
+          +'<div class="stat-pill amber"><span class="num">'+fmtN(T.dtes)+'</span><span class="lbl">DTE</span><span class="sub mono">'+T.ENTRADA.dtes+' ent · '+T.SALIDA.dtes+' sal</span></div>'
+          +'<div class="stat-pill"><span class="num">'+fmtN(T.ENTRADA.cab)+'</span><span class="lbl">Cab. declaradas</span><span class="sub mono">entrada</span></div>'
+          +'<div class="stat-pill'+(T.SALIDA.dtes?'':' muted')+'"><span class="num">'+(T.SALIDA.dtes?fmtN(T.SALIDA.cab):'0')+'</span><span class="lbl">Cab. declaradas</span><span class="sub mono">'+(T.SALIDA.dtes?'salida':'sin DTE de salida')+'</span></div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="ev-rows">'
+        +'<div class="ev-row"><span class="ev-row-lbl">Entrada</span><div class="ev-row-val">'+chipsCat('ENTRADA')+'</div></div>'
+        +(T.SALIDA.dtes?'<div class="ev-row"><span class="ev-row-lbl">Salida</span><div class="ev-row-val">'+chipsCat('SALIDA')+'</div></div>':'')
+        +'<div class="ev-row"><span class="ev-row-lbl">Estado DTE</span><div class="ev-row-val">'+chipsEst+'</div></div>'
+      +'</div>'
+      +'<div class="ev-criterio">'+esc(criterio)+'</div>'
+      +'<div class="ev-foot">'
+        +'<span class="ev-foot-src mono" title="Fecha en que el scraper leyó este evento de SIGSA">Extraído '+esc(fmtFH(ext,true))+(ext?' · '+esc(fmtRelDesde(ext)):'')+'</span>'
+        +'<div class="ev-ops" title="Circuitos operativos de remitos — se mantienen acá hasta migrarlos a la app de Remates">'
+          +'<span class="ev-ops-lbl">Remitos y enlaces</span>'
+          +'<button class="btn btn-ghost btn-xs ver-ing-btn" data-codigo="'+esc(r.codigo)+'">Ingresos</button>'
+          +'<button class="btn btn-ghost btn-xs ver-egr-btn" data-codigo="'+esc(r.codigo)+'">Egresos</button>'
+          +'<button class="btn btn-ghost btn-xs link-rem-btn" data-codigo="'+esc(r.codigo)+'" data-tipo="ingreso">Link ingreso</button>'
+          +'<button class="btn btn-ghost btn-xs link-rem-btn" data-codigo="'+esc(r.codigo)+'" data-tipo="egreso">Link egreso</button>'
+        +'</div>'
+      +'</div>'
+    +'</section>';
+
+    // ── Filtros ──
+    const opt_=(arr,lbl)=>arr.map(v=>({v,l:lbl?lbl(v):v}));
+    const sentidosAll=[...new Set(mod.docs.map(d=>d.sentido))].sort();
+    const estadosAll=[...new Set(mod.docs.map(d=>d.estado))].sort(ordenEstado);
+    const catsAll=ordenCats([...new Set(mod.docs.flatMap(d=>Object.keys(d.cats)))]);
+    const motivosAll=[...new Set(mod.docs.map(d=>d.motivo).filter(Boolean))].sort();
+    const masActivos=st.motivos.length+st.aptos.length;
+    const filtros='<div class="filters-bar ev-filters">'
+      +'<div class="filter-field search"><span class="lbl">Buscar</span><input class="input" id="ev-q" placeholder="N° DTE, productor, CUIT, RENSPA…" value="'+esc(st.q)+'"/></div>'
+      +'<div class="filter-field"><span class="lbl">Sentido</span>'+msDropdown('f-sent','Todos',opt_(sentidosAll,v=>v==='ENTRADA'?'Entrada':v==='SALIDA'?'Salida':v),st.sentidos)+'</div>'
+      +'<div class="filter-field"><span class="lbl">Estado</span>'+msDropdown('f-est','Todos',opt_(estadosAll),st.estados)+'</div>'
+      +'<div class="filter-field"><span class="lbl">Categoría</span>'+msDropdown('f-cat','Todas',opt_(catsAll),st.cats)+'</div>'
+      +'<button class="btn btn-ghost btn-sm'+(st.mas||masActivos?' ms-active':'')+'" id="f-mas">Más filtros'+(masActivos?' ('+masActivos+')':'')+'</button>'
+      +(st.mas||masActivos?'<div class="filter-field"><span class="lbl">Motivo</span>'+msDropdown('f-mot','Todos',opt_(motivosAll),st.motivos)+'</div>'
+        +'<div class="filter-field"><span class="lbl">Apto China</span>'+msDropdown('f-apto','Todos',[{v:'si',l:'Apto'},{v:'no',l:'No apto'},{v:'sin',l:'Sin dato'}],st.aptos)+'</div>':'')
+      +'<div class="filter-actions">'
+        +'<button class="btn btn-ghost btn-sm" id="f-clear" '+(hayFiltros()?'':'disabled')+'>Limpiar filtros</button>'
+        +'<button class="btn btn-ghost cyan btn-sm" id="f-export" '+(rows.length?'':'disabled')+' title="Exporta los DTE que se ven en la consulta (una fila por categoría)">'+ICO.dl+' Excel · '+rows.length+' DTE</button>'
+      +'</div>'
+    +'</div>';
+    const activos=[];
+    if(st.q) activos.push(['q','','Búsqueda: “'+st.q+'”']);
+    st.sentidos.forEach(v=>activos.push(['sent',v,'Sentido: '+v]));
+    st.estados.forEach(v=>activos.push(['est',v,'Estado: '+v]));
+    st.cats.forEach(v=>activos.push(['cat',v,'Categoría: '+v]));
+    st.motivos.forEach(v=>activos.push(['mot',v,'Motivo: '+v]));
+    st.aptos.forEach(v=>activos.push(['apto',v,'Apto China: '+APTO_LBL[v]]));
+    const activosHtml=activos.length?'<div class="active-filters">'+activos.map(a=>'<button class="af-chip" data-k="'+a[0]+'" data-v="'+esc(a[1])+'">'+esc(a[2])+ICO.x+'</button>').join('')+'</div>':'';
+
+    // ── Totales de la consulta ──
+    const vig=rows.filter(d=>!d.excluido), exclQ=rows.length-vig.length;
+    const cabQ=vig.reduce((s,d)=>s+d.cab,0);
+    const cabCats=st.cats.length?vig.reduce((s,d)=>s+st.cats.reduce((a,c)=>a+(d.cats[c]||0),0),0):null;
+    const porSent={}; vig.forEach(d=>{porSent[d.sentido]=(porSent[d.sentido]||0)+d.cab;});
+    const consulta='<div class="q-totals">'
+      +'<span class="q-lbl">Consulta</span>'
+      +'<span><b class="mono">'+rows.length+'</b> de '+mod.docs.length+' DTE</span>'
+      +'<span class="sep">·</span><span><b class="mono">'+fmtN(cabQ)+'</b> cab. declaradas'+(Object.keys(porSent).length>1?' <span class="muted">(ent '+fmtN(porSent.ENTRADA||0)+' · sal '+fmtN(porSent.SALIDA||0)+')</span>':'')+'</span>'
+      +(cabCats!=null?'<span class="sep">·</span><span><b class="mono">'+fmtN(cabCats)+'</b> de '+esc(st.cats.join(', '))+'</span>':'')
+      +(exclQ?'<span class="sep">·</span><span class="muted">'+exclQ+' anulado'+(exclQ>1?'s':'')+'/eliminado'+(exclQ>1?'s':'')+' listado'+(exclQ>1?'s':'')+', no suma'+(exclQ>1?'n':'')+'</span>':'')
+    +'</div>';
+
+    // ── Tabla ──
+    const cols=[['sentido','',''],['nro','N° DTE','c-nro'],['fecha','Carga','c-fecha'],['emisor','Productor / origen','c-orig'],['destino','Destino / comprador','c-dest'],['motivo','Motivo','c-mot'],[null,'Composición','c-comp'],['cab','Cab.','c-cab num'],['estado','Estado','c-est'],[null,'','c-go']];
+    const th=cols.map(([k,l,c])=>{
+      if(!k) return '<th class="'+c+'">'+esc(l)+'</th>';
+      const on=st.sortKey===k; return '<th class="sorter '+c+(on?' is-sorted':'')+'" data-sort="'+k+'">'+esc(l)+'<span class="sort-ico">'+(on?(st.sortDir==='asc'?'↑':'↓'):'↕')+'</span></th>';
+    }).join('');
+    const vis=rows.slice(0,st.limite);
+    const body=vis.map(d=>{
+      const dest=d.sentido==='SALIDA'&&d.comprador?d.comprador:d.receptor;
+      const destSub=d.sentido==='SALIDA'&&d.comprador&&d.comprador!==d.receptor?d.receptor:d.renspa_destino;
+      return '<tr class="dte-row'+(d.excluido?' is-excl':'')+'" data-dte="'+esc(d.nro)+'" tabindex="0">'
+        +'<td class="c-sent"><span class="sent '+(d.sentido==='ENTRADA'?'ent':d.sentido==='SALIDA'?'sal':'')+'" title="'+esc(d.sentido)+'">'+(d.sentido==='ENTRADA'?'ENT':d.sentido==='SALIDA'?'SAL':esc(d.sentido.slice(0,3)))+'</span></td>'
+        +'<td class="c-nro mono">'+esc(d.nro)+'</td>'
+        +'<td class="c-fecha mono">'+esc(d.fecha||'—')+'</td>'
+        +'<td class="c-orig"><span class="main" title="'+esc(d.emisor)+'">'+esc(d.emisor||'—')+'</span><span class="sub mono">'+esc(d.renspa_origen||'')+(d.emisor_cuit?' · '+esc(d.emisor_cuit):'')+'</span></td>'
+        +'<td class="c-dest"><span class="main" title="'+esc(dest)+'">'+esc(dest||'—')+'</span><span class="sub mono">'+esc(destSub||'')+'</span></td>'
+        +'<td class="c-mot">'+esc(d.motivo||'—')+'</td>'
+        +'<td class="c-comp">'+composicionHtml(d.cats)+'</td>'
+        +'<td class="c-cab num mono">'+fmtN(d.cab)+'</td>'
+        +'<td class="c-est">'+estadoPill(d.estado,d.difEstado?'En el listado del evento figura '+d.estadoEvento:'')+(d.difEstado?'<span class="est-dif" title="El listado del evento informa '+esc(d.estadoEvento)+'">*</span>':'')+'</td>'
+        +'<td class="c-go">'+ICO.chevR+'</td>'
+      +'</tr>';
+    }).join('');
+    let tabla;
+    if(!mod.docs.length) tabla=estadoVacio('El evento no tiene DTE informados','SIGSA todavía no lista documentos para '+esc(r.codigo)+'.');
+    else if(!rows.length) tabla=estadoVacio('Ningún DTE coincide con la consulta','Probá con otros filtros.','<button class="btn btn-ghost cyan btn-sm js-clear">Limpiar filtros</button>');
+    else tabla='<div class="tbl-scroll"><table class="dte-table doc-table"><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'
+      +(rows.length>vis.length?'<div class="more-row"><button class="btn btn-ghost btn-sm" id="ev-more">Mostrar '+Math.min(200,rows.length-vis.length)+' más · quedan '+(rows.length-vis.length)+'</button></div>':'')
+      +(rows.some(d=>d.difEstado)?'<div class="tbl-note">* El estado mostrado es el del DTE; el listado del evento informa otro (ver detalle).</div>':'');
+
+    host.innerHTML='<div class="wrap ev-wrap">'+toolbar+card+filtros+activosHtml
+      +'<div class="table-wrap"><div class="table-head-bar"><span class="table-title">Documentos del evento</span>'+consulta+'</div>'+tabla+'</div></div>';
+
+    // ── Listeners ──
+    const $=s=>host.querySelector(s);
+    $('#ev-picker-btn').onclick=e=>{e.stopPropagation();st.picker=!st.picker;st.pq='';draw();if(st.picker){const i=$('#evp-q');if(i)i.focus();}};
+    if(st.picker){
+      const l=$('.evp-list'); if(l) l.scrollTop=scrollPicker;
+      const pi=$('#evp-q'); if(pi) pi.oninput=e=>{st.pq=e.target.value;draw();};
+      host.querySelectorAll('.evp-item').forEach(b=>b.onclick=e=>{e.stopPropagation();host.seleccionar(b.dataset.cod);});
+    }
+    const prev=$('#ev-prev'); if(prev) prev.onclick=()=>{if(pos<evs.length-1)host.seleccionar(evs[pos+1].codigo);};
+    const next=$('#ev-next'); if(next) next.onclick=()=>{if(pos>0)host.seleccionar(evs[pos-1].codigo);};
+    host.querySelectorAll('.ev-alias').forEach(inp=>{
+      inp.onchange=()=>{let n={};try{n=JSON.parse(localStorage.getItem('rem_nombres')||'{}')||{};}catch(e){} n[inp.dataset.codigo]=inp.value.trim();try{localStorage.setItem('rem_nombres',JSON.stringify(n));}catch(e){} };
+      inp.onkeydown=e=>{if(e.key==='Enter')inp.blur();};
+    });
+    host.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{toggleIn(st.cats,b.dataset.cat);st.limite=200;draw();});
+    host.querySelectorAll('[data-est]').forEach(b=>b.onclick=()=>{toggleIn(st.estados,b.dataset.est);st.limite=200;draw();});
+    host.querySelectorAll('.af-chip').forEach(b=>b.onclick=()=>{
+      const k=b.dataset.k,v=b.dataset.v, m={sent:st.sentidos,est:st.estados,cat:st.cats,mot:st.motivos,apto:st.aptos};
+      if(k==='q') st.q=''; else toggleIn(m[k],v); draw();
+    });
+    const q=$('#ev-q'); if(q) q.oninput=e=>{st.q=e.target.value;st.limite=200;draw();};
+    bindMs(host,'f-sent',st.sentidos,draw); bindMs(host,'f-est',st.estados,draw); bindMs(host,'f-cat',st.cats,draw);
+    bindMs(host,'f-mot',st.motivos,draw); bindMs(host,'f-apto',st.aptos,draw);
+    if(opt.keepPanel){const p=host.querySelector('#'+opt.keepPanel+' .ms-panel'); if(p) p.style.display='block';}
+    $('#f-mas').onclick=()=>{st.mas=!st.mas;draw();};
+    const clr=()=>{limpiarFiltros();draw();};
+    $('#f-clear').onclick=clr; host.querySelectorAll('.js-clear').forEach(b=>b.onclick=clr);
+    $('#f-export').onclick=()=>exportEvento(rows,r);
+    const more=$('#ev-more'); if(more) more.onclick=()=>{st.limite+=200;draw();};
+    host.querySelectorAll('.sorter').forEach(t=>t.onclick=()=>{const k=t.dataset.sort; if(st.sortKey===k) st.sortDir=st.sortDir==='asc'?'desc':'asc'; else {st.sortKey=k; st.sortDir=(k==='cab'||k==='fecha')?'desc':'asc';} draw();});
+    host.querySelectorAll('.dte-row').forEach(tr=>{
+      tr.onclick=()=>openDetalle(tr.dataset.dte);
+      tr.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();openDetalle(tr.dataset.dte);}};
+    });
+    host.querySelectorAll('.ver-ing-btn').forEach(b=>b.onclick=()=>verIngresos(b.dataset.codigo));
+    host.querySelectorAll('.ver-egr-btn').forEach(b=>b.onclick=()=>verEgresos(b.dataset.codigo));
+    host.querySelectorAll('.link-rem-btn').forEach(b=>b.onclick=()=>mostrarLinkRemate(b.dataset.codigo,b.dataset.tipo));
+    restaurarFoco(host,foco);
+  }
+  draw();
+  return host;
+}
+
+// Export del evento: una fila por DTE × categoría (mismo grano que el export anterior) con el
+// estado del DTE y la marca de si suma o no a las cabezas declaradas.
+function exportEvento(docs,r){
+  const filas=[];
+  for(const d of docs) for(const f of d.filas) filas.push({
+    evento:r.codigo, alias:aliasEvento(r.codigo), tipo_movimiento:f.tipo_movimiento, documento:d.nro, fecha_carga:d.fecha,
+    emisor_nombre:d.emisor, emisor_cuit:d.emisor_cuit, renspa_origen:d.renspa_origen,
+    receptor_nombre:d.receptor, receptor_cuit:d.receptor_cuit, renspa_destino:d.renspa_destino, comprador:f.comprador||'',
+    categoria:f.categoria, motivo:f.motivo, apto_china:f.apto_china, estado_dte:d.estado, estado_listado_evento:d.estadoEvento,
+    suma:d.excluido?'NO (anulado/eliminado)':'SI', enviado:Number(f.enviado)||0, recibido:Number(f.recibido)||0
+  });
+  exportToExcel(filas,[
+    ['evento','Evento'],['alias','Alias'],['tipo_movimiento','Sentido'],['documento','Nro. DTE'],['fecha_carga','Fecha carga'],
+    ['emisor_nombre','Emisor'],['emisor_cuit','CUIT Emisor'],['renspa_origen','RENSPA Origen'],
+    ['receptor_nombre','Receptor'],['receptor_cuit','CUIT Receptor'],['renspa_destino','RENSPA Destino'],['comprador','Comprador'],
+    ['categoria','Categoría'],['motivo','Motivo'],['apto_china','Apto China'],['estado_dte','Estado DTE'],['estado_listado_evento','Estado en listado del evento'],
+    ['suma','Suma a declaradas'],['enviado','Cab. declaradas (despachadas)'],['recibido','Recibidas registradas en SIGSA']
+  ],'Evento_'+String(r.codigo||'').replace(/[\/.]/g,'-'));
+}
+
+// ══════════════════════════════════════════════════════════════
+// CONSULTA GLOBAL DE DTE — todo dtes_maestro.json, con indicadores DE LA CONSULTA
+// (antes los KPI mostraban siempre el total del maestro aunque la tabla estuviera filtrada).
+// ══════════════════════════════════════════════════════════════
+function renderDtes(){
+  const wrap=document.createElement('div');
+  const ini={q:'',cons:'todas',est:'todos',periodo:'7d',fechaDesde:'',fechaHasta:'',sortKey:'fecha_carga',sortDir:'desc',limite:300};
+  let st=Object.assign({},ini);
+  wrap.refresh=()=>draw();
+  const PERIODOS=[['hoy','Hoy'],['7d','Últimos 7 días'],['30d','Últimos 30 días'],['mes','Este mes'],['todo','Todos'],['custom','Personalizado']];
+  // Grupos de estado para los indicadores (mismo criterio que en eventos)
+  const GRUPOS=[
+    ['cerr','Cerrados',e=>e==='CERRADO','cerrado'],
+    ['tran','Emitidos / vigentes',e=>e==='EMITIDO'||e==='VIGENTE','emitido'],
+    ['sinc','Vencidos / caducados / sin arribo',e=>ESTADOS_SIN_CIERRE.has(e),'vencido'],
+    ['excl','Anulados / eliminados',e=>ESTADOS_EXCLUIDOS.has(e),'anulado']
+  ];
+  function rango(){
+    const hoy=new Date(); hoy.setHours(23,59,59,999); const desde=new Date(); desde.setHours(0,0,0,0);
+    if(st.periodo==='hoy') return {desde,hasta:hoy};
+    if(st.periodo==='7d'){desde.setDate(desde.getDate()-7);return {desde,hasta:hoy};}
+    if(st.periodo==='30d'){desde.setDate(desde.getDate()-30);return {desde,hasta:hoy};}
+    if(st.periodo==='mes'){desde.setDate(1);return {desde,hasta:hoy};}
+    if(st.periodo==='custom'){
+      const d=st.fechaDesde?new Date(st.fechaDesde+'T00:00:00'):null, h=st.fechaHasta?new Date(st.fechaHasta+'T23:59:59'):null;
+      return {desde:d,hasta:h};
+    }
+    return {desde:null,hasta:null};
+  }
+  const fechaDe=s=>{const p=String(s||'').split('/');return p.length===3?new Date(+p[2],+p[1]-1,+p[0]):null;};
+  function draw(){
+    const foco=capturarFoco(wrap);
+    if(!CARGA.dtes.cargado){
+      wrap.innerHTML='<div class="wrap">'+(CARGA.dtes.estado==='pendiente'?estadoVacio('Cargando DTE…',''):errorCarga('dtes'))+'</div>';
+      const b=wrap.querySelector('.js-reintentar'); if(b) b.onclick=()=>window.refrescarDatos&&window.refrescarDatos();
+      return;
+    }
+    const all=DATOS_DTES.dtes||[], ev=idxEventos(), {desde,hasta}=rango();
+    let rows=all.filter(d=>{
+      if(st.cons!=='todas'&&(d.consignataria||'')!==st.cons) return false;
+      if(st.est!=='todos'&&normalizarEstado(d.estado)!==st.est) return false;
+      if(desde||hasta){const fc=fechaDe(d.fecha_carga); if(!fc) return false; if(desde&&fc<desde) return false; if(hasta&&fc>hasta) return false;}
+      return coincideBusqueda(st.q,[d.nro_dte,d.emisor_nombre,d.emisor_cuit,d.renspa_origen,d.receptor_nombre,d.receptor_cuit,d.renspa_destino,d.consignataria,d.usuario_faena_nombre]);
+    });
+    const k=st.sortKey, dir=st.sortDir==='asc'?1:-1;
+    const sv=d=>k==='fecha_carga'||k==='fecha_vencimiento'?ymd(d[k])+d.nro_dte:k==='cab'?(cabDte(d)??-1):k==='estado'?normalizarEstado(d.estado):d[k];
+    rows.sort((a,b)=>{const x=sv(a),y=sv(b);const c=(typeof x==='number'&&typeof y==='number')?x-y:String(x??'').localeCompare(String(y??''),'es',{numeric:true});return c*dir;});
+
+    // Indicadores de la consulta
+    const kp={n:rows.length,cab:0,sinCab:0}; GRUPOS.forEach(g=>kp[g[0]]=0);
+    for(const d of rows){
+      const e=normalizarEstado(d.estado); const gr=GRUPOS.find(g=>g[2](e)); if(gr) kp[gr[0]]++;
+      if(!ESTADOS_EXCLUIDOS.has(e)){const c=cabDte(d); if(c==null) kp.sinCab++; else kp.cab+=c;}
+    }
+    const perLbl=(PERIODOS.find(p=>p[0]===st.periodo)||[])[1]||'';
+    const alcance='Indicadores de la consulta: '+perLbl.toLowerCase()+(st.cons!=='todas'?' · '+st.cons:'')+(st.est!=='todos'?' · '+st.est:'')+(st.q?' · “'+st.q+'”':'')+' — '+fmtN(rows.length)+' de '+fmtN(all.length)+' DTE del maestro';
+    const kpi='<div class="kpi-scope">'+esc(alcance)+'</div><div class="kpi-grid kpi-6">'
+      +'<div class="kpi-card total"><span class="kpi-label">DTE en la consulta</span><span class="kpi-num'+(kp.n?'':' zero')+'">'+fmtN(kp.n)+'</span></div>'
+      +GRUPOS.map(g=>'<div class="kpi-card st-'+g[3]+'"><span class="kpi-label">'+g[1]+'</span><span class="kpi-num'+(kp[g[0]]?'':' zero')+'">'+fmtN(kp[g[0]])+'</span></div>').join('')
+      +'<div class="kpi-card total"><span class="kpi-label">Cab. declaradas</span><span class="kpi-num'+(kp.cab?'':' zero')+'">'+fmtN(kp.cab)+'</span>'
+        +'<span class="kpi-sub">sin anulados'+(kp.sinCab?' · '+kp.sinCab+' DTE sin detalle (no suman)':'')+'</span></div>'
+    +'</div>';
+
+    const consOpts=[...CONSIGNATARIAS,...new Set(all.map(x=>x.consignataria).filter(v=>v&&!CONSIGNATARIAS.includes(v)))];
+    const estOpts=[...new Set(all.map(x=>normalizarEstado(x.estado)).filter(Boolean))].sort(ordenEstado);
+    const hay=st.q||st.cons!=='todas'||st.est!=='todos'||st.periodo!==ini.periodo;
+    const filtros='<div class="filters-bar">'
+      +'<div class="filter-field search"><span class="lbl">Buscar</span><input class="input" id="q" placeholder="N° DTE, productor, CUIT, RENSPA…" value="'+esc(st.q)+'"/></div>'
+      +'<div class="filter-field"><span class="lbl">Período (carga)</span><select class="select" id="d-periodo">'+PERIODOS.map(([v,l])=>'<option value="'+v+'" '+(st.periodo===v?'selected':'')+'>'+l+'</option>').join('')+'</select>'
+        +(st.periodo==='custom'?'<div class="date-pair"><input type="date" class="input" id="d-desde" value="'+esc(st.fechaDesde)+'" title="Desde"/><input type="date" class="input" id="d-hasta" value="'+esc(st.fechaHasta)+'" title="Hasta"/></div>':'')+'</div>'
+      +'<div class="filter-field"><span class="lbl">Consignataria</span><select class="select" id="cons"><option value="todas">Todas</option>'+consOpts.map(v=>'<option '+(v===st.cons?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select></div>'
+      +'<div class="filter-field"><span class="lbl">Estado</span><select class="select" id="est"><option value="todos">Todos</option>'+estOpts.map(v=>'<option '+(v===st.est?'selected':'')+' value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'</select></div>'
+      +'<div class="filter-actions">'
+        +'<button class="btn btn-ghost btn-sm" id="d-clear" '+(hay?'':'disabled')+'>Limpiar filtros</button>'
+        +'<button class="btn btn-ghost cyan btn-sm" id="d-export" '+(rows.length?'':'disabled')+' title="Exporta todos los DTE de la consulta">'+ICO.dl+' Excel · '+fmtN(rows.length)+' DTE</button>'
+      +'</div></div>';
+
+    const cols=[['consignataria','Consignataria',''],['nro_dte','N° DTE','c-nro'],['tipo','Tipo','c-tipo'],['emisor_nombre','Origen','c-orig'],
+      ['receptor_nombre','Destino','c-dest'],['estado','Estado','c-est'],['fecha_carga','Carga','c-fecha'],['fecha_vencimiento','Venc.','c-fecha'],
+      ['cab','Cab.','c-cab num'],[null,'Evento','c-ev'],[null,'','c-go']];
+    const th=cols.map(([k,l,c])=>{if(!k) return '<th class="'+c+'">'+esc(l)+'</th>'; const on=st.sortKey===k; return '<th class="sorter '+c+(on?' is-sorted':'')+'" data-sort="'+k+'">'+esc(l)+'<span class="sort-ico">'+(on?(st.sortDir==='asc'?'↑':'↓'):'↕')+'</span></th>';}).join('');
+    const vis=rows.slice(0,st.limite);
+    const body=vis.map(d=>{
+      const e=normalizarEstado(d.estado), c=cabDte(d), evr=ev.get(String(d.nro_dte));
+      return '<tr class="dte-row'+(ESTADOS_EXCLUIDOS.has(e)?' is-excl':'')+'" data-dte="'+esc(d.nro_dte)+'" tabindex="0">'
+        +'<td>'+prettyCons(d.consignataria)+'</td>'
+        +'<td class="c-nro mono">'+esc(d.nro_dte)+'</td>'
+        +'<td class="c-tipo mono">'+esc(d.tipo||'—')+'</td>'
+        +'<td class="c-orig"><span class="main" title="'+esc(d.emisor_nombre||'')+'">'+esc(d.emisor_nombre||'—')+'</span><span class="sub mono">'+esc(d.renspa_origen||'')+(d.emisor_cuit?' · '+esc(d.emisor_cuit):'')+'</span></td>'
+        +'<td class="c-dest"><span class="main" title="'+esc(d.receptor_nombre||'')+'">'+esc(d.receptor_nombre||'—')+'</span><span class="sub mono">'+esc(d.renspa_destino||'')+(d.receptor_cuit?' · '+esc(d.receptor_cuit):'')+'</span></td>'
+        +'<td class="c-est">'+estadoPill(e,d.estado)+'</td>'
+        +'<td class="c-fecha mono">'+esc(d.fecha_carga||'—')+'</td>'
+        +'<td class="c-fecha mono">'+esc(d.fecha_vencimiento||'—')+'</td>'
+        +'<td class="c-cab num mono">'+(c==null?'<span class="dd-na" title="Detalle no cargado">s/d</span>':fmtN(c))+'</td>'
+        +'<td class="c-ev">'+(evr?'<button class="link-btn js-ev" data-cod="'+esc(evr.codigo)+'" title="'+esc(evr.codigo)+'">'+esc(aliasEvento(evr.codigo)||evr.codigo)+'</button>':'<span class="dd-na">—</span>')+'</td>'
+        +'<td class="c-go">'+ICO.chevR+'</td>'
+      +'</tr>';
+    }).join('');
+    const tabla=rows.length
+      ?'<div class="tbl-scroll"><table class="dte-table doc-table global-table"><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'
+        +(rows.length>vis.length?'<div class="more-row"><button class="btn btn-ghost btn-sm" id="d-more">Mostrar '+Math.min(300,rows.length-vis.length)+' más · quedan '+fmtN(rows.length-vis.length)+'</button></div>':'')
+      :estadoVacio(all.length?'Ningún DTE coincide con la consulta':'El maestro no tiene DTE',all.length?'Revisá el período: por defecto se muestran los últimos 7 días.':'',all.length?'<button class="btn btn-ghost cyan btn-sm js-clear">Limpiar filtros</button>':'');
+
+    wrap.innerHTML='<div class="wrap">'+kpi+filtros
+      +'<div class="table-wrap"><div class="table-head-bar"><span class="table-title">Documentos de tránsito</span><span class="table-count">'+fmtN(rows.length)+' de '+fmtN(all.length)+'</span></div>'+tabla+'</div></div>';
+
+    const $=s=>wrap.querySelector(s);
+    $('#q').oninput=e=>{st.q=e.target.value;st.limite=300;draw();};
+    $('#cons').onchange=e=>{st.cons=e.target.value;st.limite=300;draw();};
+    $('#est').onchange=e=>{st.est=e.target.value;st.limite=300;draw();};
+    $('#d-periodo').onchange=e=>{st.periodo=e.target.value;st.limite=300;draw();};
+    const dd=$('#d-desde'); if(dd) dd.onchange=e=>{st.fechaDesde=e.target.value;draw();};
+    const dh=$('#d-hasta'); if(dh) dh.onchange=e=>{st.fechaHasta=e.target.value;draw();};
+    const clr=()=>{st=Object.assign({},ini);draw();};
+    $('#d-clear').onclick=clr; wrap.querySelectorAll('.js-clear').forEach(b=>b.onclick=clr);
+    $('#d-export').onclick=()=>exportDtes(rows);
+    const more=$('#d-more'); if(more) more.onclick=()=>{st.limite+=300;draw();};
+    wrap.querySelectorAll('.sorter').forEach(t=>t.onclick=()=>{const k=t.dataset.sort; if(st.sortKey===k) st.sortDir=st.sortDir==='asc'?'desc':'asc'; else {st.sortKey=k;st.sortDir=(k==='fecha_carga'||k==='cab')?'desc':'asc';} draw();});
+    wrap.querySelectorAll('.dte-row').forEach(tr=>{
+      tr.onclick=e=>{if(e.target.closest('.js-ev')) return; openDetalle(tr.dataset.dte);};
+      tr.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();openDetalle(tr.dataset.dte);}};
+    });
+    wrap.querySelectorAll('.js-ev').forEach(b=>b.onclick=e=>{e.stopPropagation(); if(window.irAEvento) window.irAEvento(b.dataset.cod);});
+    restaurarFoco(wrap,foco);
   }
   draw(); return wrap;
+}
+function exportDtes(rows){
+  const ev=idxEventos();
+  const data=rows.map(d=>{const c=cabDte(d), e=ev.get(String(d.nro_dte)); return Object.assign({},d,{
+    _estado_norm:normalizarEstado(d.estado), _cab:c==null?'':c, _evento:e?e.codigo:'', _alias:e?aliasEvento(e.codigo):'', _sentido:e?e.sentido:''});});
+  exportToExcel(data,[
+    ['consignataria','Consignataria'],['nro_dte','Nro. DTE'],['emisor_nombre','Emisor'],
+    ['emisor_cuit','CUIT Emisor'],['renspa_origen','RENSPA Origen'],['receptor_nombre','Receptor'],
+    ['receptor_cuit','CUIT Receptor'],['renspa_destino','RENSPA Destino'],['tipo','Tipo'],
+    ['estado','Estado'],['_estado_norm','Estado (normalizado)'],['fecha_emision','Fecha Emisión'],['fecha_carga','Fecha Carga'],['fecha_vencimiento','Vencimiento'],
+    ['motivo_detalle','Motivo'],['_cab','Cab. declaradas (despachadas)'],['usuario_faena_nombre','Usuario faena'],
+    ['_evento','Evento'],['_alias','Alias evento'],['_sentido','Sentido en evento']
+  ],'DTEs_Darwash');
 }
 const SB_URL='https://qkrrumlbvspbxjoxvxho.supabase.co';
 const SB_KEY='sb_publishable_ZKjsxf9lkh4tgkhAayDvbA_6DOE7E6d';
@@ -1330,22 +1338,6 @@ function exportToExcel(rows, cols, filename) {
     console.error('Export error:', e);
   }
 }
-function exportDtes(rows) {
-  exportToExcel(rows, [
-    ['consignataria','Consignataria'],['nro_dte','Nro. DTE'],['emisor_nombre','Emisor'],
-    ['emisor_cuit','CUIT Emisor'],['renspa_origen','RENSPA Origen'],['receptor_nombre','Receptor'],
-    ['receptor_cuit','CUIT Receptor'],['renspa_destino','RENSPA Destino'],['tipo','Tipo'],
-    ['estado','Estado'],['fecha_carga','Fecha Carga'],['fecha_vencimiento','Vencimiento']
-  ], 'DTEs_Darwash');
-}
-function exportRemates(rows) {
-  exportToExcel(rows, [
-    ['tipo_movimiento','Tipo'],['documento','Documento'],['emisor_nombre','Emisor'],
-    ['receptor_nombre','Receptor'],['comprador','Comprador'],['categoria','Categoría'],['fecha_movimiento','Fecha Mov.'],
-    ['motivo','Motivo'],['estado','Estado'],['apto_china','Apto China'],
-    ['enviado','Enviado'],['recibido','Recibido']
-  ], 'Remates_Darwash');
-}
 
 // ── Ver Egresos modal ─────────────────────────────────────
 async function verEgresos(codigoRemate){
@@ -1705,7 +1697,7 @@ async function verAtadoDte(codigoRemate,rowsIniciales){
       +'</div>'
       +'<div class="modal-body" style="padding-top:0">'
         +(msg?'<div class="modal-feedback '+(msg.error?'error':'')+'" style="margin:8px 0">'+esc(msg.texto)+'</div>':'')
-        +(DATOS_DTES.fecha_extraccion?'<div style="font-size:12px;color:var(--muted);margin:6px 0">DTE al '+esc(new Date(DATOS_DTES.fecha_extraccion).toLocaleString('es-AR'))+'. Un DTE más nuevo aparece cuando corre el scraper.</div>':'')
+        +(DATOS_DTES.fecha_extraccion?'<div style="font-size:12px;color:var(--muted);margin:6px 0">DTE al '+esc(fmtFH(parseExtraccion(DATOS_DTES.fecha_extraccion),true))+'. Un DTE más nuevo aparece cuando corre el scraper.</div>':'')
         +'<div class="modal-table-wrap" style="margin-top:8px"><table class="modal-table">'+th+'<tbody>'
           +(filasSin||'<tr><td colspan="5" style="text-align:center;color:var(--muted)">Todos los remitos tienen DTE.</td></tr>')+'</tbody></table></div>'
         +(atados.length?'<details style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Remitos con DTE ('+atados.length+')</summary>'
@@ -1748,68 +1740,86 @@ async function verAtadoDte(codigoRemate,rowsIniciales){
   render();
 }
 
+// ── Estado de las fuentes en el encabezado + aviso si una actualización falló ──
+function pillFuente(k){
+  const st=CARGA[k], f=FUENTES[k], d=fechaExtraccion(k);
+  const viejo=d&&(Date.now()-d.getTime())>24*3600e3;
+  const cls=st.estado==='error'?'err':viejo?'stale':st.cargado?'ok':'';
+  const tit='Extracción SIGSA (scraper) de '+f.url+(d?': '+fmtFH(d,true):'')+(st.consultado?' · consultado '+fmtHora(st.consultado):'')+(st.estado==='error'?' · última actualización falló: '+st.error:'');
+  return '<div class="src '+cls+'" title="'+esc(tit)+'"><span class="src-dot"></span><span class="src-lbl">'+esc(f.label)+'</span>'
+    +'<span class="src-val mono">'+(d?esc(fmtFH(d)):'sin dato')+'</span>'+(d?'<span class="src-rel">'+esc(fmtRelDesde(d))+'</span>':'')+'</div>';
+}
+function renderEstadoDatos(){
+  const el=document.getElementById('fuentes'); if(!el) return;
+  el.innerHTML=Object.keys(FUENTES).map(pillFuente).join('');
+  const cons=Object.values(CARGA).map(x=>x.consultado).filter(Boolean).sort((a,b)=>b-a)[0];
+  const ce=document.getElementById('consultado'); if(ce) ce.textContent=cons?'consultado '+fmtHora(cons):'';
+  const ms=document.getElementById('mobile-src');
+  if(ms) ms.innerHTML='<span class="ms-k">Extracción SIGSA</span>'+Object.keys(FUENTES).map(k=>{const d=fechaExtraccion(k),st=CARGA[k];
+    return '<span class="'+(st.estado==='error'?'err':'')+'">'+esc(FUENTES[k].label)+' '+(d?esc(fmtFH(d)):'sin dato')+'</span>';}).join('<span class="sep">·</span>');
+  const bn=document.getElementById('data-banner'); if(!bn) return;
+  const errs=Object.keys(FUENTES).filter(k=>CARGA[k].estado==='error');
+  bn.innerHTML=errs.map(k=>{
+    const f=FUENTES[k], st=CARGA[k], d=fechaExtraccion(k);
+    return '<div class="data-banner '+(st.cargado?'warn':'err')+'"><span class="db-ico">!</span><span>'
+      +(st.cargado?'No se pudo actualizar <b>'+esc(f.label)+'</b> ('+esc(st.error)+'). Se muestran los datos extraídos el <b class="mono">'+esc(fmtFH(d,true))+'</b>.'
+        :'No se pudieron cargar los <b>'+esc(f.label)+'</b> ('+esc(st.error)+').')
+      +'</span><button class="btn btn-ghost btn-xs js-reintentar-top">↻ Reintentar</button></div>';
+  }).join('');
+  bn.querySelectorAll('.js-reintentar-top').forEach(b=>b.onclick=()=>window.refrescarDatos&&window.refrescarDatos());
+}
+async function iniciarApp(){
+  app.innerHTML='<div class="boot"><img src="drw-icon.png" alt="Darwash" class="boot-logo"><div class="boot-txt mono">Cargando documentos SIGSA…</div></div>';
+  await cargarDatos(false);
+  renderApp();
+}
 function renderApp(){
   const s=getSession();
   if(!s) return renderLogin();
-
-  const ultimaFecha=DATOS_DTES.fecha_extraccion
-    ? new Date(DATOS_DTES.fecha_extraccion).toLocaleString('es-AR')
-    : '—';
+  (window._dwTimers||[]).forEach(clearInterval); window._dwTimers=[];
 
   app.innerHTML=''
     +'<div class="app-shell">'
     +  '<aside class="sidebar" id="sidebar">'
     +    '<div class="sidebar-brand">'
-    +      '<div class="brand-logo-mark"><img src="drw-icon.png" alt="DRW"></div>'
+    +      '<div class="brand-logo-mark"><img src="drw-icon.png" alt="Darwash"></div>'
     +      '<div class="brand-wordmark">Darwash</div>'
-    +      '<button class="sidebar-toggle" id="sidebar-toggle" title="Colapsar sidebar" aria-label="Colapsar sidebar">'
-    +        '<span class="toggle-icon">‹</span>'
-    +      '</button>'
+    +      '<button class="sidebar-toggle" id="sidebar-toggle" title="Colapsar menú" aria-label="Colapsar menú"><span class="toggle-icon">‹</span></button>'
     +    '</div>'
     +    '<nav class="sidebar-nav">'
-    +      '<div class="nav-section-label">Operaciones</div>'
-    +      '<button class="nav-item active" data-view="rem" data-tooltip="Remates">'
-    +        '<span class="nav-icon">📊</span>'
-    +        '<span class="nav-label">Remates</span>'
-    +      '</button>'
-    +      '<button class="nav-item" data-view="dte" data-tooltip="DTEs">'
-    +        '<span class="nav-icon">📄</span>'
-    +        '<span class="nav-label">DTEs</span>'
-    +      '</button>'
-    +      '<button class="nav-item" data-view="feria" data-tooltip="Feria en Vivo">'
-    +        '<span class="nav-icon">🐄</span>'
-    +        '<span class="nav-label">Feria en Vivo</span>'
-    +      '</button>'
+    +      '<div class="nav-section-label">Consulta documental</div>'
+    +      '<button class="nav-item active" data-view="rem" data-tooltip="Eventos"><span class="nav-icon">'+ICO.cal+'</span><span class="nav-label">Eventos</span></button>'
+    +      '<button class="nav-item" data-view="dte" data-tooltip="Todos los DTE"><span class="nav-icon">'+ICO.doc+'</span><span class="nav-label">Todos los DTE</span></button>'
+    +      '<div class="nav-section-label nav-legacy">Operativo · pasa a Remates</div>'
+    +      '<button class="nav-item nav-item-legacy" data-view="feria" data-tooltip="Feria en Vivo (heredado)"><span class="nav-icon">'+ICO.grid+'</span><span class="nav-label">Feria en Vivo</span></button>'
     +    '</nav>'
-    +    '<div class="sidebar-footer">'
-    +      '<div class="sidebar-version">v1.0</div>'
-    +    '</div>'
+    +    '<div class="sidebar-footer"><div class="sidebar-version">v1.1 · documental</div></div>'
     +  '</aside>'
     +  '<div class="sidebar-overlay" id="sidebar-overlay"></div>'
     +  '<div class="main-area">'
     +    '<header class="topbar">'
-    +      '<button class="hamburger" id="hamburger" aria-label="Menu">☰</button>'
+    +      '<button class="hamburger" id="hamburger" aria-label="Menú">☰</button>'
     +      '<div class="topbar-title">'
     +        '<div class="topbar-main">SIGSA / SENASA</div>'
-    +        '<div class="topbar-sub">TABLERO</div>'
+    +        '<div class="topbar-sub">DOCUMENTOS DE TRÁNSITO</div>'
     +      '</div>'
     +      '<div class="topbar-right">'
-    +        '<div class="last-update" id="last-update-pill">'
-    +          '<span class="last-update-label">🕐 Actualizado</span>'
-    +          '<span class="last-update-value">'+esc(ultimaFecha)+'</span>'
-    +        '</div>'
+    +        '<div class="sources" id="fuentes"></div>'
+    +        '<div class="refresh-box"><button class="icon-btn" id="refreshBtn" title="Volver a leer los datos publicados">'+ICO.refresh+'</button><span class="consultado mono" id="consultado"></span></div>'
     +        '<div class="user-pill">'
     +          '<span class="user-name" id="user-name">'+esc(s.nombre)+'</span>'
     +          '<button id="logoutBtn" class="logout-btn">Salir</button>'
     +        '</div>'
     +      '</div>'
     +    '</header>'
+    +    '<div id="mobile-src" class="mobile-src mono"></div>'
+    +    '<div id="data-banner" class="data-banner-wrap"></div>'
     +    '<main class="content-area" id="content"></main>'
     +  '</div>'
     +'</div>';
 
   const content=document.getElementById('content');
-  const remView=renderRemates();
+  const remView=renderEventos();
   const dteView=renderDtes();
   const feriaView=(()=>{
     const root=document.createElement('div');
@@ -2103,32 +2113,53 @@ function renderApp(){
   content.appendChild(remView);
   content.appendChild(dteView);
   content.appendChild(feriaView);
-  dteView.style.display='none';
-  feriaView.style.display='none';
+  const VISTAS={rem:remView,dte:dteView,feria:feriaView};
 
-  // Sidebar nav (reemplaza .tab → .nav-item, dataset.tab → dataset.view)
-  document.querySelectorAll('.nav-item').forEach(btn=>btn.onclick=function(){
-    document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active');
-    const v=btn.dataset.view;
-    remView.style.display=v==='rem'?'block':'none';
-    dteView.style.display=v==='dte'?'block':'none';
-    feriaView.style.display=v==='feria'?'block':'none';
+  function mostrar(v){
+    if(!VISTAS[v]) v='rem';
+    for(const k in VISTAS) VISTAS[k].style.display=k===v?'block':'none';
+    document.querySelectorAll('.nav-item').forEach(x=>x.classList.toggle('active',x.dataset.view===v));
     document.body.classList.remove('sidebar-open');
-  });
+  }
+  // Ruta en el hash: #/evento/<codigo> · #/dte · #/feria (se puede recargar o compartir)
+  window.setRuta=function(v,cod){
+    const h='#/'+(v==='rem'?'evento'+(cod?'/'+encodeURIComponent(cod):''):v);
+    if(location.hash!==h) history.replaceState(null,'',location.pathname+location.search+h);
+  };
+  function irVista(v){mostrar(v); setRuta(v,v==='rem'?remView.codigoActual():null);}
+  window.irAEvento=function(cod){remView.seleccionar(cod); mostrar('rem'); window.scrollTo(0,0);};
+  function aplicarRuta(){
+    const m=/^#\/(evento|dte|feria)(?:\/(.+))?$/.exec(location.hash||'');
+    if(!m){mostrar('rem'); return;}
+    if(m[1]==='evento'){ if(m[2]){try{remView.seleccionar(decodeURIComponent(m[2]));}catch(e){}} mostrar('rem'); }
+    else mostrar(m[1]);
+  }
+  window.onhashchange=aplicarRuta;
+  aplicarRuta();
+  document.querySelectorAll('.nav-item').forEach(btn=>btn.onclick=()=>irVista(btn.dataset.view));
+
+  // Refresco: manual + cada 10 min con la pestaña visible. Si falla, quedan los datos anteriores.
+  let refrescando=false;
+  window.refrescarDatos=async function(){
+    if(refrescando) return; refrescando=true;
+    const b=document.getElementById('refreshBtn'); if(b){b.classList.add('is-busy');b.disabled=true;}
+    try{ await cargarDatos(true); }
+    finally{
+      refrescando=false; if(b){b.classList.remove('is-busy');b.disabled=false;}
+      renderEstadoDatos(); remView.refresh(); dteView.refresh();
+    }
+  };
+  document.getElementById('refreshBtn').onclick=()=>window.refrescarDatos();
+  renderEstadoDatos();
+  window._dwTimers.push(setInterval(()=>{if(document.visibilityState==='visible') window.refrescarDatos();},10*60*1000));
+  window._dwTimers.push(setInterval(renderEstadoDatos,60*1000));
 
   // Hamburguesa: drawer mobile
-  document.getElementById('hamburger').onclick=function(){
-    document.body.classList.toggle('sidebar-open');
-  };
-  document.getElementById('sidebar-overlay').onclick=function(){
-    document.body.classList.remove('sidebar-open');
-  };
+  document.getElementById('hamburger').onclick=function(){document.body.classList.toggle('sidebar-open');};
+  document.getElementById('sidebar-overlay').onclick=function(){document.body.classList.remove('sidebar-open');};
 
   // Sidebar colapsable (desktop): aplicar estado persistido + handler
-  if(getSidebarCollapsed()){
-    document.querySelector('.app-shell').classList.add('sidebar-collapsed');
-  }
+  if(getSidebarCollapsed()) document.querySelector('.app-shell').classList.add('sidebar-collapsed');
   const sidebarToggle=document.getElementById('sidebar-toggle');
   if(sidebarToggle){
     sidebarToggle.onclick=function(){
@@ -2138,29 +2169,11 @@ function renderApp(){
       setSidebarCollapsed(willCollapse);
     };
   }
-
   document.getElementById('logoutBtn').onclick=function(){
-    clearSession();
-    renderLogin();
+    (window._dwTimers||[]).forEach(clearInterval); window._dwTimers=[];
+    clearSession(); renderLogin();
   };
 }
 
-async function init() {
-  try {
-    const [r1, r2, r3] = await Promise.all([
-      fetch('dtes_maestro.json'),
-      fetch('remates_maestro.json'),
-      fetch('remates_alias.json').catch(()=>null)
-    ]);
-    DATOS_DTES = await r1.json();
-    DATOS_REMATES = await r2.json();
-    if(r3 && r3.ok){
-      try{
-        const a=await r3.json();
-        if(a && typeof a==='object' && !Array.isArray(a)) DATOS_ALIASES=a;
-      }catch(_){ /* alias inválido — fallback {} silencioso */ }
-    }
-  } catch(e) { console.error('Error cargando datos:', e); }
-  renderApp();
-}
+function init(){ if(getSession()) iniciarApp(); else renderLogin(); }
 init();
