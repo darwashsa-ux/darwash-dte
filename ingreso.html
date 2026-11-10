@@ -151,6 +151,9 @@
     .h-top span{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--green-text);flex-shrink:0;}
     .h-meta{font-size:12px;color:var(--muted);line-height:1.5;}
     .tag-sd{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--amber-text);background:var(--amber-soft);border:1px solid var(--amber);border-radius:4px;padding:1px 6px;}
+    .h-acc{display:flex;justify-content:flex-end;margin-top:4px;}
+    .btn-rep{height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--teal);background:var(--teal-soft);color:var(--teal-text);font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px;}
+    .btn-rep:disabled{opacity:.6;}
     .empty{font-size:13px;color:var(--muted);text-align:center;padding:14px 0;}
 
     /* EXITO */
@@ -701,7 +704,10 @@ async function renderHist(){
     const cats=Object.entries(r.categorias||{}).map(([k,v])=>esc(k)+' '+esc(v)).join(' · ');
     return '<div class="h-item"><div class="h-top"><b>'+esc(r.productor||'Sin productor')+'</b><span>'+esc(r.total_cabezas||0)+' cab</span></div>'+
       '<div class="h-meta">#'+esc(r.id)+' · '+esc(r.hora_descarga||'')+' hs · '+(r.sin_dte||!d?'<span class="tag-sd">SIN DTE</span>':'DTE '+esc(dteFmt(d)))+
-      (r.transportista?'<br>'+esc(r.transportista)+(r.patente?' · '+esc(r.patente):''):'')+(cats?'<br>'+cats:'')+'</div></div>';
+      (r.transportista?'<br>'+esc(r.transportista)+(r.patente?' · '+esc(r.patente):''):'')+(cats?'<br>'+cats:'')+'</div>'+
+      '<div class="h-acc"><button type="button" class="btn-rep" data-rep="'+esc(r.id)+'">'+
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"></path><rect x="3" y="9" width="18" height="8" rx="2"></rect><path d="M6 14h12v7H6z"></path></svg>'+
+      'Reimprimir ticket</button></div></div>';
   }).join('');
   renderDTE();
 }
@@ -983,6 +989,17 @@ async function armarPDF(r){
 document.addEventListener('DOMContentLoaded',()=>{
   initFechaHora();initDTE();initProd();initCats();initTransp();initFirma();initFotos();initExito();
   $('btn-save').addEventListener('click',guardar);
+  $('hist').addEventListener('click',async e=>{
+    const b=e.target.closest('[data-rep]');if(!b)return;
+    const id=Number(b.dataset.rep);
+    if(!confirm('¿Reimprimir el ticket del remito #'+id+' en la balanza?'))return;
+    b.disabled=true;const txt=b.innerHTML;b.textContent='Enviando…';
+    try{
+      const r=await sb('POST','rpc/reimprimir_ticket',{p_id:id});
+      if(r&&r.ok){b.textContent='✓ Enviado a la balanza';setTimeout(()=>{b.innerHTML=txt;b.disabled=false;},8000);}
+      else throw new Error(r&&r.error||'error');
+    }catch(err){b.innerHTML=txt;b.disabled=false;alert('No se pudo mandar a reimprimir. Revisá la señal.');}
+  });
   // Con el teclado abierto la barra fija tapa media pantalla: se oculta mientras se escribe
   const esCampo=el=>el&&el.matches&&el.matches('.main input:not([type=checkbox]):not([type=file]), .main textarea');
   document.addEventListener('focusin',e=>{if(esCampo(e.target)){document.body.classList.add('kb');
