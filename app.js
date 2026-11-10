@@ -443,7 +443,7 @@ function modeloEvento(r){
     d.cab+=n; d.rec+=Number(f.recibido)||0; d.filas.push(f);
   }
   const lista=[...docs.values()];
-  const mk=()=>({dtes:0,cab:0,cats:{},excl:{dtes:0,cab:0},sinCierre:0});
+  const mk=()=>({dtes:0,cab:0,cats:{},excl:{dtes:0,cab:0},sinCierre:0,vfna:{cab:0,dtes:0}});
   const tot={ENTRADA:mk(),SALIDA:mk(),OTRO:mk(),porEstado:{},dtes:lista.length};
   for(const d of lista){
     d.excluido=ESTADOS_EXCLUIDOS.has(d.estado);
@@ -454,6 +454,11 @@ function modeloEvento(r){
     if(ESTADOS_SIN_CIERRE.has(d.estado)) t.sinCierre++;
     t.cab+=d.cab;
     for(const [k,v] of Object.entries(d.cats)) t.cats[k]=(t.cats[k]||0)+v;
+    // Vacas de faena marcadas NO apto China (dato del DTE: categoría + motivo + Apto China del listado)
+    const vf=d.filas.filter(f=>canonizarCategoria(f.categoria)==='VACA'&&/faena/i.test(f.motivo||'')&&aptoVal(f.apto_china)==='no')
+      .reduce((s,f)=>s+(Number(f.enviado)||0),0);
+    d.vacaFaenaNoApto=vf;
+    if(vf>0){t.vfna.cab+=vf;t.vfna.dtes++;}
   }
   const mod={r,docs:lista,tot};
   _cacheModelos.set(r.codigo,mod);
@@ -613,6 +618,12 @@ function renderEventos(){
       +(sinC?'Incluye '+sinC+' DTE vencido'+(sinC>1?'s':'')+'/caducado'+(sinC>1?'s':'')+'/sin arribo. ':'')
       +'Novillo agrupa Novillo y Novillito; MEJ agrupa Torito/MEJ.';
     const cons=(r.consignatarios||[]).map(c=>c.nombre).filter(Boolean);
+    const vfE=T.ENTRADA.vfna, vfS=T.SALIDA.vfna;
+    const pl=(n,a,b)=>fmtN(n)+' '+(n===1?a:b);
+    const avisoVaca=(vfE.cab||vfS.cab)?'<div class="warn-row ev-warn"><span class="ev-warn-txt"><strong>'+pl(vfE.cab||vfS.cab,'vaca','vacas')+' faena</strong> marcada'+((vfE.cab||vfS.cab)===1?'':'s')+' como <strong>NO APTO CHINA</strong>'
+        +(vfE.cab?' · entrada en '+pl(vfE.dtes,'DTE','DTE'):'')
+        +(vfE.cab&&vfS.cab?' · salida: '+pl(vfS.cab,'vaca','vacas')+' en '+pl(vfS.dtes,'DTE','DTE'):(!vfE.cab&&vfS.cab?' · salida en '+pl(vfS.dtes,'DTE','DTE'):''))
+        +'</span><button class="btn btn-ghost red btn-xs" id="ev-ver-vfna">Ver DTE</button></div>':'';
     const card='<section class="ev-card">'
       +'<div class="ev-head">'
         +'<div class="ev-id">'
@@ -636,6 +647,7 @@ function renderEventos(){
         +(T.SALIDA.dtes?'<div class="ev-row"><span class="ev-row-lbl">Salida</span><div class="ev-row-val">'+chipsCat('SALIDA')+'</div></div>':'')
         +'<div class="ev-row"><span class="ev-row-lbl">Estado DTE</span><div class="ev-row-val">'+chipsEst+'</div></div>'
       +'</div>'
+      +avisoVaca
       +'<div class="ev-criterio">'+esc(criterio)+'</div>'
       +'<div class="ev-foot">'
         +'<span class="ev-foot-src mono" title="Fecha en que el scraper leyó este evento de SIGSA">Extraído '+esc(fmtFH(ext,true))+(ext?' · '+esc(fmtRelDesde(ext)):'')+'</span>'
@@ -708,7 +720,7 @@ function renderEventos(){
         +'<td class="c-orig"><span class="main" title="'+esc(d.emisor)+'">'+esc(d.emisor||'—')+'</span><span class="sub mono">'+esc(d.renspa_origen||'')+(d.emisor_cuit?' · '+esc(d.emisor_cuit):'')+'</span></td>'
         +'<td class="c-dest"><span class="main" title="'+esc(dest)+'">'+esc(dest||'—')+'</span><span class="sub mono">'+esc(destSub||'')+'</span></td>'
         +'<td class="c-mot">'+esc(d.motivo||'—')+'</td>'
-        +'<td class="c-comp">'+composicionHtml(d.cats)+'</td>'
+        +'<td class="c-comp">'+composicionHtml(d.cats)+(d.vacaFaenaNoApto?'<span class="vfna-tag" title="'+d.vacaFaenaNoApto+' vaca(s) faena NO apto China">NO APTO CH</span>':'')+'</td>'
         +'<td class="c-cab num mono">'+fmtN(d.cab)+'</td>'
         +'<td class="c-est">'+estadoPill(d.estado,d.difEstado?'En el listado del evento figura '+d.estadoEvento:'')+(d.difEstado?'<span class="est-dif" title="El listado del evento informa '+esc(d.estadoEvento)+'">*</span>':'')+'</td>'
         +'<td class="c-go">'+ICO.chevR+'</td>'
@@ -749,6 +761,10 @@ function renderEventos(){
     bindMs(host,'f-mot',st.motivos,draw); bindMs(host,'f-apto',st.aptos,draw);
     if(opt.keepPanel){const p=host.querySelector('#'+opt.keepPanel+' .ms-panel'); if(p) p.style.display='block';}
     $('#f-mas').onclick=()=>{st.mas=!st.mas;draw();};
+    const vfb=$('#ev-ver-vfna');
+    if(vfb) vfb.onclick=()=>{limpiarFiltros(); st.cats=['VACA']; st.aptos=['no']; st.mas=true;
+      st.motivos=[...new Set(mod.docs.map(d=>d.motivo).filter(m=>/faena/i.test(m||'')))];
+      draw(); const t=host.querySelector('.table-wrap'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'});};
     const clr=()=>{limpiarFiltros();draw();};
     $('#f-clear').onclick=clr; host.querySelectorAll('.js-clear').forEach(b=>b.onclick=clr);
     $('#f-export').onclick=()=>exportEvento(rows,r);

@@ -362,3 +362,9 @@
   .mobile-src .sep { color: var(--border-strong); }
   .mobile-src .err { color: var(--red); }
 }
+
+/* Aviso vacas faena NO apto China (vuelve del tablero anterior, ahora con dato documental) */
+.ev-card .ev-warn { margin-top: 12px; padding: 8px 12px; font-size: 12.5px; }
+.ev-warn .ev-warn-txt { flex: 1; }
+.ev-warn .btn { background: var(--surface); }
+.vfna-tag { display: inline-block; margin-left: 2px; font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .8px; color: var(--red); border: 1px solid rgba(214,59,71,.45); background: var(--red-soft); border-radius: 3px; padding: 1px 4px; vertical-align: 1px; }
