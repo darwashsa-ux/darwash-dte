@@ -85198,7 +85198,7 @@
     },
     {
       "codigo": "01.019.0.00001/0A-2026",
-      "fecha_extraccion": "2026-11-11T07:08:49.077120",
+      "fecha_extraccion": "2026-11-11T08:38:34.588109",
       "info": {
         "Inicio": "22/10/2026",
         "Fin": "28/10/2026",
@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-11T07:08:50.357949",
+      "fecha_extraccion": "2026-11-11T08:38:35.740332",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94584,13 +94584,13 @@
           "enviado": 33,
           "recibido": 27
         },
-        "Carnero": {
-          "enviado": 2,
-          "recibido": 1
-        },
         "Borrego/a": {
           "enviado": 11,
           "recibido": 10
+        },
+        "Carnero": {
+          "enviado": 2,
+          "recibido": 1
         }
       },
       "filas": [
@@ -100865,7 +100865,7 @@
     },
     {
       "codigo": "03.014.3.00015/0I-2026",
-      "fecha_extraccion": "2026-11-11T07:08:48.111905",
+      "fecha_extraccion": "2026-11-11T08:38:33.612050",
       "info": {
         "Inicio": "29/10/2026",
         "Fin": "30/10/2026",
@@ -106382,7 +106382,7 @@
     },
     {
       "codigo": "03.014.3.00015/0J-2026",
-      "fecha_extraccion": "2026-11-11T07:08:47.002140",
+      "fecha_extraccion": "2026-11-11T08:38:32.587531",
       "info": {
         "Inicio": "11/11/2026",
         "Fin": "12/11/2026",
@@ -106391,10 +106391,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 46,
+      "total_dtes": 47,
       "total_dtes_salida": 0,
-      "total_filas": 73,
-      "total_animales": 1057,
+      "total_filas": 74,
+      "total_animales": 1068,
       "totales_categoria": {},
       "filas": [
         {
@@ -107903,8 +107903,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "10/07/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 1,
+          "categoria": "Novillito",
+          "enviado": 18,
           "recibido": 0,
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
@@ -107925,8 +107925,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "10/07/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 18,
+          "categoria": "Vaquillona",
+          "enviado": 1,
           "recibido": 0,
           "emisor_nombre": "RODERUIZ S. C. A.",
           "emisor_cuit": "30-51323655-3",
@@ -108002,6 +108002,28 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": true,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "032972496-4",
+          "origen": "03.014.3.15069/01",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "11/11/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "02/07/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 11,
+          "recibido": 0,
+          "emisor_nombre": "TRABUCCO SERGIO DANIEL",
+          "emisor_cuit": "23-24956889-9",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
         }
       ],
       "compartido": false,
@@ -108015,5 +108037,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-11T07:08:47.002140"
+  "fecha_extraccion": "2026-11-11T08:38:32.587531"
 }
