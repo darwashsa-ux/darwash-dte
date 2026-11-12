@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-12T19:03:43.416238",
+      "fecha_extraccion": "2026-11-12T20:33:41.288974",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94580,13 +94580,13 @@
           "enviado": 46,
           "recibido": 38
         },
-        "Cordero/a": {
-          "enviado": 33,
-          "recibido": 27
-        },
         "Carnero": {
           "enviado": 2,
           "recibido": 1
+        },
+        "Cordero/a": {
+          "enviado": 33,
+          "recibido": 27
         },
         "Borrego/a": {
           "enviado": 11,
@@ -100865,7 +100865,7 @@
     },
     {
       "codigo": "03.014.3.00015/0I-2026",
-      "fecha_extraccion": "2026-11-12T19:03:40.135185",
+      "fecha_extraccion": "2026-11-12T20:33:39.805703",
       "info": {
         "Inicio": "29/10/2026",
         "Fin": "30/10/2026",
@@ -106382,7 +106382,7 @@
     },
     {
       "codigo": "03.014.3.00015/0J-2026",
-      "fecha_extraccion": "2026-11-12T19:03:38.800829",
+      "fecha_extraccion": "2026-11-12T20:33:38.445089",
       "info": {
         "Inicio": "11/11/2026",
         "Fin": "12/11/2026",
@@ -106392,8 +106392,8 @@
         "Predio ferial": "DARWASH S A"
       },
       "total_dtes": 50,
-      "total_dtes_salida": 19,
-      "total_filas": 108,
+      "total_dtes_salida": 21,
+      "total_filas": 110,
       "total_animales": 1165,
       "totales_categoria": {
         "Vaquillona": {
@@ -108684,8 +108684,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "21/10/25",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 55,
+          "categoria": "Novillo",
+          "enviado": 11,
           "recibido": 0,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
@@ -108706,8 +108706,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "21/10/25",
           "especie": "Bovinos",
-          "categoria": "Novillo",
-          "enviado": 11,
+          "categoria": "Novillito",
+          "enviado": 55,
           "recibido": 0,
           "emisor_nombre": "DARWASH S A",
           "emisor_cuit": "30-51163433-0",
@@ -108805,6 +108805,50 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": false,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032989515-7",
+          "origen": "12.016.0.02001/04",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "12/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "23/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 65,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "PRODUCCION S.R.L.",
+          "receptor_cuit": "30-70845958-1",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "032989570-5",
+          "origen": "18.003.0.04100/CY",
+          "motivo": "Invernada UE C. 481",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "13/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "22/04/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 74,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "FRIGORIFICO RIOPLATENSE S A I C I F",
+          "receptor_cuit": "30-54008029-8",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         }
       ],
       "compartido": false,
@@ -108816,7 +108860,34 @@
           "cuit": "30-51163433-0"
         }
       ]
+    },
+    {
+      "codigo": "01.054.0.00001/0G-2026",
+      "fecha_extraccion": "2026-11-12T20:33:37.327210",
+      "info": {
+        "Inicio": "12/11/2026",
+        "Fin": "13/11/2026",
+        "Estado": "ABIERTA",
+        "Finalidad": "",
+        "Apto China": "",
+        "Predio ferial": "SOC. RURAL DE GRAL. VILLEGAS"
+      },
+      "total_dtes": 0,
+      "total_dtes_salida": 0,
+      "total_filas": 0,
+      "total_animales": 0,
+      "totales_categoria": {},
+      "filas": [],
+      "compartido": false,
+      "organizador": "DARWASH S A",
+      "consignatarios": [
+        {
+          "nombre": "DARWASH S A",
+          "oncca": "7069",
+          "cuit": "30-51163433-0"
+        }
+      ]
     }
   ],
-  "fecha_extraccion": "2026-11-12T19:03:38.800829"
+  "fecha_extraccion": "2026-11-12T20:33:37.327210"
 }
