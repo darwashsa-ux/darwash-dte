@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-13T07:05:11.601651",
+      "fecha_extraccion": "2026-11-13T13:35:11.107205",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94568,17 +94568,17 @@
           "enviado": 61,
           "recibido": 59
         },
-        "Novillo": {
-          "enviado": 142,
-          "recibido": 142
+        "Toro": {
+          "enviado": 46,
+          "recibido": 38
         },
         "Novillito": {
           "enviado": 225,
           "recibido": 225
         },
-        "Toro": {
-          "enviado": 46,
-          "recibido": 38
+        "Novillo": {
+          "enviado": 142,
+          "recibido": 142
         },
         "Cordero/a": {
           "enviado": 33,
@@ -109413,7 +109413,7 @@
     },
     {
       "codigo": "01.054.0.00001/0G-2026",
-      "fecha_extraccion": "2026-11-13T07:05:06.616781",
+      "fecha_extraccion": "2026-11-13T13:35:09.936278",
       "info": {
         "Inicio": "12/11/2026",
         "Fin": "13/11/2026",
@@ -109437,7 +109437,61 @@
           "cuit": "30-51163433-0"
         }
       ]
+    },
+    {
+      "codigo": "01.019.0.00001/0B-2026",
+      "fecha_extraccion": "2026-11-13T13:35:08.142983",
+      "info": {
+        "Inicio": "19/11/2026",
+        "Fin": "24/11/2026",
+        "Estado": "PENDIENTE",
+        "Finalidad": "",
+        "Apto China": "",
+        "Predio ferial": "SOCIEDAD RURAL DE CARLOS CASARES"
+      },
+      "total_dtes": 0,
+      "total_dtes_salida": 0,
+      "total_filas": 0,
+      "total_animales": 0,
+      "totales_categoria": {},
+      "filas": [],
+      "compartido": false,
+      "organizador": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T.",
+      "consignatarios": [
+        {
+          "nombre": "DARWASH S.A. - SILVIO R. FERNANDEZ S.A. U. T.",
+          "oncca": "69678",
+          "cuit": "30-71939525-9"
+        }
+      ]
+    },
+    {
+      "codigo": "01.054.0.00001/0H-2026",
+      "fecha_extraccion": "2026-11-13T13:35:09.139035",
+      "info": {
+        "Inicio": "18/11/2026",
+        "Fin": "20/11/2026",
+        "Estado": "PENDIENTE",
+        "Finalidad": "",
+        "Apto China": "",
+        "Predio ferial": "SOC. RURAL DE GRAL. VILLEGAS"
+      },
+      "total_dtes": 0,
+      "total_dtes_salida": 0,
+      "total_filas": 0,
+      "total_animales": 0,
+      "totales_categoria": {},
+      "filas": [],
+      "compartido": false,
+      "organizador": "DARWASH S A",
+      "consignatarios": [
+        {
+          "nombre": "DARWASH S A",
+          "oncca": "7069",
+          "cuit": "30-51163433-0"
+        }
+      ]
     }
   ],
-  "fecha_extraccion": "2026-11-13T07:05:06.616781"
+  "fecha_extraccion": "2026-11-13T13:35:09.139035"
 }
