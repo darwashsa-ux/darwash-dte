@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-15T20:04:20.506485",
+      "fecha_extraccion": "2026-11-16T07:05:00.047381",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94580,17 +94580,17 @@
           "enviado": 46,
           "recibido": 38
         },
-        "Borrego/a": {
-          "enviado": 11,
-          "recibido": 10
+        "Carnero": {
+          "enviado": 2,
+          "recibido": 1
         },
         "Cordero/a": {
           "enviado": 33,
           "recibido": 27
         },
-        "Carnero": {
-          "enviado": 2,
-          "recibido": 1
+        "Borrego/a": {
+          "enviado": 11,
+          "recibido": 10
         }
       },
       "filas": [
@@ -109413,7 +109413,7 @@
     },
     {
       "codigo": "01.054.0.00001/0G-2026",
-      "fecha_extraccion": "2026-11-15T20:04:18.912616",
+      "fecha_extraccion": "2026-11-16T07:04:58.854448",
       "info": {
         "Inicio": "12/11/2026",
         "Fin": "13/11/2026",
@@ -109440,7 +109440,7 @@
     },
     {
       "codigo": "01.019.0.00001/0B-2026",
-      "fecha_extraccion": "2026-11-15T20:04:17.304196",
+      "fecha_extraccion": "2026-11-16T07:04:57.226587",
       "info": {
         "Inicio": "19/11/2026",
         "Fin": "24/11/2026",
@@ -109467,7 +109467,7 @@
     },
     {
       "codigo": "01.054.0.00001/0H-2026",
-      "fecha_extraccion": "2026-11-15T20:04:18.140659",
+      "fecha_extraccion": "2026-11-16T07:04:58.098600",
       "info": {
         "Inicio": "18/11/2026",
         "Fin": "20/11/2026",
@@ -109493,5 +109493,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-15T20:04:18.140659"
+  "fecha_extraccion": "2026-11-16T07:04:58.098600"
 }
