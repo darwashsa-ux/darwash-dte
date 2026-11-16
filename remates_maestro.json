@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-16T08:35:27.757791",
+      "fecha_extraccion": "2026-11-16T10:04:00.259151",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94568,17 +94568,17 @@
           "enviado": 61,
           "recibido": 59
         },
-        "Toro": {
-          "enviado": 46,
-          "recibido": 38
+        "Novillo": {
+          "enviado": 142,
+          "recibido": 142
         },
         "Novillito": {
           "enviado": 225,
           "recibido": 225
         },
-        "Novillo": {
-          "enviado": 142,
-          "recibido": 142
+        "Toro": {
+          "enviado": 46,
+          "recibido": 38
         },
         "Cordero/a": {
           "enviado": 33,
@@ -109413,7 +109413,7 @@
     },
     {
       "codigo": "01.054.0.00001/0G-2026",
-      "fecha_extraccion": "2026-11-16T08:35:26.227813",
+      "fecha_extraccion": "2026-11-16T10:03:58.761926",
       "info": {
         "Inicio": "12/11/2026",
         "Fin": "13/11/2026",
@@ -109440,7 +109440,7 @@
     },
     {
       "codigo": "01.019.0.00001/0B-2026",
-      "fecha_extraccion": "2026-11-16T08:35:24.404750",
+      "fecha_extraccion": "2026-11-16T10:03:56.814571",
       "info": {
         "Inicio": "19/11/2026",
         "Fin": "24/11/2026",
@@ -109449,10 +109449,10 @@
         "Apto China": "",
         "Predio ferial": "SOCIEDAD RURAL DE CARLOS CASARES"
       },
-      "total_dtes": 6,
+      "total_dtes": 8,
       "total_dtes_salida": 0,
-      "total_filas": 9,
-      "total_animales": 65,
+      "total_filas": 12,
+      "total_animales": 126,
       "totales_categoria": {},
       "filas": [
         {
@@ -109553,7 +109553,7 @@
           "apto_china": "NO",
           "fecha_aftosa": "16/06/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
+          "categoria": "Novillito",
           "enviado": 10,
           "recibido": 0,
           "emisor_nombre": "SANCHEZ IRMA ESTER",
@@ -109575,33 +109575,11 @@
           "apto_china": "NO",
           "fecha_aftosa": "16/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
+          "categoria": "Vaquillona",
           "enviado": 10,
           "recibido": 0,
           "emisor_nombre": "SANCHEZ IRMA ESTER",
           "emisor_cuit": "23-05901440-4",
-          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
-          "receptor_cuit": "30-51236191-5",
-          "usuario_faena_nombre": "",
-          "destino_es_frigorifico": false,
-          "destino_es_feria": true,
-          "comprador": ""
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "033002851-3",
-          "origen": "01.019.0.00185/01",
-          "motivo": "Faena",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "16/11/2026",
-          "apto_china": "NO",
-          "fecha_aftosa": "02/05/26",
-          "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 3,
-          "recibido": 0,
-          "emisor_nombre": "MENSI GUSTAVO ROBERTO",
-          "emisor_cuit": "20-13898854-7",
           "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
           "receptor_cuit": "30-51236191-5",
           "usuario_faena_nombre": "",
@@ -109633,6 +109611,28 @@
         },
         {
           "tipo_movimiento": "ENTRADA",
+          "documento": "033002851-3",
+          "origen": "01.019.0.00185/01",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "16/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "02/05/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "MENSI GUSTAVO ROBERTO",
+          "emisor_cuit": "20-13898854-7",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
           "documento": "033003007-0",
           "origen": "01.019.0.01218/02",
           "motivo": "Faena",
@@ -109644,13 +109644,79 @@
           "categoria": "Vaca",
           "enviado": 12,
           "recibido": 0,
-          "emisor_nombre": "",
-          "emisor_cuit": "",
-          "receptor_nombre": "",
-          "receptor_cuit": "",
+          "emisor_nombre": "PADIN GABRIELA CAROLINA",
+          "emisor_cuit": "20-27848876-5",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
           "usuario_faena_nombre": "",
           "destino_es_frigorifico": false,
-          "destino_es_feria": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "033003134-4",
+          "origen": "01.019.0.00540/01",
+          "motivo": "Faena",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "16/11/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "04/07/26",
+          "especie": "Bovinos",
+          "categoria": "Toro",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "ARENAS GIL ANTONIO JOSE",
+          "emisor_cuit": "20-17055662-4",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "033003155-7",
+          "origen": "01.019.0.00899/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "16/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "10/07/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 47,
+          "recibido": 0,
+          "emisor_nombre": "RODOVIARIA PIRENEUS LTDA",
+          "emisor_cuit": "30-59674199-8",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "033003155-7",
+          "origen": "01.019.0.00899/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "16/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "10/07/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 13,
+          "recibido": 0,
+          "emisor_nombre": "RODOVIARIA PIRENEUS LTDA",
+          "emisor_cuit": "30-59674199-8",
+          "receptor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
+          "receptor_cuit": "30-51236191-5",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
           "comprador": ""
         }
       ],
@@ -109666,7 +109732,7 @@
     },
     {
       "codigo": "01.054.0.00001/0H-2026",
-      "fecha_extraccion": "2026-11-16T08:35:25.249334",
+      "fecha_extraccion": "2026-11-16T10:03:57.770052",
       "info": {
         "Inicio": "18/11/2026",
         "Fin": "20/11/2026",
@@ -109675,12 +109741,35 @@
         "Apto China": "",
         "Predio ferial": "SOC. RURAL DE GRAL. VILLEGAS"
       },
-      "total_dtes": 0,
+      "total_dtes": 1,
       "total_dtes_salida": 0,
-      "total_filas": 0,
-      "total_animales": 0,
+      "total_filas": 1,
+      "total_animales": 2,
       "totales_categoria": {},
-      "filas": [],
+      "filas": [
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "033004724-0",
+          "origen": "03.005.3.01683/01",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "17/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "29/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 2,
+          "recibido": 0,
+          "emisor_nombre": "",
+          "emisor_cuit": "",
+          "receptor_nombre": "",
+          "receptor_cuit": "",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        }
+      ],
       "compartido": false,
       "organizador": "DARWASH S A",
       "consignatarios": [
@@ -109692,5 +109781,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-16T08:35:25.249334"
+  "fecha_extraccion": "2026-11-16T10:03:57.770052"
 }
