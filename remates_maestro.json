@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-16T13:35:29.042251",
+      "fecha_extraccion": "2026-11-16T15:05:45.802141",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94568,21 +94568,17 @@
           "enviado": 61,
           "recibido": 59
         },
-        "Novillo": {
-          "enviado": 142,
-          "recibido": 142
+        "Toro": {
+          "enviado": 46,
+          "recibido": 38
         },
         "Novillito": {
           "enviado": 225,
           "recibido": 225
         },
-        "Toro": {
-          "enviado": 46,
-          "recibido": 38
-        },
-        "Borrego/a": {
-          "enviado": 11,
-          "recibido": 10
+        "Novillo": {
+          "enviado": 142,
+          "recibido": 142
         },
         "Cordero/a": {
           "enviado": 33,
@@ -94591,6 +94587,10 @@
         "Carnero": {
           "enviado": 2,
           "recibido": 1
+        },
+        "Borrego/a": {
+          "enviado": 11,
+          "recibido": 10
         }
       },
       "filas": [
@@ -109413,7 +109413,7 @@
     },
     {
       "codigo": "01.054.0.00001/0G-2026",
-      "fecha_extraccion": "2026-11-16T13:35:27.281057",
+      "fecha_extraccion": "2026-11-16T15:05:44.480739",
       "info": {
         "Inicio": "12/11/2026",
         "Fin": "13/11/2026",
@@ -109440,7 +109440,7 @@
     },
     {
       "codigo": "01.019.0.00001/0B-2026",
-      "fecha_extraccion": "2026-11-16T13:35:25.124810",
+      "fecha_extraccion": "2026-11-16T15:05:42.010077",
       "info": {
         "Inicio": "19/11/2026",
         "Fin": "24/11/2026",
@@ -109685,8 +109685,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "10/07/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 13,
+          "categoria": "Novillito",
+          "enviado": 47,
           "recibido": 0,
           "emisor_nombre": "RODOVIARIA PIRENEUS LTDA",
           "emisor_cuit": "30-59674199-8",
@@ -109707,8 +109707,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "10/07/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 47,
+          "categoria": "Vaquillona",
+          "enviado": 13,
           "recibido": 0,
           "emisor_nombre": "RODOVIARIA PIRENEUS LTDA",
           "emisor_cuit": "30-59674199-8",
@@ -109751,8 +109751,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "23/06/26",
           "especie": "Bovinos",
-          "categoria": "Toro",
-          "enviado": 1,
+          "categoria": "Ternera",
+          "enviado": 17,
           "recibido": 0,
           "emisor_nombre": "BLASI BUCCIARELLI ENRIQUE",
           "emisor_cuit": "20-23398613-6",
@@ -109773,8 +109773,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "23/06/26",
           "especie": "Bovinos",
-          "categoria": "Novillito",
-          "enviado": 3,
+          "categoria": "Toro",
+          "enviado": 1,
           "recibido": 0,
           "emisor_nombre": "BLASI BUCCIARELLI ENRIQUE",
           "emisor_cuit": "20-23398613-6",
@@ -109817,8 +109817,8 @@
           "apto_china": "NO",
           "fecha_aftosa": "23/06/26",
           "especie": "Bovinos",
-          "categoria": "Ternera",
-          "enviado": 17,
+          "categoria": "Novillito",
+          "enviado": 3,
           "recibido": 0,
           "emisor_nombre": "BLASI BUCCIARELLI ENRIQUE",
           "emisor_cuit": "20-23398613-6",
@@ -109952,7 +109952,7 @@
     },
     {
       "codigo": "01.054.0.00001/0H-2026",
-      "fecha_extraccion": "2026-11-16T13:35:26.186122",
+      "fecha_extraccion": "2026-11-16T15:05:43.520771",
       "info": {
         "Inicio": "18/11/2026",
         "Fin": "20/11/2026",
@@ -110089,5 +110089,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-16T13:35:26.186122"
+  "fecha_extraccion": "2026-11-16T15:05:43.520771"
 }
