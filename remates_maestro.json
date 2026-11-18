@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-18T19:13:25.966132",
+      "fecha_extraccion": "2026-11-18T20:41:37.667697",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94568,25 +94568,25 @@
           "enviado": 61,
           "recibido": 59
         },
-        "Toro": {
-          "enviado": 46,
-          "recibido": 38
+        "Novillo": {
+          "enviado": 142,
+          "recibido": 142
         },
         "Novillito": {
           "enviado": 225,
           "recibido": 225
         },
-        "Novillo": {
-          "enviado": 142,
-          "recibido": 142
-        },
-        "Carnero": {
-          "enviado": 2,
-          "recibido": 1
+        "Toro": {
+          "enviado": 46,
+          "recibido": 38
         },
         "Cordero/a": {
           "enviado": 33,
           "recibido": 27
+        },
+        "Carnero": {
+          "enviado": 2,
+          "recibido": 1
         },
         "Borrego/a": {
           "enviado": 11,
@@ -109413,7 +109413,7 @@
     },
     {
       "codigo": "01.054.0.00001/0G-2026",
-      "fecha_extraccion": "2026-11-18T19:13:23.988603",
+      "fecha_extraccion": "2026-11-18T20:41:36.162149",
       "info": {
         "Inicio": "12/11/2026",
         "Fin": "13/11/2026",
@@ -109440,7 +109440,7 @@
     },
     {
       "codigo": "01.019.0.00001/0B-2026",
-      "fecha_extraccion": "2026-11-18T19:13:21.917137",
+      "fecha_extraccion": "2026-11-18T20:41:34.322782",
       "info": {
         "Inicio": "19/11/2026",
         "Fin": "24/11/2026",
@@ -111228,7 +111228,7 @@
     },
     {
       "codigo": "01.054.0.00001/0H-2026",
-      "fecha_extraccion": "2026-11-18T19:13:23.139860",
+      "fecha_extraccion": "2026-11-18T20:41:35.342422",
       "info": {
         "Inicio": "18/11/2026",
         "Fin": "22/11/2026",
@@ -113235,5 +113235,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-18T19:13:23.139860"
+  "fecha_extraccion": "2026-11-18T20:41:35.342422"
 }
