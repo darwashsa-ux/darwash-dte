@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-22T16:07:39.480920",
+      "fecha_extraccion": "2026-11-22T17:38:36.876370",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -109440,7 +109440,7 @@
     },
     {
       "codigo": "01.019.0.00001/0B-2026",
-      "fecha_extraccion": "2026-11-22T16:07:36.803504",
+      "fecha_extraccion": "2026-11-22T17:38:34.487546",
       "info": {
         "Inicio": "19/11/2026",
         "Fin": "24/11/2026",
@@ -111759,14 +111759,14 @@
           "documento": "033035946-3",
           "origen": "01.074.0.00005/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "19/11/2026",
           "apto_china": "SI",
           "fecha_aftosa": "04/03/26",
           "especie": "Bovinos",
-          "categoria": "Vaca",
-          "enviado": 9,
-          "recibido": 0,
+          "categoria": "Toro",
+          "enviado": 18,
+          "recibido": 18,
           "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
           "emisor_cuit": "30-51236191-5",
           "receptor_nombre": "RUNFO S A",
@@ -111781,14 +111781,14 @@
           "documento": "033035946-3",
           "origen": "01.074.0.00005/00",
           "motivo": "Faena",
-          "estado": "EMITIDO",
+          "estado": "CERRADO",
           "fecha_movimiento": "19/11/2026",
           "apto_china": "SI",
           "fecha_aftosa": "04/03/26",
           "especie": "Bovinos",
-          "categoria": "Toro",
-          "enviado": 18,
-          "recibido": 0,
+          "categoria": "Vaca",
+          "enviado": 9,
+          "recibido": 9,
           "emisor_nombre": "SOCIEDAD RURAL DE CARLOS CASARES",
           "emisor_cuit": "30-51236191-5",
           "receptor_nombre": "RUNFO S A",
@@ -112713,7 +112713,7 @@
     },
     {
       "codigo": "01.054.0.00001/0H-2026",
-      "fecha_extraccion": "2026-11-22T16:07:37.966122",
+      "fecha_extraccion": "2026-11-22T17:38:35.499065",
       "info": {
         "Inicio": "18/11/2026",
         "Fin": "22/11/2026",
@@ -115876,7 +115876,7 @@
     },
     {
       "codigo": "03.014.3.00015/0K-2026",
-      "fecha_extraccion": "2026-11-22T16:07:35.577315",
+      "fecha_extraccion": "2026-11-22T17:38:33.454531",
       "info": {
         "Inicio": "25/11/2026",
         "Fin": "26/11/2026",
@@ -116365,5 +116365,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-22T16:07:35.577315"
+  "fecha_extraccion": "2026-11-22T17:38:33.454531"
 }
