@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-22T22:07:28.494277",
+      "fecha_extraccion": "2026-11-23T07:08:03.120399",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -109440,7 +109440,7 @@
     },
     {
       "codigo": "01.019.0.00001/0B-2026",
-      "fecha_extraccion": "2026-11-22T22:07:25.568870",
+      "fecha_extraccion": "2026-11-23T07:08:00.933569",
       "info": {
         "Inicio": "19/11/2026",
         "Fin": "24/11/2026",
@@ -112713,11 +112713,11 @@
     },
     {
       "codigo": "01.054.0.00001/0H-2026",
-      "fecha_extraccion": "2026-11-22T22:07:26.827293",
+      "fecha_extraccion": "2026-11-23T07:08:01.947568",
       "info": {
         "Inicio": "18/11/2026",
         "Fin": "22/11/2026",
-        "Estado": "ABIERTA",
+        "Estado": "CERRADA",
         "Finalidad": "",
         "Apto China": "",
         "Predio ferial": "SOC. RURAL DE GRAL. VILLEGAS"
@@ -115876,7 +115876,7 @@
     },
     {
       "codigo": "03.014.3.00015/0K-2026",
-      "fecha_extraccion": "2026-11-22T22:07:24.309048",
+      "fecha_extraccion": "2026-11-23T07:07:59.892909",
       "info": {
         "Inicio": "25/11/2026",
         "Fin": "26/11/2026",
@@ -116365,5 +116365,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-22T22:07:24.309048"
+  "fecha_extraccion": "2026-11-23T07:07:59.892909"
 }
