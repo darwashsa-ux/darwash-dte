@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-23T10:08:07.376426",
+      "fecha_extraccion": "2026-11-23T11:38:11.465763",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -94584,13 +94584,13 @@
           "enviado": 33,
           "recibido": 27
         },
-        "Borrego/a": {
-          "enviado": 11,
-          "recibido": 10
-        },
         "Carnero": {
           "enviado": 2,
           "recibido": 1
+        },
+        "Borrego/a": {
+          "enviado": 11,
+          "recibido": 10
         }
       },
       "filas": [
@@ -109440,7 +109440,7 @@
     },
     {
       "codigo": "01.019.0.00001/0B-2026",
-      "fecha_extraccion": "2026-11-23T10:08:04.908061",
+      "fecha_extraccion": "2026-11-23T11:38:09.184781",
       "info": {
         "Inicio": "19/11/2026",
         "Fin": "24/11/2026",
@@ -112713,7 +112713,7 @@
     },
     {
       "codigo": "01.054.0.00001/0H-2026",
-      "fecha_extraccion": "2026-11-23T10:08:06.003157",
+      "fecha_extraccion": "2026-11-23T11:38:10.176397",
       "info": {
         "Inicio": "18/11/2026",
         "Fin": "22/11/2026",
@@ -115876,7 +115876,7 @@
     },
     {
       "codigo": "03.014.3.00015/0K-2026",
-      "fecha_extraccion": "2026-11-23T10:08:03.867009",
+      "fecha_extraccion": "2026-11-23T11:38:08.188589",
       "info": {
         "Inicio": "25/11/2026",
         "Fin": "26/11/2026",
@@ -115885,10 +115885,10 @@
         "Apto China": "",
         "Predio ferial": "DARWASH S A"
       },
-      "total_dtes": 13,
+      "total_dtes": 14,
       "total_dtes_salida": 0,
-      "total_filas": 21,
-      "total_animales": 1044,
+      "total_filas": 23,
+      "total_animales": 1049,
       "totales_categoria": {},
       "filas": [
         {
@@ -116275,30 +116275,8 @@
           "apto_china": "SI",
           "fecha_aftosa": "08/07/26",
           "especie": "Bovinos",
-          "categoria": "Toro",
-          "enviado": 4,
-          "recibido": 0,
-          "emisor_nombre": "CALDENES S A",
-          "emisor_cuit": "30-64429667-5",
-          "receptor_nombre": "DARWASH S A",
-          "receptor_cuit": "30-51163433-0",
-          "usuario_faena_nombre": "",
-          "destino_es_frigorifico": false,
-          "destino_es_feria": true,
-          "comprador": ""
-        },
-        {
-          "tipo_movimiento": "ENTRADA",
-          "documento": "033044954-3",
-          "origen": "01.054.1.01251/00",
-          "motivo": "Invernada",
-          "estado": "EMITIDO",
-          "fecha_movimiento": "24/11/2026",
-          "apto_china": "SI",
-          "fecha_aftosa": "08/07/26",
-          "especie": "Bovinos",
-          "categoria": "Ternero",
-          "enviado": 4,
+          "categoria": "Vaquillona",
+          "enviado": 10,
           "recibido": 0,
           "emisor_nombre": "CALDENES S A",
           "emisor_cuit": "30-64429667-5",
@@ -116341,11 +116319,77 @@
           "apto_china": "SI",
           "fecha_aftosa": "08/07/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 10,
+          "categoria": "Toro",
+          "enviado": 4,
           "recibido": 0,
           "emisor_nombre": "CALDENES S A",
           "emisor_cuit": "30-64429667-5",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "033044954-3",
+          "origen": "01.054.1.01251/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "24/11/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "08/07/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 4,
+          "recibido": 0,
+          "emisor_nombre": "CALDENES S A",
+          "emisor_cuit": "30-64429667-5",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "033049136-1",
+          "origen": "03.014.3.12369/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "24/11/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "26/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaca",
+          "enviado": 4,
+          "recibido": 0,
+          "emisor_nombre": "PAGANI CARLOS FAUSTINO",
+          "emisor_cuit": "20-06657735-0",
+          "receptor_nombre": "DARWASH S A",
+          "receptor_cuit": "30-51163433-0",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": true,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "ENTRADA",
+          "documento": "033049136-1",
+          "origen": "03.014.3.12369/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "24/11/2026",
+          "apto_china": "SI",
+          "fecha_aftosa": "26/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 1,
+          "recibido": 0,
+          "emisor_nombre": "PAGANI CARLOS FAUSTINO",
+          "emisor_cuit": "20-06657735-0",
           "receptor_nombre": "DARWASH S A",
           "receptor_cuit": "30-51163433-0",
           "usuario_faena_nombre": "",
@@ -116365,5 +116409,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-23T10:08:03.867009"
+  "fecha_extraccion": "2026-11-23T11:38:08.188589"
 }
