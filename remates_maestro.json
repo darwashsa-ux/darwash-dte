@@ -94538,7 +94538,7 @@
     },
     {
       "codigo": "03.014.1.00008/0G-2026",
-      "fecha_extraccion": "2026-11-25T18:04:05.384872",
+      "fecha_extraccion": "2026-11-25T19:33:55.419461",
       "info": {
         "Inicio": "19/10/2026",
         "Fin": "28/10/2026",
@@ -109440,7 +109440,7 @@
     },
     {
       "codigo": "01.019.0.00001/0B-2026",
-      "fecha_extraccion": "2026-11-25T18:04:02.360538",
+      "fecha_extraccion": "2026-11-25T19:33:53.176379",
       "info": {
         "Inicio": "19/11/2026",
         "Fin": "24/11/2026",
@@ -113285,7 +113285,7 @@
     },
     {
       "codigo": "01.054.0.00001/0H-2026",
-      "fecha_extraccion": "2026-11-25T18:04:03.604491",
+      "fecha_extraccion": "2026-11-25T19:33:54.187087",
       "info": {
         "Inicio": "18/11/2026",
         "Fin": "22/11/2026",
@@ -116448,7 +116448,7 @@
     },
     {
       "codigo": "03.014.3.00015/0K-2026",
-      "fecha_extraccion": "2026-11-25T18:04:01.072156",
+      "fecha_extraccion": "2026-11-25T19:33:51.851765",
       "info": {
         "Inicio": "25/11/2026",
         "Fin": "26/11/2026",
@@ -116458,8 +116458,8 @@
         "Predio ferial": "DARWASH S A"
       },
       "total_dtes": 56,
-      "total_dtes_salida": 0,
-      "total_filas": 90,
+      "total_dtes_salida": 1,
+      "total_filas": 94,
       "total_animales": 1964,
       "totales_categoria": {
         "Vaquillona": {
@@ -116467,7 +116467,7 @@
           "recibido": 0
         },
         "Ternero": {
-          "enviado": 72,
+          "enviado": 53,
           "recibido": 0
         },
         "Vaca": {
@@ -116487,7 +116487,7 @@
           "recibido": 0
         },
         "Novillito": {
-          "enviado": 217,
+          "enviado": 236,
           "recibido": 0
         },
         "Ternera": {
@@ -118134,9 +118134,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "08/07/26",
           "especie": "Bovinos",
-          "categoria": "Novillo",
-          "enviado": 18,
-          "recibido": 18,
+          "categoria": "Vaquillona",
+          "enviado": 11,
+          "recibido": 11,
           "emisor_nombre": "SAN BERNARDO S.R.L.",
           "emisor_cuit": "30-70904781-3",
           "receptor_nombre": "DARWASH S A",
@@ -118156,9 +118156,9 @@
           "apto_china": "SI",
           "fecha_aftosa": "08/07/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
-          "enviado": 11,
-          "recibido": 11,
+          "categoria": "Novillo",
+          "enviado": 18,
+          "recibido": 18,
           "emisor_nombre": "SAN BERNARDO S.R.L.",
           "emisor_cuit": "30-70904781-3",
           "receptor_nombre": "DARWASH S A",
@@ -118200,7 +118200,7 @@
           "apto_china": "SI",
           "fecha_aftosa": "03/07/26",
           "especie": "Bovinos",
-          "categoria": "Vaquillona",
+          "categoria": "Toro",
           "enviado": 2,
           "recibido": 2,
           "emisor_nombre": "GALICIO LUIS ERNESTO",
@@ -118222,7 +118222,7 @@
           "apto_china": "SI",
           "fecha_aftosa": "03/07/26",
           "especie": "Bovinos",
-          "categoria": "Toro",
+          "categoria": "Vaquillona",
           "enviado": 2,
           "recibido": 2,
           "emisor_nombre": "GALICIO LUIS ERNESTO",
@@ -118475,6 +118475,94 @@
           "destino_es_frigorifico": false,
           "destino_es_feria": true,
           "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "033070903-0",
+          "origen": "03.005.2.00063/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "25/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "11/06/26",
+          "especie": "Bovinos",
+          "categoria": "Ternero",
+          "enviado": 19,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "CHICARELLI ANGEL DANIEL",
+          "receptor_cuit": "20-17973997-7",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "033070903-0",
+          "origen": "03.005.2.00063/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "25/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "11/06/26",
+          "especie": "Bovinos",
+          "categoria": "Novillito",
+          "enviado": 28,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "CHICARELLI ANGEL DANIEL",
+          "receptor_cuit": "20-17973997-7",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "033070903-0",
+          "origen": "03.005.2.00063/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "25/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "11/06/26",
+          "especie": "Bovinos",
+          "categoria": "Ternera",
+          "enviado": 3,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "CHICARELLI ANGEL DANIEL",
+          "receptor_cuit": "20-17973997-7",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
+        },
+        {
+          "tipo_movimiento": "SALIDA",
+          "documento": "033070903-0",
+          "origen": "03.005.2.00063/00",
+          "motivo": "Invernada",
+          "estado": "EMITIDO",
+          "fecha_movimiento": "25/11/2026",
+          "apto_china": "NO",
+          "fecha_aftosa": "11/06/26",
+          "especie": "Bovinos",
+          "categoria": "Vaquillona",
+          "enviado": 64,
+          "recibido": 0,
+          "emisor_nombre": "DARWASH S A",
+          "emisor_cuit": "30-51163433-0",
+          "receptor_nombre": "CHICARELLI ANGEL DANIEL",
+          "receptor_cuit": "20-17973997-7",
+          "usuario_faena_nombre": "",
+          "destino_es_frigorifico": false,
+          "destino_es_feria": false,
+          "comprador": ""
         }
       ],
       "compartido": false,
@@ -118488,5 +118576,5 @@
       ]
     }
   ],
-  "fecha_extraccion": "2026-11-25T18:04:01.072156"
+  "fecha_extraccion": "2026-11-25T19:33:51.851765"
 }
